@@ -1,0 +1,15 @@
+{
+ "name": "flare3",
+ "group": [
+    {"name": "Cluster", "size": 38},
+    {"name": "CommunityStructure", "size": 12},
+    {"name": "HierarchicalCluster", "size": 14},
+    {
+        "name": "Hierarchical", 
+        "group" : [
+            {"name" : "obj1", "size": 20},
+            {"name" : "obj2", "size": 20},
+            {"name" : "obj3", "size": 20}
+        ]}
+  ]
+}

@@ -1,0 +1,5 @@
+#content {width:expression(document.body.clientWidth < 982? "980px":document.body.clientWidth > 1157? "1155px":"auto")}
+input {*vertical-align:text-bottom}
+html {*filter:expression(document.execCommand("BackgroundImageCache", false, true))}
+img {*-ms-interpolation-mode:bicubic}
+input,textarea,select,.uneditable-input,form input[type="file"],form li > em,form li .btn,form legend,form .input.radio fieldset label,form .input.radio fieldset input,form .input > .error-message,nav li,#footer nav li a {*zoom:1;*display:inline}

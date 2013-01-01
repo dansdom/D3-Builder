@@ -1,0 +1,28 @@
+/* carousel css */
+.carousel, .verticalCarousel {background:#eee;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;border:1px solid #ddd;padding:10px;margin:0 0 15px 0}
+.verticalCarousel {padding-bottom:53px;width:140px;margin:0 auto}
+.carouselPane {margin:0 auto}
+.carouselPane img {padding:2px;background:#fff;margin:2px;border:2px solid #ccc;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px}
+.prev, .next {position:absolute;z-index:10}
+.carousel .prev {left:10px;top:50%;margin-top:-17px;}
+.carousel .next {right:10px;top:50%;margin-top:-17px;}
+.verticalCarousel .prev {left:17px;bottom:10px}
+.verticalCarousel .next {right:17px;bottom:10px}
+a.disabled {display:none}
+
+.controlList {padding:10px 15px 0;margin:0;text-align:center;display:block}
+.controlList li {list-style:none;display:inline;background:#fff;padding:2px 5px;text-align:center;margin:0 1px;border:1px solid #ccc;border-radius:3px;text-align:center;font-weight:bold;cursor:pointer}
+.controlList li.active,.controlList li:hover {background:#222;color:#fff;border-color:#111}
+
+.infoBox {border:1px solid #ddd;background:#fff;padding:10px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px}
+.infoBox h4 {margin:0}
+.infoBox img {float:right;margin-left:20px;margin-bottom:10px}
+.infoBox p {clear:both}
+.infoBox blockquote {padding-top:20px}
+
+#carousel5 {padding-top:41px}
+#carousel5 .carouselPane {margin:0}
+.tabPane {position:absolute;top:0px;left:0}
+.tabPane ul {padding-left:20px}
+.tabPane li {list-style:none;display:block;float:left;background:#fff;height:30px;text-align:center;margin:0 5px;padding:0 10px;border:1px solid #ddd;-webkit-border-radius:5px 5px 0 0;-moz-border-radius:5px 5px 0 0;border-radius:5px 5px 0 0;text-align:center;line-height:30px;font-weight:bold;cursor:pointer;font-size:15px}
+.tabPane li.active {background:#222;color:#fff}

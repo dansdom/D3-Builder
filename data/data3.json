@@ -1,0 +1,16 @@
+[
+ {"name": "set 1a", "value" : 130},
+ {"name": "set 2a", "value" : 15},
+ {"name": "set 3a", "value" : 120},
+ {"name": "set 4a", "value" : 110},
+ {"name": "set 5a", "value" : 117},
+ {"name": "set 6a", "value" : 127},
+ {"name": "set 7a", "value" : 118},
+ {"name": "set 1b", "value" : 130},
+ {"name": "set 2b", "value" : 15},
+ {"name": "set 3b", "value" : 120},
+ {"name": "set 4b", "value" : 110},
+ {"name": "set 5b", "value" : 117},
+ {"name": "set 6b", "value" : 127},
+ {"name": "set 7b", "value" : 118}
+]

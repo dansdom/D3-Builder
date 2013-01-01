@@ -1,0 +1,5 @@
+/* validator css */
+.error {}
+.valid {}
+.fieldActiveValid {border:1px solid green;box-shadow:0px 0px 3px rgba(0,80,0,0.7)}
+.fieldActiveInvalid {border:1px solid red;box-shadow:0px 0px 3px rgba(255,0,0,0.7)}

@@ -1,0 +1,7 @@
+/*  Tabs CSS  */
+.tabNav {width:100%;overflow:hidden;height:30px;margin:0;padding:0}
+.tabNav li {list-style:none;display:block;line-height:30px;float:left;width:auto;margin-right:3px;}
+.tabNav li a {display:block;float:left;width:auto;line-height:30px;height:30px;padding:0px 20px;-webkit-border-radius:5px 5px 0 0;-moz-border-radius:5px 5px 0 0;border-radius:5px 5px 0 0}
+.tabNav li a:hover, .tabNav li.active a {background:#eee;color:#000}
+.tabContent {border:1px solid #eee;-webkit-border-radius:0 0 5px 5px;-moz-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px}
+.tabContent .tab {display:none;padding:20px}

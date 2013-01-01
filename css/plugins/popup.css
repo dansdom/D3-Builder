@@ -1,0 +1,19 @@
+/* popup css */
+.galleryThumbs {width:100%;overflow:hidden}
+.galleryThumbs ul {margin:0;padding:0}
+.galleryThumbs li {list-style:none;float:left;width:120px;height:80px;padding:2px;margin:4px;border:3px solid #ddd;background:#fff;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;cursor:pointer}
+
+#popupBox {background:#fff;border-radius:10px;box-shadow:5px 5px 5px rgba(0,0,0,0.5);border:2px solid #ccc}
+#popupBox td {padding:0;border:0}
+.galleryTitle h2 {text-align:center;font-size:16px;line-height:30px}
+.galleryTitle {position:relative}
+.galleryTitle .popupClose {color:#000;text-decoration:none;margin-right:10px;line-height:30px;font-size:1em;height:30px;width:40px;position:absolute;top:-10px;right:0;text-align:right}
+.galleryTitle .popupClose:hover {text-decoration:underline}
+.galleryControls {position:relative}
+.galleryControls a {display:block;position:absolute;top:10px;height:30px;width:34px;text-indent:-9000px}
+.galleryControls a.prev {left:5px;background:url(img/prev.png) no-repeat}
+.galleryControls a.next {right:5px;background:url(img/next.png) no-repeat}
+.galleryControls p {line-height:55px;text-align:center;font-weight:bold}
+
+.popupWrapper {display:none}
+.popupContent {}

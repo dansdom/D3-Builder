@@ -1,0 +1,5 @@
+.dock {position: relative;height: 50px;text-align: center;background: url(../img/dockIcons/fishEyeGrad.jpg);}
+.dock-container {height: 50px;background: url(img/grad.jpg);position:absolute}
+a.dock-item {display: block;width: auto;color: #000;position: absolute;top: 0px;text-align: center;text-decoration: none;font: bold 12px Arial, Helvetica, sans-serif;}
+.dock-item img {border: none;margin: 5px 0px 0px;width: 100%;}
+.dock-item span {display: none;padding-left: 20px;}

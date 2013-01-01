@@ -1,0 +1,5 @@
+.galleryThumbs {width:100%;overflow:hidden}
+.galleryThumbs ul {margin:0;padding:0}
+.galleryThumbs li {list-style:none;float:left;width:120px;height:80px;padding:2px;margin:4px;border:1px solid #333;background:#666;border-radius:4px;cursor:pointer}
+
+.pirobox_content td {border:0;padding:0}
