@@ -74,15 +74,38 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
 
             var container = this,
                 oldValues,
-                newValues,
-                speed = container.opts.speed,
-                arcTween = function(a) {
-                    var i = d3.interpolate(this._current, a);
-                    this._current = i(0);
-                    return function(t) {
-                        return container.arc(i(t));
-                    };
-                };
+                newValues;
+                
+            // set the layout of the chart
+            this.setLayout();
+            // set the chart title
+            this.setTitle();
+            
+            // ############ VALUES #############
+            container.values = container.chart.selectAll(".arc")
+                .data(container.pie(container.filterData(container.data, container.dataCategory)));  // filter the data by category
+                
+            // remove the old data
+            oldValues = container.values.exit();
+            oldValues.select("path").remove();
+            oldValues.select("text").remove();
+            oldValues.remove();
+
+            // define the new values
+            newValues = container.values
+                .enter().append("g")
+                .attr("class", "arc");
+            // set the values of the chart    
+            this.setValues(oldValues, newValues);
+            
+            // set the paths for the chart
+            this.setPaths(oldValues, newValues);
+            // set the labels for the chart
+            this.setLabels(oldValues, newValues);
+            
+        },
+        setLayout : function() {
+            var container = this;
 
             // ###### LAYOUT ######
             // define the pie layout
@@ -117,7 +140,10 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             }
             container.chart
                 .attr("transform", "translate(" + this.opts.width / 2 + "," + this.opts.height / 2 + ")");
-            
+        },
+        setTitle : function() {
+            var container = this;
+
             // ####### CHART TITLE #######
             if (container.opts.chartName) {
                 if (!container.chartName) {
@@ -137,22 +163,9 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                         return chartTitle;
                     });
             }
-
-            // these are the pie segments
-            // ############ VALUES #############
-            container.values = container.chart.selectAll(".arc")
-                .data(container.pie(container.filterData(container.data, container.dataCategory)));  // filter the data by category
-                
-            // remove the old data
-            oldValues = container.values.exit();
-            oldValues.select("path").remove();
-            oldValues.select("text").remove();
-            oldValues.remove();
-
-            // define the new values
-            newValues = container.values
-                .enter().append("g")
-                .attr("class", "arc");
+        },
+        setValues : function(oldValues, newValues) {
+            var container = this;
 
             // add event binding
             container.values
@@ -177,8 +190,18 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                         container.updateChart();
                     }
                 });
-            
-            
+        },
+        setPaths : function(oldValues, newValues) {
+            var container = this,
+                speed = container.opts.speed,
+                arcTween = function(a) {
+                    var i = d3.interpolate(this._current, a);
+                    this._current = i(0);
+                    return function(t) {
+                        return container.arc(i(t));
+                    };
+                };
+
             // ######## PATHS ###########
             // these are the fills of the pie
             container.values.select("path")
@@ -210,8 +233,10 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     }
                 })
                 .style("fill-opacity", 1);
+        },
+        setLabels : function(oldValues, newValues) {
+            var container = this;
 
-                
             // append the text labels - I could make this an option
             container.values.select("text")
                 .attr("transform", function(d) { 
@@ -224,7 +249,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
 
             newValues.append("text")
                 .transition()
-                .delay(speed)
+                .delay(container.opts.speed)
                 .attr("transform", function(d) { 
                     var center = container.arc.centroid(d);
                     return "translate(" + (center[0] * container.opts.labelPosition) + "," + (center[1] * container.opts.labelPosition) + ")";
@@ -232,7 +257,6 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 .attr("dy", ".35em")
                 .style("text-anchor", "middle")
                 .text(function(d) { return d.data.category});
-
         },
         filterData : function(data, category) {
             var chartData = data.filter(function(d) {
