@@ -58,7 +58,8 @@ PieChart = {
     // data object to hold the plugin settings
     settings : {},
     getSettings : function() {
-        this.settings.radius = FormData.size.innerRadius;
+        this.settings.innerRadius = FormData.size.innerRadius;
+        this.settings.outerRadius = FormData.size.outerRadius;
         this.settings.width = FormData.size.width;
         this.settings.height = FormData.size.height;
         this.settings.padding = FormData.size.padding;
