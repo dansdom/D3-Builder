@@ -74,8 +74,9 @@ ChartBuilder = {
 		console.log(FormData);
 	},
 	buildChart : function() {
-		switch (FormData.type) {
+		switch (FormData.type.primary) {
 			case "pie" :
+				console.log("its a pie");
 				PieChart.init();
 				break;
 			case "pack" :
@@ -377,6 +378,7 @@ ChartTheme = {
 		
 		// header check
 		if ($("#theme-header").attr("checked") === "checked") {
+			theme.headerName = $("#theme-header-name").attr("value");
 			theme.headerSize = parseFloat($("#theme-header-size").attr("value"));
 			theme.headerPosition = $("#theme-header-position").attr("value");
 			theme.headerOffset = {
@@ -386,6 +388,7 @@ ChartTheme = {
 			theme.headerColor = $("#theme-header-color").attr("value");
 		}
 		else {
+			theme.headerName = false;
 			theme.headerSize = false;
 			theme.headerPosition = false;
 			theme.headerOffset = {
@@ -443,95 +446,6 @@ ChartEvents = {
 	}
 };
 
-// form data object
-// this objects holds the entire form data object
-FormData = {
-	type : {
-		primary : "pie",
-		secondary : "pie"
-	},
-	size : {
-		height : 0,
-		width : 0,
-		outerRadius : 0,
-		innerRadius : 0,
-		padding : 0
-	},
-	colors : [], // color array
-	data : {
-		source : "string",  // hmmm what to default to?
-		structure : "flat", // this will either be "flat" or "nested"
-		dummy : null, // dummy data set to be used
-		url : null, // url of data resource
-		file : null, // if a resource is uploaded then I will have to pull the file and read it, and then add it
-		attributes : {
-			name : "name",
-			value : "size",
-			parent : "parent"
-		},
-		scale : {
-			x : "linear",  // these scales can be "linear", "exponential" or "ordinal". default to "linear"
-			y : "linear"
-		}
-	},
-	theme : {
-		backgroundColor : false,
-		headerSize : false,
-		headerPosition : false,
-		headerOffset : {
-			y : 0,
-			x : 0
-		},
-		headerColor : "rgb(0,0,0)",
-		labelSize : false,
-		labelPosition : 0,
-		labelColor : "rgb(0,0,0)",
-		borderSize : 0,
-		borderColor : "rgb(0,0,0)"
-	},
-	events : {}	
-};
-
-// object that builds the pie chart
-PieChart = {
-	init : function() {
-		this.getSettings();
-	},
-	// data object to hold the plugin settings
-	settings : {},
-	getSettings : function() {
-		settings.radius = formData.size.radius;
-		settings.width = formData.size.width;
-		settings.height = formData.size.height;
-		settings.padding = formData.size.padding;
-	},
-	buildChart : function() {
-		var chart = document.getElementById("chart-preview"),
-			settings = formData;
-			
-		d3.pie(chart, {
-			'radius': settings.size.radius,
-			'width' : settings.size.width,
-			'height' : settings.size.height,
-			'padding': settings.size.padding,
-			'dataUrl' : 'data/data.json',
-			'dataType' : 'json',
-			'dataStructure' : {
-				'name' : 'name',
-				'value' : 'value'
-			}
-		});
-	}
-};
-
-// code building functions
-CodeBuilder = {
-	// I don't think I need an init function. Will call functions on this from the ChartBuilder object
-	packageCode : function() {
-		// this function will package up all the code and out put it
-	}
-};
-
 // run everything at document ready
 $(document).ready(function()
 {
@@ -560,6 +474,7 @@ $(document).ready(function()
 	// instead of making generic chart, do a getValue and build from the form object
 	
 	// start off by making the generic pie chart
+	/*
 	var chart = document.getElementById("chart-preview");
 	d3.pie(chart, {
         'radius': 280,
@@ -573,6 +488,7 @@ $(document).ready(function()
 			'value' : 'value'
         }
     });
+	*/
 	
 });
 

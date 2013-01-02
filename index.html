@@ -2,15 +2,15 @@
 <html class="no-js" lang="en" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
 <head>
 	<meta charset="utf-8">
-	<title>Hummingbird: Styleguide</title>
+	<title>D3 Chart Builder</title>
 	<meta name="description" content="">
 	<meta name="author" content="">	
 	<!-- OpenGraph for Facebook -->
 	<meta property="og:title" content="Hummingbird">
 	<meta property="og:type" content="website">
-	<meta property="og:url" content="http://pollenizer.com">
-	<meta property="og:image" content="http://pollenizer.com/">
-	<meta property="og:site_name" content="Hummingbird">
+	<meta property="og:url" content="http://abc.net.au/">
+	<meta property="og:image" content="http://abc.net.au/">
+	<meta property="og:site_name" content="D3 Chart Builder">
 	<meta property="og:fb:admins" content="USER_ID">
 	<meta property="og:description" content="Enter a description that will attract Facebook users. Use no more than 255 characters.">
 	<meta property="og:street-address" content="Street Address">
@@ -22,917 +22,409 @@
 	<meta http-equiv="cleartype" content="on">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<!-- Icons -->
-	<link title="iPhone4" rel="apple-touch-icon-precomposed" sizes="114x114" href="img/icon-114x114.png">
-	<link title="iPad" rel="apple-touch-icon-precomposed" sizes="72x72" href="img/icon-72x72.png">
-	<link title="iPhone3" rel="apple-touch-icon-precomposed" href="img/icon-57x57.png">
-	<link title="nokia" rel="shortcut icon" href="img/icon-57x57.png">
-	<link title="Favicon" rel="shortcut icon" href="favicon.ico">
+	<link title="iPhone4" rel="apple-touch-icon-precomposed" sizes="114x114" href="img/ios-114.png">
+	<link title="iPad" rel="apple-touch-icon-precomposed" sizes="72x72" href="img/ios-72.png">
+	<link title="iPhone3" rel="apple-touch-icon-precomposed" href="img/ios.png">
+	<link title="nokia" rel="shortcut icon" href="img/ios.png">
+	<link title="Favicon" rel="shortcut icon" href="/favicon.ico">
+	<!-- Goodies -->
+	<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 	<!--iOS. Delete if not required -->
 	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-	<link rel="apple-touch-icon" href="img/ios.png">
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 	<!-- Mobile viewport optimized: j.mp/bplateviewport -->	
 	<meta name="viewport" content="width=device-width,initial-scale=1.0">
 	<!-- CSS -->
 	<link rel="stylesheet" href="css/style.css?v=1">
 	<link rel="stylesheet" href="css/skin.css?v=1">
-	<!--[if lte IE 8]>
-	<link rel="stylesheet" type="text/css" href="css/ie.css" />
-	<![endif]-->
+	<link rel="stylesheet" href="css/jPicker-1.1.6.min.css?v=1">
 	<!-- jQuery and HTML5 script so IE knows how to style the html5 elements -->
-	<script src="js/libs/jquery.js"></script>	
+	<script src="js/libs/jquery.js"></script>
+	<script src="js/libs/d3.v3.min.js"></script>
 	<script src="js/libs/html5.js"></script>
-	<!--[if (lt IE 9) & (!IEMobile)]>
-	<script src="js/libs/selectivizr.js"></script>
-	<![endif]-->	
-	<!-- For samples only - REMOVE -->
-	<style type="text/css">
-	.view {background:#222;padding:5px 0;text-align:center;color:#999;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px}
-	</style>
 </head>
-<body>	
+<body>
 <div id="wrap">
-	<!-- begin #header -->
-	<div id="header">
-		<!-- navigation -->
-		<nav role="navigation">	
-			<ul role="menu" class="f-right">
-				<li role="menuitem"><a href="index.html">Home</a></li>
-				<li role="menuitem"><a href="template.html">Template</a></li>
-				<li role="menuitem"><a href="samples/template-welcome.html">Welcome</a></li>
-				<li role="menuitem"><a href="samples/template-about.html">About</a></li>
-				<li role="menuitem"><a href="samples/template-blog.html">Blog</a></li>	
-				<li role="menuitem"><a href="samples/template-article.html">Article</a></li>	
-				<li role="menuitem"><a href="samples/template-newsletter.html">Newsletter</a></li>					
-			</ul>
-			<h5><a href="index.html" class="ir" id="logo">Pollenizer</a></h5>
-		</nav>
-	</div><!-- end #header -->  
     <!-- begin #content -->
     <div id="content">
-    	<div class="page" role="main">	 	   		
-	 	   		
-<!-- ============== TYPOGRAPHY  ======================================================================================== -->	
- 	   				<section title="General Typography" role="region" class="rounded">
- 	   					<header class="title">
-	 	   					<h2>General Typograpphy</h2>	 	   					
-	 	   				</header>		   				
-	 	   				<div class="grid" title="Typography: Basic headings, paragraphs and blockquotes">
-	 	   					<div class="grid-3">
-	 	   						<!-- headings -->
-	 	   						<h4>Headings</h4>
-	 	   						<h2>header (h1)</h2>
-		 	   					<h3>header (h2)</h3>
-		 	   					<h4>header (h3)</h4>
-		 	   					<h5>header (h4)</h5>
-		 	   					<h6><a href="#">header (h5)</a></h6>		 	   					
-	 	   					</div>
-	 	   					<div class="grid-3">
-	 	   						<!-- paragraph -->
-	 	   						<h4>Paragraph</h4>
-	 	   						<p>Lorem ipsum dolor sit amet, <em>consectetur</em> <b>adipiscing</b>. Vestibulum hendrerit cursus erat, a tincidunt ipsum malesuada at. Nam id dapibus.</p>
-	 	   						<p>Nam id dapibus eros. Duis vel sem ut mauris tincidunt consectetur. Nunc eu diam quis arcu vulputate pellentesque vehicula a dolor. Vestibulum hendrerit cursus.</p>
-	 	   					</div>
-	 	   					<div class="grid-6 last">	
-	 	   						<!-- blockquotes -->	 
-	 	   						<h4>Blockquote</h4>	   					
-	 	   						<blockquote>
-	 	   							<p>Lorem ipsum dolor sit amet, <em>consectetur</em> <b>adipiscing</b>. Vestibulum hendrerit cursus erat, a tincidunt ipsum malesuada at. Nam id dapibus.</p>
-	 	   							<small>Embeded webfont</small>		 	   							
-	 	   						</blockquote>
-	 	   					</div>		 	   					
-	 	   				</div> 	   				
-	 	   				<div class="grid" title="Typography: Lists">
-	 	   					<div class="grid-2">
-	 	   						<!-- ordered list -->
-	 	   						<h4>Ordered List</h4>
-	 	   						<ol>
-		 	   						<li>Item 1</li>
-		 	   						<li>Item 2</li>
-		 	   						<li>Item 3</li>
-		 	   						<li>Item 4</li>
-		 	   						<li>Item 5</li>  
-		 	   					</ol>
-	 	   					</div>
-	 	   					<div class="grid-2">
-	 	   						<!-- unordered list -->
-	 	   						<h4>Unordered List</h4>
-	 	   						<ul>
-		 	   						<li>Item 1</li>
-		 	   						<li>Item 2</li>
-		 	   						<li>Item 3</li>
-		 	   						<li>Item 4</li>
-		 	   						<li>Item 5</li>  
-		 	   					</ul>
-		 	   				</div>
-		 	   				<div class="grid-2">
-	 	   						<!-- unordered list -->
-	 	   						<h4>Styled List</h4>
-	 	   						<ul class="list">
-		 	   						<li>Item 1</li>
-		 	   						<li>Item 2</li>
-		 	   						<li>Item 3</li>
-		 	   						<li>Item 4</li>
-		 	   						<li>Item 5</li>  
-		 	   					</ul>
-		 	   				</div>
-		 	   				<div class="grid-6 last">
-	 	   						<!-- unordered list -->
-	 	   						<h4>Description List</h4>
-	 	   						<dl>
-		 	   						<dt>Description Term</dt>
-		 	   						<dd>Description lorem ipsum dolor sit amet, consectetur adipiscing elit.</dd>
-		 	   						<dt>Description Term</dt>
-		 	   						<dd>Vestibulum hendrerit cursus erat</dd>			 	   						
-		 	   					</dl>
-		 	   				</div>		 	   						 	   					
-	 	   				</div>
-	 	   				<div class="grid">
-	 	   					<div class="grid-6">
-	 	   						<!-- basic table -->
-	 	   						<h4>Basic Table</h4>
-			 	   				<table>
-			 	   					<thead>
-			 	   						<tr>
-			 	   							<th>Lorem ipsum dolor</th>
-			 	   							<th>Lorem ipsum dolor sit amet, consectetur adipiscing</th>
-			 	   						</tr>
-			 	   					</thead>
-			 	   					<tbody>
-			 	   						<tr>
-			 	   							<th>Lorem ipsum dolor</th>
-			 	   							<td>Lorem ipsum dolor sit amet, <em>consectetur</em> <b>adipiscing</b></td>
-			 	   						</tr>
-			 	   						<tr>
-			 	   							<th>Lorem ipsum dolor</th>
-			 	   							<td>Lorem ipsum dolor sit amet, <em>consectetur</em> <b>adipiscing</b></td>
-			 	   						</tr>
-			 	   						<tr>
-			 	   							<th>Lorem ipsum dolor</th>
-			 	   							<td>Lorem ipsum dolor sit amet, <em>consectetur</em> <b>adipiscing</b></td>
-			 	   						</tr>
-			 	   						<tr>
-			 	   							<th>Lorem ipsum dolor</th>
-			 	   							<td>Lorem ipsum dolor sit amet, <em>consectetur</em> <b>adipiscing</b></td>
-			 	   						</tr>
-			 	   						<tr>
-			 	   							<th>Lorem ipsum dolor</th>
-			 	   							<td>Lorem ipsum dolor sit amet, <em>consectetur</em> <b>adipiscing</b></td>
-			 	   						</tr>				 	   						
-			 	   					</tbody>
-			 	   				</table>		 	   					
-	 	   					</div>
-	 	   					<div class="grid-6 last">
-	 	   						<!-- basic table -->
-	 	   						<h4>Styled Table</h4>
-	 	   						<div class="tabular">
-	 	   						<table>
-			 	   					<thead>
-			 	   						<tr>
-			 	   							<th>header</th>
-			 	   							<th>header</th>
-			 	   							<th>header</th>
-			 	   						</tr>
-			 	   					</thead>
-			 	   					<tbody>
-			 	   						<tr>
-			 	   							<th>Lorem ipsum dolor</th>
-			 	   							<td>content</td>
-			 	   							<td>content</td>
-			 	   						</tr>
-			 	   						<tr>
-			 	   							<th>Lorem ipsum dolor</th>
-			 	   							<td>content</td>
-			 	   							<td>content</td>
-			 	   						</tr>
-			 	   						<tr>
-			 	   							<th>Lorem ipsum dolor</th>
-			 	   							<td>content</td>
-			 	   							<td>content</td>
-			 	   						</tr>
-			 	   						<tr>
-			 	   							<th>Lorem ipsum dolor</th>
-			 	   							<td>content</td>
-			 	   							<td>content</td>
-			 	   						</tr>
-			 	   					</tbody>
-			 	   				</table>
-			 	   				</div>
-	 	   					</div>		 	   				
-	 	   				</div>
-	 	   			</section>		 	   				 	   				
-<!-- ============== GRID  ======================================================================================== -->		 	   				
- 	   				<section title="Grid" role="region" class="rounded">
-	 	   				<header class="subhead">
-	 	   					<h2>Grid</h2>	 	   					
-	 	   				</header>		 	   				
-	 	   				<div class="grid" title="Grid with Single Column Layout">
-							<div class="grid-12 view">grid-12</div>
+    	<div class="page" role="main">
+    		
+    		<section role="region" class="rounded">		   				
+	 	   		<div class="grid">
+	 	   			<div class="grid-9">
+						<div class="module">
+							<h3>Pie Chart</h3>
+							<div id="chart-preview"></div>
 						</div>
-												
-						<div class="grid" title="Grid with Two Column Layout">
-							<div class="grid-4 push-2 view">grid-4 push-2</div>
-							<div class="grid-4 view">grid-4</div>
-						</div>
-						<div class="grid" title="Grid with Three Column Layout">
-							<div class="grid-3 push-1 view">grid-3 push-1</div>
-							<div class="grid-3 push-1 view">grid-3 push-1</div>
-							<div class="grid-3 push-1 view">grid-3 push-1</div>
-						</div>
-						<div class="grid" title="Grid Layout">
-							<div class="grid-2 push-10 view">grid-2 push-10</div>
-						</div>
-						<div class="grid" title="Grid Layout">
-							<div class="grid-3 push-9 view">grid-3 push-9</div>
-						</div>
-						<div class="grid" title="Grid Layout">
-							<div class="grid-4 push-8 view">grid-4 push-8</div>
-						</div>
-						<div class="grid" title="Grid Layout">
-							<div class="grid-5 push-7 view">grid-5 push-7</div>
-						</div>
-						<div class="grid" title="Grid Layout">
-							<div class="grid-6 push-6 view">grid-6 push-6</div>
-						</div>
-						<div class="grid" title="Grid Layout">
-							<div class="grid-7 push-5 view">"grid-7 push-5</div>
-						</div>
-						<div class="grid" title="Grid Layout">
-							<div class="grid-8 push-4 view">grid-8 push-4</div>
-						</div>
-						<div class="grid" title="Grid Layout">
-							<div class="grid-9 push-3 view">grid-9 push-3</div>
-						</div>
-						<div class="grid" title="Grid Layout">
-							<div class="grid-10 push-2 view">grid-10 push-2</div>
-						</div>
-						<div class="grid" title="Grid with Two Column Layout">
-							<div class="grid-6 view">1 of 2 (grid-6)</div>
-							<div class="grid-6 view">2 of 2 (grid-6)</div>
-						</div>
-						<div class="grid" title="Grid with Three Column Layout">
-							<div class="grid-4 view">1 of 3 (grid-4)</div>
-							<div class="grid-4 view">2 of 3 (grid-4)</div>
-							<div class="grid-4 view">3 of 3 (grid-4)</div>
-						</div>
-	 	   				<div class="grid" title="Grid with Four Column Layout">
-							<div class="grid-3 view">1 of 4 (grid-3)</div>
-							<div class="grid-3 view">2 of 4 (grid-3)</div>
-							<div class="grid-3 view">3 of 4 (grid-3)</div>
-							<div class="grid-3 view">4 of 4 (grid-3)</div>
-						</div>						
-						<div class="grid" title="Grid with Six Column Layout">
-							<div class="grid-2 view">1 of 6 (grid-2)</div>
-							<div class="grid-2 view">2 of 6 (grid-2)</div>
-							<div class="grid-2 view">3 of 6 (grid-2)</div>
-							<div class="grid-2 view">4 of 6 (grid-2)</div>
-							<div class="grid-2 view">5 of 6 (grid-2)</div>
-							<div class="grid-2 view">6 of 6 (grid-2)</div>
-						</div>
+					</div>
+					<div class="grid-3 last">
+						<nav id="formNav" class="module">
+							<ul>
+								<li class="btn"><a href="#">Type</a></li>
+								<li class="btn"><a href="#">Size</a></li>
+								<li class="btn"><a href="#">Colors</a></li>
+								<li class="btn"><a href="#">Data</a></li>
+								<li class="btn"><a href="#">Theme</a></li>
+								<li class="btn"><a href="#">Events</a></li>
+								<li class="btn"><a href="#">Build</a></li>
+							</ul>
+						</nav>
 						
-						<div class="grid">
-							<div class="grid-1 view">grid-1</div>
-							<div class="grid-11 last view"> grid-11</div>
-						</div>
-						<div class="grid">
-							<div class="grid-2 view">grid-2</div>
-							<div class="grid-10 view">grid-10</div>
-						</div>	
-						<div class="grid">
-							<div class="grid-3 view">grid-3</div>
-							<div class="grid-9 view">grid-9</div>
-						</div>	
-						<div class="grid">
-							<div class="grid-4 view">grid-4</div>
-							<div class="grid-8 view">grid-8</div>
-						</div>	
-						<div class="grid">
-							<div class="grid-5 view">grid-5</div>
-							<div class="grid-7 view">grid-7</div>
-						</div>
-						<div class="grid">
-							<div class="grid-6 view">grid-6</div>
-							<div class="grid-6 view">grid-6</div>
-						</div>	
-						<div class="grid">
-							<div class="grid-7 view">grid-7</div>
-							<div class="grid-5 view">grid-5</div>
-						</div>	
-						<div class="grid">
-							<div class="grid-8 view">grid-8</div>
-							<div class="grid-4 view">grid-4</div>
-						</div>	
-						<div class="grid">
-							<div class="grid-9 view">grid-9</div>
-							<div class="grid-3 view">grid-3</div>
-						</div>	
-						<div class="grid">
-							<div class="grid-10 view">grid-10</div>
-							<div class="grid-2 view">grid-2</div>
-						</div>			
-						<div class="grid">
-							<div class="grid-11 view">grid-11</div>
-							<div class="grid-1 view">grid-1</div>
-						</div>
-						<div class="grid">
-							<div class="grid-1 view">grid-1</div>
-							<div class="grid-1 view">grid-1</div>
-							<div class="grid-1 view">grid-1</div>
-							<div class="grid-1 view">grid-1</div>
-							<div class="grid-1 view">grid-1</div>
-							<div class="grid-1 view">grid-1</div>
-							<div class="grid-1 view">grid-1</div>
-							<div class="grid-1 view">grid-1</div>
-							<div class="grid-1 view">grid-1</div>
-							<div class="grid-1 view">grid-1</div>
-							<div class="grid-1 view">grid-1</div>
-							<div class="grid-1 last view">grid-1</div>
-						</div>
-						<ul class="list grid" title="Grid List with Three Column Layout">
-							<li class="grid-4 view">Grid List: 1 of 3 (grid-4)</li>
-							<li class="grid-4 view">Grid List: 2 of 3 (grid-4)</li>
-							<li class="grid-4 view">Grid List: 3 of 3 (grid-4)</li>
-						</ul>
-						<div class="grid" title="Grid with Multiple Nested Grids">								
-							<div class="grid-6">									
-								<h4 class="t-center">grid-6 (w/ nested grid)</h4>									
-								<div class="grid" title="Grid with Two Column Layout">
-									<div class="grid-3 view">1 of 2 (grid-3)</div>
-									<div class="grid-3 view">2 of 2 (grid-3)</div>
-								</div>
-							</div>
-							<div class="grid-6 last">								
-								<h4 class="t-center">grid-6 (w/ nested grid)</h4>									
-								<div class="grid" title="Grid with Three Column Layout">
-									<div class="grid-2 view">1 of 3 (grid-2)</div>
-									<div class="grid-2 view">2 of 3 (grid-2)</div>
-									<div class="grid-2 view">3 of 3 (grid-2)</div>
-								</div>								
-							</div>							
-						</div>										
-					</section>						
-<!-- ============== FORMS  ======================================================================================== -->							
-					<section title="Forms" role="region" class="rounded">
-						<header class="subhead">
-	 	   					<h2>Forms</h2>	 	   					
-	 	   				</header>
-	 	   				<div class="grid">
-	 	   					<div class="grid-8">
-	 	   						<form>
-	 	   							<fieldset>
-							          <legend>Basic form elements</legend>
-							          <ul>
-							          	<li>
-							          		<label for="input-small">Small input</label>
-							              	<input type="text" size="10" name="input-small" id="input-small" class="small">
-							          	</li>
-							          	<li>
-							          		<label for="input-normal">Normal input</label>
-							              	<input type="text" size="20" name="input-normal" id="input-normal">
-							          	</li>
-							          	<li>
-							          		<label for="input-large">Large input</label>
-							              	<input type="text" size="30" name="input-large" id="input-large" class="large">
-							          	</li>						          	
-							          	<li>
-							          		<label for="select-normal">Normal select</label>
-							          		<select id="select-normal" name="select-normal">
-								              <option>1</option>
-								              <option>2</option>
-								              <option>3</option>
-								              <option>4</option>
-								              <option>5</option>
-							              </select>
-							          	</li>
-							          	<li>
-							          		<label for="select-multi-1">Multi select</label>
-							          		<select id="select-multi-1" name="select-multi-1" class="small">
-								              <option>1</option>
-								              <option>2</option>
-								              <option>3</option>
-								              <option>4</option>
-								              <option>5</option>
-							              </select>
-							              <select id="select-multi-2" name="select-multi-2">
-								              <option>1</option>
-								              <option>2</option>
-								              <option>3</option>
-								              <option>4</option>
-								              <option>5</option>
-							              </select>
-							          	</li>								          	
-							          	<li>
-							          		<label for="select-multi-3">Multi select</label>
-							          		<select id="select-multi-3" name="select-multi-3" multiple="multiple" class="medium">
-								                <option>1</option>
-								                <option>2</option>
-								                <option>3</option>
-								                <option>4</option>
-								                <option>5</option>
-							              	</select>
-							          	</li>								          	
-							          	<li>
-							          		<label for="disabledInput">Disabled input</label>								            
-							              	<input type="text" disabled="" placeholder="Disabled input" size="30" name="disabledInput" id="disabledInput" class="large disabled">
-							          	</li>
-							          	<li>
-							          		<label for="textarea-normal">Normal textarea</label>	
-							          		<textarea rows="3" id="textarea-normal" name="textarea-normal"></textarea>
-							          	</li>
-							          	<li>
-							          		<label for="textarea-large">Large textarea</label>	
-							          		<textarea rows="6" id="textarea-large" name="textarea-large" class="large"></textarea>
-							          	</li>
-							          	<li>
-							          		<label for="disabledTextArea-1">Disabled input</label>	
-							          		<textarea disabled="" placeholder="Disabled input" rows="3" id="disabledTextArea-1" name="disabledTextArea-1" class="large"></textarea>
-							          	</li>
-							          	<li>
-			    							<label for="search">search</label>
-			    							<input data-type="search" name="search" id="search" />
-			    						</li>
-			    						<li>
-			    							<label for="slider">slider</label>
-			    							<input type="range" name="slider" id="slider" value="0" min="0" max="100" class="sliderField" />
-			    						</li>
-							          </ul>
-							    	</fieldset> 
-							    	<fieldset>
-							        	<legend>Form help &amp; error handling</legend>
-							        	<ul>
-							        		<li class="help">
-							          			<label for="input-help">Input with help</label>
-							              		<input type="text" size="20" name="input-help" id="input-help">
-							              		<em>Hey tiger, need a hand with that?</em>
-							          		</li>
-							          		<li class="error">
-							          			<label for="input-error">Input with help</label>
-							              		<input type="text" size="20" name="input-help" id="input-error">
-							              		<em>Oops something went wrong</em>
-							          		</li>
-							          		<li>
-							          			<label for="input-error-label">Input with help text</label>
-							              		<input type="text" size="20" name="input-error-label" id="input-help-label">
-							              		<em class="help">Hey tiger, need a hand with that?</em>
-							          		</li>
-							          		<li>
-							          			<label for="input-error-label">Input with error text</label>
-							              		<input type="text" size="20" name="input-error-label" id="input-error-label">
-							              		<em class="error">Oops something went wrong</em>
-							          		</li>
-							          		<li>
-							          			<input type="submit" value="Submit" class="btn rounded f-right">
-							          			<input type="submit" value="Cancel" class="btn inactive rounded f-left">							          			
-							          		</li>
-							        	</ul>								          
-							    	</fieldset>    
-	 	   						</form>
-	 	   					</div>	 	   					
-	 	   					<div class="grid-4 last">
-	 	   						<form class="form-stacked">
-	 	   							<fieldset>
-							          <legend>A stacked form</legend>
-							          <ul>
-							          	<li>
-							          		<label for="input">Normal input</label>
-							              	<input type="text" size="20" name="input" id="input">
-							          	</li>
-							          	<li class="error">
-							          		<label for="select">Normal select</label>
-							          		<select id="select" name="select">
-								              <option>1</option>
-								              <option>2</option>
-								              <option>3</option>
-								              <option>4</option>
-								              <option>5</option>
-							              </select>
-							              <em>Oops something went wrong</em>
-							          	</li>
-							          	<li>
-							          		<label for="disabledTextArea-2">Normal textarea</label>	
-							          		<textarea rows="3" id="disabledTextArea-2" name="textarea"></textarea>
-							          	</li>
-							          	<li class="t-center">
-							          		<input type="submit" value="Submit" class="btn rounded">
-							          	</li>
-							          </ul>
-							      </fieldset>
-							  </form>
-	 	   					</div>	 	   				
-	 	   				</div>
-	 	   			</section>		 	   			
-<!-- ============== BUTTONS  ======================================================================================== -->							
-					<section title="Buttons" role="region" class="rounded">
-						<header class="subhead">
-	 	   					<h2>Buttons</h2>	 	   					
-	 	   				</header>
-	 	   				<div class="grid">
-	 	   					<div class="grid-3">
-	 	   						<h3>Buttons</h3>
-	 	   						<button class="btn rounded">Button</button>
-	 	   						<button class="btn inactive rounded">Disabled button</button>
-	 	   						<button class="btn success rounded">Success button</button>
-	 	   						<button class="btn error rounded">Error button</button>
-	 	   						<button class="btn small rounded" disabled="disabled">Button small</button>
-	 	   					</div>
-	 	   					<div class="grid-3">
-	 	   						<h3>Inputs</h3>
-	 	   						<input type="submit" value="Normal input" class="btn rounded">
-	 	   						<input type="submit" value="Disabled input" class="btn inactive rounded">
-	 	   						<input type="submit" value="Success input" class="btn success rounded">
-	 	   						<input type="submit" value="Error input" class="btn error rounded">
-	 	   						<input type="submit" value="Small input" class="btn small rounded">
-	 	   					</div>
-	 	   					<div class="grid-3">
-	 	   						<h3>Anchors</h3>
-	 	   						<a href="#" class="btn rounded">Anchor</a>
-	 	   						<a href="#" class="btn inactive rounded">Disabled anchor</a>
-	 	   						<a href="#" class="btn success rounded">Success anchor</a>
-	 	   						<a href="#" class="btn error rounded">Error anchor</a>
-	 	   						<a href="#" class="btn small rounded">Small anchor</a>
-	 	   					</div>
-	 	   					<div class="grid-3 last">
-	 	   						<h3>Tags</h3>
-	 	   						<a href="#" class="tag">This</a>
-	 	   						<a href="#" class="tag">Is a</a>
-	 	   						<a href="#" class="tag">Bunch</a>  
-	 	   						<a href="#" class="tag">of Tag</a>
-	 	   						<a href="#" class="tag">Examples</a> 
-	 	   					</div>
-	 	   				</div>
-	 	   				<div class="grid">
-                            <div class="grid-12">
-                                <h3>Anchors with Icon</h3>
-                                <p>
-                                    <a class="btn rounded" href="#"><i class="icon-refresh icon-white"></i> Refresh</a>
-                                    <a class="btn success rounded" href="#"><i class="icon-shopping-cart icon-white"></i> Checkout</a>
-                                    <a class="btn error rounded" href="#"><i class="icon-trash icon-white"></i> Delete</a>
-                                </p>
-                                <p>
-                                    <a class="btn btn-large rounded" href="#"><i class="icon-comment icon-white"></i> Comment</a>
-                                    <a class="btn btn-small rounded" href="#"><i class="icon-cog icon-white"></i> Settings</a>
-                                    <a class="btn btn-small btn-info rounded" href="#"><i class="icon-info-sign icon-white"></i> More Info</a>
-                                </p>
-                            </div>
-	 	   				</div>
-	 	   			</section>
-<!-- ============== MESSAGES  ======================================================================================== --> 	   			
-	 	   			<section title="Messages" role="region" class="rounded">
-	 	   				<header class="subhead">
-	 	   					<h2>Messages</h2>	 	   					
-	 	   				</header>
-	 	   				<div class="module message rounded" role="status">
-        					<a href="#" class="close">×</a>
-        					<p><strong>Message!</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum hendrerit cursus erat, a tincidunt ipsum malesuada at. Nam id dapibus eros. Duis vel sem ut mauris tincidunt consectetur. Nunc eu diam quis arcu vulputate pellentesque vehicula a dolor.</p>
-      					</div>
-		 	   			<div class="module message success rounded" role="status">
-        					<a href="#" class="close">×</a>
-        					<p><strong>Success!</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum hendrerit cursus erat, a tincidunt ipsum malesuada at. Nam id dapibus eros. Duis vel sem ut mauris tincidunt consectetur. Nunc eu diam quis arcu vulputate pellentesque vehicula a dolor.</p>
-      					</div>
-      					<div class="module message error rounded t-center" role="status">
-        					<a href="#" class="close">×</a>
-        					<p><strong>Error!</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum hendrerit cursus erat, a tincidunt ipsum malesuada at. Nam id dapibus eros. Duis vel sem ut mauris tincidunt consectetur. Nunc eu diam quis arcu vulputate pellentesque vehicula a dolor.</p>
-      					</div>		
-	 	   			</section>		 	   			
-<!-- ============== ICONS  ======================================================================================== -->		
-	 	   			<section title="Icons" role="region" class="rounded">
-						<header class="subhead">
-	 	   					<h2>Icons</h2>	 	   					
-	 	   				</header>
-	 	   				<div class="grid">		 	   					
-	 	   					<div class="grid-3">
-	 	   						<h3>Icons with text</h3>
-	 	   						<ul class="list">
-	 	   						<li><a href="http://twitter.com" class="twitter">Follow on twitter</a></li>
-	 	   						<li><a href="http://facebook.com" class="facebook">Connect on facebook</a></li>
-	 	   						<li><a class="email" href="mailto:johnsmith@mail.com">Shoot us an email</a></li>
-	 	   						</ul>		 	   						
-	 	   					</div>
-	 	   					<div class="grid-9 last">
-	 	   						<h3>Icons with webfont</h3>
-	 	   						<ul class="websymbols list">
-	 	   						<li>q w e r t y u i o p [ ] \
-	 	   						a s d f g h j k l ; '
-	 	   						z x c v b n m , . / 
-	 	   						Q R T I O P { }
-	 	   						A S D F H J K L : "
-	 	   						Z X C B N M &lt; &gt; ?</li> 	   						
-	 	   						</ul>	 	   						
-	 	   						<ul class="iconic list">
-	 	   						<li>
-	 	   						1 2 3 4 5 6 7 8 9 0 - =
-	 	   						q w e r t y u i o p a s d f g h j k l z x c v b n m 
-	 	   						Q W E Y P A J L Z X V M 	 	   						
-	 	   						! @ # $ % ^ & * ( ) _ + \ { } 
-	 	   						</li> 	   						
-	 	   						</ul>   						
-	 	   					</div>	 	   					
-		 	   			</div>
-                        <!-- Light Icons -->
-		 	   			<div class="grid">
-                            <div class="grid-3">
-                              <ul class="the-icons">
-                                <li><i class="icon-glass"></i> icon-glass</li>
-                                <li><i class="icon-music"></i> icon-music</li>
-                                <li><i class="icon-search"></i> icon-search</li>
-                                <li><i class="icon-envelope"></i> icon-envelope</li>
-                                <li><i class="icon-heart"></i> icon-heart</li>
-                                <li><i class="icon-star"></i> icon-star</li>
-                                <li><i class="icon-star-empty"></i> icon-star-empty</li>
-                                <li><i class="icon-user"></i> icon-user</li>
-                                <li><i class="icon-film"></i> icon-film</li>
-                                <li><i class="icon-th-large"></i> icon-th-large</li>
-                                <li><i class="icon-th"></i> icon-th</li>
-                                <li><i class="icon-th-list"></i> icon-th-list</li>
-                                <li><i class="icon-ok"></i> icon-ok</li>
-                                <li><i class="icon-remove"></i> icon-remove</li>
-                                <li><i class="icon-zoom-in"></i> icon-zoom-in</li>
-                                <li><i class="icon-zoom-out"></i> icon-zoom-out</li>
-                                <li><i class="icon-off"></i> icon-off</li>
-                                <li><i class="icon-signal"></i> icon-signal</li>
-                                <li><i class="icon-cog"></i> icon-cog</li>
-                                <li><i class="icon-trash"></i> icon-trash</li>
-                                <li><i class="icon-home"></i> icon-home</li>
-                                <li><i class="icon-file"></i> icon-file</li>
-                                <li><i class="icon-time"></i> icon-time</li>
-                                <li><i class="icon-road"></i> icon-road</li>
-                                <li><i class="icon-download-alt"></i> icon-download-alt</li>
-                                <li><i class="icon-download"></i> icon-download</li>
-                                <li><i class="icon-upload"></i> icon-upload</li>
-                                <li><i class="icon-inbox"></i> icon-inbox</li>
-                                <li><i class="icon-play-circle"></i> icon-play-circle</li>
-                                <li><i class="icon-repeat"></i> icon-repeat</li>
-                              </ul>
-                            </div>
-                            <div class="grid-3">
-                              <ul class="the-icons">
-                                <li><i class="icon-refresh"></i> icon-refresh</li>
-                                <li><i class="icon-list-alt"></i> icon-list-alt</li>
-                                <li><i class="icon-lock"></i> icon-lock</li>
-                                <li><i class="icon-flag"></i> icon-flag</li>
-                                <li><i class="icon-headphones"></i> icon-headphones</li>
-                                <li><i class="icon-volume-off"></i> icon-volume-off</li>
-                                <li><i class="icon-volume-down"></i> icon-volume-down</li>
-                                <li><i class="icon-volume-up"></i> icon-volume-up</li>
-                                <li><i class="icon-qrcode"></i> icon-qrcode</li>
-                                <li><i class="icon-barcode"></i> icon-barcode</li>
-                                <li><i class="icon-tag"></i> icon-tag</li>
-                                <li><i class="icon-tags"></i> icon-tags</li>
-                                <li><i class="icon-book"></i> icon-book</li>
-                                <li><i class="icon-bookmark"></i> icon-bookmark</li>
-                                <li><i class="icon-print"></i> icon-print</li>
-                                <li><i class="icon-camera"></i> icon-camera</li>
-                                <li><i class="icon-font"></i> icon-font</li>
-                                <li><i class="icon-bold"></i> icon-bold</li>
-                                <li><i class="icon-italic"></i> icon-italic</li>
-                                <li><i class="icon-text-height"></i> icon-text-height</li>
-                                <li><i class="icon-text-width"></i> icon-text-width</li>
-                                <li><i class="icon-align-left"></i> icon-align-left</li>
-                                <li><i class="icon-align-center"></i> icon-align-center</li>
-                                <li><i class="icon-align-right"></i> icon-align-right</li>
-                                <li><i class="icon-align-justify"></i> icon-align-justify</li>
-                                <li><i class="icon-list"></i> icon-list</li>
-                                <li><i class="icon-indent-left"></i> icon-indent-left</li>
-                                <li><i class="icon-indent-right"></i> icon-indent-right</li>
-                                <li><i class="icon-facetime-video"></i> icon-facetime-video</li>
-                                <li><i class="icon-picture"></i> icon-picture</li>
-                              </ul>
-                            </div>
-                            <div class="grid-3">
-                              <ul class="the-icons">
-                                <li><i class="icon-pencil"></i> icon-pencil</li>
-                                <li><i class="icon-map-marker"></i> icon-map-marker</li>
-                                <li><i class="icon-adjust"></i> icon-adjust</li>
-                                <li><i class="icon-tint"></i> icon-tint</li>
-                                <li><i class="icon-edit"></i> icon-edit</li>
-                                <li><i class="icon-share"></i> icon-share</li>
-                                <li><i class="icon-check"></i> icon-check</li>
-                                <li><i class="icon-move"></i> icon-move</li>
-                                <li><i class="icon-step-backward"></i> icon-step-backward</li>
-                                <li><i class="icon-fast-backward"></i> icon-fast-backward</li>
-                                <li><i class="icon-backward"></i> icon-backward</li>
-                                <li><i class="icon-play"></i> icon-play</li>
-                                <li><i class="icon-pause"></i> icon-pause</li>
-                                <li><i class="icon-stop"></i> icon-stop</li>
-                                <li><i class="icon-forward"></i> icon-forward</li>
-                                <li><i class="icon-fast-forward"></i> icon-fast-forward</li>
-                                <li><i class="icon-step-forward"></i> icon-step-forward</li>
-                                <li><i class="icon-eject"></i> icon-eject</li>
-                                <li><i class="icon-chevron-left"></i> icon-chevron-left</li>
-                                <li><i class="icon-chevron-right"></i> icon-chevron-right</li>
-                                <li><i class="icon-plus-sign"></i> icon-plus-sign</li>
-                                <li><i class="icon-minus-sign"></i> icon-minus-sign</li>
-                                <li><i class="icon-remove-sign"></i> icon-remove-sign</li>
-                                <li><i class="icon-ok-sign"></i> icon-ok-sign</li>
-                                <li><i class="icon-question-sign"></i> icon-question-sign</li>
-                                <li><i class="icon-info-sign"></i> icon-info-sign</li>
-                                <li><i class="icon-screenshot"></i> icon-screenshot</li>
-                                <li><i class="icon-remove-circle"></i> icon-remove-circle</li>
-                                <li><i class="icon-ok-circle"></i> icon-ok-circle</li>
-                                <li><i class="icon-ban-circle"></i> icon-ban-circle</li>
-                              </ul>
-                            </div>
-                            <div class="grid-3">
-                              <ul class="the-icons">
-                                <li><i class="icon-arrow-left"></i> icon-arrow-left</li>
-                                <li><i class="icon-arrow-right"></i> icon-arrow-right</li>
-                                <li><i class="icon-arrow-up"></i> icon-arrow-up</li>
-                                <li><i class="icon-arrow-down"></i> icon-arrow-down</li>
-                                <li><i class="icon-share-alt"></i> icon-share-alt</li>
-                                <li><i class="icon-resize-full"></i> icon-resize-full</li>
-                                <li><i class="icon-resize-small"></i> icon-resize-small</li>
-                                <li><i class="icon-plus"></i> icon-plus</li>
-                                <li><i class="icon-minus"></i> icon-minus</li>
-                                <li><i class="icon-asterisk"></i> icon-asterisk</li>
-                                <li><i class="icon-exclamation-sign"></i> icon-exclamation-sign</li>
-                                <li><i class="icon-gift"></i> icon-gift</li>
-                                <li><i class="icon-leaf"></i> icon-leaf</li>
-                                <li><i class="icon-fire"></i> icon-fire</li>
-                                <li><i class="icon-eye-open"></i> icon-eye-open</li>
-                                <li><i class="icon-eye-close"></i> icon-eye-close</li>
-                                <li><i class="icon-warning-sign"></i> icon-warning-sign</li>
-                                <li><i class="icon-plane"></i> icon-plane</li>
-                                <li><i class="icon-calendar"></i> icon-calendar</li>
-                                <li><i class="icon-random"></i> icon-random</li>
-                                <li><i class="icon-comment"></i> icon-comment</li>
-                                <li><i class="icon-magnet"></i> icon-magnet</li>
-                                <li><i class="icon-chevron-up"></i> icon-chevron-up</li>
-                                <li><i class="icon-chevron-down"></i> icon-chevron-down</li>
-                                <li><i class="icon-retweet"></i> icon-retweet</li>
-                                <li><i class="icon-shopping-cart"></i> icon-shopping-cart</li>
-                                <li><i class="icon-folder-close"></i> icon-folder-close</li>
-                                <li><i class="icon-folder-open"></i> icon-folder-open</li>
-                                <li><i class="icon-resize-vertical"></i> icon-resize-vertical</li>
-                                <li><i class="icon-resize-horizontal"></i> icon-resize-horizontal</li>
-                              </ul>
-                            </div>
-                        </div>
-                        
-                        <!-- Dark Icons -->
-                        <div class="grid dark-icons">
-                            <div class="grid-3">
-                              <ul class="the-icons">
-                                <li><i class="icon-glass icon-white"></i> icon-glass</li>
-                                <li><i class="icon-music icon-white"></i> icon-music</li>
-                                <li><i class="icon-search icon-white"></i> icon-search</li>
-                                <li><i class="icon-envelope icon-white"></i> icon-envelope</li>
-                                <li><i class="icon-heart icon-white"></i> icon-heart</li>
-                                <li><i class="icon-star icon-white"></i> icon-star</li>
-                                <li><i class="icon-star-empty icon-white"></i> icon-star-empty</li>
-                                <li><i class="icon-user icon-white"></i> icon-user</li>
-                                <li><i class="icon-film icon-white"></i> icon-film</li>
-                                <li><i class="icon-th-large icon-white"></i> icon-th-large</li>
-                                <li><i class="icon-th icon-white"></i> icon-th</li>
-                                <li><i class="icon-th-list icon-white"></i> icon-th-list</li>
-                                <li><i class="icon-ok icon-white"></i> icon-ok</li>
-                                <li><i class="icon-remove icon-white"></i> icon-remove</li>
-                                <li><i class="icon-zoom-in icon-white"></i> icon-zoom-in</li>
-                                <li><i class="icon-zoom-out icon-white"></i> icon-zoom-out</li>
-                                <li><i class="icon-off icon-white"></i> icon-off</li>
-                                <li><i class="icon-signal icon-white"></i> icon-signal</li>
-                                <li><i class="icon-cog icon-white"></i> icon-cog</li>
-                                <li><i class="icon-trash icon-white"></i> icon-trash</li>
-                                <li><i class="icon-home icon-white"></i> icon-home</li>
-                                <li><i class="icon-file icon-white"></i> icon-file</li>
-                                <li><i class="icon-time icon-white"></i> icon-time</li>
-                                <li><i class="icon-road icon-white"></i> icon-road</li>
-                                <li><i class="icon-download-alt icon-white"></i> icon-download-alt</li>
-                                <li><i class="icon-download icon-white"></i> icon-download</li>
-                                <li><i class="icon-upload icon-white"></i> icon-upload</li>
-                                <li><i class="icon-inbox icon-white"></i> icon-inbox</li>
-                                <li><i class="icon-play-circle icon-white"></i> icon-play-circle</li>
-                                <li><i class="icon-repeat icon-white"></i> icon-repeat</li>
-                              </ul>
-                            </div>
-                            <div class="grid-3">
-                              <ul class="the-icons">
-                                <li><i class="icon-refresh icon-white"></i> icon-refresh</li>
-                                <li><i class="icon-list-alt icon-white"></i> icon-list-alt</li>
-                                <li><i class="icon-lock icon-white"></i> icon-lock</li>
-                                <li><i class="icon-flag icon-white"></i> icon-flag</li>
-                                <li><i class="icon-headphones icon-white"></i> icon-headphones</li>
-                                <li><i class="icon-volume-off icon-white"></i> icon-volume-off</li>
-                                <li><i class="icon-volume-down icon-white"></i> icon-volume-down</li>
-                                <li><i class="icon-volume-up icon-white"></i> icon-volume-up</li>
-                                <li><i class="icon-qrcode icon-white"></i> icon-qrcode</li>
-                                <li><i class="icon-barcode icon-white"></i> icon-barcode</li>
-                                <li><i class="icon-tag icon-white"></i> icon-tag</li>
-                                <li><i class="icon-tags icon-white"></i> icon-tags</li>
-                                <li><i class="icon-book icon-white"></i> icon-book</li>
-                                <li><i class="icon-bookmark icon-white"></i> icon-bookmark</li>
-                                <li><i class="icon-print icon-white"></i> icon-print</li>
-                                <li><i class="icon-camera icon-white"></i> icon-camera</li>
-                                <li><i class="icon-font icon-white"></i> icon-font</li>
-                                <li><i class="icon-bold icon-white"></i> icon-bold</li>
-                                <li><i class="icon-italic icon-white"></i> icon-italic</li>
-                                <li><i class="icon-text-height icon-white"></i> icon-text-height</li>
-                                <li><i class="icon-text-width icon-white"></i> icon-text-width</li>
-                                <li><i class="icon-align-left icon-white"></i> icon-align-left</li>
-                                <li><i class="icon-align-center icon-white"></i> icon-align-center</li>
-                                <li><i class="icon-align-right icon-white"></i> icon-align-right</li>
-                                <li><i class="icon-align-justify icon-white"></i> icon-align-justify</li>
-                                <li><i class="icon-list icon-white"></i> icon-list</li>
-                                <li><i class="icon-indent-left icon-white"></i> icon-indent-left</li>
-                                <li><i class="icon-indent-right icon-white"></i> icon-indent-right</li>
-                                <li><i class="icon-facetime-video icon-white"></i> icon-facetime-video</li>
-                                <li><i class="icon-picture icon-white"></i> icon-picture</li>
-                              </ul>
-                            </div>
-                            <div class="grid-3">
-                              <ul class="the-icons">
-                                <li><i class="icon-pencil icon-white"></i> icon-pencil</li>
-                                <li><i class="icon-map-marker icon-white"></i> icon-map-marker</li>
-                                <li><i class="icon-adjust icon-white"></i> icon-adjust</li>
-                                <li><i class="icon-tint icon-white"></i> icon-tint</li>
-                                <li><i class="icon-edit icon-white"></i> icon-edit</li>
-                                <li><i class="icon-share icon-white"></i> icon-share</li>
-                                <li><i class="icon-check icon-white"></i> icon-check</li>
-                                <li><i class="icon-move icon-white"></i> icon-move</li>
-                                <li><i class="icon-step-backward icon-white"></i> icon-step-backward</li>
-                                <li><i class="icon-fast-backward icon-white"></i> icon-fast-backward</li>
-                                <li><i class="icon-backward icon-white"></i> icon-backward</li>
-                                <li><i class="icon-play icon-white"></i> icon-play</li>
-                                <li><i class="icon-pause icon-white"></i> icon-pause</li>
-                                <li><i class="icon-stop icon-white"></i> icon-stop</li>
-                                <li><i class="icon-forward icon-white"></i> icon-forward</li>
-                                <li><i class="icon-fast-forward icon-white"></i> icon-fast-forward</li>
-                                <li><i class="icon-step-forward icon-white"></i> icon-step-forward</li>
-                                <li><i class="icon-eject icon-white"></i> icon-eject</li>
-                                <li><i class="icon-chevron-left icon-white"></i> icon-chevron-left</li>
-                                <li><i class="icon-chevron-right icon-white"></i> icon-chevron-right</li>
-                                <li><i class="icon-plus-sign icon-white"></i> icon-plus-sign</li>
-                                <li><i class="icon-minus-sign icon-white"></i> icon-minus-sign</li>
-                                <li><i class="icon-remove-sign icon-white"></i> icon-remove-sign</li>
-                                <li><i class="icon-ok-sign icon-white"></i> icon-ok-sign</li>
-                                <li><i class="icon-question-sign icon-white"></i> icon-question-sign</li>
-                                <li><i class="icon-info-sign icon-white"></i> icon-info-sign</li>
-                                <li><i class="icon-screenshot icon-white"></i> icon-screenshot</li>
-                                <li><i class="icon-remove-circle icon-white"></i> icon-remove-circle</li>
-                                <li><i class="icon-ok-circle icon-white"></i> icon-ok-circle</li>
-                                <li><i class="icon-ban-circle icon-white"></i> icon-ban-circle</li>
-                              </ul>
-                            </div>
-                            <div class="grid-3">
-                              <ul class="the-icons">
-                                <li><i class="icon-arrow-left icon-white"></i> icon-arrow-left</li>
-                                <li><i class="icon-arrow-right icon-white"></i> icon-arrow-right</li>
-                                <li><i class="icon-arrow-up icon-white"></i> icon-arrow-up</li>
-                                <li><i class="icon-arrow-down icon-white"></i> icon-arrow-down</li>
-                                <li><i class="icon-share-alt icon-white"></i> icon-share-alt</li>
-                                <li><i class="icon-resize-full icon-white"></i> icon-resize-full</li>
-                                <li><i class="icon-resize-small icon-white"></i> icon-resize-small</li>
-                                <li><i class="icon-plus icon-white"></i> icon-plus</li>
-                                <li><i class="icon-minus icon-white"></i> icon-minus</li>
-                                <li><i class="icon-asterisk icon-white"></i> icon-asterisk</li>
-                                <li><i class="icon-exclamation-sign icon-white"></i> icon-exclamation-sign</li>
-                                <li><i class="icon-gift icon-white"></i> icon-gift</li>
-                                <li><i class="icon-leaf icon-white"></i> icon-leaf</li>
-                                <li><i class="icon-fire icon-white"></i> icon-fire</li>
-                                <li><i class="icon-eye-open icon-white"></i> icon-eye-open</li>
-                                <li><i class="icon-eye-close icon-white"></i> icon-eye-close</li>
-                                <li><i class="icon-warning-sign icon-white"></i> icon-warning-sign</li>
-                                <li><i class="icon-plane icon-white"></i> icon-plane</li>
-                                <li><i class="icon-calendar icon-white"></i> icon-calendar</li>
-                                <li><i class="icon-random icon-white"></i> icon-random</li>
-                                <li><i class="icon-comment icon-white"></i> icon-comment</li>
-                                <li><i class="icon-magnet icon-white"></i> icon-magnet</li>
-                                <li><i class="icon-chevron-up icon-white"></i> icon-chevron-up</li>
-                                <li><i class="icon-chevron-down icon-white"></i> icon-chevron-down</li>
-                                <li><i class="icon-retweet icon-white"></i> icon-retweet</li>
-                                <li><i class="icon-shopping-cart icon-white"></i> icon-shopping-cart</li>
-                                <li><i class="icon-folder-close icon-white"></i> icon-folder-close</li>
-                                <li><i class="icon-folder-open icon-white"></i> icon-folder-open</li>
-                                <li><i class="icon-resize-vertical icon-white"></i> icon-resize-vertical</li>
-                                <li><i class="icon-resize-horizontal icon-white"></i> icon-resize-horizontal</li>
-                              </ul>
-                            </div>
-                        </div>
-		 	   		</section>
-
-		</div><!-- end page --> 	
-	</div><!-- end #content --> 	
+						<form class="form-stacked module" id="chart-settings">
+							
+							<!-- Chart Type -->
+	 	   					<fieldset class="type">
+							    <legend>Chart Type</legend>
+								<ul>
+							        <li>
+							          	<label for="select">Select Chart Type</label>
+							          	<select id="type-chart" name="type-chart">
+											<option value="0" selected="selected">-- select a chart type --</option>
+								            <option value="pie">Pie</option>
+											<option value="pack">Pack</option>
+											<option value="sunburst">Sunburst</option>
+							            </select>
+							        </li>
+									<li class="type-settings pie">
+										<label for="type-chart-pie">Pie Type</label>
+										<select id="type-chart-pie" name="type-chart-pie">
+											<option value="pie" selected="selected">Pie</option>
+											<option value="donut">Donut</option>
+										</select>
+									</li>
+									<li class="type-settings pack">
+										<label for="type-chart-pack">Pack Type</label>
+										<select id="type-chart-pack" name="type-chart-pack">
+											<option value="pack" selected="selected">Pack</option>
+											<option value="bubble">Bubble</option>
+										</select>
+									</li>
+									<li class="type-settings sunburst">
+										<label for="type-chart-sunburst">Sunburst Type</label>
+										<select id="type-chart-sunburst" name="type-chart-sunburst">
+											<option value="" selected="selected"></option>
+											<option value=""></option>
+										</select>
+									</li>
+								</ul>
+							</fieldset>
+							
+							<!-- Chart Size -->
+							<fieldset class="size">
+								<legend>Chart Size</legend>
+								<ul>
+									<li>
+							          	<label for="size-height">Chart Height</label>
+							            <input type="text" size="20" class="small" name="size-height" id="size-height" value="700" placeholder="select chart height">
+							        </li>
+									<li>
+							          	<label for="size-width">Chart Width</label>
+							            <input type="text" size="20" class="small" name="size-width" id="size-width" value="700" placeholder="select chart width">
+							        </li>
+									<li>
+							          	<label for="size-outer-radius">Chart Outer Radius</label>
+							            <input type="text" size="20" class="small" name="size-outer-radius" id="size-outer-radius" value="280" placeholder="select chart radius">
+							        </li>
+									<li>
+							          	<label for="size-inner-radius">Chart Inner Radius</label>
+							            <input type="text" size="20" class="small" name="size-inner-radius" id="size-inner-radius" value="280" placeholder="select chart radius">
+							        </li>
+									<li>
+							          	<label for="size-padding">Chart Padding</label>
+							            <input type="text" size="20" class="small" name="size-padding" id="size-padding" value="10" placeholder="select chart padding">
+							        </li>
+								</ul>
+							</fieldset>
+							
+							<!-- Color Options -->
+							<fieldset class="color">
+								<legend>Chart Colors</legend>
+								<ul>
+									<li>
+										<label>Chart Color Scheme</label>
+										<select id="color-scheme" name="color-scheme">
+								            <option value="0">Custom</option>
+											<option value="scheme1" selected="selected">Scheme 1</option>
+											<option value="scheme2">Scheme 2</option>
+											<option value="scheme3">Scheme 3</option>
+											<option value="scheme4">Scheme 4</option>
+							            </select>
+									</li>
+									<li>
+										<label>Color Palette Size</label>
+										<select id="color-palette-size" name="color-palette-size" class="small">
+											<option value="0">auto</option>
+								            <option value="5" selected="selected">5</option>
+											<option value="10">10</option>
+											<option value="15">15</option>
+											<option value="20">20</option>
+											<option value="30">30</option>
+							            </select>
+									</li>
+									<li>
+										<label>Add/Remove colors</label>
+										<input type="button" class="btn" id="color-add" name="color-add" value="add color" />
+										<input type="button" class="btn" id="color-remove" name="color-remove" value="remove color" />
+									</li>
+									<li>
+										<div class="palette">
+											<ol>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+											</ol>											
+										</div>
+									</li>									
+								</ul>
+							</fieldset>
+							
+							<!-- Data Options -->
+							<fieldset class="data">
+								<legend>Data Options</legend>
+								<ul>
+									<li>
+							          	<label for="data-source">Data Source</label>
+							            <select id="data-source" name="data-source">
+								            <option value="dummy" selected="selected">Dummy Data</option>
+											<option value="url" >URL</option>
+											<option value="file">Upload File</option>
+							            </select>
+							        </li>
+									<li class="data-source dummy">
+							          	<label for="data-dummy">Dummy Data Set</label>
+							            <select id="data-dummy" name="data-dummy">
+								            <option value="data/data.json" selected="selected">data set 1</option>
+											<option value="data/data.json">data set 2</option>
+											<option value="data/data.json">data set 3</option>
+							            </select>
+							        </li>
+									<li class="data-source url">
+							          	<label for="data-url">Data URL</label>
+							            <input type="text" size="20" name="data-url" id="data-url" placeholder="URL of the data">
+							        </li>
+									<li class="data-source file">
+							          	<label for="select">Select Data File <small>(.json, .csv)</small></label>
+							          	<input type="file" size="12" id="data-file" name="data-file">
+							        </li>
+									<li>
+							          	<label for="data-structure">Data Structure</label>
+							            <select id="data-structure" name="data-structure">
+								            <option value="flat" selected="selected">flat</option>
+											<option value="nested">nested</option>
+							            </select>
+							        </li>
+									<li class="data-attributes name">
+							          	<label for="data-name">Data Name</label>
+							            <input type="text" size="20" name="data-name" id="data-name" placeholder="select the name of a data item" value="name">
+							        </li>
+									<li class="data-attributes value">
+							          	<label for="data-value">Data Value</label>
+							            <input type="text" size="20" name="data-value" id="data-value" placeholder="select the value of a data item" value="value">
+							        </li>
+									<li class="data-attributes parent">
+							          	<label for="data-parent">Data Parent</label>
+							            <input type="text" size="20" name="data-parent" id="data-parent" placeholder="select the parent name of a data item" value="parent">
+							        </li>
+									<li class="data-scale scaleX">
+							          	<label for="data-scaleX">Data Scale X</label>
+							            <select id="data-scaleX" name="data-scaleX">
+								            <option selected="selected">linear</option>
+											<option>exponential</option>
+											<option>ordinal</option>
+							            </select>
+							        </li>
+									<li class="data-scale scaleY">
+							          	<label for="data-scaleY">Data Scale Y</label>
+							            <select id="data-scaleY" name="data-scaleY">
+								            <option selected="selected">linear</option>
+											<option>exponential</option>
+											<option>ordinal</option>
+							            </select>
+							        </li>
+								</ul>
+							</fieldset>
+							
+							<!-- Chart Theme -->
+							<fieldset class="theme">
+								<legend>Chart Theme</legend>
+								<!-- background style -->
+								<ul>
+									<li>
+										<input type="checkbox" id="theme-background" name="theme-background" class="show-section checkField">
+										<label for="theme-background">Chart Background</label>
+									</li>
+									<li class="theme-background">
+							          	<label for="theme-background-color">Background Color</label>
+							            <input type="text" size="20" class="small" name="theme-background-color" id="theme-background-color" placeholder="select a background color" value="ffffff">
+							        </li>
+								</ul>
+								<!-- header style -->
+								<ul>
+									<li>
+										<input type="checkbox" id="theme-header" name="theme-header" class="show-section checkField">
+										<label for="theme-header">Chart Header</label>
+									</li>
+									<li class="theme-header">
+							          	<label for="theme-header-size">Header Name</label>
+							            <input type="text" size="20" name="theme-header-name" id="theme-header-name" placeholder="choose a header name">
+							        </li>
+									<li class="theme-header">
+							          	<label for="theme-header-size">Header Size</label>
+							            <input type="text" size="20" class="small" name="theme-header-size" id="theme-header-size" placeholder="choose a header size">
+							        </li>
+									<li class="theme-header">
+							          	<label for="theme-header-position">Header Position</label>
+							            <select class="small" id="theme-header-position" name="theme-header-position">
+								            <option selected="selected">top left</option>
+											<option>top center</option>
+											<option>top right</option>
+											<option>center left</option>
+											<option>center right</option>
+											<option>bottom left</option>
+											<option>bottom center</option>
+											<option>bottom right</option>
+							            </select>
+							        </li>
+									<li class="theme-header">
+							          	<label for="theme-header-offsetY">Header Offset Top</label>
+							            <input type="text" size="20" class="small" name="theme-header-offsetY" id="theme-header-offsetY" placeholder="header offset top">
+							        </li>
+									<li class="theme-header">
+							          	<label for="theme-header-offsetX">Header Offset Left</label>
+							            <input type="text" size="20" class="small" name="theme-header-offsetX" id="theme-header-offsetX" placeholder="header offset left">
+							        </li>
+									<li class="theme-header">
+							          	<label for="theme-header-color">Header Color</label>
+							            <input type="text" size="20" class="small" name="theme-header-color" id="theme-header-color" placeholder="choose a header color" value="000000">
+							        </li>
+								</ul>
+								<!-- label style -->
+								<ul>
+									<li>
+										<input type="checkbox" id="theme-labels" name="theme-labels" class="show-section checkField">
+										<label for="theme-labels">Chart Labels</label>
+									</li>
+									<li class="theme-labels">
+							          	<label for="theme-label-size">Label Size</label>
+							            <input type="text" size="20" class="small" name="theme-label-size" id="theme-label-size" placeholder="choose a label size">
+							        </li>
+									<li class="theme-labels">
+							          	<label for="theme-label-position">Label Position</label>
+							            <input type="text" size="20" class="small" name="theme-label-position" id="theme-label-position" placeholder="choose a label position">
+							        </li>
+									<li class="theme-labels">
+							          	<label for="theme-label-color">Label Color</label>
+							            <input type="text" size="20" class="small" name="theme-label-color" id="theme-label-color" placeholder="choose a label color" value="000000">
+							        </li>
+								</ul>
+								<!-- chart data style -->
+								<ul>
+									<li>
+										<input type="checkbox" id="theme-data" name="theme-data" class="show-section checkField">
+										<label for="theme-data">Chart Data</label>
+									</li>
+									<li class="theme-data">
+							          	<label for="theme-data-border-size">Data Border Size</label>
+							            <input type="text" size="20" class="small" name="theme-data-border-size" id="theme-data-border-size" placeholder="data border size">
+							        </li>
+									<li class="theme-data">
+							          	<label for="theme-data-border-color">Data Border Colour</label>
+							            <input type="text" size="20" class="small" name="theme-data-border-color" id="theme-data-border-color" placeholder="choose a label color" value="000000">
+							        </li>
+								</ul>
+							</fieldset>
+							
+							<fieldset class="event">
+								<legend>Chart Events</legend>
+								<ul>
+									<li>
+										<input type="checkbox" id="event-events" name="event-events" class="show-section checkField">
+										<label for="event-events">Chart Events</label>
+									</li>
+									<li class="events">
+										<input type="checkbox" id="event-data-transition" name="event-data-transition" class="show-section checkField">
+										<label for="event-data-transition">Data transitions</label>
+									</li>
+									<li class="events">
+										<input type="checkbox" id="event-hover" name="event-hover" class="show-section checkField">
+										<label for="event-hover">Hover Event</label>
+									</li>
+									<li class="events">
+										<input type="checkbox" id="event-click" name="event-click" class="show-section checkField">
+										<label for="event-click">Click Event</label>
+									</li>
+								</ul>
+							</fieldset>
+							
+							<!-- Builder Buttons -->
+							<fieldset class="build">
+								<legend>Build/Update Chart</legend>
+								<ul>
+							        <li style="margin-top:10px">
+										<input type="button" value="Update Preview" class="btn rounded" id="build-update">
+									</li>
+									<li>
+										<input type="button" value="Undo Changes" class="btn rounded" id="build-undo">
+									</li>
+									<li>
+							          	<input type="submit" value="Submit" class="btn rounded" id="build-submit">
+							        </li>
+							    </ul>
+							</fieldset>
+							
+						</form>  <!-- end of chart settings form -->
+					</div>
+				</div>
+			</section>
+		
+		</div><!-- end page -->
+	</div><!-- end #content -->
     <div id="footer">
-    	<footer> 		
- 			<nav role="navigation">			
-				<ul role="menu">
-				<li role="menuitem"><a href="index.html">Home</a></li>
-				<li role="menuitem"><a href="template.html">Template</a></li>
-				<li role="menuitem"><a href="samples/template-welcome.html">Welcome</a></li>
-				<li role="menuitem"><a href="samples/template-about.html">About</a></li>
-				<li role="menuitem"><a href="samples/template-blog.html">Blog</a></li>
-				<li role="menuitem"><a href="samples/template-article.html">Article</a></li>
-				<li role="menuitem"><a href="samples/template-newsletter.html">Newsletter</a></li>				
-				</ul>
-			</nav> 			
+    	<footer>		
  		</footer><!-- end of footer -->
- 	</div><!-- end footerwrap --> 	
+ 	</div><!-- end footerwrap -->
 </div><!--! end of #wrap -->
 <!-- JavaScript at the bottom for fast page loading -->
-	<!-- plugin scripts-->
+	<!-- jQuery plugins -->
 	<script src="js/plugins/log.js"></script>
 	<script src="js/plugins/placeholder.js"></script>
+	<script src="js/plugins/tabs2.0.js"></script>
+	<script src="js/plugins/jpicker-1.1.6.min.js"></script>
+	<!-- D3 plugins -->
+	<script src="js/d3/pie.js"></script>
 	<!-- custom interface -->
 	<script src="js/interface.js"></script>
+	<script src="js/showChart.js"></script>
+	<script src="js/buildChart.js"></script>
 <!-- end scripts-->
 </body>
 </html>
