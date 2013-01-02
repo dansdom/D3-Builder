@@ -90,3 +90,59 @@ PieChart = {
         d3.pie(chart, settings);
     }
 };
+/*
+// these are the plugin default settings that will be over-written by user settings
+    d3.Pack.settings = {
+        'diameter': 500,
+        'padding': 2,
+        'data' : null,  // I'll need to figure out how I want to present data options to the user
+        'dataUrl' : 'flare.json',  // this is a url for a resource
+        'dataType' : 'json',
+        // instead of defining a color array, I will set a color scale and then let the user overwrite it
+        'colorRange' : [],
+        'chartType' : 'pack',
+        'fontSize' : 12,
+        // defines the data structure of the document
+        'dataStructure' : {
+            'name' : 'name',
+            'value' : 'size',
+            'children' : 'group'
+        },
+        'speed' : 1500  // speed of the trasitions
+    };
+*/
+PackChart = {
+    init : function() {
+        console.log("building pack chart");
+        this.getSettings();
+        this.buildChart();
+    },
+    settings : {},
+    getSettings : function() {
+        this.settings.diameter = FormData.size.outerRadius;
+        this.settings.padding = FormData.size.padding;
+        // do a case statement to find the data
+        switch (FormData.data.source) {
+            case "dummy" :
+                this.settings.dataUrl = FormData.data.dummy;
+                break;
+            case "url" :
+                this.settings.dataUrl = FormData.data.url;
+                break;
+            case "file" : 
+                this.settings.dataUrl = FormData.data.file;  // note I will need to read this file and store the result before this point
+                break;
+            default : break;type.secondary;
+        };type.secondary;
+        this.chartType = FormData.type.secondary;
+        this.settings.colorRange = FormData.colors;
+        this.settings.fontSize = FormData.theme.labelSize;
+        this.settings.dataStructure = FormData.data.attributes;
+        // I'll need to add this to the form
+        //this.settings.speed = FormData.events.speed;
+
+    },
+    buildChart : function() {
+
+    }
+};
