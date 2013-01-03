@@ -2,6 +2,7 @@
 // this objects holds the entire form data object
 FormData = {
     type : {
+        current : null,  // this stores the currently displayed chart type to handle the transitions
         primary : "pie",
         secondary : "pie"
     },
@@ -22,7 +23,7 @@ FormData = {
         attributes : {
             name : "name",
             value : "size",
-            parent : "parent"
+            children : "children"
         },
         scale : {
             x : "linear",  // these scales can be "linear", "exponential" or "ordinal". default to "linear"
@@ -45,13 +46,12 @@ FormData = {
         borderSize : 0,
         borderColor : "rgb(0,0,0)"
     },
-    events : {} 
+    events : {}
 };
 
 // object that builds the pie chart
 PieChart = {
     init : function() {
-        console.log("building pie chart");
         this.getSettings();
         this.buildChart();
     },
@@ -85,32 +85,22 @@ PieChart = {
         var chart = document.getElementById("chart-preview"),
             settings = this.settings;
 
-            console.log(settings);
+        console.log("current: " + FormData.type.current);
+
+        // destroy the current chart if it's not a pie
+        if (FormData.type.current && FormData.type.current !== "pie") {
+            console.log("destrying old chart");
+            //$("#chart-preview svg").remove();
+            d3[FormData.type.current](chart, "destroy");
+        }
             
         d3.pie(chart, settings);
+        // set the current chart type type
+        FormData.type.current = "pie";
+        console.log("current: " + FormData.type.current);
     }
 };
-/*
-// these are the plugin default settings that will be over-written by user settings
-    d3.Pack.settings = {
-        'diameter': 500,
-        'padding': 2,
-        'data' : null,  // I'll need to figure out how I want to present data options to the user
-        'dataUrl' : 'flare.json',  // this is a url for a resource
-        'dataType' : 'json',
-        // instead of defining a color array, I will set a color scale and then let the user overwrite it
-        'colorRange' : [],
-        'chartType' : 'pack',
-        'fontSize' : 12,
-        // defines the data structure of the document
-        'dataStructure' : {
-            'name' : 'name',
-            'value' : 'size',
-            'children' : 'group'
-        },
-        'speed' : 1500  // speed of the trasitions
-    };
-*/
+
 PackChart = {
     init : function() {
         console.log("building pack chart");
@@ -132,8 +122,8 @@ PackChart = {
             case "file" : 
                 this.settings.dataUrl = FormData.data.file;  // note I will need to read this file and store the result before this point
                 break;
-            default : break;type.secondary;
-        };type.secondary;
+            default : break;
+        };
         this.chartType = FormData.type.secondary;
         this.settings.colorRange = FormData.colors;
         this.settings.fontSize = FormData.theme.labelSize;
@@ -143,6 +133,20 @@ PackChart = {
 
     },
     buildChart : function() {
+        var chart = document.getElementById("chart-preview"),
+            settings = this.settings;
 
+        console.log("current: " + FormData.type.current);
+
+        // destroy the current chart if it's not a pie
+        if (FormData.type.current && FormData.type.current !== "pack") {
+            console.log("destrying old chart");
+            //$("#chart-preview svg").remove();
+            d3[FormData.type.current](chart, "destroy");
+        }
+
+        d3.pack(chart, settings);
+        // set the current chart type type
+        FormData.type.current = "pack";
     }
 };

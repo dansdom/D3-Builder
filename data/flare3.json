@@ -1,15 +1,19 @@
 {
- "name": "flare3",
+ "name": "flare",
  "group": [
-    {"name": "Cluster", "size": 38},
-    {"name": "CommunityStructure", "size": 12},
-    {"name": "HierarchicalCluster", "size": 14},
     {
-        "name": "Hierarchical", 
-        "group" : [
-            {"name" : "obj1", "size": 20},
-            {"name" : "obj2", "size": 20},
-            {"name" : "obj3", "size": 20}
-        ]}
+        "name": "group 1",
+        "group": [
+            {"name": "sub 1", "size": 643},
+            {"name": "sub 2", "size": 743}
+        ]
+    },
+    {
+        "name": "group 2",
+        "group": [
+            {"name": "sub 1", "size": 243},
+            {"name": "sub 2", "size": 443}
+        ]
+    }
   ]
 }

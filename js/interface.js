@@ -1,4 +1,4 @@
-// TO DO LIST:
+ // TO DO LIST:
 // 1. crack on with data handling in the form - start with getValue
 // 2. work out WTF I'm doing with the chart events
 // 3. make sure each form section is updating the global formData object
@@ -29,16 +29,15 @@ ChartBuilder = {
 		// I'll definately need some form validation as I don't want the user to trip shit up
 		// maybe even fall back to a default value if the values are shite?
 		
-		var builder = this,
-			settingsForm = $("#chart-settings");
+		var builder = this;
 		
-		settingsForm.find("#build-update").click(function() {
+		$("#build-update").click(function() {
 			// I'll need a function to grab all the form data here
 			ChartBuilder.takeSnapshot();
 			ChartBuilder.buildChart();
 		});
 		
-		settingsForm.find("#build-submit").on("click", function() {
+		$("#build-submit").on("click", function() {
 			// get the form data
 			ChartBuilder.takeSnapshot();
 			ChartBuilder.buildChart();
@@ -76,7 +75,6 @@ ChartBuilder = {
 	buildChart : function() {
 		switch (FormData.type.primary) {
 			case "pie" :
-				console.log("its a pie");
 				PieChart.init();
 				break;
 			case "pack" :
@@ -110,10 +108,8 @@ ChartType = {
 		var type = $("#type-chart").attr("value");
 		// set the form Data object if the chart type is set
 		if (type) {
-			FormData.type = {
-				primary : type,
-				secondary : $("li." + type + " select").attr("value")
-			}
+			FormData.type.primary = type;
+			FormData.type.secondary = $("li." + type + " select").attr("value");
 		}
 	}
 };
@@ -293,20 +289,27 @@ ChartData = {
 		FormData.data = {
 			source : $("#data-source").attr("value"),
 			structure : $("#data-structure").attr("value"),
-			dummy : $("#data-dummy").attr("value"),
 			url : $("#data-url").attr("value"),
 			file : $("#data-file").attr("value"),
 			// I want to strip down the whitespace
 			attributes : {
 				name : $("#data-name").attr("value"),
 				value : $("#data-value").attr("value"),
-				parent : $("#data-parent").attr("value")
+				children : $("#data-children").attr("value")
 			},
 			scale : {
 				x : $("#data-scaleX").attr("value"),
 				y : $("#data-scaleY").attr("value")
 			}
 		};
+
+		// work out what data url to use
+		if (FormData.data.structure === "flat") {
+			FormData.data.dummy = $("#data-dummy-flat").attr("value");
+		}
+		else {
+			FormData.data.dummy = $("#data-dummy-nested").attr("value");
+		}
 		
 	},
 	dataSource : function() {
@@ -347,15 +350,19 @@ ChartData = {
 		// handle the data structure select box
 		$("#data-structure").on("change", function() {
 			var structure = $(this).attr("value"),
-				parent = $("fieldset.data li.parent");
+				children = $("fieldset.data li.children");
 			
+			// hide show the right dummy data set
+			$("li.data-source.dummy div").css("display", "none");
 			//console.log(structure);
-			// hide the parent field when the data structure is "flat"
+			// hide the children field when the data structure is "flat"
 			if (structure === "nested") {
-				parent.css("display", "block");
+				children.css("display", "block");
+				$("li.data-source.dummy .nested").css("display", "block");
 			}
 			else {
-				parent.css("display", "none");
+				children.css("display", "none");
+				$("li.data-source.dummy .flat").css("display", "block");
 			}
 		});
 	}

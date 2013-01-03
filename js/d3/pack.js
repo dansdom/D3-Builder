@@ -56,6 +56,12 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             container.scaleY = d3.scale.linear().range([0, this.opts.diameter]);
             // define the data format - not 100% sure what this does. will need to research this attribute
             container.format = d3.format(",d");
+            
+            this.getData();
+        },
+        updateChart : function() {
+            var container = this;
+            
             // if there is a colour range defined for this chart then use the settings. If not, use the inbuild category20 colour range
             if (this.opts.colorRange.length > 0) {
                 container.color = d3.scale.ordinal().range(this.opts.colorRange);
@@ -63,11 +69,6 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             else {
                 container.color = d3.scale.category20();
             }
-
-            this.getData();
-        },
-        updateChart : function() {
-            var container = this;
 
             // set the layout of the chart
             this.setLayout();
@@ -412,7 +413,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         parseData : function(data) {
            
             var dataList = [],
-                children = this.opts.dataStructure.children,
+                children = this.opts.dataStructure.children,  // parent label for children
                 container = this;
         
             // recursively loop through each child of the object
