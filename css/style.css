@@ -75,7 +75,7 @@ p,dl,hr,ol,ul,pre,table,address,fieldset,blockquote {margin-bottom:20px}
 #wrap,#header,#content,#footer {clear:both}
 footer {clear:both}
 /*  Grid  */
-#content {margin:0 auto;width:940px;padding:20px}
+#content {margin:0 auto;width:940px;padding:20px 20px 0}
 .grid {clear:both;width:960px;margin:0 0 20px -20px;overflow:hidden}
 [class*="grid-"] {float:left;margin-left:20px}
 .grid-1 {width:60px}

@@ -12,6 +12,8 @@ ChartBuilder = {
 	init : function() {
 		this.submission();
 		this.showSection();
+		// resets the form
+		//this.resetForm();
 		// take a snapshot and store the form value so that the user can undo any changes
 		this.takeSnapshot();
 		
@@ -72,6 +74,16 @@ ChartBuilder = {
 		ChartEvents.getValue();
 		console.log(FormData);
 	},
+	resetForm : function() {
+		// reset the form to the default values
+		ChartType.reset();
+		ChartSize.reset();
+		ChartColors.reset();
+		ChartData.reset();
+		ChartTheme.reset();
+		ChartEvents.reset();
+		console.log(FormData);
+	},
 	buildChart : function() {
 		switch (FormData.type.primary) {
 			case "pie" :
@@ -107,6 +119,10 @@ ChartType = {
 			$("li." + value).css("display", "block");
 		});
 	},
+	reset : function() {
+		// set to default values
+		
+	},
 	getValue : function() {
 		var type = $("#type-chart").attr("value");
 		// set the form Data object if the chart type is set
@@ -118,6 +134,9 @@ ChartType = {
 };
 
 ChartSize = {
+	reset : function() {
+		// set to default values
+	},
 	getValue : function() {
 		FormData.size = {
 			height : parseFloat($("#size-height").attr("value")),
@@ -147,6 +166,9 @@ ChartColors = {
 	scheme2 : ["1f77b4","aec7e8","ff7f0e","ffbb78","2ca02c","98df8a","d62728","ff9896","9467bd","c5b0d5","8c564b","c49c94","e377c2","f7b6d2","7f7f7f","c7c7c7","bcbd22","dbdb8d","17becf","9edae5"],
 	scheme3 : ["393b79","5254a3","6b6ecf","9c9ede","637939","8ca252","b5cf6b","cedb9c","8c6d31","bd9e39","e7ba52","e7cb94","843c39","ad494a","d6616b","e7969c","7b4173","a55194","ce6dbd","de9ed6"],
 	scheme4 : ["3182bd","6baed6","9ecae1","c6dbef","e6550d","fd8d3c","fdae6b","fdd0a2","31a354","74c476","a1d99b","c7e9c0","756bb1","9e9ac8","bcbddc","dadaeb","636363","969696","bdbdbd","d9d9d9"],
+	reset : function() {
+		// set to default values
+	},
 	// I'll need to dig up a few more color schemes. I may ask the designers to contribute
 	getValue : function() {
 		// this function will return the current color scheme by cycling through the inputs and gathering the data from them
@@ -287,6 +309,9 @@ ChartData = {
 		this.dataSource();
 		this.dataStructure();
 	},
+	reset : function() {
+		// set to default values
+	},
 	getValue : function() {
 		
 		FormData.data = {
@@ -375,6 +400,9 @@ ChartTheme = {
 	init : function() {
 		this.addColorPickers();
 	},
+	reset : function() {
+		// set to default values
+	},
 	getValue : function() {
 		var theme = {};
 		
@@ -451,12 +479,15 @@ ChartTheme = {
 };
 
 ChartEvents = {
+	reset : function() {
+		// set to default values
+	},
 	getValue : function() {
 		
 	}
 };
 
-// run everything at document ready
+// run everything at document ready - this is the master controller!!!
 $(document).ready(function()
 {
 	// initialise interactive parts of the form
@@ -480,25 +511,6 @@ $(document).ready(function()
         'fadeIn' : true,
         'fadeSpeed' : 300
 	});
-	
-	// instead of making generic chart, do a getValue and build from the form object
-	
-	// start off by making the generic pie chart
-	/*
-	var chart = document.getElementById("chart-preview");
-	d3.pie(chart, {
-        'radius': 280,
-        'width' : 700,
-        'height' : 700,
-        'padding': 10,
-        'dataUrl' : 'data/data.json',
-        'dataType' : 'json',
-        'dataStructure' : {
-			'name' : 'name',
-			'value' : 'value'
-        }
-    });
-	*/
 	
 });
 

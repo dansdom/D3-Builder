@@ -23,7 +23,7 @@ a:link {-webkit-tap-highlight-color:#1b75bb}
 ::-moz-selection {background:#1b75bb}
 ::selection {background:#1b75bb}
 /* General */
-.rounded {-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px}
+.rounded {border-radius:8px}
 .innerLight {-webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,0.25);-moz-box-shadow:inset 0 1px 0 rgba(255,255,255,0.25);box-shadow:inset 0 1px 0 rgba(255,255,255,0.25)}
 .innerDark {-webkit-box-shadow:inset 0 1px 0 rgba(0,0,0,0.25);-moz-box-shadow:inset 0 1px 0 rgba(0,0,0,0.25);box-shadow:inset 0 1px 0 rgba(0,0,0,0.25)}
 .textDark {text-shadow:0 1px 0 rgba(0,0,0,0.75)}
@@ -31,11 +31,11 @@ a:link {-webkit-tap-highlight-color:#1b75bb}
 
 /* LAYOUT  
  * ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
-#content{background:#fff}
+#content{background:#fff;margin:20px auto;border-radius:10px;border:1px solid rgba(0,0,0,0.2);box-shadow:2px 2px 5px rgba(0,0,0,0.3)}
 
 /* MODULES 
  * ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
-.module {padding:10px;margin:0 0 20px 0;background:#eee;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px}
+.module {padding:10px;margin:0 0 20px 0;background:#eee;border:1px solid #e0e0e0;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;box-shadow:2px 2px 4px rgba(0,0,0,0.4)}
 .module p:last-child {margin:0}
 .abstract {position:relative;clear:both;overflow:hidden}
 .abstract img {float:left;margin:5px 10px 0 0}
@@ -76,7 +76,7 @@ a:link {-webkit-tap-highlight-color:#1b75bb}
 .grid.dark-icons .grid-3 {background:#333;padding-top:20px}
 .grid.dark-icons li {color:#fff}
 /* Buttons */
-.btn,form .submit input {display:inline-block;font-size:12px;font-weight:bold;line-height:12px;color:#fff;letter-spacing:normal;white-space:nowrap;background:#0676BE;border:1px solid #1250a5;height:auto;width:auto;cursor:pointer;padding:4px 8px 1px;text-shadow:0 -1px 0 rgba(0,0,0,0.25);-webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,0.25);-moz-box-shadow:inset 0 1px 0 rgba(255,255,255,0.25);box-shadow:inset 0 1px 0 rgba(255,255,255,0.25);-webkit-appearance: none}
+.btn,form .submit input {display:inline-block;font-size:12px;font-weight:bold;line-height:12px;color:#fff;letter-spacing:normal;white-space:nowrap;background:#0676BE;border:1px solid #1250a5;height:auto;width:auto;cursor:pointer;padding:4px 8px 1px;text-shadow:0 -1px 0 rgba(0,0,0,0.25);box-shadow:inset 2px 2px 3px rgba(255,255,255,0.3), 2px 2px 3px rgba(0, 0, 0, 0.5);-webkit-appearance: none}
 .btn:hover,.taglist a:hover, .btn.active {background:#222;border-color:#222;color:#fff}
 .btn.small {font-size:11px;font-weight:normal;padding:3px 7px 4px;line-height:16px;width:auto}
 .btn.inactive {background:#ddd;border-color:#ccc;color:#999;text-shadow:0 1px 0 rgba(255,255,255,0.75)}
@@ -98,9 +98,11 @@ a:link {-webkit-tap-highlight-color:#1b75bb}
 
 /* PAGE SPECIFIC
  * ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+section[role="region"] .grid {overflow:visible}
 #actionNav {margin-bottom:0;}
 #actionNav ul {float:right;padding-bottom:20px;}
 #actionNav li.label {margin-right:10px;font-weight:bold;}
+#actionNav #build-update {background:#b72121;border:1px solid #663535}
 /* Chart Form */
 #formNav li {margin:2px 0;border-radius:4px}
 #formNav li a {color:#fff;display:block;height:18px;line-height:18px;}
