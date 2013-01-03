@@ -98,7 +98,7 @@ a:link {-webkit-tap-highlight-color:#1b75bb}
 
 /* PAGE SPECIFIC
  * ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
-section[role="region"] .grid {overflow:visible}
+section[role="region"] .grid {overflow:visible;}
 #actionNav {margin-bottom:0;}
 #actionNav ul {float:right;padding-bottom:20px;}
 #actionNav li.label {margin-right:10px;font-weight:bold;}
@@ -126,6 +126,8 @@ li.theme-data {display:none}
 .palette li {list-style:none;position:relative;display:none;clear:none;height:26px;width:26px;float:left;margin:2px 1px 4px;padding:0;background:red;border-radius:2px;}
 .palette li.selected {display:block}
 .palette li input {display:none}
+
+#chart-preview {min-height:400px}
 
 
 /* PLUGINS (jQuery)  
