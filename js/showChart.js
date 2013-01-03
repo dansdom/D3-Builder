@@ -89,7 +89,7 @@ PieChart = {
 
         // destroy the current chart if it's not a pie
         if (FormData.type.current && FormData.type.current !== "pie") {
-            console.log("destrying old chart");
+            console.log("destroying old chart");
             //$("#chart-preview svg").remove();
             d3[FormData.type.current](chart, "destroy");
         }
@@ -140,7 +140,7 @@ PackChart = {
 
         // destroy the current chart if it's not a pie
         if (FormData.type.current && FormData.type.current !== "pack") {
-            console.log("destrying old chart");
+            console.log("destroying old chart");
             //$("#chart-preview svg").remove();
             d3[FormData.type.current](chart, "destroy");
         }

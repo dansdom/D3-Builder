@@ -93,6 +93,7 @@
 								            <option value="pie">Pie</option>
 											<option value="pack">Pack</option>
 											<option value="sunburst">Sunburst</option>
+											<option value="force">Force</option>
 							            </select>
 							        </li>
 									<li class="type-settings pie">
@@ -114,6 +115,13 @@
 										<select id="type-chart-sunburst" name="type-chart-sunburst">
 											<option value="" selected="selected"></option>
 											<option value=""></option>
+										</select>
+									</li>
+									<li class="type-settings force">
+										<label for="type-chart-sunburst">Force Type</label>
+										<select id="type-chart-sunburst" name="type-chart-sunburst">
+											<option value="" selected="selected">collapsable</option>
+											<option value="">non-collapsable</option>
 										</select>
 									</li>
 								</ul>
@@ -271,7 +279,7 @@
 							            <input type="text" size="20" name="data-value" id="data-value" placeholder="select the value of a data item" value="size">
 							        </li>
 									<li class="data-attributes children">
-							          	<label for="data-children">Data Parent</label>
+							          	<label for="data-children">Data Children</label>
 							            <input type="text" size="20" name="data-children" id="data-children" placeholder="select the child name of a data item" value="group">
 							        </li>
 									<li class="data-scale scaleX">
@@ -426,6 +434,7 @@
 	<!-- D3 plugins -->
 	<script src="js/d3/pie.js"></script>
 	<script src="js/d3/pack.js"></script>
+	<script src="js/d3/force.js"></script>
 	<!-- custom interface -->
 	<script src="js/interface.js"></script>
 	<script src="js/showChart.js"></script>

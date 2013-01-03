@@ -59,7 +59,6 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             // define the data format - not 100% sure what this does. will need to research this attribute
             //container.format = d3.format(",d");
             
-
             // go get the data
             this.getData();
 
@@ -369,6 +368,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         destroy : function() {
             this.el.removeAttribute(this.namespace);
             this.el.removeChild(this.el.children[0]);
+            this.el[this.namespace] = null;
         }     
     };
     

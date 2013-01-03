@@ -459,6 +459,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         destroy : function() {
             this.el.removeAttribute(this.namespace);
             this.el.removeChild(this.el.children[0]);
+            this.el[this.namespace] = null;
         }     
     };
     
