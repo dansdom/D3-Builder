@@ -35,7 +35,7 @@ a:link {-webkit-tap-highlight-color:#1b75bb}
 
 /* MODULES 
  * ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
-.module {padding:10px;margin:0 0 20px 0;background:#eee;border:1px solid #e0e0e0;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;box-shadow:2px 2px 4px rgba(0,0,0,0.4)}
+.module {padding:10px;margin:0 0 20px 0;background:#eee;border:1px solid #e0e0e0;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;box-shadow:2px 2px 5px rgba(0,0,0,0.4)}
 .module p:last-child {margin:0}
 .abstract {position:relative;clear:both;overflow:hidden}
 .abstract img {float:left;margin:5px 10px 0 0}
