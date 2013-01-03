@@ -39,7 +39,8 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         'colors' : {            // colors for the nodes
             'parent' : 'white',
             'group' : 'blue',
-            'child' : 'red'
+            'child' : 'red',
+            'line' : 'green'
         },
         'fontSize' : 12,
         // defines the data structure of the document
@@ -143,11 +144,13 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
 
             // update the links
             container.links = container.chart.selectAll("line.link")
-                .data(tree, function(d) { return d.target.id; });
+                .data(tree, function(d) { return d.target.id; })
+                .style("stroke", container.opts.colors.line);
 
             // enter any new lines
             container.links.enter().insert("svg:line", ".node")
                 .attr("class", "link")
+                .style("stroke", container.opts.colors.line)
                 .attr("x1", function(d) { return d.source.x; })
                 .attr("y1", function(d) { return d.source.y; })
                 .attr("x2", function(d) { return d.target.x; })
@@ -300,7 +303,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             // I need to sort out whether I want to refresh the graph when the settings are changed
             this.opts = Extend(true, {}, this.opts, settings);
             // will make custom function to handle setting changes
-            this.applySettings();
+            this.getData();
         },
         // kills the chart
         destroy : function() {

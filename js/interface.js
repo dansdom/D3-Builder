@@ -81,7 +81,10 @@ ChartBuilder = {
 				PackChart.init();
 				break;
 			case "sunburst" :
-				Sunburst.init();
+				SunburstChart.init();
+				break;
+			case "force" :
+				ForceChart.init();
 				break;
 			default :
 				break;
