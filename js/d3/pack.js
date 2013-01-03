@@ -35,6 +35,12 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         'dataType' : 'json',
         // instead of defining a color array, I will set a color scale and then let the user overwrite it
         'colorRange' : [],
+        'colors' : {
+            'group' : 'blue',
+            'leaf' : 'green',
+            'label' : 'black'
+        },
+        'opacity' : 0.2,
         'chartType' : 'pack',
         'fontSize' : 12,
         // defines the data structure of the document
@@ -85,7 +91,12 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 // remove the old nodes
                 this.placeOldBubbleNodes();
                 // place the new nodes
-                this.placeNewBubbleNodes();  
+                this.placeNewBubbleNodes();
+                // make sure the style is right
+                container.chart.selectAll(".node").selectAll("circle")
+                    .style("fill-opacity", 1)
+                    .style("stroke", null)
+
             }
             // if type = Pack (i.e. deep representation)
             else if (container.opts.chartType == 'pack') {
@@ -97,7 +108,17 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 // remove the old nodes
                 this.placeOldPackNodes();
                 // place the new nodes
-                this.placeNewPackNodes();  
+                this.placeNewPackNodes();
+                // style the circles
+                
+                container.chart.selectAll(".group").selectAll("circle")
+                    .style("stroke", container.opts.colors.group)
+                    .style("fill", container.opts.colors.group)
+                    .style("fill-opacity", container.opts.opacity);
+
+                container.chart.selectAll(".leaf").selectAll("circle")
+                    .style("fill", container.opts.colors.leaf);
+                
             }
         },
         setLayout : function() {

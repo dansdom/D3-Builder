@@ -126,8 +126,13 @@ PackChart = {
                 break;
             default : break;
         };
-        this.chartType = FormData.type.secondary;
+        this.settings.chartType = FormData.type.secondary;
         this.settings.colorRange = FormData.colors;
+        this.settings.colors = {
+            'group' : FormData.colors[0],
+            'leaf' : FormData.colors[1],
+            'label' : FormData.colors[2]
+        };
         this.settings.fontSize = FormData.theme.labelSize;
         this.settings.dataStructure = FormData.data.attributes;
         // I'll need to add this to the form
