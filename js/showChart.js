@@ -253,6 +253,8 @@ SunburstChart = {
         var chart = document.getElementById("chart-preview"),
             settings = this.settings;
 
+        console.log(settings);
+
         // destroy the current chart if it's not a pie
         if (FormData.type.current && FormData.type.current !== "sunburst") {
             console.log("destroying old chart");

@@ -94,7 +94,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             // set the layout for the chart
             this.setLayout();
 
-            container.path = container.chart.datum(container.data).selectAll("path")
+            container.path = container.chart.datum(container.data).select(".sunburst").selectAll("path")
                 .data(container.partition.nodes);
 
             container.path
@@ -138,23 +138,35 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         setLayout : function() {
             var container = this;
 
-            // create the svg element that holds the chart
+            // define the svg element that holds the chart
             if (!container.chart) {
-                container.chart = d3.select(container.el).append("svg")
-                    .attr("width", container.opts.width)
-                    .attr("height", container.opts.height)
-                    .append("g")
-                    .attr("transform", "translate(" + (container.opts.width / 2) + "," + (container.opts.height / 2) + ")");
+                container.chart = d3.select(container.el).append("svg");
+                    
             }
+            container.chart
+                .attr("width", container.opts.width)
+                .attr("height", container.opts.height);
 
+            // define the sunburst element
+            if (!container.sunburst) {
+                container.sunburst = container.chart.append("g")
+                    .attr("class", "sunburst");
+            }
+            container.sunburst
+                .attr("transform", "translate(" + (container.opts.width / 2) + "," + (container.opts.height / 2) + ")");
+
+            // define the partition element
             if (!container.partition) {
                 container.partition = d3.layout.partition()
-                    .sort(null)
-                    .size([2 * Math.PI, container.opts.radius * container.opts.radius])
-                    .children(function(d) {return d[container.opts.dataStructure.children]})
-                    .value(function(d) { return d[container.opts.dataStructure.value]; });
+                    .sort(null);
+                    
             }
+            container.partition
+                .size([2 * Math.PI, container.opts.radius * container.opts.radius])
+                .children(function(d) {return d[container.opts.dataStructure.children]})
+                .value(function(d) { return d[container.opts.dataStructure.value]; });
 
+            // define the arc
             if (!container.arc) {
                 container.arc = d3.svg.arc()
                     .startAngle(function(d) { return d.x; })
