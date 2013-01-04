@@ -28,6 +28,10 @@ PieChart = {
         this.settings.colorRange = FormData.colors;
         this.settings.fontSize = FormData.theme.labelSize;
         this.settings.dataStructure = FormData.data.attributes;
+        // if it's flat then set the parent to 'undefined'
+        if (FormData.data.structure === "flat") {
+            this.settings.dataStructure.children = undefined;
+        }
         this.settings.chartName = FormData.theme.headerName;
     },
     buildChart : function() {
@@ -43,7 +47,6 @@ PieChart = {
             
         d3.pie(chart, settings);
         FormData.type.current = "pie";
-        console.log("current: " + FormData.type.current);
     }
 };
 

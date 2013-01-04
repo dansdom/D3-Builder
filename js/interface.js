@@ -1,10 +1,14 @@
- // TO DO LIST:
-// 1. crack on with data handling in the form - start with getValue
+// TO DO LIST:
+// 1. I think the data options aren't 100% yet
 // 2. work out WTF I'm doing with the chart events
-// 3. make sure each form section is updating the global formData object
-// 4. start building out the update Chart functions
-// 5. Figure out some tech (PHP) to hook up the code packaging operations
-// 6. optimise the jQuery selectors. atm they are like a big pile of shit.
+// 3. Figure out some tech (PHP) to hook up the code packaging operations
+// 4. optimise the jQuery selectors. atm they are like a big pile of shit.
+// 5. look at support for CSV files
+// 6. start hooking up the 'upload file' option
+
+// Priorities:
+// 1. add a data.allowed object to the form data so that I can control data options for each chart
+// 2. Add a form validator that should run before the buildChart function (might need to fiddle with my validator)
 
 
 // this object is used to handle the form data on the page
@@ -33,9 +37,6 @@ ChartBuilder = {
 		
 		// I'll definately need some form validation as I don't want the user to trip shit up
 		// maybe even fall back to a default value if the values are shite?
-		
-		var builder = this;
-		
 		$("#build-update").on("click", function() {
 			// I'll need a function to grab all the form data here
 			ChartBuilder.takeSnapshot();
@@ -62,8 +63,7 @@ ChartBuilder = {
 			// build the chart
 			ChartBuilder.setFormValues();
 			// onve this is done I will show the saved chart
-			// will put this back when finished debugging setFormValues()
-			//ChartBuilder.buildChart();
+			ChartBuilder.buildChart();
 		});
 		
 		$("#build-submit").on("click", function() {
@@ -104,6 +104,12 @@ ChartBuilder = {
 		console.log(FormData);
 	},
 	resetForm : function() {
+		// I need to destroy the current chart
+		var chart = document.getElementById("chart-preview");
+		if (FormData.type.current) {
+ 			d3[FormData.type.current](chart, "destroy");
+ 			FormData.type.current = null;
+ 		}
 		// quick win - make every select box have the first option selected
 		$("#chart-settings select").each(function() {
 			$(this).find(":eq(0)").attr("selected", "selected");			
@@ -210,8 +216,8 @@ ChartType = {
 ChartSize = {
 	reset : function() {
 		// set to default values
-		$("#size-height").attr("value", "700");
-		$("#size-width").attr("value", "700");
+		$("#size-height").attr("value", "800");
+		$("#size-width").attr("value", "800");
 		$("#size-outer-radius").attr("value", "280");
 		$("#size-inner-radius").attr("value", "10");
 		$("#size-padding").attr("value", "10");
