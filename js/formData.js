@@ -3,7 +3,7 @@
 FormDefault = {
     type : {
         current : null,  // this stores the currently displayed chart type to handle the transitions
-        primary : "pie",
+        primary : 0,
         secondary : "pie"
     },
     size : {
@@ -58,7 +58,7 @@ FormDefault = {
 FormData = {
     type : {
         current : null,  // this stores the currently displayed chart type to handle the transitions
-        primary : "pie",
+        primary : 0,
         secondary : "pie"
     },
     size : {

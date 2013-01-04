@@ -57,7 +57,7 @@
 						<li><input type="button" value="Reset Chart" class="btn rounded" id="build-reset"></li>
 						<li><input type="button" value="Save Changes" class="btn rounded" id="build-save"></li>
 						<li><input type="button" value="Load Saved Chart" class="btn rounded" id="build-load"></li>
-						<li><input type="submit" value="Generate Chart Code" class="btn rounded" id="build-submit"></li>
+						<li><input type="submit" value="Generate Chart Code" class="btn rounded inactive" id="build-submit"></li>
 					</ul>
 	    		</nav>
     		</section>
@@ -79,7 +79,7 @@
 								<li class="btn"><a href="#">Colors</a></li>
 								<li class="btn"><a href="#">Data</a></li>
 								<li class="btn"><a href="#">Theme</a></li>
-								<li class="btn"><a href="#">Events</a></li>
+								<li class="btn inactive"><a href="#">Events</a></li>
 							</ul>
 						</nav>
 						
@@ -335,14 +335,14 @@
 									<li class="theme-header">
 							          	<label for="theme-header-position">Header Position</label>
 							            <select class="small" id="theme-header-position" name="theme-header-position">
-								            <option selected="selected">top left</option>
-											<option>top center</option>
-											<option>top right</option>
-											<option>center left</option>
-											<option>center right</option>
-											<option>bottom left</option>
-											<option>bottom center</option>
-											<option>bottom right</option>
+								            <option value="topleft" selected="selected">top left</option>
+											<option value="topcenter">top center</option>
+											<option value="topright">top right</option>
+											<option value="centerleft">center left</option>
+											<option value="centerright">center right</option>
+											<option value="bottomleft">bottom left</option>
+											<option value="bottomcenter">bottom center</option>
+											<option value="bottomright">bottom right</option>
 							            </select>
 							        </li>
 									<li class="theme-header">

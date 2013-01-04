@@ -76,7 +76,7 @@ a:link {-webkit-tap-highlight-color:#1b75bb}
 .grid.dark-icons .grid-3 {background:#333;padding-top:20px}
 .grid.dark-icons li {color:#fff}
 /* Buttons */
-.btn,form .submit input {display:inline-block;font-size:12px;font-weight:bold;line-height:12px;color:#fff;letter-spacing:normal;white-space:nowrap;background:#0676BE;border:1px solid #1250a5;height:auto;width:auto;cursor:pointer;padding:4px 8px 1px;text-shadow:0 -1px 0 rgba(0,0,0,0.25);box-shadow:inset 2px 2px 3px rgba(255,255,255,0.3), 2px 2px 3px rgba(0, 0, 0, 0.5);-webkit-appearance: none}
+.btn,form .submit input {display:inline-block;font-size:12px;font-weight:bold;line-height:12px;color:#fff;letter-spacing:normal;white-space:nowrap;background:#0676BE;border:1px solid #1250a5;height:auto;width:auto;cursor:pointer;padding:4px 8px 1px;text-shadow:0 -1px 0 rgba(0,0,0,0.8);box-shadow:inset 2px 2px 3px rgba(255,255,255,0.3), 2px 2px 3px rgba(0, 0, 0, 0.5);-webkit-appearance: none}
 .btn:hover,.taglist a:hover, .btn.active {background:#222;border-color:#222;color:#fff}
 .btn.small {font-size:11px;font-weight:normal;padding:3px 7px 4px;line-height:16px;width:auto}
 .btn.inactive {background:#ddd;border-color:#ccc;color:#999;text-shadow:0 1px 0 rgba(255,255,255,0.75)}
@@ -106,6 +106,7 @@ section[role="region"] .grid {overflow:visible;}
 /* Chart Form */
 #formNav li {margin:2px 0;border-radius:4px}
 #formNav li a {color:#fff;display:block;height:18px;line-height:18px;}
+#formNav li.inactive a, #formNav li.inactive:hover a {color:#999;}
 #formNav .active a, #formNav li:hover a {color:#fff}
 #chart-settings fieldset {display:none}
 fieldset.theme ul {border-bottom:1px solid #000;padding:5px 0}

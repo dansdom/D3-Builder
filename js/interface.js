@@ -11,8 +11,8 @@
 ChartBuilder = {
 	init : function() {
 		// handle action button events
-		this.submission();
-		// set up form tabs
+		this.formActions();
+		// set up checkbox sections
 		this.showSection();
 		// resets the form
 		this.resetForm();
@@ -29,7 +29,7 @@ ChartBuilder = {
 			ChartBuilder.buildChart();
 		});
 	},
-	submission : function() {
+	formActions : function() {
 		
 		// I'll definately need some form validation as I don't want the user to trip shit up
 		// maybe even fall back to a default value if the values are shite?
@@ -55,12 +55,15 @@ ChartBuilder = {
 		});
 
 		$("#build-load").on("click", function() {
+			// reset the form first
+			ChartBuilder.resetForm();
 			// load the chart data from the cookie
 			ChartBuilder.getCookie();
 			// build the chart
 			ChartBuilder.setFormValues();
 			// onve this is done I will show the saved chart
-			ChartBuilder.buildChart();
+			// will put this back when finished debugging setFormValues()
+			//ChartBuilder.buildChart();
 		});
 		
 		$("#build-submit").on("click", function() {
@@ -97,6 +100,7 @@ ChartBuilder = {
 		ChartData.getValue();
 		ChartTheme.getValue();
 		ChartEvents.getValue();
+		console.log('taking snapshot');
 		console.log(FormData);
 	},
 	resetForm : function() {
@@ -115,17 +119,22 @@ ChartBuilder = {
 		ChartData.reset();
 		ChartTheme.reset();
 		ChartEvents.reset();
+		console.log('resetting form');
 		console.log(FormData);
+		// reset the form data object
+		FormData = FormDefault;
 	},
 	setFormValues : function() {
 		// this is the function that takes the cookie value and inserts it into the form
+		console.log('setting form values');
+		console.log(FormData);
 		ChartType.setValue();
 		ChartSize.setValue();
 		ChartColors.setValue();
 		ChartData.setValue();
 		ChartTheme.setValue();
 		ChartEvents.setValue();
-		console.log(FormData);
+		
 	},
 	buildChart : function() {
 		switch (FormData.type.primary) {
@@ -152,7 +161,7 @@ ChartBuilder = {
 	},
 	getCookie : function() {
 		// returns the cookie
-		return JSON.parse($.cookie("chart_cookie"));
+		FormData = JSON.parse($.cookie("chart_cookie"));
 	},
 	removeCookie : function() {
 		// deletes the cookie
@@ -174,9 +183,18 @@ ChartType = {
 			$("li." + value).css("display", "block");
 		});
 	},
-	setValues: function() {
+	reset : function() {
+		// nothing to do here yet
+	},
+	setValue : function() {
 		// set to default values
-		// nothing to do here for now
+		$("#type-chart").attr("value", FormData.type.primary);
+		// if the primary is set then find the secondary
+		if (FormData.type.primary) {
+			// shoe the submenu
+			$("li.type-settings." + FormData.type.primary).css("display", "block");
+			$("#type-chart-" + FormData.type.primary).attr("value", FormData.type.secondary);
+		}
 	},
 	getValue : function() {
 		var type = $("#type-chart").attr("value");
@@ -196,6 +214,14 @@ ChartSize = {
 		$("#size-outer-radius").attr("value", "280");
 		$("#size-inner-radius").attr("value", "10");
 		$("#size-padding").attr("value", "10");
+	},
+	setValue : function() {
+		// set to default values
+		$("#size-height").attr("value", FormData.size.height);
+		$("#size-width").attr("value", FormData.size.width);
+		$("#size-outer-radius").attr("value", FormData.size.outerRadius);
+		$("#size-inner-radius").attr("value", FormData.size.innerRadius);
+		$("#size-padding").attr("value", FormData.size.padding);
 	},
 	getValue : function() {
 		FormData.size = {
@@ -228,7 +254,29 @@ ChartColors = {
 	scheme4 : ["3182bd","6baed6","9ecae1","c6dbef","e6550d","fd8d3c","fdae6b","fdd0a2","31a354","74c476","a1d99b","c7e9c0","756bb1","9e9ac8","bcbddc","dadaeb","636363","969696","bdbdbd","d9d9d9"],
 	reset : function() {
 		// set to default values
-		// nothing to do here for now
+		// set it to a custom scheme
+		$("#color-scheme").attr("value", 0);
+		// set palette size to auto
+		$("#color-palette-size").attr("value", 0);
+		// remove the selected class
+		$("fieldset.color .palette li").removeClass("selected");
+
+	},
+	setValue : function() {
+		// set to default values
+		var paletteSize = FormData.colors.length,
+			paletteList = $("fieldset.color .palette li");
+
+		// set it to a custom scheme
+		$("#color-scheme").attr("value", 0);
+		// set palette size to auto
+		$("#color-palette-size").attr("value", 0);
+
+		for (var i = 0; i < paletteSize; i++) {
+			$(paletteList[i]).addClass("selected").find("input").attr("value", FormData.colors[i]).trigger("keyup");
+		}
+		// remove selected class from any item greater than the list length
+		$("fieldset.color .palette li:gt(" + paletteSize + ")").removeClass("selected");
 	},
 	// I'll need to dig up a few more color schemes. I may ask the designers to contribute
 	getValue : function() {
@@ -375,6 +423,24 @@ ChartData = {
 		$("#data-name").attr("value", "name");
 		$("#data-value").attr("value", "value");
 		$("#data-children").attr("value", "group");
+		$(".data-source").css("display", "none");
+		$(".data-source.dummy").css("display", "block");
+	},
+	setValue : function() {
+		// set to default values
+		$("#data-source").attr("value", FormData.data.source);
+
+		$(".data-source").css("display", "none");
+		var dataSource = $(".data-source." + FormData.data.source);
+		dataSource.css("display","block");
+
+		// the rest of the form
+		$("#data-structure").attr("value", FormData.data.structure);
+		$("#data-name").attr("value", FormData.data.attributes.name);
+		$("#data-value").attr("value", FormData.data.attributes.value);
+		$("#data-children").attr("value", FormData.data.attributes.children);
+		$("#data-scaleX").attr("value", FormData.data.scale.x);
+		$("#data-scaleY").attr("value", FormData.data.scale.y);
 	},
 	getValue : function() {
 		
@@ -426,18 +492,6 @@ ChartData = {
 			}
 		});
 	},
-	// I think I might a function for each of the data sources
-	sourceDummy : function() {
-		$("#dummy-data").on("change", function() {
-			// run the change function
-		});
-	},
-	sourceUrl : function() {
-		
-	},
-	sourceFile : function() {
-		
-	},
 	dataStructure : function() {
 		// handle the data structure select box
 		$("#data-structure").on("change", function() {
@@ -479,6 +533,43 @@ ChartTheme = {
 		$("#theme-data-border-color").attr("value", "000000").trigger("keyup");
 		// hide the sections
 		$("fieldset.theme .theme-background, fieldset.theme .theme-header, fieldset.theme .theme-labels, fieldset.theme .theme-data").css("display", "none");
+	},
+	setValue : function() {
+		// set to default values
+		// if there is a background color then set it
+		if (FormData.theme.backgroundColor) {
+			$("#theme-background").attr("checked", "checked");
+			$("li.theme-background").css("display", "block");
+			$("#theme-background-color").attr("value", FormData.theme.backgroundColor).trigger("keyup");
+		}
+		// if there is a header then set it
+		if (FormData.theme.headerName) {
+			$("#theme-header").attr("checked", "checked");
+			$("#li.theme-header").css("display", "block");
+			$("#theme-header-name").attr("value", FormData.theme.headerName);
+			$("#theme-header-size").attr("value", FormData.theme.headerSize);
+			$("#theme-header-position").attr("value", FormData.theme.headerPosition);
+			$("#theme-header-offsetY").attr("value", FormData.theme.headerOffset.y);
+			$("#theme-header-offsetX").attr("value", FormData.theme.headerOffset.x);
+			$("#theme-header-color").attr("value", FormData.theme.headerColor).trigger("keyup");
+		}
+		// if there are labels
+		if (FormData.theme.labelSize) {
+			$("#theme-labels").attr("checked", "checked");
+			$("li.theme-labels").css("display", "block");
+			$("#theme-label-size").attr("value", FormData.theme.labelSize);
+			$("#theme-label-position").attr("value", FormData.theme.labelPosition);
+			$("#theme-label-color").attr("value", FormData.theme.labelColor).trigger("keyup");
+		}
+		// the borders - still to do
+		if (FormData.theme.borderSize) {
+
+		}
+		// still haven't build the data stuff in the theme object
+		if (FormData.theme.data) {
+
+		}
+
 	},
 	getValue : function() {
 		var theme = {};
@@ -559,6 +650,10 @@ ChartEvents = {
 	reset : function() {
 		// set to default values
 		// nothing to do here just yet
+	},
+	setValue : function() {
+		// set to default values
+		// nothing to do here for now
 	},
 	getValue : function() {
 		
