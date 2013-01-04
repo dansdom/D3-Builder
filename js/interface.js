@@ -13,7 +13,7 @@ ChartBuilder = {
 		this.submission();
 		this.showSection();
 		// resets the form
-		//this.resetForm();
+		this.resetForm();
 		// take a snapshot and store the form value so that the user can undo any changes
 		this.takeSnapshot();
 		
@@ -33,10 +33,25 @@ ChartBuilder = {
 		
 		var builder = this;
 		
-		$("#build-update").click(function() {
+		$("#build-update").on("click", function() {
 			// I'll need a function to grab all the form data here
 			ChartBuilder.takeSnapshot();
 			ChartBuilder.buildChart();
+		});
+
+		$("#build-reset").on("click", function() {
+			ChartBuilder.resetForm();
+		});
+
+		$("#build-save").on("click", function() {
+			// save the chart data to the cookie
+			ChartBuilder.takeSnapshot();
+			ChartBuilder.writeCookie();
+		});
+
+		$("#build-load").on("click", function() {
+			// load the chart data from the cookie
+			ChartBuilder.readCookie();
 		});
 		
 		$("#build-submit").on("click", function() {
@@ -46,6 +61,7 @@ ChartBuilder = {
 			// I'll have a seperate object to build the output
 			CodeBuilder.packageCode();
 		});
+
 	},
 	// show/hide sections in the form.
 	showSection : function() {
@@ -75,6 +91,14 @@ ChartBuilder = {
 		console.log(FormData);
 	},
 	resetForm : function() {
+		// quick win - make every select box have the first option selected
+		$("#chart-settings select").each(function() {
+			$(this).find(":eq(0)").attr("selected", "selected");			
+		});
+		// uncheck every checkbox
+		$("#chart-settings input[type='checkbox']").each(function() {
+			$(this).removeAttr("checked");
+		});
 		// reset the form to the default values
 		ChartType.reset();
 		ChartSize.reset();
@@ -121,7 +145,7 @@ ChartType = {
 	},
 	reset : function() {
 		// set to default values
-		
+		// nothing to do here for now
 	},
 	getValue : function() {
 		var type = $("#type-chart").attr("value");
@@ -136,6 +160,11 @@ ChartType = {
 ChartSize = {
 	reset : function() {
 		// set to default values
+		$("#size-height").attr("value", "700");
+		$("#size-width").attr("value", "700");
+		$("#size-outer-radius").attr("value", "280");
+		$("#size-inner-radius").attr("value", "10");
+		$("#size-padding").attr("value", "10");
 	},
 	getValue : function() {
 		FormData.size = {
@@ -168,6 +197,7 @@ ChartColors = {
 	scheme4 : ["3182bd","6baed6","9ecae1","c6dbef","e6550d","fd8d3c","fdae6b","fdd0a2","31a354","74c476","a1d99b","c7e9c0","756bb1","9e9ac8","bcbddc","dadaeb","636363","969696","bdbdbd","d9d9d9"],
 	reset : function() {
 		// set to default values
+		// nothing to do here for now
 	},
 	// I'll need to dig up a few more color schemes. I may ask the designers to contribute
 	getValue : function() {
@@ -311,6 +341,9 @@ ChartData = {
 	},
 	reset : function() {
 		// set to default values
+		$("#data-name").attr("value", "name");
+		$("#data-value").attr("value", "value");
+		$("#data-children").attr("value", "group");
 	},
 	getValue : function() {
 		
@@ -402,6 +435,19 @@ ChartTheme = {
 	},
 	reset : function() {
 		// set to default values
+		$("#theme-background-color").attr("value", "ffffff").trigger("keyup");
+		$("#theme-header-name").attr("value", "");
+		$("#theme-header-size").attr("value", "");
+		$("#theme-header-offsetY").attr("value", "");
+		$("#theme-header-offsetX").attr("value", "");
+		$("#theme-header-color").attr("value", "000000").trigger("keyup");
+		$("#theme-label-size").attr("value", "");
+		$("#theme-label-position").attr("value", "");
+		$("#theme-label-color").attr("value", "000000").trigger("keyup");
+		$("#theme-data-border-size").attr("value", "");
+		$("#theme-data-border-color").attr("value", "000000").trigger("keyup");
+		// hide the sections
+		$("fieldset.theme .theme-background, fieldset.theme .theme-header, fieldset.theme .theme-labels, fieldset.theme .theme-data").css("display", "none");
 	},
 	getValue : function() {
 		var theme = {};
@@ -481,6 +527,7 @@ ChartTheme = {
 ChartEvents = {
 	reset : function() {
 		// set to default values
+		// nothing to do here just yet
 	},
 	getValue : function() {
 		

@@ -54,8 +54,9 @@
 	    			<ul>
 	    				<li class="label">Build Options:</li>
 						<li><input type="button" value="Update Chart Preview" class="btn rounded" id="build-update"></li>
+						<li><input type="button" value="Reset Chart" class="btn rounded" id="build-reset"></li>
 						<li><input type="button" value="Save Changes" class="btn rounded" id="build-save"></li>
-						<li><input type="button" value="Undo Changes" class="btn rounded" id="build-undo"></li>
+						<li><input type="button" value="Load Saved Chart" class="btn rounded" id="build-load"></li>
 						<li><input type="submit" value="Generate Chart Code" class="btn rounded" id="build-submit"></li>
 					</ul>
 	    		</nav>
@@ -429,6 +430,7 @@
 	<script src="js/plugins/placeholder.js"></script>
 	<script src="js/plugins/tabs2.0.js"></script>
 	<script src="js/plugins/jpicker-1.1.6.min.js"></script>
+	<script src="js/plugins/jquery.cookie.min.js"></script>
 	<!-- D3 plugins -->
 	<script src="js/d3/pie.js"></script>
 	<script src="js/d3/pack.js"></script>
