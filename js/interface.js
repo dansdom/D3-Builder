@@ -10,7 +10,9 @@
 // this object is used to handle the form data on the page
 ChartBuilder = {
 	init : function() {
+		// handle action button events
 		this.submission();
+		// set up form tabs
 		this.showSection();
 		// resets the form
 		this.resetForm();
@@ -23,6 +25,7 @@ ChartBuilder = {
 			ChartBuilder.validateForm();
 			// store the form data object
 			ChartBuilder.takeSnapshot();
+			// build the chart
 			ChartBuilder.buildChart();
 		});
 	},
@@ -36,6 +39,7 @@ ChartBuilder = {
 		$("#build-update").on("click", function() {
 			// I'll need a function to grab all the form data here
 			ChartBuilder.takeSnapshot();
+			// build the chart
 			ChartBuilder.buildChart();
 		});
 
@@ -46,12 +50,17 @@ ChartBuilder = {
 		$("#build-save").on("click", function() {
 			// save the chart data to the cookie
 			ChartBuilder.takeSnapshot();
+			// build the chart
 			ChartBuilder.writeCookie();
 		});
 
 		$("#build-load").on("click", function() {
 			// load the chart data from the cookie
-			ChartBuilder.readCookie();
+			ChartBuilder.getCookie();
+			// build the chart
+			ChartBuilder.setFormValues();
+			// onve this is done I will show the saved chart
+			ChartBuilder.buildChart();
 		});
 		
 		$("#build-submit").on("click", function() {
@@ -108,6 +117,16 @@ ChartBuilder = {
 		ChartEvents.reset();
 		console.log(FormData);
 	},
+	setFormValues : function() {
+		// this is the function that takes the cookie value and inserts it into the form
+		ChartType.setValue();
+		ChartSize.setValue();
+		ChartColors.setValue();
+		ChartData.setValue();
+		ChartTheme.setValue();
+		ChartEvents.setValue();
+		console.log(FormData);
+	},
 	buildChart : function() {
 		switch (FormData.type.primary) {
 			case "pie" :
@@ -125,9 +144,21 @@ ChartBuilder = {
 			default :
 				break;
 		};
+	},
+	writeCookie : function() {
+		// writes a cookie with the form settings
+		console.log('writing cookie');
+		$.cookie("chart_cookie", JSON.stringify(FormData), {expires: 365});
+	},
+	getCookie : function() {
+		// returns the cookie
+		return JSON.parse($.cookie("chart_cookie"));
+	},
+	removeCookie : function() {
+		// deletes the cookie
+		$.removeCookie("chart_cookie");
 	}
 };
-
 
 
 // each section of the form will have it's own object that will control that part of the interface
@@ -143,7 +174,7 @@ ChartType = {
 			$("li." + value).css("display", "block");
 		});
 	},
-	reset : function() {
+	setValues: function() {
 		// set to default values
 		// nothing to do here for now
 	},
