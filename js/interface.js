@@ -3,8 +3,8 @@
 // 2. work out WTF I'm doing with the chart events
 // 3. make sure each form section is updating the global formData object
 // 4. start building out the update Chart functions
-// 5. number 4 will invovle hooking up the chart type fieldset. This I want to do after most of the other form elements
-// 6. Figure out some tech (PHP) to hook up the code packaging operations
+// 5. Figure out some tech (PHP) to hook up the code packaging operations
+// 6. optimise the jQuery selectors. atm they are like a big pile of shit.
 
 
 // this object is used to handle the form data on the page
@@ -184,7 +184,8 @@ ChartType = {
 		});
 	},
 	reset : function() {
-		// nothing to do here yet
+		// hide the sub menus
+		$("li.type-settings").css("display", "none");
 	},
 	setValue : function() {
 		// set to default values
@@ -421,7 +422,7 @@ ChartData = {
 	reset : function() {
 		// set to default values
 		$("#data-name").attr("value", "name");
-		$("#data-value").attr("value", "value");
+		$("#data-value").attr("value", "size");
 		$("#data-children").attr("value", "group");
 		$(".data-source").css("display", "none");
 		$(".data-source.dummy").css("display", "block");
