@@ -4,14 +4,19 @@
 // 3. Figure out some tech (PHP) to hook up the code packaging operations
 // 4. optimise the jQuery selectors. atm they are like a big pile of shit.
 // 5. look at support for CSV files
-// 6. start hooking up the 'upload file' option
+// 6. start hooking up the 'upload file' option - started, but need to change the plugins to accept the data object
+// 7. look at outputting css onto the page in the <style id="chart-style"></style> element
+// 8. investigate adding/changing chart data scales
+// 9. make more plugins. I want area, line and bar charts. After that I may go with a tree chart
+// 10. lots of work to implement the 'theme' options
 
 // Priorities:
 // 1. add a data.allowed object to the form data so that I can control data options for each chart
 // 2. Add a form validator that should run before the buildChart function (might need to fiddle with my validator)
 
-// Known Bugs
+// Known Bugs (that are bugging me)
 // 1. select pie (nested), build chart. then select flat data and build. Fails to build the flat chart
+// 2. changing from bubble to pack layout doesn't change the colors properly
 
 // this object is used to handle the form data on the page
 ChartBuilder = {
@@ -251,7 +256,7 @@ ChartSize = {
 		$("#size-width").attr("value", "600");
 		$("#size-outer-radius").attr("value", "270");
 		$("#size-inner-radius").attr("value", "10");
-		$("#size-padding").attr("value", "10");
+		$("#size-padding").attr("value", "0");
 	},
 	setValue : function() {
 		// set to default values
