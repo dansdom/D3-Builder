@@ -136,6 +136,8 @@ ChartBuilder = {
 		console.log(FormData);
 		// reset the form data object
 		FormData = FormDefault;
+		// show the first tab
+		$("#chart-settings").tabs("showTab", 0);
 	},
 	setFormValues : function() {
 		// this is the function that takes the cookie value and inserts it into the form

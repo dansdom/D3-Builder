@@ -1,4 +1,4 @@
-// object that builds the pie chart
+// object that builds the "pie" chart
 PieChart = {
     init : function() {
         this.getSettings();
@@ -38,10 +38,8 @@ PieChart = {
         var chart = document.getElementById("chart-preview"),
             settings = this.settings;
 
-        // destroy the current chart if it's not a pie
+        // destroy the current
         if (FormData.type.current && FormData.type.current !== "pie") {
-            console.log("destroying old chart");
-            //$("#chart-preview svg").remove();
             d3[FormData.type.current](chart, "destroy");
         }
             
@@ -50,7 +48,7 @@ PieChart = {
     }
 };
 
-// object that builds the pack chart
+// object that builds the "pack" chart
 PackChart = {
     init : function() {
         console.log("building pack chart");
@@ -91,9 +89,8 @@ PackChart = {
         var chart = document.getElementById("chart-preview"),
             settings = this.settings;
 
-        // destroy the current chart if it's not a pie
+        // destroy the current chart
         if (FormData.type.current && FormData.type.current !== "pack") {
-            console.log("destroying old chart");
             d3[FormData.type.current](chart, "destroy");
         }
 
@@ -103,7 +100,7 @@ PackChart = {
     }
 };
 
-// object that builds the force chart
+// object that builds the "force" chart
 ForceChart = {
     init : function() {
         console.log("building force chart");
@@ -147,9 +144,8 @@ ForceChart = {
         var chart = document.getElementById("chart-preview"),
             settings = this.settings;
 
-        // destroy the current chart if it's not a pie
+        // destroy the current chart
         if (FormData.type.current && FormData.type.current !== "force") {
-            console.log("destroying old chart");
             d3[FormData.type.current](chart, "destroy");
         }
 
@@ -159,7 +155,7 @@ ForceChart = {
     }
 };
 
-// object that builds the sunburst chart
+// object that builds the "sunburst" chart
 SunburstChart = {
     init : function() {
         console.log("building sunburst chart");
@@ -201,11 +197,8 @@ SunburstChart = {
         var chart = document.getElementById("chart-preview"),
             settings = this.settings;
 
-        console.log(settings);
-
-        // destroy the current chart if it's not a pie
+        // destroy the current chart
         if (FormData.type.current && FormData.type.current !== "sunburst") {
-            console.log("destroying old chart");
             d3[FormData.type.current](chart, "destroy");
         }
 
