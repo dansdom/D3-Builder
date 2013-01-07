@@ -92,11 +92,11 @@
 							        <li>
 							          	<label for="select">Select Chart Type</label>
 							          	<select id="type-chart" name="type-chart">
-											<option value="0" selected="selected">-- select a chart type --</option>
-								            <option value="pie">Pie</option>
-											<option value="pack">Pack</option>
-											<option value="sunburst">Sunburst</option>
-											<option value="force">Force</option>
+											<option value="0" data-allowed="none" selected="selected">-- select a chart type --</option>
+								            <option value="pie" data-allowed="both">Pie</option>
+											<option value="pack" data-allowed="nested">Pack</option>
+											<option value="sunburst" data-allowed="nested">Sunburst</option>
+											<option value="force" data-allowed="nested">Force</option>
 							            </select>
 							        </li>
 									<li class="type-settings pie">
@@ -431,6 +431,7 @@
 	<script src="js/plugins/tabs2.0.js"></script>
 	<script src="js/plugins/jpicker-1.1.6.min.js"></script>
 	<script src="js/plugins/jquery.cookie.min.js"></script>
+	<script src="js/plugins/filereader.min.js"></script>
 	<!-- D3 plugins -->
 	<script src="js/d3/pie.js"></script>
 	<script src="js/d3/pack.js"></script>

@@ -10,6 +10,8 @@
 // 1. add a data.allowed object to the form data so that I can control data options for each chart
 // 2. Add a form validator that should run before the buildChart function (might need to fiddle with my validator)
 
+// Known Bugs
+// 1. select pie (nested), build chart. then select flat data and build. Fails to build the flat chart
 
 // this object is used to handle the form data on the page
 ChartBuilder = {
@@ -184,9 +186,38 @@ ChartType = {
 	// handles the chart type selection interaction
 	showType : function() {
 		$("#type-chart").on("change", function() {
-			var value = $(this).attr("value");
+			var value = $(this).attr("value"),
+				dataSelect = $("#data-structure"),
+				// this is probably where I'm going to set the data.allowed flag
+				dataType = $(this).find(":selected").attr("data-allowed"),
+				options = '<option selected="selected" value="flat">flat</option><option value="nested">nested</option>';
+
+			// show the secondary chart type select box
 			$("li.type-settings").css("display", "none");
 			$("li." + value).css("display", "block");
+			
+			// refresh the data structure field
+			dataSelect.html(options);
+			console.log(dataType);
+			// can only select flat data - remove the nested option
+			if (dataType === "flat") {
+				$("#data-structure").find("option[value='nested']").remove();
+				$("#data-structrue").attr("value", "flat").change();
+				ChartData.selectDataStructure("flat");
+
+			}
+			// can only select nested data - remove the flat option
+			else if (dataType === "nested") {
+				$("#data-structure").find("option[value='flat']").remove();
+				$("#data-structrue").attr("value", "nested").change();
+				ChartData.selectDataStructure("nested");
+			}
+			// can select either
+			else if (dataType === "both") {
+				// just change it to flat
+				ChartData.selectDataStructure("flat");
+			}
+
 		});
 	},
 	reset : function() {
@@ -216,9 +247,9 @@ ChartType = {
 ChartSize = {
 	reset : function() {
 		// set to default values
-		$("#size-height").attr("value", "800");
-		$("#size-width").attr("value", "800");
-		$("#size-outer-radius").attr("value", "280");
+		$("#size-height").attr("value", "600");
+		$("#size-width").attr("value", "600");
+		$("#size-outer-radius").attr("value", "270");
 		$("#size-inner-radius").attr("value", "10");
 		$("#size-padding").attr("value", "10");
 	},
@@ -387,6 +418,10 @@ ChartColors = {
 		// event handling for the select box
 		$("#color-scheme").on("change", function() {
 			colorScheme = $(this).attr("value");
+			if (colorScheme === "0") {
+				console.log("not changing the scheme");
+				return;
+			}
 			//console.log(ChartColors[colorScheme].length);
 			// I will need to keep track of the color scheme length here. doh!
 			var schemeLength = ChartColors[colorScheme].length;
@@ -396,10 +431,7 @@ ChartColors = {
 			$("#color-palette-size").attr("value", 0);
 			// will need to set the palette to the right size for the particular scheme
 			ChartColors.paletteSize = schemeLength;
-			if (colorScheme === "0") {
-				console.log("not changing the scheme");
-				return;
-			}
+			
 			ChartColors.changeColorScheme(colorScheme);
 		});
 	},
@@ -424,6 +456,7 @@ ChartData = {
 	init : function() {
 		this.dataSource();
 		this.dataStructure();
+		this.handleFileUpload();
 	},
 	reset : function() {
 		// set to default values
@@ -477,6 +510,67 @@ ChartData = {
 		}
 		
 	},
+	fileData : {},  // data object to hold uploaded file
+	handleFileUpload : function() {
+
+		/*
+		function updateProgress(evt) {
+	        if (evt.lengthComputable) {
+	            // evt.loaded and evt.total are ProgressEvent properties
+	            var loaded = (evt.loaded / evt.total);
+	            if (loaded < 1) {
+	                // Increase the prog bar length
+	                style.width = (loaded * 200) + "px";
+	            }
+	         }
+	    };
+	    */
+	    
+	    // event handling for file input
+		$("#data-file").on("change", function(e) {
+	        var result = ChartData.readFile(this.files[0]),
+	        	reader = new FileReader(),
+	        	regex = /\.([0-9a-z]+)(?:[\?#]|$)/i,
+	        	fileType = this.files[0].name.match(regex)[0];
+
+	        if (fileType === ".json" || fileType === ".csv") {
+	        	// read the file
+	        	reader.readAsText(this.files[0], "UTF-8");
+	        	//reader.onprogress = updateProgress;
+	        	reader.onload = function(evt) {
+
+	        		var fileString = evt.target.result;
+			        // Handle UTF-16 file dump
+			        //$('#output_field').text(fileString);
+			        // convert the data
+			        if (fileType.toLowerCase() === ".json") {
+			        	// parse the JSON data and store it into the ChartData object
+			        	ChartData.fileData = $.parseJSON(fileString);
+			        }
+			        if (fileType.toLowerCase() === ".csv") {
+			        	// parse the CSV file
+			        	// On my todo list
+			        }
+	        	};  
+	        }
+	        else {
+	        	alert("only JSON and CSV files are allowed");
+	        }
+	        
+		});
+			
+	},
+	readFile : function(file) {
+		var reader = new FileReader(),
+		    result = 'empty';
+
+		    reader.onload = function(e) {
+		        result = e.target.result;
+		    };
+
+		    reader.readAsText(file);
+		    return result;
+	},
 	dataSource : function() {
 		$("#data-source").on("change", function() {
 			var source = $(this).attr("value"),
@@ -502,22 +596,26 @@ ChartData = {
 	dataStructure : function() {
 		// handle the data structure select box
 		$("#data-structure").on("change", function() {
-			var structure = $(this).attr("value"),
-				children = $("fieldset.data li.children");
+			var structure = $(this).attr("value");
 			
-			// hide show the right dummy data set
-			$("li.data-source.dummy div").css("display", "none");
-			//console.log(structure);
-			// hide the children field when the data structure is "flat"
-			if (structure === "nested") {
-				children.css("display", "block");
-				$("li.data-source.dummy .nested").css("display", "block");
-			}
-			else {
-				children.css("display", "none");
-				$("li.data-source.dummy .flat").css("display", "block");
-			}
+			ChartData.selectDataStructure(structure);
 		});
+	},
+	selectDataStructure : function(structure) {
+		var children = $("fieldset.data li.children");
+
+		// hide show the right dummy data set
+		$("li.data-source.dummy div").css("display", "none");
+		//console.log(structure);
+		// hide the children field when the data structure is "flat"
+		if (structure === "nested") {
+			children.css("display", "block");
+			$("li.data-source.dummy .nested").css("display", "block");
+		}
+		else {
+			children.css("display", "none");
+			$("li.data-source.dummy .flat").css("display", "block");
+		}
 	}
 };
 
@@ -693,26 +791,5 @@ $(document).ready(function()
 	});
 	
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

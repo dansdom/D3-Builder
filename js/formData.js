@@ -17,6 +17,7 @@ FormDefault = {
     data : {
         source : "string",  // hmmm what to default to?
         structure : "flat", // this will either be "flat" or "nested"
+        allowed : "flat", // data type allowed "flat-single", "nested-single", "flat-multi", "nested-multi", "both-single", "both-multi" - multi allows for multiple values in each field
         dummy : null, // dummy data set to be used
         url : null, // url of data resource
         file : null, // if a resource is uploaded then I will have to pull the file and read it, and then add it
@@ -72,6 +73,7 @@ FormData = {
     data : {
         source : "string",  // hmmm what to default to?
         structure : "flat", // this will either be "flat" or "nested"
+        allowed : "flat", // data type allowed "flat", "nested", "flat-multi", "nested-multi" - multi allows for multiple values in each field
         dummy : null, // dummy data set to be used
         url : null, // url of data resource
         file : null, // if a resource is uploaded then I will have to pull the file and read it, and then add it
