@@ -35,43 +35,6 @@ PieChart = {
         }
         this.settings.chartName = FormData.theme.headerName;
     },
-    getHeaderPosition : function(data) {
-        var translate;
-
-        // get the translate position of the header
-        switch (data.theme.headerPosition) {
-            case "topleft" : 
-                translate = (-data.size.width/2 + data.theme.headerOffset.x) + "px, " + (-data.size.height/2 + data.theme.headerOffset.y + data.theme.headerSize) + "px";
-                break;
-            case "topcenter" : 
-                translate = (0 + data.theme.headerOffset.x) + "px, " + (-data.size.height/2 + data.theme.headerOffset.y + data.theme.headerSize) + "px";
-                break;
-            case "topright" : 
-                translate = (data.size.width/2 + data.theme.headerOffset.x -100) + "px," + (-data.size.height/2 + data.theme.headerOffset.y + data.theme.headerSize) + "px";
-                break;
-            case "centerleft" : 
-                translate = (-data.size.width/2 + data.theme.headerOffset.x) + "px, " + (0 + data.theme.headerOffset.y + data.theme.headerSize) + "px";
-                break;
-            case "centerright" : 
-                translate = (data.size.width/2 + data.theme.headerOffset.x - 100) + "px, " + (0 + data.theme.headerOffset.y + data.theme.headerSize) + "px";
-                break;
-            case "bottomleft" : 
-                translate = (-data.size.width/2 + data.theme.headerOffset.x) + "px, " + (data.size.height/2 + data.theme.headerOffset.y) + "px";
-                break;
-            case "bottomcenter" : 
-                translate = (0 + data.theme.headerOffset.x) + "px, " + (data.size.height/2 + data.theme.headerOffset.y) + "px";
-                break;
-            case "bottomright" : 
-                translate = (data.size.width/2 + data.theme.headerOffset.x -100) + "px, " + (data.size.height/2 + data.theme.headerOffset.y) + "px";
-                break;
-            default : 
-                translate = "0,0";
-                break;
-        }
-        console.log(translate);
-        return translate;
-
-    },
     chartStyle : "",
     getStyle : function() {
         this.chartStyle = "";
@@ -81,7 +44,7 @@ PieChart = {
         }
         // I'll need to add the header to the chart plugin
         if (FormData.theme.headerName) {
-            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; font-weight:bold;transform: translate(" + this.getHeaderPosition(FormData) + ");}";
+            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; font-weight:bold;transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");}";
         }
         // add label style
         if (FormData.theme.labelSize) {
@@ -121,6 +84,8 @@ PackChart = {
     },
     settings : {},
     getSettings : function() {
+        this.settings.height = FormData.size.height;
+        this.settings.width = FormData.size.width;
         this.settings.diameter = FormData.size.outerRadius;
         this.settings.padding = FormData.size.padding;
         // do a case statement to find the data
@@ -156,6 +121,10 @@ PackChart = {
         // get all the theme settings and add them to the style element
         if (FormData.theme.backgroundColor) {
             this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}";
+        }
+        // I'll need to add the header to the chart plugin
+        if (FormData.theme.headerName) {
+            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; font-weight:bold;transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");}";
         }
         // add label style
         if (FormData.theme.labelSize) {

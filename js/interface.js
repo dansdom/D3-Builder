@@ -755,7 +755,83 @@ ChartTheme = {
 				clientPath: 'css/img/'
 			}
 		});
-	}
+	},
+	// gets the header position when the .chartName element naturally sits at the top left of the chart
+	getHeaderPosition : function(data) {
+		var translate;
+
+		// get the translate position of the header
+        switch (data.theme.headerPosition) {
+            case "topleft" : 
+                translate = (0 + data.theme.headerOffset.x) + "px, " + (0 + data.theme.headerOffset.y + data.theme.headerSize) + "px";
+                break;
+            case "topcenter" : 
+                translate = (data.size.width/2 + data.theme.headerOffset.x) + "px, " + (0 + data.theme.headerOffset.y + data.theme.headerSize) + "px";
+                break;
+            case "topright" : 
+                translate = (data.size.width + data.theme.headerOffset.x -100) + "px," + (0 + data.theme.headerOffset.y + data.theme.headerSize) + "px";
+                break;
+            case "centerleft" : 
+                translate = (0 + data.theme.headerOffset.x) + "px, " + (data.size.height/2 + data.theme.headerOffset.y - data.theme.headerSize) + "px";
+                break;
+            case "centerright" : 
+                translate = (data.size.width + data.theme.headerOffset.x -100) + "px, " + (data.size.height/2 + data.theme.headerOffset.y + data.theme.headerSize) + "px";
+                break;
+            case "bottomleft" : 
+                translate = (0 + data.theme.headerOffset.x) + "px, " + (data.size.height + data.theme.headerOffset.y - data.theme.headerSize) + "px";
+                break;
+            case "bottomcenter" : 
+                translate = (data.size.width/2 + data.theme.headerOffset.x) + "px, " + (data.size.height + data.theme.headerOffset.y - data.theme.headerSize) + "px";
+                break;
+            case "bottomright" : 
+                translate = (data.size.width + data.theme.headerOffset.x -100) + "px, " + (data.size.height + data.theme.headerOffset.y - data.theme.headerSize) + "px";
+                break;
+            default : 
+                translate = "0,0";
+                break;
+        };
+
+        console.log(translate);
+        return translate;
+	},
+	// set the header position of the chart when the .chartName element is naturally centered on the chart
+	getHeaderPositionCentered : function(data) {
+        var translate;
+
+        // get the translate position of the header
+        switch (data.theme.headerPosition) {
+            case "topleft" : 
+                translate = (-data.size.width/2 + data.theme.headerOffset.x) + "px, " + (-data.size.height/2 + data.theme.headerOffset.y + data.theme.headerSize) + "px";
+                break;
+            case "topcenter" : 
+                translate = (0 + data.theme.headerOffset.x) + "px, " + (-data.size.height/2 + data.theme.headerOffset.y + data.theme.headerSize) + "px";
+                break;
+            case "topright" : 
+                translate = (data.size.width/2 + data.theme.headerOffset.x -100) + "px," + (-data.size.height/2 + data.theme.headerOffset.y + data.theme.headerSize) + "px";
+                break;
+            case "centerleft" : 
+                translate = (-data.size.width/2 + data.theme.headerOffset.x) + "px, " + (0 + data.theme.headerOffset.y + data.theme.headerSize) + "px";
+                break;
+            case "centerright" : 
+                translate = (data.size.width/2 + data.theme.headerOffset.x - 100) + "px, " + (0 + data.theme.headerOffset.y + data.theme.headerSize) + "px";
+                break;
+            case "bottomleft" : 
+                translate = (-data.size.width/2 + data.theme.headerOffset.x) + "px, " + (data.size.height/2 + data.theme.headerOffset.y) + "px";
+                break;
+            case "bottomcenter" : 
+                translate = (0 + data.theme.headerOffset.x) + "px, " + (data.size.height/2 + data.theme.headerOffset.y) + "px";
+                break;
+            case "bottomright" : 
+                translate = (data.size.width/2 + data.theme.headerOffset.x -100) + "px, " + (data.size.height/2 + data.theme.headerOffset.y) + "px";
+                break;
+            default : 
+                translate = "0,0";
+                break;
+        };
+
+        //console.log(translate);
+        return translate;
+    }
 };
 
 ChartEvents = {
