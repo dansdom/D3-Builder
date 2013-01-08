@@ -47,11 +47,7 @@ FormDefault = {
         borderSize : 0,
         borderColor : "rgb(0,0,0)"
     },
-    events : {},
-    // this initialises the plugin and builds the chart
-    buildChat : function() {
-        // yet to do though
-    }
+    events : {}
 }
 
 
@@ -103,9 +99,5 @@ FormData = {
         borderSize : 0,
         borderColor : "rgb(0,0,0)"
     },
-    events : {},
-    // this initialises the plugin and builds the chart
-    buildChat : function() {
-        // yet to do though
-    }
+    events : {}
 };

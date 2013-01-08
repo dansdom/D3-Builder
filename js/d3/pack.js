@@ -36,8 +36,8 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         // instead of defining a color array, I will set a color scale and then let the user overwrite it
         'colorRange' : [],
         'colors' : {
-            'group' : 'blue',
-            'leaf' : 'green',
+            'group' : '#1f77b4',
+            'leaf' : '#ff7f0e',
             'label' : 'black'
         },
         'opacity' : 0.2,
@@ -49,6 +49,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             'value' : 'size',
             'children' : 'group'
         },
+        'chartName' : null,
         'speed' : 1500  // speed of the trasitions
     };
     

@@ -688,7 +688,7 @@ ChartTheme = {
 		
 		// background color check
 		if ($("#theme-background").attr("checked") === "checked") {
-			theme.backgroundColor = parseFloat($("#theme-background-color").attr("value"));
+			theme.backgroundColor = $("#theme-background-color").attr("value");
 		}
 		else {
 			theme.backgroundColor = false;
@@ -720,7 +720,7 @@ ChartTheme = {
 		if ($("#theme-labels").attr("checked") === "checked") {
 			theme.labelSize = parseFloat($("#theme-label-size").attr("value"));
 			theme.labelPosition = parseFloat($("#theme-label-position").attr("value"));
-			theme.labelColor = $("theme-label-color").attr("value");
+			theme.labelColor = $("#theme-label-color").attr("value");
 		}
 		else {
 			theme.labelSize = false;
@@ -731,7 +731,7 @@ ChartTheme = {
 		// chart data style
 		if ($("#theme-data").attr("checked") === "checked") {
 			theme.borderSize = parseFloat($("#theme-data-border-size").attr("value"));
-			theme.borderColor = $("theme-data-border-color").attr("value");
+			theme.borderColor = $("#theme-data-border-color").attr("value");
 		}
 		else {
 			theme.borderSize = 0;

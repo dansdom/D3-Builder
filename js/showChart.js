@@ -2,6 +2,7 @@
 PieChart = {
     init : function() {
         this.getSettings();
+        this.getStyle();
         this.buildChart();
     },
     // data object to hold the plugin settings
@@ -34,6 +35,26 @@ PieChart = {
         }
         this.settings.chartName = FormData.theme.headerName;
     },
+    chartStyle : "",
+    getStyle : function() {
+        this.chartStyle = "";
+        // get all the theme settings and add them to the style element
+        if (FormData.theme.backgroundColor) {
+            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}";
+        }
+        // I'll need to add the header to the chart plugin
+        if (FormData.theme.headerName) {
+            this.chartStyle += "";
+        }
+        // add label style
+        if (FormData.theme.labelSize) {
+            this.chartStyle += ".arc text {font-size:" + FormData.theme.labelSize + "px; fill:#" + FormData.theme.labelColor + "}";
+        }
+        // add borders to the segments
+        if (FormData.theme.borderSize) {
+            this.chartStyle += ".arc path {stroke-width:" + FormData.theme.borderSize + "px; stroke:#" + FormData.theme.borderColor + ";}";
+        }
+    },
     buildChart : function() {
         var chart = document.getElementById("chart-preview"),
             settings = this.settings;
@@ -42,6 +63,10 @@ PieChart = {
         if (FormData.type.current && FormData.type.current !== "pie") {
             d3[FormData.type.current](chart, "destroy");
         }
+
+        //console.log(this.chartStyle)
+        // add the style element
+        $("#chart-style").html(this.chartStyle);
             
         d3.pie(chart, settings);
         FormData.type.current = "pie";
@@ -53,6 +78,7 @@ PackChart = {
     init : function() {
         console.log("building pack chart");
         this.getSettings();
+        this.getStyle();
         this.buildChart();
     },
     settings : {},
@@ -85,6 +111,28 @@ PackChart = {
         //this.settings.speed = FormData.events.speed;
 
     },
+    chartStyle : "",
+    getStyle : function() {
+        this.chartStyle = "";
+        // get all the theme settings and add them to the style element
+        if (FormData.theme.backgroundColor) {
+            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}";
+        }
+        // add label style
+        if (FormData.theme.labelSize) {
+            this.chartStyle += ".node text {font-size:" + FormData.theme.labelSize + "px; fill:#" + FormData.theme.labelColor + "}";
+        }
+        if (this.settings.chartType === "pack") {
+            this.chartStyle += ".pack circle {stroke-width: 1px;}";
+            this.chartStyle += ".leaf circle {fill-opacity: 1;}";
+            this.chartStyle += ".group circle:hover {stroke-width:2px;cursor:pointer;}";
+            this.chartStyle += ".group:first-child circle:hover {cursor:default;stroke-width:1px;stroke:" + this.settings.colors.group + "}";
+        }
+        else if (this.settings.chartType === "bubble") {
+            // not sure I even need to add any style for this type
+        }
+        
+    },
     buildChart : function() {
         var chart = document.getElementById("chart-preview"),
             settings = this.settings;
@@ -93,6 +141,10 @@ PackChart = {
         if (FormData.type.current && FormData.type.current !== "pack") {
             d3[FormData.type.current](chart, "destroy");
         }
+
+        // console.log(this.chartStyle);
+        // add the style element
+        $("#chart-style").html(this.chartStyle);
 
         d3.pack(chart, settings);
         // set the current chart type type
@@ -105,6 +157,7 @@ ForceChart = {
     init : function() {
         console.log("building force chart");
         this.getSettings();
+        this.getStyle();
         this.buildChart();
     },
     settings : {},
@@ -140,6 +193,14 @@ ForceChart = {
         //this.settings.linkDistance = FormData.events.distance;
 
     },
+    chartStyle : "",
+    getStyle : function() {
+        this.chartStyle = "";
+        // get all the theme settings and add them to the style element
+        if (FormData.theme.backgroundColor) {
+            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}";
+        }
+    },
     buildChart : function() {
         var chart = document.getElementById("chart-preview"),
             settings = this.settings;
@@ -148,6 +209,10 @@ ForceChart = {
         if (FormData.type.current && FormData.type.current !== "force") {
             d3[FormData.type.current](chart, "destroy");
         }
+
+        // console.log(this.chartStyle);
+        // add the style element
+        $("#chart-style").html(this.chartStyle);
 
         d3.force(chart, settings);
         // set the current chart type type

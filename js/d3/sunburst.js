@@ -48,7 +48,8 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         'dataStructure' : {
             'name' : 'label',
             'value' : 'value'
-        }
+        },
+        'chartName' : null
     };
     
     // plugin functions go here
