@@ -124,6 +124,8 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 
             // define the chart layout
             this.setLayout();
+            // set the chart title
+            this.setTitle();
 
             // re-set the force layout
             container.force
@@ -226,6 +228,20 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             container.chart
                 .attr("width", container.opts.width)
                     .attr("height", container.opts.height);
+        },
+        setTitle : function() {
+            var container = this;
+
+            // ####### CHART TITLE #######
+            if (container.opts.chartName) {
+                if (!container.chartName) {
+                    container.chartName = container.chart.append("g")
+                        .attr("class", "chartName")
+                        .append("text");
+                }
+                container.chartName = container.chart.select(".chartName").select("text")
+                    .text(container.opts.chartName);
+            }
         },
         // resets the zoom on the chart
         resetChart : function() {

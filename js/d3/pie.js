@@ -150,12 +150,12 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 if (!container.chartName) {
                     container.chartName = container.chart.append("g")
                         .attr("class", "chartName")
-                        .append("text")
+                        .append("text");
                 }
                 container.chartName = container.chart.select(".chartName").select("text")
                     .text(function() {
                         var chartTitle;
-                        if (container.dataCategory) {
+                        if (container.opts.dataStructure.children) {
                             chartTitle = container.dataCategory;
                         }
                         else {

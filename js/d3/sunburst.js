@@ -94,6 +94,8 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
 
             // set the layout for the chart
             this.setLayout();
+            // set the chart title
+            this.setTitle();
 
             container.path = container.chart.datum(container.data).select(".sunburst").selectAll("path")
                 .data(container.partition.nodes);
@@ -174,6 +176,20 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     .endAngle(function(d) { return d.x + d.dx; })
                     .innerRadius(function(d) { return Math.sqrt(d.y); })
                     .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
+            }
+        },
+        setTitle : function() {
+            var container = this;
+
+            // ####### CHART TITLE #######
+            if (container.opts.chartName) {
+                if (!container.chartName) {
+                    container.chartName = container.chart.append("g")
+                        .attr("class", "chartName")
+                        .append("text");
+                }
+                container.chartName = container.chart.select(".chartName").select("text")
+                    .text(container.opts.chartName);
             }
         },
         // resets the zoom on the chart

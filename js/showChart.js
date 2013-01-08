@@ -35,6 +35,43 @@ PieChart = {
         }
         this.settings.chartName = FormData.theme.headerName;
     },
+    getHeaderPosition : function(data) {
+        var translate;
+
+        // get the translate position of the header
+        switch (data.theme.headerPosition) {
+            case "topleft" : 
+                translate = (-data.size.width/2 + data.theme.headerOffset.x) + "px, " + (-data.size.height/2 + data.theme.headerOffset.y + data.theme.headerSize) + "px";
+                break;
+            case "topcenter" : 
+                translate = (0 + data.theme.headerOffset.x) + "px, " + (-data.size.height/2 + data.theme.headerOffset.y + data.theme.headerSize) + "px";
+                break;
+            case "topright" : 
+                translate = (data.size.width/2 + data.theme.headerOffset.x -100) + "px," + (-data.size.height/2 + data.theme.headerOffset.y + data.theme.headerSize) + "px";
+                break;
+            case "centerleft" : 
+                translate = (-data.size.width/2 + data.theme.headerOffset.x) + "px, " + (0 + data.theme.headerOffset.y + data.theme.headerSize) + "px";
+                break;
+            case "centerright" : 
+                translate = (data.size.width/2 + data.theme.headerOffset.x - 100) + "px, " + (0 + data.theme.headerOffset.y + data.theme.headerSize) + "px";
+                break;
+            case "bottomleft" : 
+                translate = (-data.size.width/2 + data.theme.headerOffset.x) + "px, " + (data.size.height/2 + data.theme.headerOffset.y) + "px";
+                break;
+            case "bottomcenter" : 
+                translate = (0 + data.theme.headerOffset.x) + "px, " + (data.size.height/2 + data.theme.headerOffset.y) + "px";
+                break;
+            case "bottomright" : 
+                translate = (data.size.width/2 + data.theme.headerOffset.x -100) + "px, " + (data.size.height/2 + data.theme.headerOffset.y) + "px";
+                break;
+            default : 
+                translate = "0,0";
+                break;
+        }
+        console.log(translate);
+        return translate;
+
+    },
     chartStyle : "",
     getStyle : function() {
         this.chartStyle = "";
@@ -44,7 +81,7 @@ PieChart = {
         }
         // I'll need to add the header to the chart plugin
         if (FormData.theme.headerName) {
-            this.chartStyle += "";
+            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; font-weight:bold;transform: translate(" + this.getHeaderPosition(FormData) + ");}";
         }
         // add label style
         if (FormData.theme.labelSize) {
@@ -68,6 +105,7 @@ PieChart = {
         // add the style element
         $("#chart-style").html(this.chartStyle);
             
+        console.log(settings);
         d3.pie(chart, settings);
         FormData.type.current = "pie";
     }
@@ -109,6 +147,7 @@ PackChart = {
         this.settings.dataStructure = FormData.data.attributes;
         // I'll need to add this to the form
         //this.settings.speed = FormData.events.speed;
+        this.settings.chartName = FormData.theme.headerName;
 
     },
     chartStyle : "",
@@ -191,6 +230,7 @@ ForceChart = {
         // I'll need to add this to the form
         //this.settings.charge = FormData.events.charge;
         //this.settings.linkDistance = FormData.events.distance;
+        this.settings.chartName = FormData.theme.headerName;
 
     },
     chartStyle : "",
@@ -256,6 +296,7 @@ SunburstChart = {
         this.settings.dataStructure = FormData.data.attributes;
         // I'll need to add this to the form
         //this.settings.speed = FormData.events.speed;
+        this.settings.chartName = FormData.theme.headerName;
 
     },
     buildChart : function() {

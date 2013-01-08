@@ -254,10 +254,10 @@ ChartType = {
 ChartSize = {
 	reset : function() {
 		// set to default values
-		$("#size-height").attr("value", "600");
-		$("#size-width").attr("value", "600");
-		$("#size-outer-radius").attr("value", "270");
-		$("#size-inner-radius").attr("value", "10");
+		$("#size-height").attr("value", "800");
+		$("#size-width").attr("value", "800");
+		$("#size-outer-radius").attr("value", "300");
+		$("#size-inner-radius").attr("value", "0");
 		$("#size-padding").attr("value", "0");
 	},
 	setValue : function() {
@@ -634,11 +634,11 @@ ChartTheme = {
 		// set to default values
 		$("#theme-background-color").attr("value", "ffffff").trigger("keyup");
 		$("#theme-header-name").attr("value", "");
-		$("#theme-header-size").attr("value", "");
-		$("#theme-header-offsetY").attr("value", "");
-		$("#theme-header-offsetX").attr("value", "");
+		$("#theme-header-size").attr("value", "20");
+		$("#theme-header-offsetY").attr("value", "0");
+		$("#theme-header-offsetX").attr("value", "0");
 		$("#theme-header-color").attr("value", "000000").trigger("keyup");
-		$("#theme-label-size").attr("value", "");
+		$("#theme-label-size").attr("value", "10");
 		$("#theme-label-position").attr("value", "");
 		$("#theme-label-color").attr("value", "000000").trigger("keyup");
 		$("#theme-data-border-size").attr("value", "");
