@@ -42,9 +42,9 @@ PieChart = {
         if (FormData.theme.backgroundColor) {
             this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}";
         }
-        // I'll need to add the header to the chart plugin
+        // add the header style if there is a vlue for it
         if (FormData.theme.headerName) {
-            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; font-weight:bold;transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");}";
+            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + "; font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");}";
         }
         // add label style
         if (FormData.theme.labelSize) {
@@ -122,9 +122,9 @@ PackChart = {
         if (FormData.theme.backgroundColor) {
             this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}";
         }
-        // I'll need to add the header to the chart plugin
+        // add the header style if there is a vlue for it
         if (FormData.theme.headerName) {
-            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; font-weight:bold;transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");}";
+            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + ";font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");}";
         }
         // add label style
         if (FormData.theme.labelSize) {
@@ -209,6 +209,10 @@ ForceChart = {
         if (FormData.theme.backgroundColor) {
             this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}";
         }
+        // add the header style if there is a vlue for it
+        if (FormData.theme.headerName) {
+            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + ";font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");}";
+        }
     },
     buildChart : function() {
         var chart = document.getElementById("chart-preview"),
@@ -234,6 +238,7 @@ SunburstChart = {
     init : function() {
         console.log("building sunburst chart");
         this.getSettings();
+        this.getStyle();
         this.buildChart();
     },
     settings : {},
@@ -268,6 +273,22 @@ SunburstChart = {
         this.settings.chartName = FormData.theme.headerName;
 
     },
+    chartStyle : "",
+    getStyle : function() {
+        this.chartStyle = "";
+        // get all the theme settings and add them to the style element
+        if (FormData.theme.backgroundColor) {
+            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}";
+        }
+        // add the header style if there is a vlue for it
+        if (FormData.theme.headerName) {
+            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + ";font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");}";
+        }
+        // add borders to the segments
+        if (FormData.theme.borderSize) {
+            this.chartStyle += ".arc path {stroke-width:" + FormData.theme.borderSize + "px; stroke:#" + FormData.theme.borderColor + ";}";
+        }
+    },
     buildChart : function() {
         var chart = document.getElementById("chart-preview"),
             settings = this.settings;
@@ -276,6 +297,10 @@ SunburstChart = {
         if (FormData.type.current && FormData.type.current !== "sunburst") {
             d3[FormData.type.current](chart, "destroy");
         }
+
+        // console.log(this.chartStyle);
+        // add the style element
+        $("#chart-style").html(this.chartStyle);
 
         d3.sunburst(chart, settings);
         // set the current chart type type
