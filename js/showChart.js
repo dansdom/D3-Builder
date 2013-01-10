@@ -307,3 +307,56 @@ SunburstChart = {
         FormData.type.current = "sunburst";
     }
 };
+
+// object that builds the "area" chart
+AreaChart = {
+    init : function() {
+        this.getSettings();
+        this.getStyle();
+        this.buildChart();
+    },
+    // data object to hold the plugin settings
+    settings : {},
+    getSettings : function() {
+    },
+    chartStyle : "",
+    getStyle : function() {
+        this.chartStyle = "";
+        this.settings.width = FormData.size.width;
+        this.settings.height = FormData.size.height;
+        // do a case statement to find the data
+        switch (FormData.data.source) {
+            case "dummy" :
+                this.settings.dataUrl = FormData.data.dummy;
+                break;
+            case "url" :
+                this.settings.dataUrl = FormData.data.url;
+                break;
+            case "file" : 
+                this.settings.dataUrl = FormData.data.file;  // note I will need to read this file and store the result before this point
+                break;
+            default : break;
+        };
+        this.settings.colorRange = FormData.colors;
+        this.settings.fontSize = FormData.theme.labelSize;
+        this.settings.dataStructure = FormData.data.attributes;
+        this.settings.chartName = FormData.theme.headerName;
+    },
+    buildChart : function() {
+        var chart = document.getElementById("chart-preview"),
+            settings = this.settings;
+
+        // destroy the current
+        if (FormData.type.current && FormData.type.current !== "area") {
+            d3[FormData.type.current](chart, "destroy");
+        }
+
+        //console.log(this.chartStyle)
+        // add the style element
+        $("#chart-style").html(this.chartStyle);
+            
+        console.log(settings);
+        d3.area(chart, settings);
+        FormData.type.current = "area";
+    }
+}

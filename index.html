@@ -96,6 +96,7 @@
 											<option value="pack" data-allowed="nested">Pack</option>
 											<option value="sunburst" data-allowed="nested">Sunburst</option>
 											<option value="force" data-allowed="nested">Force</option>
+											<option value="area" data-allowed="flat">Area</option>
 							            </select>
 							        </li>
 									<li class="type-settings pie">
@@ -124,6 +125,13 @@
 										<select id="type-chart-sunburst" name="type-chart-sunburst">
 											<option value="" selected="selected">collapsable</option>
 											<option value="">non-collapsable</option>
+										</select>
+									</li>
+									<li class="type-settings area">
+										<label for="type-chart-area">Force Type</label>
+										<select id="type-chart-area" name="type-chart-area">
+											<option value="" selected="selected">plain</option>
+											<option value="">data points</option>
 										</select>
 									</li>
 								</ul>
@@ -268,8 +276,9 @@
 									<li>
 							          	<label for="data-structure">Data Structure</label>
 							            <select id="data-structure" name="data-structure">
-								            <option value="flat" selected="selected">flat</option>
-											<option value="nested">nested</option>
+								            <option value="flat" selected="selected">ordinal flat</option>
+											<option value="nested">ordinal nested</option>
+											<option value="quantitative">quantitative</option>
 							            </select>
 							        </li>
 									<li class="data-attributes name">
@@ -283,6 +292,14 @@
 									<li class="data-attributes children">
 							          	<label for="data-children">Data Children</label>
 							            <input type="text" size="20" name="data-children" id="data-children" placeholder="select the child name of a data item" value="group">
+							        </li>
+							        <li class="data-attributes x">
+							          	<label for="data-x">Data X</label>
+							            <input type="text" size="20" name="data-x" id="data-x" placeholder="select the name of the data on the X scale" value="x">
+							        </li>
+							        <li class="data-attributes y">
+							          	<label for="data-y">Data X</label>
+							            <input type="text" size="20" name="data-y" id="data-y" placeholder="select the name of the data on the Y scale" value="y">
 							        </li>
 									<li class="data-scale scaleX">
 							          	<label for="data-scaleX">Data Scale X</label>

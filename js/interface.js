@@ -13,6 +13,7 @@
 // Priorities:
 // 1. add a data.allowed object to the form data so that I can control data options for each chart
 // 2. Add a form validator that should run before the buildChart function (might need to fiddle with my validator)
+// 3. hook up the area chart
 
 // Known Bugs (that are bugging me)
 // 1. select pie (nested), build chart. then select flat data and build. Fails to build the flat chart
@@ -164,6 +165,9 @@ ChartBuilder = {
 				break;
 			case "force" :
 				ForceChart.init();
+				break;
+			case "area" :
+				AreaChart.init();
 				break;
 			default :
 				break;
