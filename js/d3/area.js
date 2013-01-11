@@ -70,6 +70,14 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         updateChart : function() {
             var container = this;
 
+            // if there is a colour range defined for this chart then use the settings. If not, use the inbuild category20 colour range
+            if (this.opts.colorRange.length > 0) {
+                container.color = d3.scale.ordinal().range(this.opts.colorRange);
+            }
+            else {
+                container.color = d3.scale.category20();
+            }
+
             container.margin = this.opts.margin,
             container.width = this.opts.width - container.margin.left - container.margin.right;
             container.height = this.opts.height - container.margin.top - container.margin.bottom; 
