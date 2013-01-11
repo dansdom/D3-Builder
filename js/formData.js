@@ -24,7 +24,9 @@ FormDefault = {
         attributes : {
             name : "name",
             value : "size",
-            children : "children"
+            children : "children",
+            x : "x",
+            y : "y"
         },
         scale : {
             x : "linear",  // these scales can be "linear", "exponential" or "ordinal". default to "linear"
@@ -76,7 +78,9 @@ FormData = {
         attributes : {
             name : "name",
             value : "size",
-            children : "children"
+            children : "children",
+            x : "x",
+            y : "y"
         },
         scale : {
             x : "linear",  // these scales can be "linear", "exponential" or "ordinal". default to "linear"

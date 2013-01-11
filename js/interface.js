@@ -201,7 +201,7 @@ ChartType = {
 				dataSelect = $("#data-structure"),
 				// this is probably where I'm going to set the data.allowed flag
 				dataType = $(this).find(":selected").attr("data-allowed"),
-				options = '<option selected="selected" value="flat">flat</option><option value="nested">nested</option>';
+				options = '<option selected="selected" value="flat">Ordinal Flat</option><option value="nested">Ordinal Nested</option><option value="quantitative">Quantitative</option>';
 
 			// show the secondary chart type select box
 			$("li.type-settings").css("display", "none");
@@ -212,16 +212,22 @@ ChartType = {
 			console.log(dataType);
 			// can only select flat data - remove the nested option
 			if (dataType === "flat") {
-				$("#data-structure").find("option[value='nested']").remove();
-				$("#data-structrue").attr("value", "flat").change();
+				//$("#data-structure").find("option[value='nested']").remove();
+				$("#data-structure").attr("value", "flat");
 				ChartData.selectDataStructure("flat");
 
 			}
 			// can only select nested data - remove the flat option
 			else if (dataType === "nested") {
-				$("#data-structure").find("option[value='flat']").remove();
-				$("#data-structrue").attr("value", "nested").change();
+				//$("#data-structure").find("option[value='flat']").remove();
+				$("#data-structure").attr("value", "nested");
 				ChartData.selectDataStructure("nested");
+			}
+			else if (dataType === "quantitative") {
+				//$("#data-structure").find("option[value='flat']").remove();
+				//$("#data-structure").find("option[value='nested']").remove();
+				$("#data-structure").attr("value", "quantitative");
+				ChartData.selectDataStructure("quantitative");
 			}
 			// can select either
 			else if (dataType === "both") {
@@ -258,11 +264,11 @@ ChartType = {
 ChartSize = {
 	reset : function() {
 		// set to default values
-		$("#size-height").attr("value", "800");
-		$("#size-width").attr("value", "800");
-		$("#size-outer-radius").attr("value", "300");
+		$("#size-height").attr("value", "600");
+		$("#size-width").attr("value", "600");
+		$("#size-outer-radius").attr("value", "250");
 		$("#size-inner-radius").attr("value", "0");
-		$("#size-padding").attr("value", "0");
+		$("#size-padding").attr("value", "20");
 	},
 	setValue : function() {
 		// set to default values
@@ -474,6 +480,8 @@ ChartData = {
 		$("#data-name").attr("value", "name");
 		$("#data-value").attr("value", "size");
 		$("#data-children").attr("value", "group");
+		$("#data-x").attr("value", "x");
+		$("#data-y").attr("value", "y");
 		$(".data-source").css("display", "none");
 		$(".data-source.dummy").css("display", "block");
 	},
@@ -490,6 +498,8 @@ ChartData = {
 		$("#data-name").attr("value", FormData.data.attributes.name);
 		$("#data-value").attr("value", FormData.data.attributes.value);
 		$("#data-children").attr("value", FormData.data.attributes.children);
+		$("#data-x").attr("value", FormData.data.attributes.x);
+		$("#data-y").attr("value", FormData.data.attributes.y);
 		$("#data-scaleX").attr("value", FormData.data.scale.x);
 		$("#data-scaleY").attr("value", FormData.data.scale.y);
 	},
@@ -504,7 +514,9 @@ ChartData = {
 			attributes : {
 				name : $("#data-name").attr("value"),
 				value : $("#data-value").attr("value"),
-				children : $("#data-children").attr("value")
+				children : $("#data-children").attr("value"),
+				x : $("#data-x").attr("value"),
+				y : $("#data-y").attr("value")
 			},
 			scale : {
 				x : $("#data-scaleX").attr("value"),
@@ -516,8 +528,11 @@ ChartData = {
 		if (FormData.data.structure === "flat") {
 			FormData.data.dummy = $("#data-dummy-flat").attr("value");
 		}
-		else {
+		else if (FormData.data.structure === "nested") {
 			FormData.data.dummy = $("#data-dummy-nested").attr("value");
+		}
+		else if (FormData.data.structure === "quantitative") {
+			FormData.data.dummy = $("#data-dummy-quantitative").attr("value");
 		}
 		
 	},
@@ -623,9 +638,17 @@ ChartData = {
 			children.css("display", "block");
 			$("li.data-source.dummy .nested").css("display", "block");
 		}
-		else {
+		else if (structure === "flat") {
 			children.css("display", "none");
 			$("li.data-source.dummy .flat").css("display", "block");
+		}
+		else if (structure === "quantitative") {
+			children.css("display", "none");
+			$("li.data-source.dummy .quantitative").css("display", "block");
+		}
+		// everything allowed
+		else {
+			children.css("display", "block");
 		}
 	}
 };

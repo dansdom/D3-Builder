@@ -96,7 +96,7 @@
 											<option value="pack" data-allowed="nested">Pack</option>
 											<option value="sunburst" data-allowed="nested">Sunburst</option>
 											<option value="force" data-allowed="nested">Force</option>
-											<option value="area" data-allowed="flat">Area</option>
+											<option value="area" data-allowed="quantitative">Area</option>
 							            </select>
 							        </li>
 									<li class="type-settings pie">
@@ -159,7 +159,7 @@
 							        </li>
 									<li>
 							          	<label for="size-padding">Chart Padding</label>
-							            <input type="text" size="20" class="small" name="size-padding" id="size-padding" value="10" placeholder="select chart padding">
+							            <input type="text" size="20" class="small" name="size-padding" id="size-padding" value="20" placeholder="select chart padding">
 							        </li>
 								</ul>
 							</fieldset>
@@ -264,6 +264,13 @@
 												<option value="data/flare3.json">data set 3</option>
 								            </select>
 							        	</div>
+							        	<div class="quantitative">
+							        		<label for="data-dummy-quantitative">Dummy Data Set (quantitative)</label>
+								            <select id="data-dummy-quantitative" name="data-dummy-quantitative">
+									            <option value="data/data1.csv" selected="selected">data set 1</option>
+												<option value="data/data2.csv">data set 2</option>
+								            </select>
+							        	</div>
 							        </li>
 									<li class="data-source url">
 							          	<label for="data-url">Data URL</label>
@@ -276,9 +283,9 @@
 									<li>
 							          	<label for="data-structure">Data Structure</label>
 							            <select id="data-structure" name="data-structure">
-								            <option value="flat" selected="selected">ordinal flat</option>
-											<option value="nested">ordinal nested</option>
-											<option value="quantitative">quantitative</option>
+								            <option value="flat" selected="selected">Ordinal Flat</option>
+											<option value="nested">Ordinal Nested</option>
+											<option value="quantitative">Quantitative</option>
 							            </select>
 							        </li>
 									<li class="data-attributes name">
@@ -298,7 +305,7 @@
 							            <input type="text" size="20" name="data-x" id="data-x" placeholder="select the name of the data on the X scale" value="x">
 							        </li>
 							        <li class="data-attributes y">
-							          	<label for="data-y">Data X</label>
+							          	<label for="data-y">Data Y</label>
 							            <input type="text" size="20" name="data-y" id="data-y" placeholder="select the name of the data on the Y scale" value="y">
 							        </li>
 									<li class="data-scale scaleX">

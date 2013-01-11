@@ -318,12 +318,14 @@ AreaChart = {
     // data object to hold the plugin settings
     settings : {},
     getSettings : function() {
-    },
-    chartStyle : "",
-    getStyle : function() {
-        this.chartStyle = "";
         this.settings.width = FormData.size.width;
         this.settings.height = FormData.size.height;
+        this.settings.margin = {
+            top : FormData.size.padding,
+            bottom : FormData.size.padding,
+            left : FormData.size.padding,
+            right : FormData.size.padding
+        };
         // do a case statement to find the data
         switch (FormData.data.source) {
             case "dummy" :
@@ -337,10 +339,40 @@ AreaChart = {
                 break;
             default : break;
         };
+        this.settings.elements = {
+            'shape' : FormData.colors[0],
+            'line' : FormData.colors[1],
+            'dot' : FormData.colors[2],
+            'x' : FormData.colors[3],
+            'y' : FormData.colors[4]
+        };
+        this.settings.scale = {
+            x : FormData.data.scale.x,
+            y : FormData.data.scale.y
+        };
         this.settings.colorRange = FormData.colors;
         this.settings.fontSize = FormData.theme.labelSize;
         this.settings.dataStructure = FormData.data.attributes;
         this.settings.chartName = FormData.theme.headerName;
+    },
+    chartStyle : "",
+    getStyle : function() {
+        this.chartStyle = "";
+
+        // get all the theme settings and add them to the style element
+        if (FormData.theme.backgroundColor) {
+            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}";
+        }
+        // add the header style if there is a vlue for it
+        if (FormData.theme.headerName) {
+            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + ";font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");}";
+        }
+        
+        this.chartStyle += ".axis path, .axis line, .domain {fill: none;stroke:#" + FormData.theme.borderColor + ";stroke-width:" + FormData.theme.borderSize + "px;shape-rendering: crispEdges;}";
+        this.chartStyle += ".line {fill: none;stroke: " + FormData.colors[1] + ";stroke-width: " + FormData.theme.borderSize + "px;}";
+        this.chartStyle += ".dot {fill: " + FormData.colors[2] + ";stroke: " + FormData.colors[1] + ";stroke-width: 1px;}";
+        this.chartStyle += ".tick {fill:none;stroke:#" + FormData.theme.borderColor + ";stroke-width:" + FormData.theme.borderSize + "px;}";
+        this.chartStyle += "text {fill: #" + FormData.theme.labelColor + ";font-size:" + FormData.theme.labelSize + "px;}"
     },
     buildChart : function() {
         var chart = document.getElementById("chart-preview"),

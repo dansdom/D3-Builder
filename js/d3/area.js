@@ -38,7 +38,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         'colorRange' : [], // instead of defining a color array, I will set a color scale and then let the user overwrite it
         // maybe only if there is one data set???
         'elements' : {
-            'shape' : '#efefef',  // I'll have more than just circles here - set to null if no shape is wanted
+            'shape' : 'yellow',  // I'll have more than just circles here - set to null if no shape is wanted
             'line' : 'black',  // the line on the graph - set to null if no line is wanted
             //'area' : 'white',  // I think if there are multiple areas, then I may use the colorRange
             'dot' : '#ccc', // the dots on the line (I may make this a customisable shape though) - set to null if no dot is wanted
@@ -49,9 +49,12 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         'dataStructure' : {
             'x' : 'x1',  // this value may end up being an array so I can support multiple data sets
             'y' : 'y1',
-            'scale' : 'linear',
             'ticksX' : 10,  // tha amount of ticks on the x-axis
             'ticksY' : 5  // the amount of ticks on the y-axis
+        },
+        'scale' : {
+            'x' : 'linear',
+            'y' : 'linear'
         },
         'chartName' : false  // If there is a chart name then insert the value. This allows for deep exploration to show category name
     };
@@ -143,25 +146,26 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             if (container.opts.elements.shape) {
                 if (!container.path) {
                     container.path = container.chart.append("path")
-                        .attr("class", "line")
+                        .attr("class", "line");
                         //.attr("d", container.line)
-                        .style("stroke", container.opts.elements.line)
+                        
                 }
                 // update the chart line with the new data
                 container.chart.selectAll("path.line")
                     .data([container.data])
                     .transition()
                     .duration(500)
-                    .attr("d", container.line);
+                    .attr("d", container.line)
+                    .style("stroke", container.opts.elements.line);
             }
             
             // add the area 
             if (container.opts.elements.line) {
-                if (!container.stuff) {
-                    container.stuff = container.chart.append("path"); 
+                if (!container.block) {
+                    container.block = container.chart.append("path"); 
                 }
             }
-            container.stuff
+            container.block
                 .attr("class", "area")
                 .attr("d", container.area)
                 .style("fill", container.opts.elements.shape);
@@ -192,6 +196,8 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     .transition()
                   .delay(500)
                     .duration(500)
+                    .style("fill", container.opts.elements.dot)
+                    .style("stroke", container.opts.elements.line)
                     .style("stroke-opacity", 1)
                     .style("fill-opacity", 1);
 
@@ -245,7 +251,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         setScale : function() {
             var container = this;
 
-            this.xScale = d3.scale[container.opts.dataStructure.scale]()
+            this.xScale = d3.scale[container.opts.scale.x]()
                 // setting the X scale domain to go from the min value to the max value of the data.x set
                 // if multiple areas on the chart, I will have to check all data sets before settings the domain
                 .domain([
@@ -255,7 +261,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 // set the range to go from 0 to the width of the chart
                 .range([0, this.width]);
 
-            this.yScale = d3.scale[container.opts.dataStructure.scale]()
+            this.yScale = d3.scale[container.opts.scale.y]()
                 // setting the Y scale domain to go from 0 to the max value of the data.y set
                 .domain([
                     0,
