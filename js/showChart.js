@@ -261,11 +261,10 @@ SunburstChart = {
             default : break;
         };
         this.settings.colorRange = FormData.colors;
-        this.settings.colors = {
-            'parent' : FormData.colors[0],
-            'group' : FormData.colors[1],
-            'child' : FormData.colors[2]
-        };
+        this.settings.elements = {
+            'borderWidth' : FormData.theme.borderSize + "px",
+            'borderColor' : "#" + FormData.theme.borderColor
+        }
         this.settings.fontSize = FormData.theme.labelSize;
         this.settings.dataStructure = FormData.data.attributes;
         // I'll need to add this to the form

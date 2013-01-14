@@ -38,10 +38,9 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         'dataUrl' : 'flare.json',  // this is a url for a resource
         'dataType' : 'json',        
         'colorRange' : [], // instead of defining a color array, I will set a color scale and then let the user overwrite it
-        'colors' : {            // colors for the nodes
-            'parent' : 'white',
-            'group' : 'blue',
-            'child' : 'red'
+        'elements' : {            // style colors
+            'borderColor' : 'white',
+            'borderWidth' : 1
         },
         'fontSize' : 12,
         // defines the data structure of the document
@@ -107,6 +106,8 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 .attr("display", function(d) { return d.depth ? null : "none"; }) // hide inner ring
                 //.attr("d", container.arc)
                 .attrTween("d", arcTween)
+                .style("stroke", container.opts.elements.borderColor)
+                .style("stroke-width", container.opts.elements.borderWidth)
                 .style("fill", function(d) {
                     if (d[container.opts.dataStructure.children]) {
                         return container.color(d.name);
@@ -124,7 +125,8 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 .each(stash)
                 .attr("display", function(d) { return d.depth ? null : "none"; }) // hide inner ring
                 //.attr("d", container.arc)
-                .style("stroke", "#fff")
+                .style("stroke", container.opts.elements.borderColor)
+                .style("stroke-width", container.opts.elements.borderWidth)
                 .style("fill", function(d) {
                     if (d[container.opts.dataStructure.children]) {
                         return container.color(d.name);
