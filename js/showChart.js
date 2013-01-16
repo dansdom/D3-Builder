@@ -424,7 +424,7 @@ BarChart = {
             default : break;
         };
         this.settings.elements = {
-            'shape' : FormData.colors[0],
+            'bars' : FormData.colors[0],
             'line' : FormData.colors[1],
             'dot' : FormData.colors[2],
             'x' : FormData.colors[3],

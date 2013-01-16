@@ -150,6 +150,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             container.bars
                 .transition()
                 .duration(container.opts.speed)
+                .attr("fill", container.opts.elements.bars)
                 .attr("x", function(d) { return container.xScale(d[container.opts.dataStructure.x]); })
                 .attr("width", function() {
                     // if the scale is ordinal then return container.xScale.rangeBand() - else use the option
@@ -168,6 +169,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             container.bars.enter()
                 .append("rect")
                 .attr("class", "bar")
+                .attr("fill", container.opts.elements.bars)
                 .attr("x", function(d) { return container.xScale(d[container.opts.dataStructure.x]); })
                 .attr("width", function() {
                     // if the scale is ordinal then return container.xScale.rangeBand() - else use the option
