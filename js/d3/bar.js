@@ -47,13 +47,13 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         },
         'fontSize' : 12,
         'dataStructure' : {
-            'x' : 'x1',  // this value may end up being an array so I can support multiple data sets
-            'y' : 'y1',
-            'ticksX' : 10,  // tha amount of ticks on the x-axis
-            'ticksY' : 5  // the amount of ticks on the y-axis
+            'x' : 'name',  // this value may end up being an array so I can support multiple data sets. These define the axis' for ordinal scale
+            'y' : 'value',
+            'ticksX' : 2,  // tha amount of ticks on the x-axis
+            'ticksY' : 2  // the amount of ticks on the y-axis
         },
         'scale' : {
-            'x' : 'linear',
+            'x' : 'linear',  // add ordinal support
             'y' : 'linear'
         },
         'chartName' : false  // If there is a chart name then insert the value. This allows for deep exploration to show category name
@@ -153,7 +153,13 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 .attr("x", function(d) { return container.xScale(d[container.opts.dataStructure.x]); })
                 .attr("width", function() {
                     // if the scale is ordinal then return container.xScale.rangeBand() - else use the option
-                    var barWidth = container.opts.elements.barWidth;
+                    var barWidth;
+                    if (container.opts.scale.x === "linear") {
+                        barWidth = container.opts.elements.barWidth;
+                    }
+                    else if (container.opts.scale.x === "ordinal") {
+                        barWidth = container.xScale.rangeBand();
+                    }
                     return barWidth;
                 })
                 .attr("y", function(d) { return container.yScale(d[container.opts.dataStructure.y]); })
@@ -165,11 +171,17 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 .attr("x", function(d) { return container.xScale(d[container.opts.dataStructure.x]); })
                 .attr("width", function() {
                     // if the scale is ordinal then return container.xScale.rangeBand() - else use the option
-                    var barWidth = container.opts.elements.barWidth;
+                    var barWidth;
+                    if (container.opts.scale.x === "linear") {
+                        barWidth = container.opts.elements.barWidth;
+                    }
+                    else if (container.opts.scale.x === "ordinal") {
+                        barWidth = container.xScale.rangeBand();
+                    }
                     return barWidth;
                 })
-                .attr("y", function(d) { return container.yScale(d[container.opts.dataStructure.y]); })
-                .attr("height", function(d) {return container.height - container.yScale(d[container.opts.dataStructure.y]); })
+                .attr("y", function(d) {  return container.yScale(d[container.opts.dataStructure.y]); })
+                .attr("height", function(d) { return container.height - container.yScale(d[container.opts.dataStructure.y]); })
                 .style("fill-opacity", 1e-6)
                 .transition()
                 .duration(container.opts.speed)
@@ -191,39 +203,64 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         setScale : function() {
             var container = this;
 
-            this.xScale = d3.scale[container.opts.scale.x]()
+            // set the X scale
+            container.xScale = d3.scale[container.opts.scale.x]()
+
+            if (container.opts.scale.x === "linear") {
                 // setting the X scale domain to go from the min value to the max value of the data.x set
                 // if multiple areas on the chart, I will have to check all data sets before settings the domain
-                .domain([
-                    d3.min(container.data, function(d) {return d[container.opts.dataStructure.x]}),
-                    d3.max(container.data, function(d) {return d[container.opts.dataStructure.x]})
-                ])
-                // set the range to go from 0 to the width of the chart
-                .range([0, this.width]);
+                container.xScale
+                    .domain([
+                        d3.min(container.data, function(d) { return d[container.opts.dataStructure.x]; }),
+                        d3.max(container.data, function(d) { return d[container.opts.dataStructure.x]; })
+                    ])
+                    // set the range to go from 0 to the width of the chart
+                    .range([0, container.width]);
+            }
+            else if (container.opts.scale.x === "exponential") {
+            }
+            else if (container.opts.scale.x === "ordinal") {
+                container.xScale
+                    .domain(container.data.map(function(d) { return d[container.opts.dataStructure.x]; }))
+                    .rangeRoundBands([0, container.width], 0.1);
+            }
+
 
             // if the scale is ordinal then add the rangeBounds - e.g.: .rangeRoundBands([0, width], .1);  (http://bl.ocks.org/3885304)
 
-            this.yScale = d3.scale[container.opts.scale.y]()
+            container.yScale = d3.scale[container.opts.scale.y]()
                 // setting the Y scale domain to go from 0 to the max value of the data.y set
-                .domain([
-                    0,
-                    d3.max(container.data, function(d) {return d[container.opts.dataStructure.y]})
-                ])
-                // set the range to go from 0 to the height of the chart
-                .range([this.height, 0]);
+            if (container.opts.scale.y === "linear") {
+                container.yScale
+                    .domain([
+                        0,
+                        d3.max(container.data, function(d) { return d[container.opts.dataStructure.y]; })
+                    ])
+                    // set the range to go from 0 to the height of the chart
+                    .range([container.height, 0]);
+            }
+            else if (container.opts.scale.y === "exponential") {
+            }
+            else if (container.opts.scale.y === "ordinal") {
+                container.yScale
+                    .domain([
+                        0, 
+                        d3.max(container.data, function(d) { return d[container.opts.dataStructure.y]; } )])
+                    .range([container.height, 0]);
+            }
         },
         setAxis : function() {
 
             var container = this;
             // need to add tick options here
 
-            this.xAxis = d3.svg.axis()
-                .scale(this.xScale)
+            container.xAxis = d3.svg.axis()
+                .scale(container.xScale)
                 .ticks(container.opts.dataStructure.ticksX)
                 .orient("bottom");
 
-            this.yAxis = d3.svg.axis()
-                .scale(this.yScale)
+            container.yAxis = d3.svg.axis()
+                .scale(container.yScale)
                 .ticks(container.opts.dataStructure.ticksY)
                 .orient("left");
         },
@@ -263,6 +300,9 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                         container.data = data;
                         container.updateChart(); 
                     });
+                }
+                else if (fileType === ".tsv") {
+
                 }
             }
             else {

@@ -97,9 +97,6 @@ ChartBuilder = {
 			}
 		});
 	},
-	undoChanges : function() {
-		// this function will undo the last changes from before the update chart function
-	},
 	takeSnapshot : function() {
 		// this takes a snapshot of the form state so that I can undo an updateChart
 		ChartType.getValue();
