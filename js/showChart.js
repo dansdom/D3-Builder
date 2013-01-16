@@ -392,7 +392,7 @@ AreaChart = {
     }
 };
 
-// object that builds the "bar" chart
+// object that builds the "bar" chart - I badly need to clean up this function and the bar chart plugin options as well
 BarChart = {
     init : function() {
         this.getSettings();

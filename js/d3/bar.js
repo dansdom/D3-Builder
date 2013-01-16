@@ -38,10 +38,8 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         'colorRange' : [], // instead of defining a color array, I will set a color scale and then let the user overwrite it
         // maybe only if there is one data set???
         'elements' : {
-            'bars' : 'yellow',  // I'll have more than just circles here - set to null if no shape is wanted
+            'bars' : '#fd8d3c',  // I'll have more than just circles here - set to null if no shape is wanted
             'barWidth' : 10,  // width of each iondividual bar
-            //'area' : 'white',  // I think if there are multiple areas, then I may use the colorRange
-            'dot' : '#ccc', // the dots on the line (I may make this a customisable shape though) - set to null if no dot is wanted
             'x' : true, //  x-axis - set to null if not wanted - leaving the colors for the stylesheet
             'y' : true //   y-axis - set to null if not wanted - leaving the colors for the stylesheet
         },
@@ -164,7 +162,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     return barWidth;
                 })
                 .attr("y", function(d) { return container.yScale(d[container.opts.dataStructure.y]); })
-                .attr("height", function(d) {return container.height - container.yScale(d[container.opts.dataStructure.y]); });
+                .attr("height", function(d) {return container.height - container.yScale(d[container.opts.dataStructure.y]) - 1; });  // the -1 here is some slight mis alingment from the d3 library
             
             container.bars.enter()
                 .append("rect")
@@ -183,7 +181,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     return barWidth;
                 })
                 .attr("y", function(d) {  return container.yScale(d[container.opts.dataStructure.y]); })
-                .attr("height", function(d) { return container.height - container.yScale(d[container.opts.dataStructure.y]); })
+                .attr("height", function(d) { return container.height - container.yScale(d[container.opts.dataStructure.y]) - 1; })
                 .style("fill-opacity", 1e-6)
                 .transition()
                 .duration(container.opts.speed)
@@ -229,7 +227,6 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
 
 
             // if the scale is ordinal then add the rangeBounds - e.g.: .rangeRoundBands([0, width], .1);  (http://bl.ocks.org/3885304)
-
             container.yScale = d3.scale[container.opts.scale.y]()
                 // setting the Y scale domain to go from 0 to the max value of the data.y set
             if (container.opts.scale.y === "linear") {
@@ -304,7 +301,12 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     });
                 }
                 else if (fileType === ".tsv") {
-
+                    //console.log('do csv call');
+                    // build the chart
+                    d3.csv(container.opts.dataUrl, function(error, data) {
+                        container.data = data;
+                        container.updateChart(); 
+                    });
                 }
             }
             else {

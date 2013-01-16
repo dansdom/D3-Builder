@@ -38,10 +38,11 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         'colorRange' : [], // instead of defining a color array, I will set a color scale and then let the user overwrite it
         // maybe only if there is one data set???
         'elements' : {
-            'shape' : 'yellow',  // I'll have more than just circles here - set to null if no shape is wanted
+            'shape' : '#fd8d3c',  // I'll have more than just circles here - set to null if no shape is wanted
             'line' : 'black',  // the line on the graph - set to null if no line is wanted
             //'area' : 'white',  // I think if there are multiple areas, then I may use the colorRange
-            'dot' : '#ccc', // the dots on the line (I may make this a customisable shape though) - set to null if no dot is wanted
+            'dot' : '#fdd0a2', // the dots on the line (I may make this a customisable shape though) - set to null if no dot is wanted
+            'dotRadius' : 3.5,  // 0 will show no dots
             'x' : true, //  x-axis - set to null if not wanted - leaving the colors for the stylesheet
             'y' : true //   y-axis - set to null if not wanted - leaving the colors for the stylesheet
         },
@@ -204,6 +205,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     .transition()
                   .delay(500)
                     .duration(500)
+                    .attr("r", container.opts.elements.dotRadius)
                     .style("fill", container.opts.elements.dot)
                     .style("stroke", container.opts.elements.line)
                     .style("stroke-opacity", 1)
@@ -214,7 +216,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     .attr("class", "dot")
                     .attr("cx", container.line.x())
                     .attr("cy", container.line.y())
-                    .attr("r", 3.5)
+                    .attr("r", container.opts.elements.dotRadius)
                     .style("fill", container.opts.elements.dot)
                     .style("stroke", container.opts.elements.line)
                     .style("stroke-opacity", 1e-6)
@@ -252,6 +254,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         },
         parseData : function(data) {
             // I may want to flatten out nested data here. not sure yet
+            // if the scale is ordinal, I have to put in an openig value so that I can push the data across the chart
             return data;
         },
         // need to do some thinking around these next 2 functions
@@ -259,24 +262,50 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         setScale : function() {
             var container = this;
 
-            this.xScale = d3.scale[container.opts.scale.x]()
+            // set the X scale
+            container.xScale = d3.scale[container.opts.scale.x]()
+
+            if (container.opts.scale.x === "linear") {
                 // setting the X scale domain to go from the min value to the max value of the data.x set
                 // if multiple areas on the chart, I will have to check all data sets before settings the domain
-                .domain([
-                    d3.min(container.data, function(d) {return d[container.opts.dataStructure.x]}),
-                    d3.max(container.data, function(d) {return d[container.opts.dataStructure.x]})
-                ])
-                // set the range to go from 0 to the width of the chart
-                .range([0, this.width]);
+                container.xScale
+                    .domain([
+                        d3.min(container.data, function(d) { return d[container.opts.dataStructure.x]; }),
+                        d3.max(container.data, function(d) { return d[container.opts.dataStructure.x]; })
+                    ])
+                    // set the range to go from 0 to the width of the chart
+                    .range([0, container.width]);
+            }
+            else if (container.opts.scale.x === "exponential") {
+            }
+            else if (container.opts.scale.x === "ordinal") {
+                container.xScale
+                    .domain(container.data.map(function(d) { return d[container.opts.dataStructure.x]; }))
+                    .rangeRoundBands([0, container.width], 0.1);
+            }
 
-            this.yScale = d3.scale[container.opts.scale.y]()
+
+            // if the scale is ordinal then add the rangeBounds - e.g.: .rangeRoundBands([0, width], .1);  (http://bl.ocks.org/3885304)
+            container.yScale = d3.scale[container.opts.scale.y]()
                 // setting the Y scale domain to go from 0 to the max value of the data.y set
-                .domain([
-                    0,
-                    d3.max(container.data, function(d) {return d[container.opts.dataStructure.y]})
-                ])
-                // set the range to go from 0 to the height of the chart
-                .range([this.height, 0]);
+            if (container.opts.scale.y === "linear") {
+                container.yScale
+                    .domain([
+                        0,
+                        d3.max(container.data, function(d) { return d[container.opts.dataStructure.y]; })
+                    ])
+                    // set the range to go from 0 to the height of the chart
+                    .range([container.height, 0]);
+            }
+            else if (container.opts.scale.y === "exponential") {
+            }
+            else if (container.opts.scale.y === "ordinal") {
+                container.yScale
+                    .domain([
+                        0, 
+                        d3.max(container.data, function(d) { return d[container.opts.dataStructure.y]; } )])
+                    .range([container.height, 0]);
+            }
         },
         setAxis : function() {
 
@@ -298,7 +327,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         updateData : function(data) {
             var container = this;
 
-            container.opts.dataUrl = data;
+            //container.opts.dataUrl = data;
             this.getData();
         },
         // gets data from a JSON request
@@ -318,7 +347,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     //console.log('do json call');
                     // build the chart
                     d3.json(container.opts.dataUrl, function(error, data) {
-                        container.data = data;
+                        container.data = container.parseData(data);
                         container.updateChart(); 
                     });
                 }
@@ -326,7 +355,15 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     //console.log('do csv call');
                     // build the chart
                     d3.csv(container.opts.dataUrl, function(error, data) {
-                        container.data = data;
+                        container.data = container.parseData(data);
+                        container.updateChart(); 
+                    });
+                }
+                else if (fileType === ".tsv") {
+                    //console.log('do csv call');
+                    // build the chart
+                    d3.csv(container.opts.dataUrl, function(error, data) {
+                        container.data = container.parseData(data);
                         container.updateChart(); 
                     });
                 }
