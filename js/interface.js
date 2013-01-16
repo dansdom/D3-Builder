@@ -11,9 +11,9 @@
 // 10. lots of work to implement the 'theme' options
 
 // Priorities:
-// 1. add a data.allowed object to the form data so that I can control data options for each chart
-// 2. Add a form validator that should run before the buildChart function (might need to fiddle with my validator)
-// 3. hook up the area chart
+// 1. Add a form validator that should run before the buildChart function (might need to fiddle with my validator)
+// 2. sort the data selection out for the different chart types. also, uploading charts is not working. I'll have to hook up an option for the plugins
+// 3. add a nice animation transition for the scales? that would be nice
 
 // Known Bugs (that are bugging me)
 // 1. select pie (nested), build chart. then select flat data and build. Fails to build the flat chart
