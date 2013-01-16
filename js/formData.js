@@ -26,7 +26,9 @@ FormDefault = {
             value : "size",
             children : "children",
             x : "x",
-            y : "y"
+            y : "y",
+            ticksX : "auto",
+            ticksY : "auto"
         },
         scale : {
             x : "linear",  // these scales can be "linear", "exponential" or "ordinal". default to "linear"
@@ -80,7 +82,9 @@ FormData = {
             value : "size",
             children : "children",
             x : "x",
-            y : "y"
+            y : "y",
+            ticksX : "auto",
+            ticksY : "auto"
         },
         scale : {
             x : "linear",  // these scales can be "linear", "exponential" or "ordinal". default to "linear"

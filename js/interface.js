@@ -166,6 +166,9 @@ ChartBuilder = {
 			case "area" :
 				AreaChart.init();
 				break;
+			case "bar" :
+				BarChart.init();
+				break;
 			default :
 				break;
 		};
@@ -665,8 +668,8 @@ ChartTheme = {
 		$("#theme-label-size").attr("value", "10");
 		$("#theme-label-position").attr("value", "");
 		$("#theme-label-color").attr("value", "000000").trigger("keyup");
-		$("#theme-data-border-size").attr("value", "");
-		$("#theme-data-border-color").attr("value", "000000").trigger("keyup");
+		$("#theme-data-border-size").attr("value", "1");
+		$("#theme-data-border-color").attr("value", "eeeeee").trigger("keyup");
 		// hide the sections
 		$("fieldset.theme .theme-background, fieldset.theme .theme-header, fieldset.theme .theme-labels, fieldset.theme .theme-data").css("display", "none");
 	},

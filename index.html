@@ -97,6 +97,7 @@
 											<option value="sunburst" data-allowed="nested">Sunburst</option>
 											<option value="force" data-allowed="nested">Force</option>
 											<option value="area" data-allowed="quantitative">Area</option>
+											<option value="bar" data-allowed="quantitative">Bar</option>
 							            </select>
 							        </li>
 									<li class="type-settings pie">
@@ -128,10 +129,17 @@
 										</select>
 									</li>
 									<li class="type-settings area">
-										<label for="type-chart-area">Force Type</label>
+										<label for="type-chart-area">Area Type</label>
 										<select id="type-chart-area" name="type-chart-area">
 											<option value="" selected="selected">plain</option>
 											<option value="">data points</option>
+										</select>
+									</li>
+									<li class="type-settings bar">
+										<label for="type-chart-bar">Bar Type</label>
+										<select id="type-chart-bar" name="type-chart-bar">
+											<option value="" selected="selected">normal</option>
+											<option value="">stacked</option>
 										</select>
 									</li>
 								</ul>
@@ -311,18 +319,26 @@
 									<li class="data-scale scaleX">
 							          	<label for="data-scaleX">Data Scale X</label>
 							            <select id="data-scaleX" name="data-scaleX">
-								            <option selected="selected">linear</option>
-											<option>exponential</option>
-											<option>ordinal</option>
+								            <option value="linear" selected="selected">linear</option>
+											<option value="exponential">exponential</option>
+											<option value="ordinal">ordinal</option>
 							            </select>
 							        </li>
 									<li class="data-scale scaleY">
 							          	<label for="data-scaleY">Data Scale Y</label>
 							            <select id="data-scaleY" name="data-scaleY">
-								            <option selected="selected">linear</option>
-											<option>exponential</option>
-											<option>ordinal</option>
+								            <option value="linear" selected="selected">linear</option>
+											<option value="exponential">exponential</option>
+											<option value="ordinal">ordinal</option>
 							            </select>
+							        </li>
+							        <li class="data-range rangeX">
+							        	<label for="data-rangeX">Data Range X</label>
+							        	<input type="text" size="20" name="data-rangeX" id="data-rangeX" placeholder="select the range of the X scale" value="auto">
+							        </li>
+							        <li class="data-range rangeY">
+							        	<label for="data-rangeY">Data Range Y</label>
+							        	<input type="text" size="20" name="data-rangeY" id="data-rangeY" placeholder="select the range of the Y scale" value="auto">
 							        </li>
 								</ul>
 							</fieldset>
@@ -460,6 +476,7 @@
 	<script src="js/d3/force.js"></script>
 	<script src="js/d3/sunburst.js"></script>
 	<script src="js/d3/area.js"></script>
+	<script src="js/d3/bar.js"></script>
 	<!-- custom interface -->
 	<script src="js/formData.js"></script>
 	<script src="js/interface.js"></script>
