@@ -19,6 +19,16 @@
 // 1. select pie (nested), build chart. then select flat data and build. Fails to build the flat chart
 // 2. changing from bubble to pack layout doesn't change the colors properly
 
+// Chart Plugins priority
+// 1. scatterplot
+// 2. difference chart
+// 3. multiple line chart and area (write into current plugins)
+// 3. stacked area and line chart
+// 4. tree layout
+// 5. Hierarchical Edge Bundling
+// 6. node link tree
+// 7. Streamgraph
+
 // this object is used to handle the form data on the page
 ChartBuilder = {
 	init : function() {
