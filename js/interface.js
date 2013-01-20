@@ -559,7 +559,7 @@ ChartData = {
 	        	regex = /\.([0-9a-z]+)(?:[\?#]|$)/i,
 	        	fileType = this.files[0].name.match(regex)[0];
 
-	        if (fileType === ".json" || fileType === ".csv") {
+	        if (fileType === ".json" || fileType === ".csv" || fileType === ".tsv") {
 	        	// read the file
 	        	reader.readAsText(this.files[0], "UTF-8");
 	        	//reader.onprogress = updateProgress;
@@ -575,6 +575,10 @@ ChartData = {
 			        }
 			        if (fileType.toLowerCase() === ".csv") {
 			        	// parse the CSV file
+			        	// On my todo list
+			        }
+			        if (fileType.toLowerCase() === ".tsv") {
+			        	// parse the TSV file
 			        	// On my todo list
 			        }
 	        	};  
