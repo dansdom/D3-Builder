@@ -179,6 +179,9 @@ ChartBuilder = {
 			case "bar" :
 				BarChart.init();
 				break;
+			case "chord" :
+				ChordChart.init();
+				break;
 			default :
 				break;
 		};
@@ -211,7 +214,7 @@ ChartType = {
 				dataSelect = $("#data-structure"),
 				// this is probably where I'm going to set the data.allowed flag
 				dataType = $(this).find(":selected").attr("data-allowed"),
-				options = '<option selected="selected" value="flat">Ordinal Flat</option><option value="nested">Ordinal Nested</option><option value="quantitative">Quantitative</option>';
+				options = '<option selected="selected" value="flat">Ordinal Flat</option><option value="nested">Ordinal Nested</option><option value="quantitative">Quantitative</option><option value="matrix">Matrix</option>';
 
 			// show the secondary chart type select box
 			$("li.type-settings").css("display", "none");
@@ -238,6 +241,12 @@ ChartType = {
 				//$("#data-structure").find("option[value='nested']").remove();
 				$("#data-structure").attr("value", "quantitative");
 				ChartData.selectDataStructure("quantitative");
+			}
+			else if (dataType === "matrix") {
+				//$("#data-structure").find("option[value='flat']").remove();
+				//$("#data-structure").find("option[value='nested']").remove();
+				$("#data-structure").attr("value", "matrix");
+				ChartData.selectDataStructure("matrix");
 			}
 			// can select either
 			else if (dataType === "both") {
@@ -544,6 +553,9 @@ ChartData = {
 		else if (FormData.data.structure === "quantitative") {
 			FormData.data.dummy = $("#data-dummy-quantitative").attr("value");
 		}
+		else if (FormData.data.structure === "matrix") {
+			FormData.data.dummy = $("#data-dummy-matrix").attr("value");
+		}
 		
 	},
 	fileData : {},  // data object to hold uploaded file
@@ -659,6 +671,10 @@ ChartData = {
 		else if (structure === "quantitative") {
 			children.css("display", "none");
 			$("li.data-source.dummy .quantitative").css("display", "block");
+		}
+		else if (structure === "matrix") {
+			children.css("display", "none");
+			$("li.data-source.dummy .matrix").css("display", "block");
 		}
 		// everything allowed
 		else {

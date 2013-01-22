@@ -32,7 +32,8 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         'width' : 500,
         'radius' : 200,
         'speed' : 1000,
-        'padding': 2,
+        'padding' : 10,
+        'spacing': 0.05,
         'labelPosition' : 2.2, // this is the position of the segment labels. 0 = center of chart. 1 = center of segment. > 2 = outside the chart
         'data' : null,  // I'll need to figure out how I want to present data options to the user
         'dataUrl' : 'flare.json',  // this is a url for a resource
@@ -102,7 +103,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             var container = this;
 
             // set the chart radii
-            container.innerRadius = Math.min(container.opts.width, container.opts.height) * .40;
+            container.innerRadius = Math.min(container.opts.width - container.opts.padding, container.opts.height - container.opts.padding) * .40;
             container.outerRadius = container.innerRadius * 1.1;
             // define the arc and chord for the transitions
             container.svgArc = d3.svg.arc().innerRadius(container.innerRadius).outerRadius(container.outerRadius);
@@ -121,7 +122,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 };
             }
             container.chord
-                .padding(container.opts.padding)
+                .padding(container.opts.spacing)
                 .sortSubgroups(d3.descending)
                 .matrix(container.data);
 
@@ -357,8 +358,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 .attr("x1", 1)
                 .attr("y1", 0)
                 .attr("x2", 5)
-                .attr("y2", 0)
-                .style("stroke", "#000");
+                .attr("y2", 0);
 
             container.tickUnits.append("text")
                 .style("opacity", 1e-6)
@@ -381,15 +381,15 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             //  container.chordPaths
             container.labels = container.arcGroups.append("svg:text")
                     .attr("class", "label")
-                    .attr("x", -100)
-                    .attr("dy", 20);
+                    .attr("x", 6)
+                    .attr("dy", 17);
                 
             // add the text paths - atm I'm just adding the value of the group, but with better data integration I will probably use the category name
             container.labels
                 .append("svg:textPath")
                 // this xlink:href maps the path element onto a target glyph with the matching id
                 .attr("xlink:href", function(d, i) { return "#group" + i; })
-                .text(function(d) {console.log(d); return d.value} )
+                .text(function(d) {console.log(d); return d.value.toFixed(container.opts.decimalPlaces)} )
                 .attr("startOffset", 5);
 
         },

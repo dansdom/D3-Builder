@@ -98,6 +98,7 @@
 											<option value="force" data-allowed="nested">Force</option>
 											<option value="area" data-allowed="quantitative">Area</option>
 											<option value="bar" data-allowed="quantitative">Bar</option>
+											<option value="chord" data-allowed="matrix">Chord</option>
 							            </select>
 							        </li>
 									<li class="type-settings pie">
@@ -140,6 +141,12 @@
 										<select id="type-chart-bar" name="type-chart-bar">
 											<option value="" selected="selected">normal</option>
 											<option value="">stacked</option>
+										</select>
+									</li>
+									<li class="type-settings chord">
+										<label for="type-chart-chord">Chord Type</label>
+										<select id="type-chart-chord" name="type-chart-chord">
+											<option value="" selected="selected">normal</option>
 										</select>
 									</li>
 								</ul>
@@ -279,6 +286,14 @@
 												<option value="data/data2.csv">data set 2</option>
 								            </select>
 							        	</div>
+							        	<div class="matrix">
+							        		<label for="data-dummy-matrix">Dummy Data Set (matrix)</label>
+								            <select id="data-dummy-matrix" name="data-dummy-matrix">
+									            <option value="data/matrix.json" selected="selected">data set 1</option>
+												<option value="data/matrix2.json">data set 2</option>
+												<option value="data/matrix3.json">data set 3</option>
+								            </select>
+							        	</div>
 							        </li>
 									<li class="data-source url">
 							          	<label for="data-url">Data URL</label>
@@ -294,6 +309,7 @@
 								            <option value="flat" selected="selected">Ordinal Flat</option>
 											<option value="nested">Ordinal Nested</option>
 											<option value="quantitative">Quantitative</option>
+											<option value="matrix">Matrix</option>
 							            </select>
 							        </li>
 									<li class="data-attributes name">
@@ -477,6 +493,7 @@
 	<script src="js/d3/sunburst.js"></script>
 	<script src="js/d3/area.js"></script>
 	<script src="js/d3/bar.js"></script>
+	<script src="js/d3/chord.js"></script>
 	<!-- custom interface -->
 	<script src="js/formData.js"></script>
 	<script src="js/interface.js"></script>
