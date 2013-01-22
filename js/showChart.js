@@ -536,14 +536,12 @@ ChordChart = {
         }
         // add the header style if there is a vlue for it
         if (FormData.theme.headerName) {
-            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + ";font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");}";
+            this.chartStyle += ".chartName {font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");}";
+            this.chartStyle += "svg .chartName text {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + "}"
         }
-        
-        //this.chartStyle += ".dot {fill: " + FormData.colors[2] + ";stroke: " + FormData.colors[1] + ";stroke-width: 1px;}";
-        //this.chartStyle += ".tick {fill:none;stroke:#" + FormData.theme.borderColor + ";stroke-width:" + FormData.theme.borderSize + "px;}";
 
         this.chartStyle += ".group text {font: " + FormData.theme.labelSize + "px sans-serif;pointer-events: none;}"; 
-        this.chartStyle += ".chords path {fill-opacity: .67;stroke: #" + FormData.theme.labelColor + ";stroke-width: .5px;}";
+        this.chartStyle += ".chords path {fill-opacity: .67;stroke: #" + FormData.theme.borderColor + ";stroke-width: .5px;}";
         this.chartStyle += ".tickUnit line {stroke: #" + FormData.theme.labelColor + "}";
         this.chartStyle += ".tickUnit text {fill: #" + FormData.theme.labelColor + "}"
         this.chartStyle += "text {fill: #" + FormData.theme.labelColor + ";font-size:" + FormData.theme.labelSize + "px;}";
