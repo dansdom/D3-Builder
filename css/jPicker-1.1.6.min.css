@@ -1,5 +1,5 @@
 ﻿.jPicker .Icon{display:inline-block;height:26px;position:relative;text-align:left;width:26px;}
-.theme .jPicker .Icon {top:-2px}
+.theme .jPicker .Icon {top:-3px}
 .jPicker .Icon span.Color,.jPicker .Icon span.Alpha{background-position:2px 2px;display:block;height:100%;left:0;position:absolute;top:0;width:100%}
 .jPicker .Icon span.Image{background-repeat:no-repeat;cursor:pointer;display:block;height:100%;left:0;position:absolute;top:0;width:100%}
 .jPicker.Container{color:#000;z-index:10}table.jPicker{background-color:#efefef;border:1px outset #666;font-family:Arial,Helvetica,Sans-Serif;font-size:12px!important;margin:0;padding:5px;width:545px;z-index:20}

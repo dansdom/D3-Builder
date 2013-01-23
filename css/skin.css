@@ -104,11 +104,14 @@ section[role="region"] .grid {overflow:visible;}
 #actionNav li.label {margin-right:10px;font-weight:bold;}
 #actionNav #build-update {background:#b72121;border:1px solid #663535}
 /* Chart Form */
+.helpBox {display:none;}
 #formNav li {margin:2px 0;border-radius:4px}
 #formNav li a {color:#fff;display:block;height:18px;line-height:18px;}
 #formNav li.inactive a, #formNav li.inactive:hover a {color:#999;}
 #formNav .active a, #formNav li:hover a {color:#fff}
 #chart-settings fieldset {display:none}
+#chart-settings fieldset li .icon-question-sign {margin-top:2px;margin-right:5px;text-indent:-9000px;cursor:pointer;float:right;}
+#chart-settings fieldset li > label {display:inline-block;}
 fieldset.theme ul {border-bottom:1px solid #000;padding:5px 0}
 fieldset.data .data-source {display:none;margin:0 0 20px;}
 fieldset.data .data-source.dummy {display:block}
@@ -123,6 +126,7 @@ li.theme-background,
 li.theme-header,
 li.theme-labels,
 li.theme-data {display:none}
+#theme-background-color, #theme-header-color, #theme-label-color, #theme-data-border-color {display:inline-block;}
 
 .palette ol {margin:0;padding:0}
 .palette li {list-style:none;position:relative;display:none;clear:none;height:26px;width:26px;float:left;margin:2px 1px 4px;padding:0;background:red;border-radius:2px;}
@@ -135,6 +139,13 @@ li.theme-data {display:none}
 
 /* PLUGINS (jQuery)  
  * ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+#popupBox {background:#fff;box-shadow:2px 2px 2px rgba(0,0,0,0.5);border-radius:10px;}
+#popupBox table {margin:0;}
+#popupBox td {margin:0;padding:0;border:0;}
+#popupBox h2 {margin:10px;text-align:center;font-size:16px;}
+#popupBox p {margin:0 20px 15px;}
+#popupBox ul, #popupBox ol {margin:0 20px 15px;}
+.popupClose {display:block;position:absolute;top:10px;right:10px;text-indent:-9000px;}
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
    MEDIA QUERIES  

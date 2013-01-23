@@ -283,9 +283,9 @@ ChartType = {
 ChartSize = {
 	reset : function() {
 		// set to default values
-		$("#size-height").attr("value", "600");
-		$("#size-width").attr("value", "600");
-		$("#size-outer-radius").attr("value", "250");
+		$("#size-height").attr("value", "680");
+		$("#size-width").attr("value", "680");
+		$("#size-outer-radius").attr("value", "300");
 		$("#size-inner-radius").attr("value", "0");
 		$("#size-padding").attr("value", "20");
 	},
@@ -928,6 +928,16 @@ $(document).ready(function()
         'startTab' : 1,
         'fadeIn' : true,
         'fadeSpeed' : 300
+	});
+
+	$(".icon-question-sign").popup({
+		'transparentOpacity' : 30,
+		'titleHeight' : 0,
+		'controlHeight' : 0,
+		'shadowLength' : 10,
+		'onOpen' : function() {
+			$("#popupBox .popupClose").addClass("icon-remove-sign");
+		}
 	});
 	
 });

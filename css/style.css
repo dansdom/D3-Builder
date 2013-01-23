@@ -49,7 +49,7 @@ h6 {font-size:11px;color:#999999;text-transform:uppercase}
 h4,h5,h6 {line-height:18px}
 h1 em,h2 em,h3 em,h4 em,h5 em,h6 em {font-style:normal;font-weight:normal;font-size:50%;color:#999;letter-spacing:-0.01em;white-space:nowrap}
 small {font-size:100%}
-ul,ol {padding-left:2em}
+ul,ol {padding-left:1.5em}
 ol li {list-style-type:decimal}
 ul li {list-style-type:disc}
 dl dt {font-weight:bold}
@@ -155,7 +155,7 @@ form li .btn {display:inline-block}
 .fieldLabel {text-align:right}
 /*stacked forms */
 .form-stacked input,.form-stacked textarea,.form-stacked select,.form-stacked .uneditable-input {display:block;width:100%}
-.form-stacked input.small,.form-stacked textarea.small,.form-stacked select.small,.form-stacked .uneditable-input.small {width:50%;display:inline-block} 
+.form-stacked input.small,.form-stacked textarea.small,.form-stacked select.small,.form-stacked .uneditable-input.small {width:50%;display:block} 
 .form-stacked li > label, .form-stacked .fieldLabel {width:auto;float:none;margin:0 0 5px 0;text-align:left}
 .form-stacked legend {padding:0 0 10px 0}
 .form-stacked .radioField, .form-stacked .checkField {display:inline-block;width:auto;float:right;min-height:1em}

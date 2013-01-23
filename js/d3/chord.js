@@ -389,7 +389,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 .append("svg:textPath")
                 // this xlink:href maps the path element onto a target glyph with the matching id
                 .attr("xlink:href", function(d, i) { return "#group" + i; })
-                .text(function(d) {console.log(d); return d.value.toFixed(container.opts.decimalPlaces)} )
+                .text(function(d) { return d.value.toFixed(container.opts.decimalPlaces)} )
                 .attr("startOffset", 5);
 
         },
