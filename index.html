@@ -271,6 +271,7 @@
 							          				<h2>Chart Outer Radius</h2>
 							          				<p>For circular charts such as the pie and sunburst layouts, this is the radius of the outer ring of the chart.</p>
 							          				<p>This number is a measurement in pixels.</p>
+													<p class="chart-pie">The <strong>Pie chart</strong> outer radius is the full extent of the chart. The labels exist outside of this measurement.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -285,6 +286,7 @@
 							          				<h2>Chart Inner Radius help</h2>
 							          				<p>For charts that have an inner radius, this is the size in pixels of that radius.</p>
 							          				<p>The pie chart can be turned into a donut chart by setting this attribute.</p>
+													<p class="chart-pie">The <strong>Pie chart</strong> inner radius measures the gap in the middle of the chart. 0 is a perfect pie chart, Any positive number makes this chart a <i>donut</i>.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -319,6 +321,7 @@
 							          				<h2>Color Scheme</h2>
 							          				<p>There are a number of pre-set color schemes defined. These color schemes color the data and chart components. A pre-set color scheme can be modified, or you can create your own one from scratch.</p>
 							          				<p>To customise a color scheme, you can add or remove colour blocks, or simply re-define the palette size. The colors that are represented in the scheme are represented by the tiles at the bottom of this panel. To change a tiles colour, click on it and select a colour from the colour picker.</p>
+													<p class="chart-pie">The color scheme on a <strong>Pie chart</strong> controls the data segments or <i>wedges</i> of the chart.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -647,7 +650,7 @@
 							          			<div class="helpContent">
 							          				<h2>Data X</h2>
 							          				<p>This defines what atrribute in the data object defines the <strong>X</strong> value of the data set. In the code example it is the value in red</p>
-							          				<p>These data values are used for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Line</strong> charts instead of the <strong>Name</strong>, <strong>Value</strong> and <strong>Children</strong> properties.</p>
+							          				<p>These data values are used for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Scatterplot</strong> charts instead of the <strong>Name</strong>, <strong>Value</strong> and <strong>Children</strong> properties.</p>
 							          				<p><strong>JSON example:</strong></p>
 							          				<code>							          				
 							          						{<br>
@@ -677,12 +680,12 @@
 							          			<div class="helpContent">
 							          				<h2>Data X</h2>
 							          				<p>This defines what atrribute in the data object defines the <strong>Y</strong> value of the data set. In the code example it is the value in red</p>
-							          				<p>These data values are used for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Line</strong> charts instead of the <strong>Name</strong>, <strong>Value</strong> and <strong>Children</strong> properties.</p>
+							          				<p>These data values are used for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Scatterplot</strong> charts instead of the <strong>Name</strong>, <strong>Value</strong> and <strong>Children</strong> properties.</p>
 							          				<p><strong>JSON example:</strong></p>
 							          				<code>							          				
 							          						{<br>
 							          						    &nbsp;&nbsp;&nbsp;&nbsp;x : (number),<br>
-							          						    &nbsp;&nbsp;&nbsp;&nbsp;<strong>x</strong> : (number)<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;<strong>y</strong> : (number)<br>
 							          					}							          					
 							          				</code>
 							          				<p><strong>CSV example</strong></p>
@@ -706,7 +709,7 @@
 							          		<div id="data-scaleX-help">
 							          			<div class="helpContent">
 							          				<h2>Data Scale X</h2>
-							          				<p>This defines the scale type on the X axis of the chart. These scales are only useful for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Line</strong> charts.</p>
+							          				<p>This defines the scale type on the X axis of the chart. These scales are only useful for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Scatterplot</strong> charts.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -723,7 +726,7 @@
 							          		<div id="data-scaleY-help">
 							          			<div class="helpContent">
 							          				<h2>Data Scale Y</h2>
-							          				<p>This defines the scale type on the X axis of the chart. These scales are only useful for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Line</strong> charts.</p>
+							          				<p>This defines the scale type on the X axis of the chart. These scales are only useful for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Scatterplot</strong> charts.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -741,7 +744,7 @@
 							          			<div class="helpContent">
 							          				<h2>Data Range X</h2>
 							          				<p>This defines the range of the data on the X axis of the chart. The default setting is <strong>auto</strong>, which will automatically select the full extent of the data.</p>
-							          				<p>These scales are only useful for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Line</strong> charts.</p>
+							          				<p>These scales are only useful for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Scatterplot</strong> charts.</p>
 							          			</div>
 							          		</div>
 							          	</div>

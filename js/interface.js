@@ -962,7 +962,8 @@ $(document).ready(function()
 
 	$(".icon-question-sign").popup({
 		'transparentOpacity' : 30,
-		'fixedTop' : 100,
+		'boxHeight' : 500,
+		'boxWidth' : 500,
 		'titleHeight' : 0,
 		'controlHeight' : 0,
 		'shadowLength' : 0,
