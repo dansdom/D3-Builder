@@ -1,23 +1,10 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<html class="no-js" lang="en">
 <head>
 	<meta charset="utf-8">
 	<title>D3 Chart Builder</title>
 	<meta name="description" content="">
 	<meta name="author" content="">	
-	<!-- OpenGraph for Facebook -->
-	<meta property="og:title" content="Hummingbird">
-	<meta property="og:type" content="website">
-	<meta property="og:url" content="http://abc.net.au/">
-	<meta property="og:image" content="http://abc.net.au/">
-	<meta property="og:site_name" content="D3 Chart Builder">
-	<meta property="og:fb:admins" content="USER_ID">
-	<meta property="og:description" content="Enter a description that will attract Facebook users. Use no more than 255 characters.">
-	<meta property="og:street-address" content="Street Address">
-	<meta property="og:locality" content="Locality">
-	<meta property="og:region" content="Region">
-	<meta property="og:postal-code" content="Postal Code">
-	<meta property="og:country-name" content="Australia">
 	<!--Microsoft. Delete if not required -->
 	<meta http-equiv="cleartype" content="on">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -27,8 +14,6 @@
 	<link title="iPhone3" rel="apple-touch-icon-precomposed" href="img/ios.png">
 	<link title="nokia" rel="shortcut icon" href="img/ios.png">
 	<link title="Favicon" rel="shortcut icon" href="/favicon.ico">
-	<!-- Goodies -->
-	<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 	<!--iOS. Delete if not required -->
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -89,7 +74,7 @@
 							    <legend>Chart Type</legend>
 								<ul>
 							        <li>
-							          	<label for="select">Select Chart Type</label>
+							          	<label for="type-chart">Select Chart Type</label>
 							          	<a class="icon-question-sign" name="#type-chart-help">help</a>
 							          	<div class="helpBox">
 							          		<div id="type-chart-help">
@@ -156,7 +141,7 @@
 							          		<div id="type-chart-sunburst-help">
 							          			<div class="helpContent">
 							          				<h2>Sunburst Chart</h2>
-							          				<p>The <a herf="http://en.wikipedia.org/wiki/Pie_chart#Ring_chart_.2F_Multilevel_pie_chart">Sunburst (Ring Chart)</a> is essentially a pie chart that displays multiple levels of data.</p>
+							          				<p>The <a href="http://en.wikipedia.org/wiki/Pie_chart#Ring_chart_.2F_Multilevel_pie_chart">Sunburst (Ring Chart)</a> is essentially a pie chart that displays multiple levels of data.</p>
 							          				<p>The Sunburst layout takes only <a href="http://en.wikipedia.org/wiki/Ordinal_scale#Ordinal_scale">ordinal data</a> sets that are nested in nature.</p>
 							          			</div>
 							          		</div>
@@ -449,7 +434,7 @@
 							        </li>
 									<li class="data-source dummy">
 										<div class="flat">
-								          	<label for="data-dummy-flat">Dummy Data Set (flat)</label>
+								          	<label for="data-dummy-flat">Flat Data</label>
 								          	<a class="icon-question-sign" name="#data-dummy-flat-help">help</a>
 								          	<div class="helpBox">
 								          		<div id="data-dummy-flat-help">
@@ -466,13 +451,13 @@
 								            </select>
 							        	</div>
 							        	<div class="nested">
-							        		<label for="data-dummy-nested">Dummy Data Set (nested)</label>
+							        		<label for="data-dummy-nested">Nested Data</label>
 							        		<a class="icon-question-sign" name="#data-dummy-nested-help">help</a>
 								          	<div class="helpBox">
 								          		<div id="data-dummy-nested-help">
 								          			<div class="helpContent">
-								          				<p>data nested flat help</p>
-								          				<p>lorem ipsum dolor sit amet</p>
+								          				<h2>Data Nested</h2>
+								          				<p>Here you can choose from 3 different nested data sets. These data sets are <strong><a href="http://en.wikipedia.org/wiki/Ordinal_scale#Ordinal_scale">ordinal</a></strong> and can only be chosen to be used on charts that support ordinal scales.</p>
 								          			</div>
 								          		</div>
 								          	</div>
@@ -483,13 +468,13 @@
 								            </select>
 							        	</div>
 							        	<div class="quantitative">
-							        		<label for="data-dummy-quantitative">Dummy Data Set (quantitative)</label>
+							        		<label for="data-dummy-quantitative">Quantitative Data</label>
 							        		<a class="icon-question-sign" name="#data-dummy-quantitative-help">help</a>
 								          	<div class="helpBox">
 								          		<div id="data-dummy-quantitative-help">
 								          			<div class="helpContent">
-								          				<p>data quantitative flat help</p>
-								          				<p>lorem ipsum dolor sit amet</p>
+								          				<h2>Data Quantitative</h2>
+								          				<p>Here you can choose from 3 different Quantitative data sets. These data sets consist of purely numerical value pairs and a primarily used for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Line</strong> charts.</p>
 								          			</div>
 								          		</div>
 								          	</div>
@@ -499,13 +484,13 @@
 								            </select>
 							        	</div>
 							        	<div class="matrix">
-							        		<label for="data-dummy-matrix">Dummy Data Set (matrix)</label>
+							        		<label for="data-dummy-matrix">Matrix Data</label>
 							        		<a class="icon-question-sign" name="#data-dummy-matrix-help">help</a>
 								          	<div class="helpBox">
 								          		<div id="data-dummy-matrix-help">
 								          			<div class="helpContent">
-								          				<p>data matrix flat help</p>
-								          				<p>lorem ipsum dolor sit amet</p>
+								          				<h2>Data Matrix</h2>
+								          				<p>Here you can choose from 3 different Matrix data sets. These data sets consist of a martix of values that point to each other. They can represent the relationship between many different groups. One example would be how sets of populations compare to each other.</p>
 								          			</div>
 								          		</div>
 								          	</div>
@@ -522,21 +507,21 @@
 							          	<div class="helpBox">
 							          		<div id="data-url-help">
 							          			<div class="helpContent">
-							          				<p>data url help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Data Url</h2>
+							          				<p>Add a URL to point to a data resource.</p>
 							          			</div>
 							          		</div>
 							          	</div>
 							            <input type="text" size="20" name="data-url" id="data-url" placeholder="URL of the data">
 							        </li>
 									<li class="data-source file">
-							          	<label for="select">Select Data File <small>(.json, .csv)</small></label>
+							          	<label for="data-file">Select Data File <small>(.json, .csv, .tsv)</small></label>
 							          	<a class="icon-question-sign" name="#data-file-help">help</a>
 							          	<div class="helpBox">
 							          		<div id="data-file-help">
 							          			<div class="helpContent">
-							          				<p>data file help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Data File</h2>
+							          				<p>Upload a file that contains data. Check first that the file has the correct format and data structure for the current chart.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -548,8 +533,29 @@
 							          	<div class="helpBox">
 							          		<div id="data-structure-help">
 							          			<div class="helpContent">
-							          				<p>data structure help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Data Structure</h2>
+							          				<p>This is where you can set the data structure for the graph. Charts that use a JSON format require the data fields to be defined. The default JSON structure is as such:</p>
+							          				<p><strong>Flat example:</strong></p>
+							          				<code>
+							          				
+							          						{
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;name : (string),
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;value : (number)							          						        							          		
+							          					}
+							          					
+							          				</code>
+							          				<p><strong>Nested example:</strong></p>
+							          				<code>
+							          				
+							          						{
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;name : (string),
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;children : {
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name : (string),
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value : (number)
+							          					    	&nbsp;&nbsp;&nbsp;&nbsp;}
+							          					}
+							          					
+							          				</code>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -566,8 +572,20 @@
 							          	<div class="helpBox">
 							          		<div id="data-name-help">
 							          			<div class="helpContent">
-							          				<p>data name help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Data Name</h2>
+							          				<p>This defines what atrribute in the data object takes the <strong>name</strong> of the data set. In the code example it is the value in red.</p>
+							          				<p><strong>Nested example:</strong></p>
+							          				<code>
+							          				
+							          						{
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;<strong>name</strong> : (string),
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;children : {
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name : (string),
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value : (number)
+							          					    	&nbsp;&nbsp;&nbsp;&nbsp;}
+							          					}
+							          					
+							          				</code>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -579,8 +597,20 @@
 							          	<div class="helpBox">
 							          		<div id="data-value-help">
 							          			<div class="helpContent">
-							          				<p>data value help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Data Value</h2>
+							          				<p>This defines what atrribute in the data object takes the <strong>value</strong> of the data set. In the code example it is the value in red.</p>
+							          				<p><strong>Nested example:</strong></p>
+							          				<code>
+							          				
+							          						{
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;name : (string),
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;children : {
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name : (string),
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>value</strong> : (number)
+							          					    	&nbsp;&nbsp;&nbsp;&nbsp;}
+							          					}
+							          				
+							          				</code>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -592,8 +622,20 @@
 							          	<div class="helpBox">
 							          		<div id="data-children-help">
 							          			<div class="helpContent">
-							          				<p>data children help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Data Children</h2>
+							          				<p>This defines what atrribute in the data object defines the <strong>children</strong> in each layer of the data set. In the code example it is the value in red.</p>
+							          				<p><strong>Nested example:</strong></p>
+							          				<code>
+							          				
+							          						{
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;name : (string),
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;<strong>children</strong> : {
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name : (string),
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value : (number)
+							          					    	&nbsp;&nbsp;&nbsp;&nbsp;}
+							          					}
+							          					
+							          				</code>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -605,8 +647,29 @@
 							          	<div class="helpBox">
 							          		<div id="data-x-help">
 							          			<div class="helpContent">
-							          				<p>data X help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Data X</h2>
+							          				<p>This defines what atrribute in the data object defines the <strong>X</strong> value of the data set. In the code example it is the value in red</p>
+							          				<p>These data values are used for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Line</strong> charts instead of the <strong>Name</strong>, <strong>Value</strong> and <strong>Children</strong> properties.</p>
+							          				<p><strong>JSON example:</strong></p>
+							          				<code>
+							          				
+							          						{
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;<strong>x</strong> : (number),
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;y : (number)
+							          					}
+							          				
+							          				</code>
+							          				<p><strong>CSV example</strong></p>
+							          				<code>
+							          					
+							          						<strong>x</strong>, y
+							          						1, 5
+							          						2, 8
+							          						3, 3
+							          						4, 12
+							          						5, 7
+							          				
+							          				</code>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -618,8 +681,29 @@
 							          	<div class="helpBox">
 							          		<div id="data-y-help">
 							          			<div class="helpContent">
-							          				<p>data Y help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Data X</h2>
+							          				<p>This defines what atrribute in the data object defines the <strong>Y</strong> value of the data set. In the code example it is the value in red</p>
+							          				<p>These data values are used for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Line</strong> charts instead of the <strong>Name</strong>, <strong>Value</strong> and <strong>Children</strong> properties.</p>
+							          				<p><strong>JSON example:</strong></p>
+							          				<code>
+							          				
+							          						{
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;x : (number),
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;<strong>x</strong> : (number)
+							          					}
+							          					
+							          				</code>
+							          				<p><strong>CSV example</strong></p>
+							          				<code>
+							          					
+							          						x, <strong>y</strong>
+							          						1, 5
+							          						2, 8
+							          						3, 3
+							          						4, 12
+							          						5, 7
+							          					
+							          				</code>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -631,8 +715,8 @@
 							          	<div class="helpBox">
 							          		<div id="data-scaleX-help">
 							          			<div class="helpContent">
-							          				<p>data scale X help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Data Scale X</h2>
+							          				<p>This defines the scale type on the X axis of the chart. These scales are only useful for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Line</strong> charts.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -648,8 +732,8 @@
 							          	<div class="helpBox">
 							          		<div id="data-scaleY-help">
 							          			<div class="helpContent">
-							          				<p>data scale Y help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Data Scale Y</h2>
+							          				<p>This defines the scale type on the X axis of the chart. These scales are only useful for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Line</strong> charts.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -665,8 +749,9 @@
 							          	<div class="helpBox">
 							          		<div id="data-rangeX-help">
 							          			<div class="helpContent">
-							          				<p>data range X help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Data Range X</h2>
+							          				<p>This defines the range of the data on the X axis of the chart. The default setting is <strong>auto</strong>, which will automatically select the full extent of the data.</p>
+							          				<p>These scales are only useful for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Line</strong> charts.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -678,8 +763,9 @@
 							          	<div class="helpBox">
 							          		<div id="data-rangeY-help">
 							          			<div class="helpContent">
-							          				<p>data range Y help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Data Range Y</h2>
+							          				<p>This defines the range of the data on the Y axis of the chart. The default setting is <strong>auto</strong>, which will automatically select the full extent of the data.</p>
+							          				<p>These scales are only useful for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Line</strong> charts.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -703,8 +789,8 @@
 							          	<div class="helpBox">
 							          		<div id="data-background-color-help">
 							          			<div class="helpContent">
-							          				<p>theme background color help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Theme Cackground Color</h2>
+							          				<p>The background colour of the chart</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -725,8 +811,8 @@
 							          	<div class="helpBox">
 							          		<div id="data-header-name-help">
 							          			<div class="helpContent">
-							          				<p>theme header name help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Theme Header Name</h2>
+							          				<p>A Header for the chart can be used.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -738,8 +824,8 @@
 							          	<div class="helpBox">
 							          		<div id="data-header-size-help">
 							          			<div class="helpContent">
-							          				<p>theme header size help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Theme Header Size</h2>
+							          				<p>This defines the size of the header text in pixels</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -751,8 +837,8 @@
 							          	<div class="helpBox">
 							          		<div id="data-header-position-help">
 							          			<div class="helpContent">
-							          				<p>theme header position help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Theme Header Position</h2>
+							          				<p>This defines the general position of the header. The exact position can be tweaked using values in the header offset fields.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -773,8 +859,8 @@
 							          	<div class="helpBox">
 							          		<div id="data-header-offsetX-help">
 							          			<div class="helpContent">
-							          				<p>theme header offset left help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Theme Header Offset Left</h2>
+							          				<p>This can be used to adjust the horizontal offset of the chart's header. Positive values will push the header to the right. Negative values will push the header to the left.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -785,9 +871,9 @@
 							          	<a class="icon-question-sign" name="#data-header-offsetY-help">help</a>
 							          	<div class="helpBox">
 							          		<div id="data-header-offsetY-help">
-							          			<div class="helpContent">
-							          				<p>theme header offset top help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          			<div class="helpContent">							   
+							          				<h2>Theme Header Offset Top</h2>
+							          				<p>This can be used to adjust the vertical offset of the chart's header. Positive values will push the header down the page. Negative values will push the header up.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -799,8 +885,8 @@
 							          	<div class="helpBox">
 							          		<div id="data-header-color-help">
 							          			<div class="helpContent">
-							          				<p>theme header color help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Theme Header Color</h2>
+							          				<p>This colour picker can be used to set the colour of the charts header.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -821,8 +907,8 @@
 							          	<div class="helpBox">
 							          		<div id="data-label-size-help">
 							          			<div class="helpContent">
-							          				<p>theme label size help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Theme label size</h2>
+							          				<p>This is used to set the size of the chart's header. This value is in pixels.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -834,8 +920,8 @@
 							          	<div class="helpBox">
 							          		<div id="data-label-position-help">
 							          			<div class="helpContent">
-							          				<p>theme label position help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Theme Label Position</h2>
+							          				<p>This is used to set the position of the labels of each data set in the chart. This value is calculated differently for each chart.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -847,8 +933,8 @@
 							          	<div class="helpBox">
 							          		<div id="data-label-color-help">
 							          			<div class="helpContent">
-							          				<p>theme label color help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Theme Label Color</h2>
+							          				<p>This colour picker is used to set the colour for the labels on the chart.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -869,8 +955,8 @@
 							          	<div class="helpBox">
 							          		<div id="data-border-size-help">
 							          			<div class="helpContent">
-							          				<p>theme border size help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Theme Border Size</h2>
+							          				<p>This used for border settings on the data items in the chart. Each layout expresses this value in different ways. Generally it will set a border around the data item on the chart.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -882,8 +968,8 @@
 							          	<div class="helpBox">
 							          		<div id="data-border-color-help">
 							          			<div class="helpContent">
-							          				<p>theme border color help</p>
-							          				<p>lorem ipsum dolor sit amet</p>
+							          				<h2>Theme Border Color</h2>
+							          				<p>This colour picker is used to set the colour of the border on the data item.</p>
 							          			</div>
 							          		</div>
 							          	</div>

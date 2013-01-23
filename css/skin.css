@@ -144,9 +144,12 @@ li.theme-data {display:none}
 #popupBox table {margin:0;}
 #popupBox td {margin:0;padding:0;border:0;}
 #popupBox .helpContent {background:#fff;box-shadow:3px 3px 6px 2px rgba(0,0,0,0.3);border-radius:10px;padding:10px;min-height:200px;}
-#popupBox h2 {margin:10px;text-align:center;font-size:16px;}
+#popupBox .helpContent code strong {color:red;}
+#popupBox h2 {margin:10px 0;text-align:center;font-size:16px;}
 #popupBox p {margin:0 20px 15px;}
 #popupBox ul, #popupBox ol {margin:0 20px 15px;}
+#popupBox code {margin:0 10px;display:block;}
+#popupBox pre {padding:5px 15px;background:#efefef;border-radius:5px;border:1px solid #ddd;}
 .popupClose {display:block;position:absolute;top:10px;right:10px;text-indent:-9000px;}
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
