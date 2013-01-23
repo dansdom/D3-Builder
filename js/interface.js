@@ -932,9 +932,10 @@ $(document).ready(function()
 
 	$(".icon-question-sign").popup({
 		'transparentOpacity' : 30,
+		'fixedTop' : 100,
 		'titleHeight' : 0,
 		'controlHeight' : 0,
-		'shadowLength' : 10,
+		'shadowLength' : 0,
 		'onOpen' : function() {
 			$("#popupBox .popupClose").addClass("icon-remove-sign");
 		}

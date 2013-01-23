@@ -139,9 +139,10 @@ li.theme-data {display:none}
 
 /* PLUGINS (jQuery)  
  * ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
-#popupBox {background:#fff;box-shadow:2px 2px 2px rgba(0,0,0,0.5);border-radius:10px;}
+#popupBox {}
 #popupBox table {margin:0;}
 #popupBox td {margin:0;padding:0;border:0;}
+#popupBox .helpContent {background:#fff;box-shadow:3px 3px 6px 2px rgba(0,0,0,0.3);border-radius:10px;padding:10px;min-height:200px;}
 #popupBox h2 {margin:10px;text-align:center;font-size:16px;}
 #popupBox p {margin:0 20px 15px;}
 #popupBox ul, #popupBox ol {margin:0 20px 15px;}
