@@ -536,25 +536,22 @@
 							          				<h2>Data Structure</h2>
 							          				<p>This is where you can set the data structure for the graph. Charts that use a JSON format require the data fields to be defined. The default JSON structure is as such:</p>
 							          				<p><strong>Flat example:</strong></p>
-							          				<code>
-							          				
-							          						{
-							          						    &nbsp;&nbsp;&nbsp;&nbsp;name : (string),
-							          						    &nbsp;&nbsp;&nbsp;&nbsp;value : (number)							          						        							          		
-							          					}
-							          					
+
+							          				<code>							          				
+							          						{<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;name : (string),<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;value : (number)<br>						          						        							          		
+							          					}							          					
 							          				</code>
 							          				<p><strong>Nested example:</strong></p>
-							          				<code>
-							          				
-							          						{
-							          						    &nbsp;&nbsp;&nbsp;&nbsp;name : (string),
-							          						    &nbsp;&nbsp;&nbsp;&nbsp;children : {
-							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name : (string),
-							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value : (number)
-							          					    	&nbsp;&nbsp;&nbsp;&nbsp;}
-							          					}
-							          					
+							          				<code>							          				
+							          						{<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;name : (string),<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;children : {<br>
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name : (string),<br>
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value : (number)<br>
+							          					    	&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+							          					}							          					
 							          				</code>
 							          			</div>
 							          		</div>
@@ -575,16 +572,14 @@
 							          				<h2>Data Name</h2>
 							          				<p>This defines what atrribute in the data object takes the <strong>name</strong> of the data set. In the code example it is the value in red.</p>
 							          				<p><strong>Nested example:</strong></p>
-							          				<code>
-							          				
-							          						{
-							          						    &nbsp;&nbsp;&nbsp;&nbsp;<strong>name</strong> : (string),
-							          						    &nbsp;&nbsp;&nbsp;&nbsp;children : {
-							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name : (string),
-							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value : (number)
-							          					    	&nbsp;&nbsp;&nbsp;&nbsp;}
-							          					}
-							          					
+							          				<code>							          				
+							          						{<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;<strong>name</strong> : (string),<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;children : {<br>
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name : (string),<br>
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value : (number)<br>
+							          					    	&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+							          					}<br>							          					
 							          				</code>
 							          			</div>
 							          		</div>
@@ -600,16 +595,14 @@
 							          				<h2>Data Value</h2>
 							          				<p>This defines what atrribute in the data object takes the <strong>value</strong> of the data set. In the code example it is the value in red.</p>
 							          				<p><strong>Nested example:</strong></p>
-							          				<code>
-							          				
-							          						{
-							          						    &nbsp;&nbsp;&nbsp;&nbsp;name : (string),
-							          						    &nbsp;&nbsp;&nbsp;&nbsp;children : {
-							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name : (string),
-							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>value</strong> : (number)
-							          					    	&nbsp;&nbsp;&nbsp;&nbsp;}
-							          					}
-							          				
+							          				<code>							          				
+							          						{<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;name : (string),<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;children : {<br>
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name : (string),<br>
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>value</strong> : (number)<br>
+							          					    	&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+							          					}<br>							          				
 							          				</code>
 							          			</div>
 							          		</div>
@@ -625,16 +618,14 @@
 							          				<h2>Data Children</h2>
 							          				<p>This defines what atrribute in the data object defines the <strong>children</strong> in each layer of the data set. In the code example it is the value in red.</p>
 							          				<p><strong>Nested example:</strong></p>
-							          				<code>
-							          				
-							          						{
-							          						    &nbsp;&nbsp;&nbsp;&nbsp;name : (string),
-							          						    &nbsp;&nbsp;&nbsp;&nbsp;<strong>children</strong> : {
-							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name : (string),
-							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value : (number)
-							          					    	&nbsp;&nbsp;&nbsp;&nbsp;}
-							          					}
-							          					
+							          				<code>							          				
+							          						{<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;name : (string),<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;<strong>children</strong> : {<br>
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name : (string),<br>
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value : (number)<br>
+							          					    	&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+							          					}							          					
 							          				</code>
 							          			</div>
 							          		</div>
@@ -651,24 +642,20 @@
 							          				<p>This defines what atrribute in the data object defines the <strong>X</strong> value of the data set. In the code example it is the value in red</p>
 							          				<p>These data values are used for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Line</strong> charts instead of the <strong>Name</strong>, <strong>Value</strong> and <strong>Children</strong> properties.</p>
 							          				<p><strong>JSON example:</strong></p>
-							          				<code>
-							          				
-							          						{
-							          						    &nbsp;&nbsp;&nbsp;&nbsp;<strong>x</strong> : (number),
-							          						    &nbsp;&nbsp;&nbsp;&nbsp;y : (number)
-							          					}
-							          				
+							          				<code>							          				
+							          						{<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;<strong>x</strong> : (number),<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;y : (number)<br>
+							          					}							          				
 							          				</code>
 							          				<p><strong>CSV example</strong></p>
-							          				<code>
-							          					
-							          						<strong>x</strong>, y
-							          						1, 5
-							          						2, 8
-							          						3, 3
-							          						4, 12
-							          						5, 7
-							          				
+							          				<code>							          					
+							          						<strong>x</strong>, y<br>
+							          						1, 5<br>
+							          						2, 8<br>
+							          						3, 3<br>
+							          						4, 12<br>
+							          						5, 7<br>							          				
 							          				</code>
 							          			</div>
 							          		</div>
@@ -685,24 +672,20 @@
 							          				<p>This defines what atrribute in the data object defines the <strong>Y</strong> value of the data set. In the code example it is the value in red</p>
 							          				<p>These data values are used for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Line</strong> charts instead of the <strong>Name</strong>, <strong>Value</strong> and <strong>Children</strong> properties.</p>
 							          				<p><strong>JSON example:</strong></p>
-							          				<code>
-							          				
-							          						{
-							          						    &nbsp;&nbsp;&nbsp;&nbsp;x : (number),
-							          						    &nbsp;&nbsp;&nbsp;&nbsp;<strong>x</strong> : (number)
-							          					}
-							          					
+							          				<code>							          				
+							          						{<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;x : (number),<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;<strong>x</strong> : (number)<br>
+							          					}							          					
 							          				</code>
 							          				<p><strong>CSV example</strong></p>
-							          				<code>
-							          					
-							          						x, <strong>y</strong>
-							          						1, 5
-							          						2, 8
-							          						3, 3
-							          						4, 12
-							          						5, 7
-							          					
+							          				<code>							          					
+							          						x, <strong>y</strong><br>
+							          						1, 5<br>
+							          						2, 8<br>
+							          						3, 3<br>
+							          						4, 12<br>
+							          						5, 7<br>							          					
 							          				</code>
 							          			</div>
 							          		</div>

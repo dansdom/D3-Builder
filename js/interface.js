@@ -215,6 +215,7 @@ ChartType = {
 				dataSelect = $("#data-structure"),
 				// this is probably where I'm going to set the data.allowed flag
 				dataType = $(this).find(":selected").attr("data-allowed"),
+				chartType = $(this).attr("value");
 				options = '<option selected="selected" value="flat">Ordinal Flat</option><option value="nested">Ordinal Nested</option><option value="quantitative">Quantitative</option><option value="matrix">Matrix</option>';
 
 			// show the secondary chart type select box
@@ -223,7 +224,8 @@ ChartType = {
 			
 			// refresh the data structure field
 			dataSelect.html(options);
-			console.log(dataType);
+			//console.log(dataType);
+
 			// can only select flat data - remove the nested option
 			if (dataType === "flat") {
 				//$("#data-structure").find("option[value='nested']").remove();
@@ -255,7 +257,29 @@ ChartType = {
 				ChartData.selectDataStructure("flat");
 			}
 
+			//console.log(chartType);
+			// set the class on the form object to control the help options
+			ChartType.setFormType(chartType);
+
 		});
+	},
+	setFormType : function(chart) {
+		// form class setter.
+		// first see if a form class has already been set
+		var form = $("#chart-settings"),
+			formClass = form.attr("class"),
+			// split out the form classes
+			classArray = formClass.split(' ');
+
+		$.each(classArray, function(index, value) {
+			// check to see if the value gives a positive index
+			if (value.indexOf("current-chart") >= 0) {
+				// remove that class from the form element
+				form.removeClass(value);
+			}
+		});
+		// add the new chart class to the form element
+		form.addClass("current-chart-" + chart);
 	},
 	reset : function() {
 		// hide the sub menus
