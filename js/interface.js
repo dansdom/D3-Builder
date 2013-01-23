@@ -9,6 +9,7 @@
 // 8. investigate adding/changing chart data scales
 // 9. make more plugins. I want area, line and bar charts. After that I may go with a tree chart
 // 10. lots of work to implement the 'theme' options
+// 11. Let users create and save their own colour schemes? maybe save a seperate cookie for each scheme, and then go check them? I'll explore this a little later
 
 // Priorities:
 // 1. Add a form validator that should run before the buildChart function (might need to fiddle with my validator)
@@ -657,7 +658,7 @@ ChartData = {
 		var children = $("fieldset.data li.children");
 
 		// hide show the right dummy data set
-		$("li.data-source.dummy div").css("display", "none");
+		$("li.data-source.dummy > div").css("display", "none");
 		//console.log(structure);
 		// hide the children field when the data structure is "flat"
 		if (structure === "nested") {
