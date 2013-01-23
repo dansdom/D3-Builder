@@ -258,28 +258,33 @@ ChartType = {
 			}
 
 			//console.log(chartType);
-			// set the class on the form object to control the help options
-			ChartType.setFormType(chartType);
+			// set the class on the body object to control the help options
+			ChartType.setBodyType(chartType);
 
 		});
 	},
-	setFormType : function(chart) {
-		// form class setter.
-		// first see if a form class has already been set
-		var form = $("#chart-settings"),
-			formClass = form.attr("class"),
+	setBodyType : function(chart) {
+		// body class setter.
+		// first see if a body class has already been set
+		var bodyClass = $("body").attr("class"),
 			// split out the form classes
-			classArray = formClass.split(' ');
+			classArray;
 
-		$.each(classArray, function(index, value) {
-			// check to see if the value gives a positive index
-			if (value.indexOf("current-chart") >= 0) {
-				// remove that class from the form element
-				form.removeClass(value);
-			}
-		});
+		//console.log(bodyClass);
+		if (bodyClass)
+		{
+			classArray = bodyClass.split(' ');
+
+			$.each(classArray, function(index, value) {
+				// check to see if the value gives a positive index
+				if (value.indexOf("current-chart") >= 0) {
+					// remove that class from the form element
+					$("body").removeClass(value);
+				}
+			});
+		}
 		// add the new chart class to the form element
-		form.addClass("current-chart-" + chart);
+		$("body").addClass("current-chart-" + chart);
 	},
 	reset : function() {
 		// hide the sub menus

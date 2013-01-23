@@ -150,6 +150,21 @@ li.theme-data {display:none}
 #popupBox ul, #popupBox ol {margin:0 20px 15px;}
 #popupBox code {margin:0 10px 10px;display:block;padding:5px 15px;background:#efefef;border-radius:5px;border:1px solid #ddd;}
 .popupClose {display:block;position:absolute;top:10px;right:10px;text-indent:-9000px;}
+#popupBox .helpContent .chart-pie,
+#popupBox .helpContent .chart-pack,
+#popupBox .helpContent .chart-sunburst,
+#popupBox .helpContent .chart-force,
+#popupBox .helpContent .chart-area,
+#popupBox .helpContent .chart-bar,
+#popupBox .helpContent .chart-chord {display:none;}
+
+.current-chart-pie #popupBox .helpContent .chart-pie {display:block;}
+.current-chart-pack #popupBox .helpContent .chart-pack {display:block;}
+.current-chart-sunburst #popupBox .helpContent .chart-sunburst {display:block;}
+.current-chart-force #popupBox .helpContent .chart-force {display:block;}
+.current-chart-area #popupBox .helpContent .chart-area {display:block;}
+.current-chart-bar #popupBox .helpContent .chart-bar {display:block;}
+.current-chart-chord #popupBox .helpContent .chart-chord {display:block;}
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
    MEDIA QUERIES  
