@@ -59,8 +59,10 @@ ChartBuilder = {
 		$("#build-update").on("click", function() {
 			// I'll need a function to grab all the form data here
 			ChartBuilder.takeSnapshot();
+			// first validate the form
+			$("#chart-settings").validator("validateForm");
 			// build the chart
-			ChartBuilder.buildChart();
+			//ChartBuilder.buildChart(); - moved to the submit function in Plugins.validator()
 		});
 
 		$("#build-reset").on("click", function() {
@@ -81,14 +83,18 @@ ChartBuilder = {
 			ChartBuilder.getCookie();
 			// build the chart
 			ChartBuilder.setFormValues();
-			// onve this is done I will show the saved chart
-			ChartBuilder.buildChart();
+			// first validate the form
+			$("#chart-settings").validator("validateForm");
+			// once this is done I will show the saved chart
+			//ChartBuilder.buildChart(); - moved to the submit function in Plugins.validator()
 		});
 		
 		$("#build-submit").on("click", function() {
 			// get the form data
 			ChartBuilder.takeSnapshot();
-			ChartBuilder.buildChart();
+			// first validate the form
+			$("#chart-settings").validator("validateForm");
+			//ChartBuilder.buildChart(); - moved to the submit function in Plugins.validator()
 			// I'll have a seperate object to build the output
 			CodeBuilder.packageCode();
 		});
@@ -949,28 +955,9 @@ $(document).ready(function()
 	setTimeout(function() {
 		ChartBuilder.init();	
 	}, 0);
-	
-	// call plugins from here
-	// tabs for the form filedsets
-	$("#chart-settings").tabs({
-		'tabNav': '#formNav ul',
-        'tabContent': '#chart-settings',
-        'startTab' : 1,
-        'fadeIn' : true,
-        'fadeSpeed' : 300
-	});
 
-	$(".icon-question-sign").popup({
-		'transparentOpacity' : 30,
-		'boxHeight' : 500,
-		'boxWidth' : 500,
-		'titleHeight' : 0,
-		'controlHeight' : 0,
-		'shadowLength' : 0,
-		'onOpen' : function() {
-			$("#popupBox .popupClose").addClass("icon-remove-sign");
-		}
-	});
+	// run the plugins
+	Plugins.init();
 	
 });
 

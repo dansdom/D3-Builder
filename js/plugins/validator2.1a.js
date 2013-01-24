@@ -1,5 +1,5 @@
 /*
-	jQuery Form Validator Plugin v2.0
+	jQuery Form Validator Plugin v2.1a
 	Copyright (c) 2011 Daniel Thomson
 	https://github.com/dansdom/plugins-form-validator
 	
@@ -19,6 +19,7 @@
 //				- added field valid message class
 //				- added optional field class that will validate
 // version 2.0	- reconfigured the plugin to use mine new architecture: https://github.com/dansdom/plugins-template-v2
+// version 2.1	- added a callback function after form submit to allow AJAX functions to run
 //
 // Notes:
 // checkboxes and radio button groups will share the same name attribute to identify the group
@@ -84,11 +85,6 @@
 		
 		// extend the settings object with the options, make a 'deep' copy of the object using an empty 'holding' object
 		this.opts = $.extend(true, {}, $.Validator.settings, options);
-		
-		// define the required, optional and validations fields
-		this.theFormRequired = this.el.find("." + this.opts.formClasses.requiredClass),
-		this.theFormOptional = this.el.find("." + this.opts.formClasses.optionalClass),
-		this.theFormValidationFields = this.el.find("." + this.opts.formClasses.requiredClass + ", ." + this.opts.formClasses.optionalClass);
 			
 		this.init();
 		
@@ -181,7 +177,9 @@
 		longDays: ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],
 		shortDays: ["mon", "tue", "wed", "thu", "fri", "sat", "sun"],
 		errorCount: 0,
-		onChangeValidation: true
+		onChangeValidation: true,
+		submitFunction : false,
+		errorFunction : false
 	};
 	
 	// plugin functions go here
@@ -195,6 +193,66 @@
 			// something interesting to consider
 			var validator = this;
 			
+			this.getValidationFields();
+
+			// do validation when the form has been submitted
+			this.el.submit(function ()
+			{
+				validator.validateForm();	
+			});
+
+			this.el.find("." + this.opts.formClasses.resetClass).click(function ()
+			{
+				// remove error class from the form, and maybe reset all values?
+				// not sure I need to remove the last two classes here
+				this.form.find("." + this.opts.formClasses.errorClass).removeClass(this.opts.formClasses.validClass).removeClass(this.opts.formClasses.fieldActiveValid).removeClass(this.opts.formClasses.fieldActiveInvalid);
+				this.form.find("." + this.opts.formClasses.errorClass).html("&#42;");
+			});
+			// ************************
+			
+		},
+		validateForm : function() {
+			var validator = this;
+
+			validator.opts.errorCount = 0;
+
+			validator.theFormRequired.each(function ()
+			{
+				//validate each of the required fields and then send off to the back end :)		
+				//console.log("validating field: "+theFormRequired.attr("id"));							 
+				validator.validateField($(this));
+			});
+
+			// check the error count									  
+			if (validator.opts.errorCount === 0)
+			{
+				// if no errors then return the page then call the submit function and return true
+				if (typeof validator.opts.submitFunction === "function") {
+					validator.opts.submitFunction.call();
+					return false;
+				}
+				else {
+					return true;	
+				}
+			}
+			else
+			{
+				//alert("you still have errors in the form");
+				validator.el.find("." + validator.opts.formClasses.fieldActiveValid).removeClass(validator.opts.formClasses.fieldActiveValid);
+				if (typeof validator.opts.errorFunction === "function") {
+					validator.opts.errorFunction.call();
+				}
+				return false;
+			}
+		},
+		getValidationFields : function() {
+			var validator = this;
+
+			// define the required, optional and validations fields
+			this.theFormRequired = this.el.find("." + this.opts.formClasses.requiredClass);
+			this.theFormOptional = this.el.find("." + this.opts.formClasses.optionalClass);
+			this.theFormValidationFields = this.el.find("." + this.opts.formClasses.requiredClass + ", ." + this.opts.formClasses.optionalClass);
+
 			// ************************
 			// start event handling for each of the required fields in the form
 			this.theFormValidationFields.each(function ()
@@ -242,43 +300,6 @@
 					});
 				}
 			});
-
-			// do validation when the form has been submitted
-			this.el.submit(function ()
-			{
-
-				validator.opts.errorCount = 0;
-
-				validator.theFormRequired.each(function ()
-				{
-					//validate each of the required fields and then send off to the back end :)		
-					//console.log("validating field: "+theFormRequired.attr("id"));							 
-					validator.validateField($(this));
-				});
-
-				// check the error count									  
-				if (validator.opts.errorCount === 0)
-				{
-					// if no errors then return the page true
-					return true;
-				}
-				else
-				{
-					//alert("you still have errors in the form");
-					validator.el.find("." + validator.opts.formClasses.fieldActiveValid).removeClass(validator.opts.formClasses.fieldActiveValid);
-					return false;
-				}
-			});
-
-			this.el.find("." + this.opts.formClasses.resetClass).click(function ()
-			{
-				// remove error class from the form, and maybe reset all values?
-				// not sure I need to remove the last two classes here
-				this.form.find("." + this.opts.formClasses.errorClass).removeClass(this.opts.formClasses.validClass).removeClass(this.opts.formClasses.fieldActiveValid).removeClass(this.opts.formClasses.fieldActiveInvalid);
-				this.form.find("." + this.opts.formClasses.errorClass).html("&#42;");
-			});
-			// ************************
-			
 		},
 		// I might look to break up this function - its a bit long and hairy atm
 		// Validate the current field

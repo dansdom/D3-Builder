@@ -91,7 +91,7 @@
 							          			</div>
 							          		</div>
 							          	</div>
-							          	<select id="type-chart" name="type-chart">
+							          	<select id="type-chart" name="type-chart" class="required">
 											<option value="0" data-allowed="none" selected="selected">-- select a chart type --</option>
 								            <option value="pie" data-allowed="both">Pie</option>
 											<option value="pack" data-allowed="nested">Pack</option>
@@ -101,7 +101,7 @@
 											<option value="bar" data-allowed="quantitative">Bar</option>
 											<option value="chord" data-allowed="matrix">Chord</option>
 							            </select>
-
+							            <span class="error" title="type-chart"></span>
 							        </li>
 									<li class="type-settings pie">
 										<label for="type-chart-pie">Pie Type</label>
@@ -246,7 +246,8 @@
 							          			</div>
 							          		</div>
 							          	</div>
-							            <input type="text" size="20" class="small" name="size-height" id="size-height" value="700" placeholder="select chart height">
+							            <input type="text" size="20" class="small required" name="size-height" id="size-height" value="700" placeholder="select chart height">
+							            <span class="error" title="size-height"></span>
 							        </li>
 									<li>
 							          	<label for="size-width">Chart Width</label>
@@ -260,7 +261,8 @@
 							          			</div>
 							          		</div>
 							          	</div>
-							            <input type="text" size="20" class="small" name="size-width" id="size-width" value="700" placeholder="select chart width">
+							            <input type="text" size="20" class="small required" name="size-width" id="size-width" value="700" placeholder="select chart width">
+							            <span class="error" title="size-width"></span>
 							        </li>
 									<li>
 							          	<label for="size-outer-radius">Chart Outer Radius</label>
@@ -275,7 +277,8 @@
 							          			</div>
 							          		</div>
 							          	</div>
-							            <input type="text" size="20" class="small" name="size-outer-radius" id="size-outer-radius" value="280" placeholder="select chart radius">
+							            <input type="text" size="20" class="small required" name="size-outer-radius" id="size-outer-radius" value="280" placeholder="select chart radius">
+							            <span class="error" title="size-outer-radius"></span>
 							        </li>
 									<li>
 							          	<label for="size-inner-radius">Chart Inner Radius</label>
@@ -290,7 +293,8 @@
 							          			</div>
 							          		</div>
 							          	</div>
-							            <input type="text" size="20" class="small" name="size-inner-radius" id="size-inner-radius" value="10" placeholder="select chart radius">
+							            <input type="text" size="20" class="small required" name="size-inner-radius" id="size-inner-radius" value="10" placeholder="select chart radius">
+							            <span class="error" title="size-inner-radius"></span>
 							        </li>
 									<li>
 							          	<label for="size-padding">Chart Padding</label>
@@ -303,7 +307,8 @@
 							          			</div>
 							          		</div>
 							          	</div>
-							            <input type="text" size="20" class="small" name="size-padding" id="size-padding" value="20" placeholder="select chart padding">
+							            <input type="text" size="20" class="small required" name="size-padding" id="size-padding" value="20" placeholder="select chart padding">
+							            <span class="error" title="size-padding"></span>
 							        </li>
 								</ul>
 							</fieldset>
@@ -809,7 +814,8 @@
 							          			</div>
 							          		</div>
 							          	</div>
-							            <input type="text" size="20" name="theme-header-name" id="theme-header-name" placeholder="choose a header name">
+							            <input type="text" size="20" class="validate" name="theme-header-name" id="theme-header-name" placeholder="choose a header name">
+							            <span class="error" title="theme-header-name"></span>
 							        </li>
 									<li class="theme-header">
 							          	<label for="theme-header-size">Header Size</label>
@@ -822,7 +828,8 @@
 							          			</div>
 							          		</div>
 							          	</div>
-							            <input type="text" size="20" class="small" name="theme-header-size" id="theme-header-size" placeholder="choose a header size">
+							            <input type="text" size="20" class="small validate" name="theme-header-size" id="theme-header-size" placeholder="choose a header size">
+							            <span class="error" title="theme-header-size"></span>
 							        </li>
 									<li class="theme-header">
 							          	<label for="theme-header-position">Header Position</label>
@@ -857,7 +864,8 @@
 							          			</div>
 							          		</div>
 							          	</div>
-							            <input type="text" size="20" class="small" name="theme-header-offsetX" id="theme-header-offsetX" placeholder="header offset left" value="0">
+							            <input type="text" size="20" class="small validate" name="theme-header-offsetX" id="theme-header-offsetX" placeholder="header offset left" value="0">
+							            <span class="error" title="theme-header-offsetX"></span>
 							        </li>
 									<li class="theme-header">
 							          	<label for="theme-header-offsetY">Header Offset Top</label>
@@ -870,7 +878,8 @@
 							          			</div>
 							          		</div>
 							          	</div>
-							            <input type="text" size="20" class="small" name="theme-header-offsetY" id="theme-header-offsetY" placeholder="header offset top" value="0">
+							            <input type="text" size="20" class="small validate" name="theme-header-offsetY" id="theme-header-offsetY" placeholder="header offset top" value="0">
+							            <span class="error" title="theme-header-offsetY"></span>
 							        </li>									
 									<li class="theme-header">
 							          	<label for="theme-header-color">Header Color</label>
@@ -905,7 +914,8 @@
 							          			</div>
 							          		</div>
 							          	</div>
-							            <input type="text" size="20" class="small" name="theme-label-size" id="theme-label-size" placeholder="choose a label size">
+							            <input type="text" size="20" class="small validate" name="theme-label-size" id="theme-label-size" placeholder="choose a label size">
+							            <span class="error" title="theme-label-size"></span>
 							        </li>
 									<li class="theme-labels">
 							          	<label for="theme-label-position">Label Position</label>
@@ -918,7 +928,8 @@
 							          			</div>
 							          		</div>
 							          	</div>
-							            <input type="text" size="20" class="small" name="theme-label-position" id="theme-label-position" placeholder="choose a label position">
+							            <input type="text" size="20" class="small validate" name="theme-label-position" id="theme-label-position" placeholder="choose a label position">
+							            <span class="error" title="theme-label-position"></span>
 							        </li>
 									<li class="theme-labels">
 							          	<label for="theme-label-color">Label Color</label>
@@ -953,7 +964,8 @@
 							          			</div>
 							          		</div>
 							          	</div>
-							            <input type="text" size="20" class="small" name="theme-data-border-size" id="theme-data-border-size" placeholder="data border size">
+							            <input type="text" size="20" class="small validate" name="theme-data-border-size" id="theme-data-border-size" placeholder="data border size">
+							            <span class="error" title="theme-data-border-size"></span>
 							        </li>
 									<li class="theme-data">
 							          	<label for="theme-data-border-color">Data Border Colour</label>
@@ -1009,6 +1021,7 @@
 	<script src="js/plugins/placeholder.js"></script>
 	<script src="js/plugins/tabs2.1.js"></script>
 	<script src="js/plugins/popup2.1.js"></script>
+	<script src="js/plugins/validator2.1a.js"></script>
 	<script src="js/plugins/jpicker-1.1.6.min.js"></script>
 	<script src="js/plugins/jquery.cookie.min.js"></script>
 	<!-- D3 plugins -->
@@ -1021,6 +1034,7 @@
 	<script src="js/d3/chord.js"></script>
 	<!-- custom interface -->
 	<script src="js/formData.js"></script>
+	<script src="js/plugins.js"></script>
 	<script src="js/interface.js"></script>
 	<script src="js/showChart.js"></script>
 	<script src="js/buildChart.js"></script>

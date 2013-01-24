@@ -139,12 +139,12 @@ input[disabled],select[disabled],textarea[disabled],input[readonly],select[reado
 select[multiple] {height:inherit}
 textarea {height:auto;overflow-y:auto}
 form input.submitField {margin-left:37%}
-form li.help, form li.error {padding:5px 10px;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px}
-form li.help {background:#e5f9db;color:#390}
+form li.valid, form li.error {-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px}
+form li.valid {background:#e5f9db;color:#390}
 form li.error {background:#FAE5E3;color:#c01702}
 form li.error input,form li.error textarea,form li.error select,form li.error .form-input {border-color:#c01702}
 form li > em {display:inline-block;font-style:normal;font-size:0.9em;font-weight:bold;margin-left:37%}
-form li > em.error .help {color:#390}
+form li > em.error .valid {color:#390}
 form li > em.error {color:#c01702}
 form li .btn {display:inline-block}
 :-moz-placeholder {color:#ccc}
@@ -157,7 +157,7 @@ form li .btn {display:inline-block}
 .form-stacked input,.form-stacked textarea,.form-stacked select,.form-stacked .uneditable-input {display:block;width:100%}
 .form-stacked input.small,.form-stacked textarea.small,.form-stacked select.small,.form-stacked .uneditable-input.small {width:50%;display:block} 
 .form-stacked li > label, .form-stacked .fieldLabel {width:auto;float:none;margin:0 0 5px 0;text-align:left}
-.form-stacked legend {padding:0 0 10px 0}
+.form-stacked legend {padding:0 5px 10px}
 .form-stacked .radioField, .form-stacked .checkField {display:inline-block;width:auto;float:right;min-height:1em}
 .form-stacked .btn {width:auto}
 .form-stacked li > em {margin:0}

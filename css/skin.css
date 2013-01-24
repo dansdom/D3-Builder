@@ -109,7 +109,13 @@ section[role="region"] .grid {overflow:visible;}
 #formNav li a {color:#fff;display:block;height:18px;line-height:18px;}
 #formNav li.inactive a, #formNav li.inactive:hover a {color:#999;}
 #formNav .active a, #formNav li:hover a {color:#fff}
+#chart-settings {padding:10px 5px;}
 #chart-settings fieldset {display:none}
+#chart-settings fieldset li {padding:3px 5px;}
+#chart-settings fieldset li.error label, #chart-settings fieldset li.valid label {color:#000;}
+#chart-settings fieldset span.error {font-size:10px;}
+#chart-settings fieldset li.valid {background:none;}
+#chart-settings fieldset li.valid .error {display:none;}
 #chart-settings fieldset li .icon-question-sign {margin-top:2px;margin-right:5px;text-indent:-9000px;cursor:pointer;float:right;}
 #chart-settings fieldset li > label {display:inline-block;}
 fieldset.theme ul {border-bottom:1px solid #000;padding:5px 0}
@@ -130,7 +136,7 @@ li.theme-data {display:none}
 #theme-background-color, #theme-header-color, #theme-label-color, #theme-data-border-color {display:inline-block;}
 
 .palette ol {margin:0;padding:0}
-.palette li {list-style:none;position:relative;display:none;clear:none;height:26px;width:26px;float:left;margin:2px 1px 4px;padding:0;background:red;border-radius:2px;}
+.palette li {list-style:none;position:relative;display:none;clear:none;height:26px;width:26px;float:left;margin:2px 1px 4px;padding:0 !imporant;border-radius:2px;}
 .palette li.selected {display:block}
 .palette li input {display:none}
 
