@@ -153,6 +153,8 @@ ChartBuilder = {
 		FormData = FormDefault;
 		// show the first tab
 		$("#chart-settings").tabs("showTab", 0);
+		// reset the required fields
+		$("#chart-settings").validator('getValidationFields');
 	},
 	setFormValues : function() {
 		// this is the function that takes the cookie value and inserts it into the form
@@ -738,6 +740,10 @@ ChartTheme = {
 		$("#theme-data-border-color").attr("value", "eeeeee").trigger("keyup");
 		// hide the sections
 		$("fieldset.theme .theme-background, fieldset.theme .theme-header, fieldset.theme .theme-labels, fieldset.theme .theme-data").css("display", "none");
+		// remove all the form validation classes
+		$("fieldset.theme .validate").removeClass("fieldActiveInvalid");
+		$("fieldset.theme .validate").removeClass("required");
+		//$("fieldset.theme li.error
 	},
 	setValue : function() {
 		// set to default values

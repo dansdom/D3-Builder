@@ -136,7 +136,7 @@ li.theme-data {display:none}
 #theme-background-color, #theme-header-color, #theme-label-color, #theme-data-border-color {display:inline-block;}
 
 .palette ol {margin:0;padding:0}
-.palette li {list-style:none;position:relative;display:none;clear:none;height:26px;width:26px;float:left;margin:2px 1px 4px;padding:0 !imporant;border-radius:2px;}
+.palette li {list-style:none;position:relative;display:none;clear:none;height:26px;width:26px;float:left;margin:2px 1px 4px;padding:0 !important;border-radius:2px;}
 .palette li.selected {display:block}
 .palette li input {display:none}
 
