@@ -141,7 +141,7 @@ Plugins = {
                 // remove validation from those fields
                 sectionInputs.removeClass("required");
             }
-             $("#chart-settings").validator('getValidationFields');
+            $("#chart-settings").validator('getValidationFields');
         });
     }
 }

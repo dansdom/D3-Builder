@@ -28,6 +28,9 @@ PieChart = {
         };
         this.settings.colorRange = FormData.colors;
         this.settings.fontSize = FormData.theme.labelSize;
+        if (FormData.theme.labelPosition > 0) {
+            this.settings.labelPosition = FormData.theme.labelPosition;
+        }
         this.settings.dataStructure = FormData.data.attributes;
         // if it's flat then set the parent to 'undefined'
         if (FormData.data.structure === "flat") {
