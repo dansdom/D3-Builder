@@ -1,5 +1,4 @@
 <?php
-    echo 'building chart\n';
 
     /* creates a compressed zip file */
 	function create_zip($files = array(),$destination = '',$overwrite = false) {

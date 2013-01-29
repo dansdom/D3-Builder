@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>D3 Chart Builder</title>
+	<meta name="description" content="">
+	<meta name="author" content="">	
+	<!--Microsoft. Delete if not required -->
+	<meta http-equiv="cleartype" content="on">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<!-- Icons -->
+	<link title="iPhone4" rel="apple-touch-icon-precomposed" sizes="114x114" href="img/ios-114.png">
+	<link title="iPad" rel="apple-touch-icon-precomposed" sizes="72x72" href="img/ios-72.png">
+	<link title="iPhone3" rel="apple-touch-icon-precomposed" href="img/ios.png">
+	<link title="nokia" rel="shortcut icon" href="img/ios.png">
+	<link title="Favicon" rel="shortcut icon" href="/favicon.ico">
+	<!--iOS. Delete if not required -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+	<!-- Mobile viewport optimized: j.mp/bplateviewport -->	
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/style.css?v=1">
+	<link rel="stylesheet" href="css/skin.css?v=1">
+	<link rel="stylesheet" href="css/jPicker-1.1.6.min.css?v=1">
+	<!-- jQuery and HTML5 script so IE knows how to style the html5 elements -->
+	<script src="js/libs/jquery.js"></script>
+	<script src="js/libs/d3.v3.min.js"></script>
+	<script src="js/libs/html5.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <!-- begin #content -->
+    <div id="content">
+    	<div class="page" role="main">
+
+    		<section id="actionNav" class="grid">
+	    		<nav role="navigation" class="grid-12">
+	    			<ul>
+	    				<li class="label">Build Options:</li>
+						<li><input type="button" value="Update Chart Preview" class="btn rounded" id="build-update"></li>
+						<li><input type="button" value="Reset Chart" class="btn rounded" id="build-reset"></li>
+						<li><input type="button" value="Save Changes" class="btn rounded" id="build-save"></li>
+						<li><input type="button" value="Load Saved Chart" class="btn rounded" id="build-load"></li>
+						<li><input type="submit" value="Generate Chart Code" class="btn rounded inactive" id="build-submit"></li>
+					</ul>
+	    		</nav>
+    		</section>
+    		
+    		<section role="region" class="rounded">		   				
+	 	   		<div class="grid">
+	 	   			<div class="grid-9 chart-grid">
+						<div class="module">
+							<div id="chart-preview"></div>
+							<style id="chart-style"></style>
+						</div>
+					</div>
+					<div class="grid-3 last">
+						<nav id="formNav" class="module">
+							<ul>
+								<li class="btn"><a href="#">Type</a></li>
+								<li class="btn"><a href="#">Size</a></li>
+								<li class="btn"><a href="#">Colors</a></li>
+								<li class="btn"><a href="#">Data</a></li>
+								<li class="btn"><a href="#">Theme</a></li>
+								<li class="btn inactive"><a href="#">Events</a></li>
+							</ul>
+						</nav>
+						
+						<form class="form-stacked module" id="chart-settings">
+							
+							<!-- Chart Type -->
+	 	   					<fieldset class="type">
+							    <legend>Chart Type</legend>
+								<ul>
+							        <li>
+							          	<label for="type-chart">Select Chart Type</label>
+							          	<a class="icon-question-sign" name="#type-chart-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="type-chart-help">
+							          			<div class="helpContent">
+							          				<h2>Chart Type</h2>
+							          				<p>This allows you to select one of the available chart layouts. Each layout type will have one or more variations. This can be changed from the select box that appears once the primary layout has been chosen.</p>
+							          				<p class="chart-pie">help for the pie chart</p>
+							          				<p class="chart-pack">help for the pack chart</p>
+							          				<p class="chart-sunburst">help for the sunburst chart</p>
+							          				<p class="chart-force">help for the force chart</p>
+							          				<p class="chart-area">help for the area chart</p>
+							          				<p class="chart-bar">help for the bar chart</p>
+							          				<p class="chart-chord">help for the chord chart</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							          	<select id="type-chart" name="type-chart" class="required">
+											<option value="0" data-allowed="none" selected="selected">-- select a chart type --</option>
+								            <option value="pie" data-allowed="both">Pie</option>
+											<option value="pack" data-allowed="nested">Pack</option>
+											<option value="sunburst" data-allowed="nested">Sunburst</option>
+											<option value="force" data-allowed="nested">Force</option>
+											<option value="area" data-allowed="quantitative">Area</option>
+											<option value="bar" data-allowed="quantitative">Bar</option>
+											<option value="chord" data-allowed="matrix">Chord</option>
+							            </select>
+							            <span class="error" title="type-chart"></span>
+							        </li>
+									<li class="type-settings pie">
+										<label for="type-chart-pie">Pie Type</label>
+										<a class="icon-question-sign" name="#type-chart-pie-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="type-chart-pie-help">
+							          			<div class="helpContent">
+							          				<h2>Pie Charts</h2>
+							          				<p>This chart will give you a basic pie chart layout. For more about <a href="http://en.wikipedia.org/wiki/Pie_chart">pie charts</a>.</p>
+							          				<p>Pie charts have an <a href="http://en.wikipedia.org/wiki/Ordinal_scale#Ordinal_scale">ordinal data</a> structure. This can either be a flat ordinal scale, or nested.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+										<select id="type-chart-pie" name="type-chart-pie">
+											<option value="pie" selected="selected">Pie</option>
+											<option value="donut">Donut</option>
+										</select>
+									</li>
+									<li class="type-settings pack">
+										<label for="type-chart-pack">Pack Type</label>
+										<a class="icon-question-sign" name="#type-chart-pack-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="type-chart-pack-help">
+							          			<div class="helpContent">
+							          				<h2>Pack Charts</h2>
+							          				<p>Pack charts lay out data in clusters. There are two types of Pack charts.</p>
+							          				<ol>
+							          					<li>Standard Pack layout - each level of the data is clustered together.</li>
+							          					<li>Pack layout - these charts <i>flatten</i> the data. Each data set group is represented by a different color.</li>
+							          				</ol>
+							          				<p>The Pack layout takes only <a href="http://en.wikipedia.org/wiki/Ordinal_scale#Ordinal_scale">ordinal data</a> sets that are nested in nature.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+										<select id="type-chart-pack" name="type-chart-pack">
+											<option value="pack" selected="selected">Pack</option>
+											<option value="bubble">Bubble</option>
+										</select>
+									</li>
+									<li class="type-settings sunburst">
+										<label for="type-chart-sunburst">Sunburst Type</label>
+										<a class="icon-question-sign" name="#type-chart-sunburst-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="type-chart-sunburst-help">
+							          			<div class="helpContent">
+							          				<h2>Sunburst Chart</h2>
+							          				<p>The <a href="http://en.wikipedia.org/wiki/Pie_chart#Ring_chart_.2F_Multilevel_pie_chart">Sunburst (Ring Chart)</a> is essentially a pie chart that displays multiple levels of data.</p>
+							          				<p>The Sunburst layout takes only <a href="http://en.wikipedia.org/wiki/Ordinal_scale#Ordinal_scale">ordinal data</a> sets that are nested in nature.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+										<select id="type-chart-sunburst" name="type-chart-sunburst">
+											<option value="" selected="selected"></option>
+											<option value=""></option>
+										</select>
+									</li>
+									<li class="type-settings force">
+										<label for="type-chart-force">Force Type</label>
+										<a class="icon-question-sign" name="#type-chart-force-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="type-chart-force-help">
+							          			<div class="helpContent">
+							          				<h2>Force Chart</h2>
+							          				<p>The force layout is represents a tree structure. The Force layout takes only <a href="http://en.wikipedia.org/wiki/Ordinal_scale#Ordinal_scale">ordinal data</a> sets that are nested in nature.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+										<select id="type-chart-force" name="type-chart-force">
+											<option value="" selected="selected">collapsable</option>
+											<option value="">non-collapsable</option>
+										</select>
+									</li>
+									<li class="type-settings area">
+										<label for="type-chart-area">Area Type</label>
+										<a class="icon-question-sign" name="#type-chart-area-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="type-chart-area-help">
+							          			<div class="helpContent">
+							          				<h2>Area chart</h2>
+							          				<p>The Area chart plots flat data. It draws a coloured area beneath it to represent the data values.</p>
+							          				<p>This chart type takes both <a href="http://en.wikipedia.org/wiki/Ordinal_scale#Ordinal_scale">ordinal</a> and <a href="http://en.wikibooks.org/wiki/Statistics/Different_Types_of_Data/Quantitative_and_Qualitative_Data">quantitative</a> data sets.</p>
+							          				<p>These chart types can have multiple scale and range definitions (to be completed....)</p>
+							          			</div>
+							          		</div>
+							          	</div>
+										<select id="type-chart-area" name="type-chart-area">
+											<option value="" selected="selected">plain</option>
+											<option value="">data points</option>
+										</select>
+									</li>
+									<li class="type-settings bar">
+										<label for="type-chart-bar">Bar Type</label>
+										<a class="icon-question-sign" name="#type-chart-bar-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="type-chart-bar-help">
+							          			<div class="helpContent">
+							          				<h2>Bar Chart</h2>
+							          				<p>The Bar chart plots flat data. It draws a tower to represent each of the data values.</p>
+							          				<p>This chart type takes <a href="http://en.wikipedia.org/wiki/Ordinal_scale#Ordinal_scale">ordinal</a> data.</p>
+							          				<p>These chart types can have multiple scale and range definitions (to be completed....)</p>
+							          			</div>
+							          		</div>
+							          	</div>
+										<select id="type-chart-bar" name="type-chart-bar">
+											<option value="" selected="selected">normal</option>
+											<option value="">stacked</option>
+										</select>
+									</li>
+									<li class="type-settings chord">
+										<label for="type-chart-chord">Chord Type</label>
+										<a class="icon-question-sign" name="#type-chart-chord-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="type-chart-chord-help">
+							          			<div class="helpContent">
+							          				<h2>Chord Chart</h2>
+							          				<p>The Chord chart represents connections between data set members. Each member can have a value mapped to another member.</p>
+							          				<p>The data groups are represented by the solid arcs on the outside of the chart. Each <i>chord</i> connects two data groups. The width of the chord at the base of the arc represents the relative size of the data compared with the total size of the data set. A chord that does not connect with another data group represents data in a group that maps to itself.</p>
+							          				<p>The data that the chord chart takes is usually defined as a mtrix of values.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+										<select id="type-chart-chord" name="type-chart-chord">
+											<option value="" selected="selected">normal</option>
+										</select>
+									</li>
+								</ul>
+							</fieldset>
+							
+							<!-- Chart Size -->
+							<fieldset class="size">
+								<legend>Chart Size</legend>
+								<ul>
+									<li>
+							          	<label for="size-height">Chart Height</label>
+							          	<a class="icon-question-sign" name="#size-height-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="size-height-help">
+							          			<div class="helpContent">
+							          				<h2>Chart Height</h2>
+							          				<p>Sets the height of the chart. This number incorporates any padding that is added to the chart.</p>
+							          				<p>This number is a measurement in pixels.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" class="small required" name="size-height" id="size-height" value="700" placeholder="select chart height">
+							            <span class="error" title="size-height"></span>
+							        </li>
+									<li>
+							          	<label for="size-width">Chart Width</label>
+							          	<a class="icon-question-sign" name="#size-width-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="size-width-help">
+							          			<div class="helpContent">
+							          				<h2>Chart Width</h2>
+							          				<p>Sets the height of the chart. This number incorporates any padding that is added to the chart.</p>
+							          				<p>This number is a measurement in pixels.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" class="small required" name="size-width" id="size-width" value="700" placeholder="select chart width">
+							            <span class="error" title="size-width"></span>
+							        </li>
+									<li>
+							          	<label for="size-outer-radius">Chart Outer Radius</label>
+							          	<a class="icon-question-sign" name="#size-outer-radius-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="size-outer-radius-help">
+							          			<div class="helpContent">
+							          				<h2>Chart Outer Radius</h2>
+							          				<p>For circular charts such as the pie and sunburst layouts, this is the radius of the outer ring of the chart.</p>
+							          				<p>This number is a measurement in pixels.</p>
+													<p class="chart-pie">The <strong>Pie chart</strong> outer radius is the full extent of the chart. The labels exist outside of this measurement.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" class="small required" name="size-outer-radius" id="size-outer-radius" value="280" placeholder="select chart radius">
+							            <span class="error" title="size-outer-radius"></span>
+							        </li>
+									<li>
+							          	<label for="size-inner-radius">Chart Inner Radius</label>
+							          	<a class="icon-question-sign" name="#size-inner-radius-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="size-inner-radius-help">
+							          			<div class="helpContent">
+							          				<h2>Chart Inner Radius help</h2>
+							          				<p>For charts that have an inner radius, this is the size in pixels of that radius.</p>
+							          				<p>The pie chart can be turned into a donut chart by setting this attribute.</p>
+													<p class="chart-pie">The <strong>Pie chart</strong> inner radius measures the gap in the middle of the chart. 0 is a perfect pie chart, Any positive number makes this chart a <i>donut</i>.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" class="small required" name="size-inner-radius" id="size-inner-radius" value="10" placeholder="select chart radius">
+							            <span class="error" title="size-inner-radius"></span>
+							        </li>
+									<li>
+							          	<label for="size-padding">Chart Padding</label>
+							          	<a class="icon-question-sign" name="#size-padding-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="size-padding-help">
+							          			<div class="helpContent">
+							          				<h2>Chart Padding</h2>
+							          				<p>This is the padding space between the edges of the chart. This attribute helps create free space around the edges of the chart.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" class="small required" name="size-padding" id="size-padding" value="20" placeholder="select chart padding">
+							            <span class="error" title="size-padding"></span>
+							        </li>
+								</ul>
+							</fieldset>
+							
+							<!-- Color Options -->
+							<fieldset class="color">
+								<legend>Chart Colors</legend>
+								<ul>
+									<li>
+										<label>Chart Color Scheme</label>
+										<a class="icon-question-sign" name="#color-scheme-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="color-scheme-help">
+							          			<div class="helpContent">
+							          				<h2>Color Scheme</h2>
+							          				<p>There are a number of pre-set color schemes defined. These color schemes color the data and chart components. A pre-set color scheme can be modified, or you can create your own one from scratch.</p>
+							          				<p>To customise a color scheme, you can add or remove colour blocks, or simply re-define the palette size. The colors that are represented in the scheme are represented by the tiles at the bottom of this panel. To change a tiles colour, click on it and select a colour from the colour picker.</p>
+													<p class="chart-pie">The color scheme on a <strong>Pie chart</strong> controls the data segments or <i>wedges</i> of the chart.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+										<select id="color-scheme" name="color-scheme">
+								            <option value="0">Custom</option>
+											<option value="scheme1" selected="selected">Scheme 1</option>
+											<option value="scheme2">Scheme 2</option>
+											<option value="scheme3">Scheme 3</option>
+											<option value="scheme4">Scheme 4</option>
+							            </select>
+									</li>
+									<li>
+										<label>Color Palette Size</label>
+										<a class="icon-question-sign" name="#color-palette-size-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="color-palette-size-help">
+							          			<div class="helpContent">
+							          				<h2>Palette Size</h2>
+							          				<p>There are 5 palette sizes that you can choose from. A pre-set colour scheme has it's own set size. This option lets you restrict or expand the pre-set colour scheme's size.</p>
+							          				<p>The values are: 5, 10, 15, 20 and 30.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+										<select id="color-palette-size" name="color-palette-size" class="small">
+											<option value="0">auto</option>
+								            <option value="5" selected="selected">5</option>
+											<option value="10">10</option>
+											<option value="15">15</option>
+											<option value="20">20</option>
+											<option value="30">30</option>
+							            </select>
+									</li>
+									<li>
+										<label>Add/Remove colors</label>
+										<a class="icon-question-sign" name="#color-add-remove-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="color-add-remove-help">
+							          			<div class="helpContent">
+							          				<h2>Add/Remove Colors</h2>
+							          				<p>Add or remove colours from the current color scheme. If a another pre-defined colour scheme is chosen, then the amount of colours shown below are equal to that colour scheme's native size. Adding or removing or editing colours from a new pre-set colour scheme will need to be re-done.</p>
+							          				<p>If you edit a colour and then remove it from the current selection, the changed colour will still exist (but not be imported into the chart). If you click the add colour button, it will then show the old colour.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+										<div>
+											<input type="button" class="btn" id="color-add" name="color-add" value="add color" />
+											<input type="button" class="btn" id="color-remove" name="color-remove" value="remove color" />
+										</div>
+									</li>
+									<li>
+										<div class="palette">
+											<ol>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+												<li class="color"><input type="text" size="20"></li>
+											</ol>											
+										</div>
+									</li>									
+								</ul>
+							</fieldset>
+							
+							<!-- Data Options -->
+							<fieldset class="data">
+								<legend>Data Options</legend>
+								<ul>
+									<li>
+							          	<label for="data-source">Data Source</label>
+							          	<a class="icon-question-sign" name="#data-source-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-source-help">
+							          			<div class="helpContent">
+							          				<h2>Data Source</h2>
+							          				<p>There are 3 different sources of data available.</p>
+							          				<ol>
+							          					<li>Dummy</li>
+							          					<li>URL</li>
+							          					<li>File Upload</li>							          					
+							          				</ol>
+							          				<p>Once you have chosen your data set, click on the <strong>Update Chart Preview</strong> button to see the new data.</p>
+							          				<p>Dummy data allows you to select from a list of dummy data sets so that you can start working on a chart design straight away. If Dummy data is set, then the program will select the most appropriate data for the current chart. If you wish to change to a different dummy data structure, there are a list of options in the <strong>Data Structure</strong> field.</p>
+							          				<p>Pointing to a URL resouce to generate a chart from data that may exist on a 3rd party domain.</p>
+							          				<p>You can also choose to uplaod data from a file from your computer. Different charts may only expect certain file types. Generally .json, .csv and .tsv files are supported.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <select id="data-source" name="data-source">
+								            <option value="dummy" selected="selected">Dummy Data</option>
+											<option value="url" >URL</option>
+											<option value="file">Upload File</option>
+							            </select>
+							        </li>
+									<li class="data-source dummy">
+										<div class="flat">
+								          	<label for="data-dummy-flat">Flat Data</label>
+								          	<a class="icon-question-sign" name="#data-dummy-flat-help">help</a>
+								          	<div class="helpBox">
+								          		<div id="data-dummy-flat-help">
+								          			<div class="helpContent">
+								          				<h2>Data Dummy Flat</h2>
+								          				<p>Here you can choose from 3 different flat data sets. These data sets are <strong><a href="http://en.wikipedia.org/wiki/Ordinal_scale#Ordinal_scale">ordinal</a></strong> and can only be chosen to be used on charts that support ordinal scales.</p>
+								          			</div>
+								          		</div>
+								          	</div>
+								            <select id="data-dummy-flat" name="data-dummy-flat">
+									            <option value="data/data1.json" selected="selected">data set 1</option>
+												<option value="data/data2.json">data set 2</option>
+												<option value="data/data3.json">data set 3</option>
+								            </select>
+							        	</div>
+							        	<div class="nested">
+							        		<label for="data-dummy-nested">Nested Data</label>
+							        		<a class="icon-question-sign" name="#data-dummy-nested-help">help</a>
+								          	<div class="helpBox">
+								          		<div id="data-dummy-nested-help">
+								          			<div class="helpContent">
+								          				<h2>Data Nested</h2>
+								          				<p>Here you can choose from 3 different nested data sets. These data sets are <strong><a href="http://en.wikipedia.org/wiki/Ordinal_scale#Ordinal_scale">ordinal</a></strong> and can only be chosen to be used on charts that support ordinal scales.</p>
+								          			</div>
+								          		</div>
+								          	</div>
+								            <select id="data-dummy-nested" name="data-dummy-nested">
+									            <option value="data/flare1.json" selected="selected">data set 1</option>
+												<option value="data/flare2.json">data set 2</option>
+												<option value="data/flare3.json">data set 3</option>
+								            </select>
+							        	</div>
+							        	<div class="quantitative">
+							        		<label for="data-dummy-quantitative">Quantitative Data</label>
+							        		<a class="icon-question-sign" name="#data-dummy-quantitative-help">help</a>
+								          	<div class="helpBox">
+								          		<div id="data-dummy-quantitative-help">
+								          			<div class="helpContent">
+								          				<h2>Data Quantitative</h2>
+								          				<p>Here you can choose from 3 different Quantitative data sets. These data sets consist of purely numerical value pairs and a primarily used for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Line</strong> charts.</p>
+								          			</div>
+								          		</div>
+								          	</div>
+								            <select id="data-dummy-quantitative" name="data-dummy-quantitative">
+									            <option value="data/data1.csv" selected="selected">data set 1</option>
+												<option value="data/data2.csv">data set 2</option>
+								            </select>
+							        	</div>
+							        	<div class="matrix">
+							        		<label for="data-dummy-matrix">Matrix Data</label>
+							        		<a class="icon-question-sign" name="#data-dummy-matrix-help">help</a>
+								          	<div class="helpBox">
+								          		<div id="data-dummy-matrix-help">
+								          			<div class="helpContent">
+								          				<h2>Data Matrix</h2>
+								          				<p>Here you can choose from 3 different Matrix data sets. These data sets consist of a martix of values that point to each other. They can represent the relationship between many different groups. One example would be how sets of populations compare to each other.</p>
+								          			</div>
+								          		</div>
+								          	</div>
+								            <select id="data-dummy-matrix" name="data-dummy-matrix">
+									            <option value="data/matrix.json" selected="selected">data set 1</option>
+												<option value="data/matrix2.json">data set 2</option>
+												<option value="data/matrix3.json">data set 3</option>
+								            </select>
+							        	</div>
+							        </li>
+									<li class="data-source url">
+							          	<label for="data-url">Data URL</label>
+							          	<a class="icon-question-sign" name="#data-url-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-url-help">
+							          			<div class="helpContent">
+							          				<h2>Data Url</h2>
+							          				<p>Add a URL to point to a data resource.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" name="data-url" id="data-url" placeholder="URL of the data">
+							        </li>
+									<li class="data-source file">
+							          	<label for="data-file">Select Data File <small>(.json, .csv, .tsv)</small></label>
+							          	<a class="icon-question-sign" name="#data-file-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-file-help">
+							          			<div class="helpContent">
+							          				<h2>Data File</h2>
+							          				<p>Upload a file that contains data. Check first that the file has the correct format and data structure for the current chart.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							          	<input type="file" size="12" id="data-file" name="data-file">
+							        </li>
+									<li>
+							          	<label for="data-structure">Data Structure</label>
+							          	<a class="icon-question-sign" name="#data-structure-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-structure-help">
+							          			<div class="helpContent">
+							          				<h2>Data Structure</h2>
+							          				<p>This is where you can set the data structure for the graph. Charts that use a JSON format require the data fields to be defined. The default JSON structure is as such:</p>
+							          				<p><strong>Flat example:</strong></p>
+
+							          				<code>							          				
+							          						{<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;name : (string),<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;value : (number)<br>						          						        							          		
+							          					}							          					
+							          				</code>
+							          				<p><strong>Nested example:</strong></p>
+							          				<code>							          				
+							          						{<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;name : (string),<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;children : {<br>
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name : (string),<br>
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value : (number)<br>
+							          					    	&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+							          					}							          					
+							          				</code>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <select id="data-structure" name="data-structure">
+								            <option value="flat" selected="selected">Ordinal Flat</option>
+											<option value="nested">Ordinal Nested</option>
+											<option value="quantitative">Quantitative</option>
+											<option value="matrix">Matrix</option>
+							            </select>
+							        </li>
+									<li class="data-attributes name">
+							          	<label for="data-name">Data Name</label>
+							          	<a class="icon-question-sign" name="#data-name-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-name-help">
+							          			<div class="helpContent">
+							          				<h2>Data Name</h2>
+							          				<p>This defines what atrribute in the data object takes the <strong>name</strong> of the data set. In the code example it is the value in red.</p>
+							          				<p><strong>Nested example:</strong></p>
+							          				<code>							          				
+							          						{<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;<strong>name</strong> : (string),<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;children : {<br>
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name : (string),<br>
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value : (number)<br>
+							          					    	&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+							          					}<br>							          					
+							          				</code>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" name="data-name" id="data-name" placeholder="select the name of a data item" value="name">
+							        </li>
+									<li class="data-attributes value">
+							          	<label for="data-value">Data Value</label>
+							          	<a class="icon-question-sign" name="#data-value-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-value-help">
+							          			<div class="helpContent">
+							          				<h2>Data Value</h2>
+							          				<p>This defines what atrribute in the data object takes the <strong>value</strong> of the data set. In the code example it is the value in red.</p>
+							          				<p><strong>Nested example:</strong></p>
+							          				<code>							          				
+							          						{<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;name : (string),<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;children : {<br>
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name : (string),<br>
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>value</strong> : (number)<br>
+							          					    	&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+							          					}<br>							          				
+							          				</code>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" name="data-value" id="data-value" placeholder="select the value of a data item" value="size">
+							        </li>
+									<li class="data-attributes children">
+							          	<label for="data-children">Data Children</label>
+							          	<a class="icon-question-sign" name="#data-children-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-children-help">
+							          			<div class="helpContent">
+							          				<h2>Data Children</h2>
+							          				<p>This defines what atrribute in the data object defines the <strong>children</strong> in each layer of the data set. In the code example it is the value in red.</p>
+							          				<p><strong>Nested example:</strong></p>
+							          				<code>							          				
+							          						{<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;name : (string),<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;<strong>children</strong> : {<br>
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name : (string),<br>
+							          						        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value : (number)<br>
+							          					    	&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+							          					}							          					
+							          				</code>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" name="data-children" id="data-children" placeholder="select the child name of a data item" value="group">
+							        </li>
+							        <li class="data-attributes x">
+							          	<label for="data-x">Data X</label>
+							          	<a class="icon-question-sign" name="#data-x-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-x-help">
+							          			<div class="helpContent">
+							          				<h2>Data X</h2>
+							          				<p>This defines what atrribute in the data object defines the <strong>X</strong> value of the data set. In the code example it is the value in red</p>
+							          				<p>These data values are used for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Scatterplot</strong> charts instead of the <strong>Name</strong>, <strong>Value</strong> and <strong>Children</strong> properties.</p>
+							          				<p><strong>JSON example:</strong></p>
+							          				<code>							          				
+							          						{<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;<strong>x</strong> : (number),<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;y : (number)<br>
+							          					}							          				
+							          				</code>
+							          				<p><strong>CSV example</strong></p>
+							          				<code>							          					
+							          						<strong>x</strong>, y<br>
+							          						1, 5<br>
+							          						2, 8<br>
+							          						3, 3<br>
+							          						4, 12<br>
+							          						5, 7<br>							          				
+							          				</code>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" name="data-x" id="data-x" placeholder="select the name of the data on the X scale" value="x">
+							        </li>
+							        <li class="data-attributes y">
+							          	<label for="data-y">Data Y</label>
+							          	<a class="icon-question-sign" name="#data-y-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-y-help">
+							          			<div class="helpContent">
+							          				<h2>Data X</h2>
+							          				<p>This defines what atrribute in the data object defines the <strong>Y</strong> value of the data set. In the code example it is the value in red</p>
+							          				<p>These data values are used for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Scatterplot</strong> charts instead of the <strong>Name</strong>, <strong>Value</strong> and <strong>Children</strong> properties.</p>
+							          				<p><strong>JSON example:</strong></p>
+							          				<code>							          				
+							          						{<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;x : (number),<br>
+							          						    &nbsp;&nbsp;&nbsp;&nbsp;<strong>y</strong> : (number)<br>
+							          					}							          					
+							          				</code>
+							          				<p><strong>CSV example</strong></p>
+							          				<code>							          					
+							          						x, <strong>y</strong><br>
+							          						1, 5<br>
+							          						2, 8<br>
+							          						3, 3<br>
+							          						4, 12<br>
+							          						5, 7<br>							          					
+							          				</code>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" name="data-y" id="data-y" placeholder="select the name of the data on the Y scale" value="y">
+							        </li>
+									<li class="data-scale scaleX">
+							          	<label for="data-scaleX">Data Scale X</label>
+							          	<a class="icon-question-sign" name="#data-scaleX-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-scaleX-help">
+							          			<div class="helpContent">
+							          				<h2>Data Scale X</h2>
+							          				<p>This defines the scale type on the X axis of the chart. These scales are only useful for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Scatterplot</strong> charts.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <select id="data-scaleX" name="data-scaleX">
+								            <option value="linear" selected="selected">linear</option>
+											<option value="exponential">exponential</option>
+											<option value="ordinal">ordinal</option>
+							            </select>
+							        </li>
+									<li class="data-scale scaleY">
+							          	<label for="data-scaleY">Data Scale Y</label>
+							          	<a class="icon-question-sign" name="#data-scaleY-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-scaleY-help">
+							          			<div class="helpContent">
+							          				<h2>Data Scale Y</h2>
+							          				<p>This defines the scale type on the X axis of the chart. These scales are only useful for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Scatterplot</strong> charts.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <select id="data-scaleY" name="data-scaleY">
+								            <option value="linear" selected="selected">linear</option>
+											<option value="exponential">exponential</option>
+											<option value="ordinal">ordinal</option>
+							            </select>
+							        </li>
+							        <li class="data-range rangeX">
+							        	<label for="data-rangeX">Data Range X</label>
+							        	<a class="icon-question-sign" name="#data-rangeX-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-rangeX-help">
+							          			<div class="helpContent">
+							          				<h2>Data Range X</h2>
+							          				<p>This defines the range of the data on the X axis of the chart. The default setting is <strong>auto</strong>, which will automatically select the full extent of the data.</p>
+							          				<p>These scales are only useful for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Scatterplot</strong> charts.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							        	<input type="text" size="20" name="data-rangeX" id="data-rangeX" placeholder="select the range of the X scale" value="auto">
+							        </li>
+							        <li class="data-range rangeY">
+							        	<label for="data-rangeY">Data Range Y</label>
+							        	<a class="icon-question-sign" name="#data-rangeY-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-rangeY-help">
+							          			<div class="helpContent">
+							          				<h2>Data Range Y</h2>
+							          				<p>This defines the range of the data on the Y axis of the chart. The default setting is <strong>auto</strong>, which will automatically select the full extent of the data.</p>
+							          				<p>These scales are only useful for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Line</strong> charts.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							        	<input type="text" size="20" name="data-rangeY" id="data-rangeY" placeholder="select the range of the Y scale" value="auto">
+							        </li>
+								</ul>
+							</fieldset>
+							
+							<!-- Chart Theme -->
+							<fieldset class="theme">
+								<legend>Chart Theme</legend>
+								<!-- background style -->
+								<ul>
+									<li>
+										<input type="checkbox" id="theme-background" name="theme-background" class="show-section checkField">
+										<label for="theme-background">Chart Background</label>
+									</li>
+									<li class="theme-background">
+							          	<label for="theme-background-color">Background Color</label>
+							          	<a class="icon-question-sign" name="#data-background-color-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-background-color-help">
+							          			<div class="helpContent">
+							          				<h2>Theme Cackground Color</h2>
+							          				<p>The background colour of the chart</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							          	<div>
+							            	<input type="text" size="20" class="small" name="theme-background-color" id="theme-background-color" placeholder="select a background color" value="ffffff">
+							        	</div>
+							        </li>
+								</ul>
+								<!-- header style -->
+								<ul>
+									<li>
+										<input type="checkbox" id="theme-header" name="theme-header" class="show-section checkField">
+										<label for="theme-header">Chart Header</label>
+									</li>
+									<li class="theme-header">
+							          	<label for="theme-header-size">Header Name</label>
+							          	<a class="icon-question-sign" name="#data-header-name-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-header-name-help">
+							          			<div class="helpContent">
+							          				<h2>Theme Header Name</h2>
+							          				<p>A Header for the chart can be used.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" class="validate" name="theme-header-name" id="theme-header-name" placeholder="choose a header name">
+							            <span class="error" title="theme-header-name"></span>
+							        </li>
+									<li class="theme-header">
+							          	<label for="theme-header-size">Header Size</label>
+							          	<a class="icon-question-sign" name="#data-header-size-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-header-size-help">
+							          			<div class="helpContent">
+							          				<h2>Theme Header Size</h2>
+							          				<p>This defines the size of the header text in pixels</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" class="small validate" name="theme-header-size" id="theme-header-size" placeholder="choose a header size">
+							            <span class="error" title="theme-header-size"></span>
+							        </li>
+									<li class="theme-header">
+							          	<label for="theme-header-position">Header Position</label>
+							          	<a class="icon-question-sign" name="#data-header-position-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-header-position-help">
+							          			<div class="helpContent">
+							          				<h2>Theme Header Position</h2>
+							          				<p>This defines the general position of the header. The exact position can be tweaked using values in the header offset fields.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <select class="small" id="theme-header-position" name="theme-header-position">
+								            <option value="topleft" selected="selected">top left</option>
+											<option value="topcenter">top center</option>
+											<option value="topright">top right</option>
+											<option value="centerleft">center left</option>
+											<option value="centerright">center right</option>
+											<option value="bottomleft">bottom left</option>
+											<option value="bottomcenter">bottom center</option>
+											<option value="bottomright">bottom right</option>
+							            </select>
+							        </li>
+							        <li class="theme-header">
+							          	<label for="theme-header-offsetX">Header Offset Left</label>
+							          	<a class="icon-question-sign" name="#data-header-offsetX-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-header-offsetX-help">
+							          			<div class="helpContent">
+							          				<h2>Theme Header Offset Left</h2>
+							          				<p>This can be used to adjust the horizontal offset of the chart's header. Positive values will push the header to the right. Negative values will push the header to the left.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" class="small validate" name="theme-header-offsetX" id="theme-header-offsetX" placeholder="header offset left" value="0">
+							            <span class="error" title="theme-header-offsetX"></span>
+							        </li>
+									<li class="theme-header">
+							          	<label for="theme-header-offsetY">Header Offset Top</label>
+							          	<a class="icon-question-sign" name="#data-header-offsetY-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-header-offsetY-help">
+							          			<div class="helpContent">							   
+							          				<h2>Theme Header Offset Top</h2>
+							          				<p>This can be used to adjust the vertical offset of the chart's header. Positive values will push the header down the page. Negative values will push the header up.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" class="small validate" name="theme-header-offsetY" id="theme-header-offsetY" placeholder="header offset top" value="0">
+							            <span class="error" title="theme-header-offsetY"></span>
+							        </li>									
+									<li class="theme-header">
+							          	<label for="theme-header-color">Header Color</label>
+							          	<a class="icon-question-sign" name="#data-header-color-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-header-color-help">
+							          			<div class="helpContent">
+							          				<h2>Theme Header Color</h2>
+							          				<p>This colour picker can be used to set the colour of the charts header.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							          	<div>
+							            	<input type="text" size="20" class="small" name="theme-header-color" id="theme-header-color" placeholder="choose a header color" value="000000">
+							        	</div>
+							        </li>
+								</ul>
+								<!-- label style -->
+								<ul>
+									<li>
+										<input type="checkbox" id="theme-labels" name="theme-labels" class="show-section checkField">
+										<label for="theme-labels">Chart Labels</label>
+									</li>
+									<li class="theme-labels">
+							          	<label for="theme-label-size">Label Size</label>
+							          	<a class="icon-question-sign" name="#data-label-size-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-label-size-help">
+							          			<div class="helpContent">
+							          				<h2>Theme label size</h2>
+							          				<p>This is used to set the size of the chart's header. This value is in pixels.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" class="small validate" name="theme-label-size" id="theme-label-size" placeholder="choose a label size">
+							            <span class="error" title="theme-label-size"></span>
+							        </li>
+									<li class="theme-labels">
+							          	<label for="theme-label-position">Label Position</label>
+							          	<a class="icon-question-sign" name="#data-label-position-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-label-position-help">
+							          			<div class="helpContent">
+							          				<h2>Theme Label Position</h2>
+							          				<p>This is used to set the position of the labels of each data set in the chart. This value is calculated differently for each chart.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" class="small validate" name="theme-label-position" id="theme-label-position" placeholder="choose a label position">
+							            <span class="error" title="theme-label-position"></span>
+							        </li>
+									<li class="theme-labels">
+							          	<label for="theme-label-color">Label Color</label>
+							          	<a class="icon-question-sign" name="#data-label-color-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-label-color-help">
+							          			<div class="helpContent">
+							          				<h2>Theme Label Color</h2>
+							          				<p>This colour picker is used to set the colour for the labels on the chart.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							          	<div>
+							            	<input type="text" size="20" class="small" name="theme-label-color" id="theme-label-color" placeholder="choose a label color" value="000000">
+							        	</div>
+							        </li>
+								</ul>
+								<!-- chart data style -->
+								<ul>
+									<li>
+										<input type="checkbox" id="theme-data" name="theme-data" class="show-section checkField">
+										<label for="theme-data">Chart Data</label>
+									</li>
+									<li class="theme-data">
+							          	<label for="theme-data-border-size">Data Border Size</label>
+							          	<a class="icon-question-sign" name="#data-border-size-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-border-size-help">
+							          			<div class="helpContent">
+							          				<h2>Theme Border Size</h2>
+							          				<p>This used for border settings on the data items in the chart. Each layout expresses this value in different ways. Generally it will set a border around the data item on the chart.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" class="small validate" name="theme-data-border-size" id="theme-data-border-size" placeholder="data border size">
+							            <span class="error" title="theme-data-border-size"></span>
+							        </li>
+									<li class="theme-data">
+							          	<label for="theme-data-border-color">Data Border Colour</label>
+							          	<a class="icon-question-sign" name="#data-border-color-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-border-color-help">
+							          			<div class="helpContent">
+							          				<h2>Theme Border Color</h2>
+							          				<p>This colour picker is used to set the colour of the border on the data item.</p>
+							          			</div>
+							          		</div>
+							          	</div>
+							          	<div>
+							            	<input type="text" size="20" class="small" name="theme-data-border-color" id="theme-data-border-color" placeholder="choose a label color" value="000000">
+							        	</div>
+							        </li>
+								</ul>
+							</fieldset>
+							
+							<fieldset class="event">
+								<legend>Chart Events</legend>
+								<ul>
+									<li>
+										<input type="checkbox" id="event-events" name="event-events" class="show-section checkField">
+										<label for="event-events">Chart Events</label>
+									</li>
+									<li class="events">
+										<input type="checkbox" id="event-data-transition" name="event-data-transition" class="show-section checkField">
+										<label for="event-data-transition">Data transitions</label>
+									</li>
+									<li class="events">
+										<input type="checkbox" id="event-hover" name="event-hover" class="show-section checkField">
+										<label for="event-hover">Hover Event</label>
+									</li>
+									<li class="events">
+										<input type="checkbox" id="event-click" name="event-click" class="show-section checkField">
+										<label for="event-click">Click Event</label>
+									</li>
+								</ul>
+							</fieldset>
+							
+						</form>  <!-- end of chart settings form -->
+					</div>
+				</div>
+			</section>
+		
+		</div><!-- end page -->
+	</div><!-- end #content -->
+</div><!--! end of #wrap -->
+<!-- JavaScript at the bottom for fast page loading -->
+	<!-- jQuery plugins -->
+	<script src="js/plugins/log.js"></script>
+	<script src="js/plugins/placeholder.js"></script>
+	<script src="js/plugins/tabs2.1.js"></script>
+	<script src="js/plugins/popup2.1.js"></script>
+	<script src="js/plugins/validator2.1a.js"></script>
+	<script src="js/plugins/jpicker-1.1.6.min.js"></script>
+	<script src="js/plugins/jquery.cookie.min.js"></script>
+	<!-- D3 plugins -->
+	<script src="js/d3/pie.js"></script>
+	<script src="js/d3/pack.js"></script>
+	<script src="js/d3/force.js"></script>
+	<script src="js/d3/sunburst.js"></script>
+	<script src="js/d3/area.js"></script>
+	<script src="js/d3/bar.js"></script>
+	<script src="js/d3/chord.js"></script>
+	<!-- custom interface -->
+	<script src="js/formData.js"></script>
+	<script src="js/plugins.js"></script>
+	<script src="js/interface.js"></script>
+	<script src="js/showChart.js"></script>
+	<script src="js/buildChart.js"></script>
+<!-- end scripts-->
+</body>
+</html>

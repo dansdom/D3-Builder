@@ -15,6 +15,7 @@ CodeBuilder = {
             }
         });
         */
+        // just for debugging I am going to the page so I can see what is happening
         $("#chart-settings").attr("method", "post");
         $("#chart-settings").attr("action", "buildChart.php");
         $("#chart-settings").submit();
