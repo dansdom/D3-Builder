@@ -33,6 +33,7 @@ Plugins = {
         });
     },
     validator : function() {
+
         // the form validator plugin
         $("#chart-settings").validator({
             inputTypes : {

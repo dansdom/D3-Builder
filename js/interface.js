@@ -96,7 +96,6 @@ ChartBuilder = {
 			$("#chart-settings").validator("validateForm");
 			//ChartBuilder.buildChart(); - moved to the submit function in Plugins.validator()
 			// I'll have a seperate object to build the output
-			console.log('packaging code');
 			CodeBuilder.packageCode();
 		});
 

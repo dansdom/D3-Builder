@@ -10,6 +10,8 @@
 
     /* creates a compressed zip file */
 	function create_zip($files = array(), $destination = '', $overwrite = false) {
+		// delete any existing archive
+		unlink($destination);
 		//if the zip file already exists and overwrite is false, return false
 	 	if(file_exists($destination) && !$overwrite) { return false; }
 			//vars
@@ -26,11 +28,13 @@
 			}
 			//if we have good files...
 			if(count($valid_files)) {
+				
 		    	//create the archive
 		    	$zip = new ZipArchive();
-		    	if($zip->open($destination,$overwrite ? ZIPARCHIVE::OVERWRITE : ZIPARCHIVE::CREATE) !== true) {
-		    		return false;
-		    	}
+		    	//if($zip->open($destination,$overwrite ? ZIPARCHIVE::OVERWRITE : ZIPARCHIVE::CREATE) !== true) {
+		    	//	return false;
+		    	//}
+		    	$zip->open($destination, ZipArchive::CREATE);
 		    	//add the files
 		    	foreach($valid_files as $file) {
 		    		$zip->addFile($file,$file);
@@ -41,16 +45,16 @@
 		    	//close the zip -- done!
 		    	$zip->close();
 
-				header("Content-Disposition: attachment; filename=$destination");
-				header("Content-Type: application/zip");
-				header("Content-length: " . filesize($destination));
-				header("Pragma: no-cache");
-				header("Expires: 0");
-				header("Content-Transfer-Encoding: binary");
-				readfile("$destination");
+				//header("Content-Disposition: attachment; filename=$destination");
+				//header("Content-Type: application/force-download");
+				//header("Content-Type: application/octet-stream");
+				//header("Content-Type: application/zip");
+				//header("Content-length: " . filesize($destination));
+				//header("Pragma: no-cache");
+				//header("Content-Transfer-Encoding: binary");
+				//readfile("$destination");
 				//unlink($destination);
-
-		    
+				
 		    	//check to make sure the file exists
 		    	return file_exists($destination);
 			}
@@ -61,13 +65,11 @@
 		}
 
 	$files_to_zip = array(
-	  'img/avatar.png',
-	  'index.html'
+	  'js/plugins.js'
 	);
 	//if true, good; if false, zip creation failed
 	$result = create_zip($files_to_zip, 'chart.zip');
-	
-	echo json_encode($_POST);
+
 
 ?>
 
