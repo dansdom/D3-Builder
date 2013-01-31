@@ -45,6 +45,9 @@
 		    	//close the zip -- done!
 		    	$zip->close();
 
+		    	// set the $zip object to null to kill the stream???
+		    	$zip = null;
+
 				//header("Content-Disposition: attachment; filename=$destination");
 				//header("Content-Type: application/force-download");
 				//header("Content-Type: application/octet-stream");
@@ -54,7 +57,7 @@
 				//header("Content-Transfer-Encoding: binary");
 				//readfile("$destination");
 				//unlink($destination);
-				
+
 		    	//check to make sure the file exists
 		    	return file_exists($destination);
 			}
