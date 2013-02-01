@@ -21,6 +21,7 @@ FormDefault = {
         dummy : null, // dummy data set to be used
         url : null, // url of data resource
         file : null, // if a resource is uploaded then I will have to pull the file and read it, and then add it
+        fileData : null,
         attributes : {
             name : "name",
             value : "size",
@@ -77,6 +78,7 @@ FormData = {
         dummy : null, // dummy data set to be used
         url : null, // url of data resource
         file : null, // if a resource is uploaded then I will have to pull the file and read it, and then add it
+        fileData : null,
         attributes : {
             name : "name",
             value : "size",

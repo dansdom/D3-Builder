@@ -636,15 +636,20 @@ ChartData = {
 			        if (fileType.toLowerCase() === ".json") {
 			        	// parse the JSON data and store it into the ChartData object
 			        	ChartData.fileData = $.parseJSON(fileString);
-			        	console.log(ChartData.fileData);
+			        	FormData.data.fileData = ChartData.fileData;
 			        }
 			        if (fileType.toLowerCase() === ".csv") {
 			        	// parse the CSV file
 			        	// On my todo list
+			        	ChartData.fileData = $.csv.toArrays(fileString, {separator:","}); // ???
+			        	FormData.data.fileData = ChartData.fileData;
+			        	console.log(ChartData.fileData);
 			        }
 			        if (fileType.toLowerCase() === ".tsv") {
 			        	// parse the TSV file
 			        	// On my todo list
+			        	ChartData.fileData = $.csv.toArrays(fileString, {separator:"	"}); // ???
+			        	FormData.data.fileData = ChartData.fileData;
 			        }
 	        	};  
 	        }
