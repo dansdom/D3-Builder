@@ -96,7 +96,10 @@ ChartBuilder = {
 			$("#chart-settings").validator("validateForm");
 			//ChartBuilder.buildChart(); - moved to the submit function in Plugins.validator()
 			// I'll have a seperate object to build the output
-			CodeBuilder.packageCode();
+			// I need to check if the form is valid first
+			if (Plugins.validator.isValid == true) {
+				CodeBuilder.packageCode();
+			}
 		});
 
 	},

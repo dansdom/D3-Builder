@@ -34,6 +34,8 @@ Plugins = {
     },
     validator : function() {
 
+        this.validator.isValid = false;
+
         // the form validator plugin
         $("#chart-settings").validator({
             inputTypes : {
@@ -113,6 +115,8 @@ Plugins = {
             submitFunction : function() {
                 console.log("form has validated");
                 ChartBuilder.buildChart();
+                // set the isValid flag to true
+                Plugins.validator.isValid = true;
             },
             errorFunction : function() {
                 // if there is an error on the form, then show the first fieldset that has an error in it
@@ -126,6 +130,10 @@ Plugins = {
                     //console.log(fieldsetIndex);
                     $("#chart-settings").tabs('showTab', fieldsetIndex);
                 }
+
+                // set the valid flag to false
+                Plugins.validator.isValid = false;
+
             }
         });
 

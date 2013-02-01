@@ -3,17 +3,15 @@ CodeBuilder = {
     // I don't think I need an init function. Will call functions on this from the ChartBuilder object
     packageCode : function() {
         // this function will package up all the code and out put it
+        console.log(CodeBuilder.settings);
         
         $.ajax('buildChart.php', {
-            data : "someData",
+            data : CodeBuilder.settings,
             dataType : "text",
+            type : "POST",
             success : function(data) {
-                //console.log(data);
-                console.log('success');
-                setTimeout(function() {
-                    console.log('finding zip');
-                    window.location.href = '/chart.zip';
-                }, 1000);
+                window.location.href = '/chart.zip';
+                console.log(data);
             },
             error : function(data) {
                 console.log(data);
@@ -26,5 +24,8 @@ CodeBuilder = {
         //$("#chart-settings").attr("action", "buildChart.php");
         //$("#chart-settings").submit();
         //window.location.href = '/chart.zip';
+    },
+    settings : {
+        // this is the settings object that will get passed to the php to make the chart files. This object is set in the showChart.js script
     }
 };

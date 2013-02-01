@@ -43,19 +43,19 @@ PieChart = {
         this.chartStyle = "";
         // get all the theme settings and add them to the style element
         if (FormData.theme.backgroundColor) {
-            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}";
+            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}\n";
         }
         // add the header style if there is a vlue for it
         if (FormData.theme.headerName) {
-            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + "; font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");}";
+            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + "; font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");}\n";
         }
         // add label style
         if (FormData.theme.labelSize) {
-            this.chartStyle += ".arc text {font-size:" + FormData.theme.labelSize + "px; fill:#" + FormData.theme.labelColor + "}";
+            this.chartStyle += ".arc text {font-size:" + FormData.theme.labelSize + "px; fill:#" + FormData.theme.labelColor + "}\n";
         }
         // add borders to the segments
         if (FormData.theme.borderSize) {
-            this.chartStyle += ".arc path {stroke-width:" + FormData.theme.borderSize + "px; stroke:#" + FormData.theme.borderColor + ";}";
+            this.chartStyle += ".arc path {stroke-width:" + FormData.theme.borderSize + "px; stroke:#" + FormData.theme.borderColor + ";}\n";
         }
     },
     buildChart : function() {
@@ -74,6 +74,17 @@ PieChart = {
         console.log(settings);
         d3.pie(chart, settings);
         FormData.type.current = "pie";
+
+        var script  = 'var chart = document.getElementById("chart");\n'
+            script += 'd3.pie(chart,' + JSON.stringify(settings) + ');\n'
+
+        // assign the settings to the CodeBuilder object
+        CodeBuilder.settings = {
+            script : script, // these are the pulign options
+            style : this.chartStyle,
+            type : 'pie',
+            dataSource : FormData.data.source  // I'll need to add if 'file' or 'dummy'
+        };
     }
 };
 
@@ -123,21 +134,21 @@ PackChart = {
         this.chartStyle = "";
         // get all the theme settings and add them to the style element
         if (FormData.theme.backgroundColor) {
-            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}";
+            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}\n";
         }
         // add the header style if there is a vlue for it
         if (FormData.theme.headerName) {
-            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + ";font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");}";
+            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + ";font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");}\n";
         }
         // add label style
         if (FormData.theme.labelSize) {
-            this.chartStyle += ".node text {font-size:" + FormData.theme.labelSize + "px; fill:#" + FormData.theme.labelColor + "}";
+            this.chartStyle += ".node text {font-size:" + FormData.theme.labelSize + "px; fill:#" + FormData.theme.labelColor + "}\n";
         }
         if (this.settings.chartType === "pack") {
-            this.chartStyle += ".pack circle {stroke-width: 1px;}";
-            this.chartStyle += ".leaf circle {fill-opacity: 1;}";
-            this.chartStyle += ".group circle:hover {stroke-width:2px;cursor:pointer;}";
-            this.chartStyle += ".group:first-child circle:hover {cursor:default;stroke-width:1px;stroke:" + this.settings.colors.group + "}";
+            this.chartStyle += ".pack circle {stroke-width: 1px;}\n";
+            this.chartStyle += ".leaf circle {fill-opacity: 1;}\n";
+            this.chartStyle += ".group circle:hover {stroke-width:2px;cursor:pointer;}\n";
+            this.chartStyle += ".group:first-child circle:hover {cursor:default;stroke-width:1px;stroke:" + this.settings.colors.group + "}\n";
         }
         else if (this.settings.chartType === "bubble") {
             // not sure I even need to add any style for this type
@@ -210,11 +221,11 @@ ForceChart = {
         this.chartStyle = "";
         // get all the theme settings and add them to the style element
         if (FormData.theme.backgroundColor) {
-            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}";
+            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}\n";
         }
         // add the header style if there is a vlue for it
         if (FormData.theme.headerName) {
-            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + ";font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");}";
+            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + ";font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");}\n";
         }
     },
     buildChart : function() {
@@ -280,15 +291,15 @@ SunburstChart = {
         this.chartStyle = "";
         // get all the theme settings and add them to the style element
         if (FormData.theme.backgroundColor) {
-            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}";
+            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}\n";
         }
         // add the header style if there is a vlue for it
         if (FormData.theme.headerName) {
-            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + ";font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");}";
+            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + ";font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");}\n";
         }
         // add borders to the segments
         if (FormData.theme.borderSize) {
-            this.chartStyle += ".arc path {stroke-width:" + FormData.theme.borderSize + "px; stroke:#" + FormData.theme.borderColor + ";}";
+            this.chartStyle += ".arc path {stroke-width:" + FormData.theme.borderSize + "px; stroke:#" + FormData.theme.borderColor + ";}\n";
         }
     },
     buildChart : function() {
@@ -363,18 +374,18 @@ AreaChart = {
 
         // get all the theme settings and add them to the style element
         if (FormData.theme.backgroundColor) {
-            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}";
+            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}\n";
         }
         // add the header style if there is a vlue for it
         if (FormData.theme.headerName) {
-            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + ";font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");}";
+            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + ";font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");}\n";
         }
         
-        this.chartStyle += ".axis path, .axis line, .domain {fill: none;stroke:#" + FormData.theme.borderColor + ";stroke-width:" + FormData.theme.borderSize + "px;shape-rendering: crispEdges;}";
-        this.chartStyle += ".line {fill: none;stroke: " + FormData.colors[1] + ";stroke-width: " + FormData.theme.borderSize + "px;}";
-        this.chartStyle += ".dot {fill: " + FormData.colors[2] + ";stroke: " + FormData.colors[1] + ";stroke-width: 1px;}";
-        this.chartStyle += ".tick {fill:none;stroke:#" + FormData.theme.borderColor + ";stroke-width:" + FormData.theme.borderSize + "px;}";
-        this.chartStyle += "text {fill: #" + FormData.theme.labelColor + ";font-size:" + FormData.theme.labelSize + "px;}"
+        this.chartStyle += ".axis path, .axis line, .domain {fill: none;stroke:#" + FormData.theme.borderColor + ";stroke-width:" + FormData.theme.borderSize + "px;shape-rendering: crispEdges;}\n";
+        this.chartStyle += ".line {fill: none;stroke: " + FormData.colors[1] + ";stroke-width: " + FormData.theme.borderSize + "px;}\n";
+        this.chartStyle += ".dot {fill: " + FormData.colors[2] + ";stroke: " + FormData.colors[1] + ";stroke-width: 1px;}\n";
+        this.chartStyle += ".tick {fill:none;stroke:#" + FormData.theme.borderColor + ";stroke-width:" + FormData.theme.borderSize + "px;}\n";
+        this.chartStyle += "text {fill: #" + FormData.theme.labelColor + ";font-size:" + FormData.theme.labelSize + "px;}\n"
     },
     buildChart : function() {
         var chart = document.getElementById("chart-preview"),
@@ -448,18 +459,18 @@ BarChart = {
 
         // get all the theme settings and add them to the style element
         if (FormData.theme.backgroundColor) {
-            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}";
+            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}\n";
         }
         // add the header style if there is a vlue for it
         if (FormData.theme.headerName) {
-            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + ";font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");}";
+            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + ";font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");}\n";
         }
         
-        this.chartStyle += ".axis path, .axis line, .domain {fill: none;stroke:#" + FormData.theme.borderColor + ";stroke-width:" + FormData.theme.borderSize + "px;shape-rendering: crispEdges;}";
-        this.chartStyle += ".line {fill: none;stroke: " + FormData.colors[1] + ";stroke-width: " + FormData.theme.borderSize + "px;}";
-        this.chartStyle += ".dot {fill: " + FormData.colors[2] + ";stroke: " + FormData.colors[1] + ";stroke-width: 1px;}";
-        this.chartStyle += ".tick {fill:none;stroke:#" + FormData.theme.borderColor + ";stroke-width:" + FormData.theme.borderSize + "px;}";
-        this.chartStyle += "text {fill: #" + FormData.theme.labelColor + ";font-size:" + FormData.theme.labelSize + "px;}"
+        this.chartStyle += ".axis path, .axis line, .domain {fill: none;stroke:#" + FormData.theme.borderColor + ";stroke-width:" + FormData.theme.borderSize + "px;shape-rendering: crispEdges;}\n";
+        this.chartStyle += ".line {fill: none;stroke: " + FormData.colors[1] + ";stroke-width: " + FormData.theme.borderSize + "px;}\n";
+        this.chartStyle += ".dot {fill: " + FormData.colors[2] + ";stroke: " + FormData.colors[1] + ";stroke-width: 1px;}\n";
+        this.chartStyle += ".tick {fill:none;stroke:#" + FormData.theme.borderColor + ";stroke-width:" + FormData.theme.borderSize + "px;}\n";
+        this.chartStyle += "text {fill: #" + FormData.theme.labelColor + ";font-size:" + FormData.theme.labelSize + "px;}\n";
     },
     buildChart : function() {
         var chart = document.getElementById("chart-preview"),
@@ -535,19 +546,19 @@ ChordChart = {
 
         // get all the theme settings and add them to the style element
         if (FormData.theme.backgroundColor) {
-            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}";
+            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}\n";
         }
         // add the header style if there is a vlue for it
         if (FormData.theme.headerName) {
-            this.chartStyle += ".chartName {font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");}";
-            this.chartStyle += "svg .chartName text {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + "}"
+            this.chartStyle += ".chartName {font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");}\n";
+            this.chartStyle += "svg .chartName text {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + "}\n";
         }
 
-        this.chartStyle += ".group text {font: " + FormData.theme.labelSize + "px sans-serif;pointer-events: none;}"; 
-        this.chartStyle += ".chords path {fill-opacity: .67;stroke: #" + FormData.theme.borderColor + ";stroke-width: .5px;}";
-        this.chartStyle += ".tickUnit line {stroke: #" + FormData.theme.labelColor + "}";
-        this.chartStyle += ".tickUnit text {fill: #" + FormData.theme.labelColor + "}"
-        this.chartStyle += "text {fill: #" + FormData.theme.labelColor + ";font-size:" + FormData.theme.labelSize + "px;}";
+        this.chartStyle += ".group text {font: " + FormData.theme.labelSize + "px sans-serif;pointer-events: none;}\n"; 
+        this.chartStyle += ".chords path {fill-opacity: .67;stroke: #" + FormData.theme.borderColor + ";stroke-width: .5px;}\n";
+        this.chartStyle += ".tickUnit line {stroke: #" + FormData.theme.labelColor + "}\n";
+        this.chartStyle += ".tickUnit text {fill: #" + FormData.theme.labelColor + "}\n";
+        this.chartStyle += "text {fill: #" + FormData.theme.labelColor + ";font-size:" + FormData.theme.labelSize + "px;}\n";
     },
     buildChart : function() {
         var chart = document.getElementById("chart-preview"),
