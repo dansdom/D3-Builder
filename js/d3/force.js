@@ -305,17 +305,25 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         // gets data from a JSON request
         getData : function() {
             var container = this;
-            d3.json(container.opts.dataUrl, function(error, data) {
-                // build the chart
-                data.fixed = true;
-                data.x = container.opts.width / 2;
-                data.y = container.opts.height / 2;
 
-                container.dataSet = data;
-                // data object
-                container.data = container.parseData(data);
+            // need to test if the data is provided or I have to make a requset first
+            if (container.opts.data) {
+                container.data = container.opts.data;
                 container.updateChart();
-            });
+            }
+            else {
+                d3.json(container.opts.dataUrl, function(error, data) {
+                    // build the chart
+                    data.fixed = true;
+                    data.x = container.opts.width / 2;
+                    data.y = container.opts.height / 2;
+
+                    container.dataSet = data;
+                    // data object
+                    container.data = container.parseData(data);
+                    container.updateChart();
+                });
+            }
         },
         // updates the settings of the chart
         settings : function(settings) {

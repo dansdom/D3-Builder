@@ -75,8 +75,14 @@ PieChart = {
         d3.pie(chart, settings);
         FormData.type.current = "pie";
 
-        var script  = 'var chart = document.getElementById("chart");\n'
-            script += 'd3.pie(chart,' + JSON.stringify(settings) + ');\n'
+        // get the build settings for the chart
+        this.getBuildSettings();
+    },
+    getBuildSettings : function() {
+        var script  = 'var chart = document.getElementById("chart");\n';
+            script += 'd3.pie(chart,' + JSON.stringify(this.settings) + ');\n';
+
+        // work out how to present the data source
 
         // assign the settings to the CodeBuilder object
         CodeBuilder.settings = {

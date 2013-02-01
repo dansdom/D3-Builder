@@ -79,6 +79,7 @@
 	$scriptContent = $_POST['script'];
 	$styleContent = $_POST['style'];
 	$typeContent = $_POST['type'];
+	$dataContent = $_POST['dataSource'];
 
 	// call the template scripts
 	require_once ('templates/chart.php');
@@ -86,6 +87,9 @@
 
 	// make the temporary directory
 	mkdir("chart");
+	mkdir("chart/js");
+	mkdir("chart/data");
+	mkdir("chart/css");
 
 	//echo $chartHtml;
 	//echo $style;
@@ -96,22 +100,25 @@
 	fwrite($htmlFileHandle, $chartHtml);
 	fclose($htmlFileHandle);
 
-	$styleFile = "chart/style.css";
+	$styleFile = "chart/css/style.css";
 	$styleFileHandle = fopen($styleFile, 'w') or die("can't open file");
 	fwrite($styleFileHandle, $style);
 	fclose($styleFileHandle);
 
 	// copy the other files over to the folder
-	copy('js/d3/'.$typeContent.'.js', 'chart/'.$typeContent.'.js');
-	copy('js/libs/d3.v3.min.js', 'chart/d3.v3.min.js');
+	copy('js/d3/'.$typeContent.'.js', 'chart/js/'.$typeContent.'.js');
+	copy('js/libs/d3.v3.min.js', 'chart/js/d3.v3.min.js');
+	// copy the dummy data across if need be
+	//if ($dataContent)
+	//copy();
 
 	
 	// zip the files in the chart folder up
 	$files_to_zip = array(
-	  'chart/'.$typeContent.'.js',
-	  'chart/d3.v3.min.js',
+	  'chart/js/'.$typeContent.'.js',
+	  'chart/js/d3.v3.min.js',
 	  'chart/chart.html',
-	  'chart/style.css'
+	  'chart/css/style.css'
 	);
 
 	//if true, good; if false, zip creation failed
@@ -136,8 +143,10 @@
 	    rmdir($dirPath);
 	};
 
+	deleteDir('chart/js');
+	deleteDir('chart/css');
+	deleteDir('chart/data');
 	deleteDir('chart');
-
 
 ?>
 

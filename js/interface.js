@@ -603,6 +603,7 @@ ChartData = {
 	handleFileUpload : function() {
 
 		/*
+		// a nice little function that will show the upload progress
 		function updateProgress(evt) {
 	        if (evt.lengthComputable) {
 	            // evt.loaded and evt.total are ProgressEvent properties
@@ -635,6 +636,7 @@ ChartData = {
 			        if (fileType.toLowerCase() === ".json") {
 			        	// parse the JSON data and store it into the ChartData object
 			        	ChartData.fileData = $.parseJSON(fileString);
+			        	console.log(ChartData.fileData);
 			        }
 			        if (fileType.toLowerCase() === ".csv") {
 			        	// parse the CSV file

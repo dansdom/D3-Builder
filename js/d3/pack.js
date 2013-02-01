@@ -492,11 +492,18 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         getData : function() {
             var container = this;
 
-            d3.json(this.opts.dataUrl, function(error, data) {
-                container.data = data;
-                // build the chart
+            // need to test if the data is provided or I have to make a requset first
+            if (container.opts.data) {
+                container.data = container.opts.data;
                 container.updateChart();
-            });
+            }
+            else {
+                d3.json(this.opts.dataUrl, function(error, data) {
+                    container.data = data;
+                    // build the chart
+                    container.updateChart();
+                });
+            }
         },
         // updates the settings of the chart
         settings : function(settings) {

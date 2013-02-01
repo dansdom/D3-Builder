@@ -348,14 +348,22 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 container.updateChart();
             });
         },
-        // gets data from a JSON request
         getData : function() {
             var container = this;
-            d3.json(container.opts.dataUrl, function(error, data) {
-                // data object
-                container.data = container.parseData(data);
+
+            // need to test if the data is provided or I have to make a requset first
+            if (container.opts.data) {
+                container.data = container.opts.data;
                 container.updateChart();
-            });
+            }
+            else {
+                // gets data from a JSON request
+                d3.json(container.opts.dataUrl, function(error, data) {
+                    // data object
+                    container.data = container.parseData(data);
+                    container.updateChart();
+                });
+            }
         },
         // updates the settings of the chart
         settings : function(settings) {
