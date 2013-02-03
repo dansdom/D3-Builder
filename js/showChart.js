@@ -22,7 +22,7 @@ PieChart = {
                 this.settings.dataUrl = FormData.data.url;
                 break;
             case "file" : 
-                this.settings.dataUrl = FormData.data.file;  // note I will need to read this file and store the result before this point
+                this.settings.data = FormData.data.dataObject;  // note I will need to read this file and store the result before this point
                 break;
             default : break;
         };
@@ -117,7 +117,7 @@ PackChart = {
                 this.settings.dataUrl = FormData.data.url;
                 break;
             case "file" : 
-                this.settings.dataUrl = FormData.data.file;  // note I will need to read this file and store the result before this point
+                this.settings.data = FormData.data.dataObject;  // note I will need to read this file and store the result before this point
                 break;
             default : break;
         };
@@ -202,7 +202,7 @@ ForceChart = {
                 this.settings.dataUrl = FormData.data.url;
                 break;
             case "file" : 
-                this.settings.dataUrl = FormData.data.file;  // note I will need to read this file and store the result before this point
+                this.settings.data = FormData.data.dataObject; // note I will need to read this file and store the result before this point
                 break;
             default : break;
         };
@@ -276,7 +276,7 @@ SunburstChart = {
                 this.settings.dataUrl = FormData.data.url;
                 break;
             case "file" : 
-                this.settings.dataUrl = FormData.data.file;  // note I will need to read this file and store the result before this point
+                this.settings.data = FormData.data.dataObject;  // note I will need to read this file and store the result before this point
                 break;
             default : break;
         };
@@ -354,7 +354,7 @@ AreaChart = {
                 this.settings.dataUrl = FormData.data.url;
                 break;
             case "file" : 
-                this.settings.dataUrl = FormData.data.file;  // note I will need to read this file and store the result before this point
+                this.settings.data = FormData.data.dataObject; // note I will need to read this file and store the result before this point
                 break;
             default : break;
         };
@@ -439,7 +439,7 @@ BarChart = {
                 this.settings.dataUrl = FormData.data.url;
                 break;
             case "file" : 
-                this.settings.dataUrl = FormData.data.file;  // note I will need to read this file and store the result before this point
+                this.settings.data = FormData.data.dataObject;  // note I will need to read this file and store the result before this point
                 break;
             default : break;
         };
@@ -522,7 +522,7 @@ ChordChart = {
                 this.settings.dataUrl = FormData.data.url;
                 break;
             case "file" : 
-                this.settings.dataUrl = FormData.data.file;  // note I will need to read this file and store the result before this point
+                this.settings.data = FormData.data.dataObject;  // note I will need to read this file and store the result before this point
                 break;
             default : break;
         };

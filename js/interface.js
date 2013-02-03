@@ -565,11 +565,14 @@ ChartData = {
 	},
 	getValue : function() {
 		
+		console.log('getting data value');
+		
 		FormData.data = {
 			source : $("#data-source").attr("value"),
 			structure : $("#data-structure").attr("value"),
 			url : $("#data-url").attr("value"),
 			file : $("#data-file").attr("value"),
+			dataObject : FormData.data.dataObject,  //  I need to preserve this value if it is already set via file upload
 			// I want to strip down the whitespace
 			attributes : {
 				name : $("#data-name").attr("value"),
@@ -636,20 +639,21 @@ ChartData = {
 			        if (fileType.toLowerCase() === ".json") {
 			        	// parse the JSON data and store it into the ChartData object
 			        	ChartData.fileData = $.parseJSON(fileString);
-			        	FormData.data.fileData = ChartData.fileData;
+			        	FormData.data.dataObject = ChartData.fileData;
+						console.log('setting datObject');
 			        }
 			        if (fileType.toLowerCase() === ".csv") {
 			        	// parse the CSV file
 			        	// On my todo list
 			        	ChartData.fileData = $.csv.toArrays(fileString, {separator:","}); // ???
-			        	FormData.data.fileData = ChartData.fileData;
+			        	FormData.data.dataObject = ChartData.fileData;
 			        	console.log(ChartData.fileData);
 			        }
 			        if (fileType.toLowerCase() === ".tsv") {
 			        	// parse the TSV file
 			        	// On my todo list
 			        	ChartData.fileData = $.csv.toArrays(fileString, {separator:"	"}); // ???
-			        	FormData.data.fileData = ChartData.fileData;
+			        	FormData.data.dataObject = ChartData.fileData;
 			        }
 	        	};  
 	        }
