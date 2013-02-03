@@ -638,28 +638,26 @@ ChartData = {
 			        	// parse the JSON data and store it into the ChartData object
 			        	ChartData.fileData = $.parseJSON(fileString);
 			        	FormData.data.dataObject = ChartData.fileData;
-						console.log('setting datObject');
+						//console.log('setting datObject');
 			        }
 			        if (fileType.toLowerCase() === ".csv") {
-			        	// parse the CSV file
-			        	// On my todo list
+			        	// parse the CSV file - using the csv.toArrays jquery plugin
 			        	ChartData.fileData = $.csv.toArrays(fileString, {separator:","}); // ???
-						// convert this to a json object?? will make it easier on the php side. maybe it is already. will test
-						// definately convert to json!!!!!!!
+						// convert this to a json object
 			        	FormData.data.dataObject = dataHandler.convertArrayToJSON(ChartData.fileData);
-			        	console.log(FormData.data.dataObject);
+			        	//console.log(FormData.data.dataObject);
 			        }
 			        if (fileType.toLowerCase() === ".tsv") {
-			        	// parse the TSV file
-			        	// On my todo list
+			        	// parse the TSV file - using the csv.toArrays jquery plugin
 			        	ChartData.fileData = $.csv.toArrays(fileString, {separator:"	"}); // ???
-						// convert this to a json object?? will make it easier on the php side. maybe it is already. will test
+						// convert this to a json object
 			        	FormData.data.dataObject = dataHandler.convertArrayToJSON(ChartData.fileData);
+						//console.log(FormData.data.dataObject);
 			        }
 	        	};  
 	        }
 	        else {
-	        	alert("only JSON and CSV files are allowed");
+	        	alert("only JSON, CSV and TSV files are allowed");
 	        }
 	        
 		});
@@ -671,7 +669,6 @@ ChartData = {
 		var result = [], // the empty data object to be returned
 			attrLength = data[0].length,  // the amount of attributes in the matrix
 			dataHeaders = data[0]; // the categories of the matrix
-			//JSONObject = {}; // the object that stores the result
 		
 		//console.log(data);
 		// loop through the array object and extract each row as a JSON object

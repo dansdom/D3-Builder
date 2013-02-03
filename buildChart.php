@@ -108,6 +108,8 @@
 	$scriptContent = $_POST['script'];
 	$styleContent = $_POST['style'];
 	$formData = $_POST['formData'];
+	$dataObject = $_POST['dataObject'];  // this is the json as a string
+	// note: json_decode didn't do what I wanted. Is there a good way to convert JSON into a string in PHP?
 	echo $formData;
 	
 	// make the temporary directorys
@@ -140,6 +142,8 @@
 	  'chart/css/style.css'
 	);
 	
+	echo $formData['data']['dataObject'];
+	
 	// find out where the data is coming from and organise a file for it if needed
 	switch ($formData['data']['source']) {
 		case "dummy":
@@ -155,9 +159,10 @@
 			// make the dummy data file and add it to the zip
 			// I need to change the plugin settings too!!!! hmmm, more complexity :(
 			// depending on the file type I have to write different types of files
-			create_file($formData['data']['dataObject'], 'chart/data.json');
+			create_file($dataObject, 'chart/data/data.json');
+			//create_file("data here", 'chart/data/data.json');
 			// push this file onto $files_to_zip array
-			array_push($files_to_zip, 'chart/data.json');
+			array_push($files_to_zip, 'chart/data/data.json');
 			break;
 		default :
 			// do nothing
@@ -167,10 +172,10 @@
 	$result = create_zip($files_to_zip, 'chart.zip');
 	
 	// delete the temporary folders from the server
-	deleteDir('chart/js');
-	deleteDir('chart/css');
-	deleteDir('chart/data');
-	deleteDir('chart');
+	//deleteDir('chart/js');
+	//deleteDir('chart/css');
+	//deleteDir('chart/data');
+	//deleteDir('chart');
 
 ?>
 

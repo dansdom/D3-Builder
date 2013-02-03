@@ -87,7 +87,8 @@ PieChart = {
         CodeBuilder.settings = {
             formData : FormData,  // send the form data over for further processing
             script : script, // these are the script options
-            style : this.chartStyle //this is the plugin css
+            style : this.chartStyle, //this is the plugin css
+            dataObject : JSON.stringify(FormData.data.dataObject)
         };
     }
 };
