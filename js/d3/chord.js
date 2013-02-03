@@ -33,8 +33,8 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         'radius' : 200,
         'speed' : 1000,
         'padding' : 10,
-        'spacing': 0.05,
-        'labelPosition' : 2.2, // this is the position of the segment labels. 0 = center of chart. 1 = center of segment. > 2 = outside the chart
+        'spacing': 5,  // effective setting in D3 is between 0.03 and 0.1. therefore this value will be divided by 100
+        'labelPosition' : 3, // this may get replaced by the labelFrequency setting, or this replace it.
         'data' : null,  // I'll need to figure out how I want to present data options to the user
         'dataUrl' : 'flare.json',  // this is a url for a resource
         'dataType' : 'json',        
@@ -122,7 +122,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 };
             }
             container.chord
-                .padding(container.opts.spacing)
+                .padding(container.opts.spacing/100)  // divide by 100 so it fits in the D3-Builder interface
                 .sortSubgroups(d3.descending)
                 .matrix(container.data);
 

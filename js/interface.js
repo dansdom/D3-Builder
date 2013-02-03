@@ -646,6 +646,8 @@ ChartData = {
 			        	// parse the CSV file
 			        	// On my todo list
 			        	ChartData.fileData = $.csv.toArrays(fileString, {separator:","}); // ???
+						// convert this to a json object?? will make it easier on the php side. maybe it is already. will test
+						// definately convert to json!!!!!!!
 			        	FormData.data.dataObject = ChartData.fileData;
 			        	console.log(ChartData.fileData);
 			        }
@@ -653,6 +655,7 @@ ChartData = {
 			        	// parse the TSV file
 			        	// On my todo list
 			        	ChartData.fileData = $.csv.toArrays(fileString, {separator:"	"}); // ???
+						// convert this to a json object?? will make it easier on the php side. maybe it is already. will test
 			        	FormData.data.dataObject = ChartData.fileData;
 			        }
 	        	};  

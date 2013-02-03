@@ -17,6 +17,7 @@ PieChart = {
         switch (FormData.data.source) {
             case "dummy" :
                 this.settings.dataUrl = FormData.data.dummy;
+                FormData.data.dataObject = null;
                 break;
             case "url" :
                 this.settings.dataUrl = FormData.data.url;
@@ -82,14 +83,11 @@ PieChart = {
         var script  = 'var chart = document.getElementById("chart");\n';
             script += 'd3.pie(chart,' + JSON.stringify(this.settings) + ');\n';
 
-        // work out how to present the data source
-
         // assign the settings to the CodeBuilder object
         CodeBuilder.settings = {
-            script : script, // these are the pulign options
-            style : this.chartStyle,
-            type : 'pie',
-            dataSource : FormData.data.source  // I'll need to add if 'file' or 'dummy'
+            formData : FormData,  // send the form data over for further processing
+            script : script, // these are the script options
+            style : this.chartStyle //this is the plugin css
         };
     }
 };

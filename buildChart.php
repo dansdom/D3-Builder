@@ -27,6 +27,7 @@
 			
 	    	//create the archive
 	    	$zip = new ZipArchive();
+			// old copied code...
 	    	//if($zip->open($destination,$overwrite ? ZIPARCHIVE::OVERWRITE : ZIPARCHIVE::CREATE) !== true) {
 	    	//	return false;
 	    	//}
@@ -41,7 +42,9 @@
 	    	//close the zip -- done!
 	    	$zip->close();
 
-	    	// set the $zip object to null to kill the stream???
+			// haven't worked out how to push the zip file from the server yet
+			// someting to do with the file stream still being open from creating the zip file???
+	    	// set the $zip object to null to kill the stream??? - Dave's suggestion
 	    	//$zip = null;
 
 			//header("Content-Disposition: attachment; filename=$destination");
@@ -75,55 +78,7 @@
 	    	return false;
 		}
 	};
-
-	$scriptContent = $_POST['script'];
-	$styleContent = $_POST['style'];
-	$typeContent = $_POST['type'];
-	$dataContent = $_POST['dataSource'];
-
-	// call the template scripts
-	require_once ('templates/chart.php');
-	require_once ('templates/style.php');
-
-	// make the temporary directory
-	mkdir("chart");
-	mkdir("chart/js");
-	mkdir("chart/data");
-	mkdir("chart/css");
-
-	//echo $chartHtml;
-	//echo $style;
-
-	// write the style and html files to the temp folder
-	$htmlFile = "chart/chart.html";
-	$htmlFileHandle = fopen($htmlFile, 'w') or die("can't open file");
-	fwrite($htmlFileHandle, $chartHtml);
-	fclose($htmlFileHandle);
-
-	$styleFile = "chart/css/style.css";
-	$styleFileHandle = fopen($styleFile, 'w') or die("can't open file");
-	fwrite($styleFileHandle, $style);
-	fclose($styleFileHandle);
-
-	// copy the other files over to the folder
-	copy('js/d3/'.$typeContent.'.js', 'chart/js/'.$typeContent.'.js');
-	copy('js/libs/d3.v3.min.js', 'chart/js/d3.v3.min.js');
-	// copy the dummy data across if need be
-	//if ($dataContent)
-	//copy();
-
 	
-	// zip the files in the chart folder up
-	$files_to_zip = array(
-	  'chart/js/'.$typeContent.'.js',
-	  'chart/js/d3.v3.min.js',
-	  'chart/chart.html',
-	  'chart/css/style.css'
-	);
-
-	//if true, good; if false, zip creation failed
-	$result = create_zip($files_to_zip, 'chart.zip');
-
 	// after the zip file is created, delete the chart folder
 	function deleteDir($dirPath) {
 	    if (! is_dir($dirPath)) {
@@ -142,7 +97,75 @@
 	    }
 	    rmdir($dirPath);
 	};
+	
+	function create_file($content, $path) {
+		$fileHandle = fopen($path, 'w') or die("can't open file");
+		fwrite($fileHandle, $content);
+		fclose($fileHandle);
+	};
 
+	// define the post objects
+	$scriptContent = $_POST['script'];
+	$styleContent = $_POST['style'];
+	$formData = $_POST['formData'];
+	echo $formData;
+	
+	// make the temporary directorys
+	mkdir("chart");
+	mkdir("chart/js");
+	mkdir("chart/data");
+	mkdir("chart/css");
+	
+	// copy the required JS files over to the JS folder
+	copy('js/d3/'.$formData['type']['primary'].'.js', 'chart/js/'.$formData['type']['primary'].'.js');
+	copy('js/libs/d3.v3.min.js', 'chart/js/d3.v3.min.js');
+	
+	
+
+	// call the template scripts to create the files from
+	require_once ('templates/chart.php');
+	require_once ('templates/style.php');
+
+	// write the style and html files to the temp folder
+	//echo $chartHtml;
+	create_file($chartHtml, "chart/chart.html");
+	//echo $style;
+	create_file($styleFile, "chart/css/style.css");
+
+	// zip the files in the chart folder up
+	$files_to_zip = array(
+	  'chart/js/'.$formData['type']['primary'].'.js',
+	  'chart/js/d3.v3.min.js',
+	  'chart/chart.html',
+	  'chart/css/style.css'
+	);
+	
+	// find out where the data is coming from and organise a file for it if needed
+	switch ($formData['data']['source']) {
+		case "dummy":
+			// move the dummy file into the zip folder and rename it
+			copy($formData['data']['dummy'], 'chart/'.$formData['data']['dummy']);
+			// push this onto the $files_to_zip array
+			array_push($files_to_zip, 'chart/'.$formData['data']['dummy']);
+			break;
+		case "url":
+			// just let the chart settings point to the resource. do nothing
+			break;
+		case "file" :
+			// make the dummy data file and add it to the zip
+			// I need to change the plugin settings too!!!! hmmm, more complexity :(
+			// depending on the file type I have to write different types of files
+			create_file($formData['data']['dataObject'], 'chart/data.json');
+			// I'll need to push this file onto $files_to_zip array
+			break;
+		default :
+			// do nothing
+	}
+
+	//if true, good; if false, zip creation failed
+	$result = create_zip($files_to_zip, 'chart.zip');
+	
+	// delete the temporary folders from the server
 	deleteDir('chart/js');
 	deleteDir('chart/css');
 	deleteDir('chart/data');
