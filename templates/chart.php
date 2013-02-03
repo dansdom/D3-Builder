@@ -10,10 +10,11 @@ $chartHtml =	'<!DOCTYPE html>'."\n"
 				.'<meta http-equiv="cleartype" content="on">'."\n"
 				.'<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">'."\n"
 				.'<meta name="viewport" content="width=device-width,initial-scale=1.0">'."\n"
-				.'<script src="d3.v3.min.js"></script>'."\n"
-				.'<script src="'
+                .'<link rel="stylesheet" href="css/style.css">'."\n"
+				.'<script src="js/d3.v3.min.js"></script>'."\n"
+				.'<script src="js/'
 				// path of the plugin file
-				.$typeContent
+				.$formData['type']['primary']
 				.'.js"></script>'."\n"
 				.'</head>'."\n"
 				.'<body>'."\n"

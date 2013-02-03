@@ -83,6 +83,7 @@ PieChart = {
         var script  = 'var chart = document.getElementById("chart");\n';
             script += 'd3.pie(chart,' + JSON.stringify(this.settings) + ');\n';
 
+        // definately need to change FormData.data object if it is a file upload
         // assign the settings to the CodeBuilder object
         CodeBuilder.settings = {
             formData : FormData,  // send the form data over for further processing

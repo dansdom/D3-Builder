@@ -10,6 +10,7 @@ CodeBuilder = {
             dataType : "text",
             type : "POST",
             success : function(data) {
+                // ideally this zip file should be served from the php script and not from here
                 window.location.href = '/chart.zip';
                 console.log(data);
             },
