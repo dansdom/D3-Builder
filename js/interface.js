@@ -1,20 +1,15 @@
 // TO DO LIST:
 // 1. I think the data options aren't 100% yet
-// 2. work out WTF I'm doing with the chart events
-// 3. Figure out some tech (PHP) to hook up the code packaging operations
 // 4. optimise the jQuery selectors. atm they are like a big pile of shit.
-// 5. look at support for CSV files
+// 5. look at support for CSV files !!!
 // 6. start hooking up the 'upload file' option - started, but need to change the plugins to accept the data object
-// 7. look at outputting css onto the page in the <style id="chart-style"></style> element
-// 8. investigate adding/changing chart data scales
-// 9. make more plugins. I want area, line and bar charts. After that I may go with a tree chart
 // 10. lots of work to implement the 'theme' options
 // 11. Let users create and save their own colour schemes? maybe save a seperate cookie for each scheme, and then go check them? I'll explore this a little later
+// I may save these colors to the server and then provide them as options on the interface
 
 // Priorities:
-// 1. Add a form validator that should run before the buildChart function (might need to fiddle with my validator)
-// 2. sort the data selection out for the different chart types. also, uploading charts is not working. I'll have to hook up an option for the plugins
-// 3. add a nice animation transition for the scales? that would be nice
+// !!!! currently in the middle of the getBuildSettings() function for each chart. Data handling is key
+// 1a. add a nice animation transition for the scales? that would be nice
 
 // Known Bugs (that are bugging me)
 // 1. select pie (nested), build chart. then select flat data and build. Fails to build the flat chart
@@ -604,6 +599,9 @@ ChartData = {
 	},
 	fileData : {},  // data object to hold uploaded file
 	handleFileUpload : function() {
+		
+		// need to reference 'this' from the event handler
+		var dataHandler = this;
 
 		/*
 		// a nice little function that will show the upload progress
@@ -648,15 +646,15 @@ ChartData = {
 			        	ChartData.fileData = $.csv.toArrays(fileString, {separator:","}); // ???
 						// convert this to a json object?? will make it easier on the php side. maybe it is already. will test
 						// definately convert to json!!!!!!!
-			        	FormData.data.dataObject = ChartData.fileData;
-			        	console.log(ChartData.fileData);
+			        	FormData.data.dataObject = dataHandler.convertArrayToJSON(ChartData.fileData);
+			        	console.log(FormData.data.dataObject);
 			        }
 			        if (fileType.toLowerCase() === ".tsv") {
 			        	// parse the TSV file
 			        	// On my todo list
 			        	ChartData.fileData = $.csv.toArrays(fileString, {separator:"	"}); // ???
 						// convert this to a json object?? will make it easier on the php side. maybe it is already. will test
-			        	FormData.data.dataObject = ChartData.fileData;
+			        	FormData.data.dataObject = dataHandler.convertArrayToJSON(ChartData.fileData);
 			        }
 	        	};  
 	        }
@@ -666,6 +664,31 @@ ChartData = {
 	        
 		});
 			
+	},
+	convertArrayToJSON : function(data) {
+		// converts a set of arrays to a JSON object. When uploading a CSV and converting it to arrays, I want to then save it a JSON on the server
+		// this only converts to a flat structured JSN object
+		var result = [], // the empty data object to be returned
+			attrLength = data[0].length,  // the amount of attributes in the matrix
+			dataHeaders = data[0]; // the categories of the matrix
+			//JSONObject = {}; // the object that stores the result
+		
+		//console.log(data);
+		// loop through the array object and extract each row as a JSON object
+		// start on the second row
+		for (var i = 1; i < data.length; i++) {
+			// loop through each element in this row
+			var dataRow = {};  // the json data row
+			for (var j = 0; j < data[i].length; j++) {
+				dataRow[data[0][j]] = data[i][j];
+			}
+			//console.log(dataRow);
+			// add the row to the result
+			result.push(dataRow);
+		};
+		
+		console.log(result);
+		return result;
 	},
 	readFile : function(file) {
 		var reader = new FileReader(),

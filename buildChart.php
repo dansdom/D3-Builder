@@ -156,11 +156,12 @@
 			// I need to change the plugin settings too!!!! hmmm, more complexity :(
 			// depending on the file type I have to write different types of files
 			create_file($formData['data']['dataObject'], 'chart/data.json');
-			// I'll need to push this file onto $files_to_zip array
+			// push this file onto $files_to_zip array
+			array_push($files_to_zip, 'chart/data.json');
 			break;
 		default :
 			// do nothing
-	}
+	};
 
 	//if true, good; if false, zip creation failed
 	$result = create_zip($files_to_zip, 'chart.zip');
