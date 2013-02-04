@@ -255,6 +255,7 @@
 							          				<h2>Chart Height</h2>
 							          				<p>Sets the height of the chart. This number incorporates any padding that is added to the chart.</p>
 							          				<p>This number is a measurement in pixels.</p>
+							          				<p class="chart-force">The height of the <strong>Force chart</strong>. The center position of the chart will fall exactly halfway of this setting. Note: The data size and the force setting on the chart wil define the extent of the height of this chart.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -270,6 +271,7 @@
 							          				<h2>Chart Width</h2>
 							          				<p>Sets the height of the chart. This number incorporates any padding that is added to the chart.</p>
 							          				<p>This number is a measurement in pixels.</p>
+							          				<p class="chart-force">The width of the <strong>Force chart</strong>. The center position of the chart will fall exactly halfway of this setting. Note: The data size and the force setting on the chart wil define the extent of the width of this chart.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -289,6 +291,7 @@
 													<p class="chart-pack">The <strong>Pack chart</strong> outer radius is the full extent of the chart. For the regular "nested" chart this represents the radius of the outermost circle on the chart. For the Flat (or bubble) chart. This value represents the bounding space that the data fits into.</p>
 													<p class="chart-pack">This is the setting for the chart size and the data on it. Due to the nature of this chart, the padding setting is inert and will not affect this setting.</p>
 													<p class="chart-sunburst">The <strong>Sunburst chart</strong> outer radius is the full extent of the chart.</p>
+													<p class="chart-force">The outer radius has no affect on the <strong>Force chart</strong>.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -307,6 +310,7 @@
 													<p class="chart-pie">The <strong>Pie chart</strong> inner radius measures the gap in the middle of the chart. 0 is a perfect pie chart, Any positive number makes this chart a <em>donut</em>.</p>
 													<p class="chart-pack">The <atrong>Pack chart</strong> does not use the inner radius property.</p>
 													<p class="chart-sunburst">The <strong>Sunburst chart</strong> inner radius does not do anything. The area in the middle of the chart is determined by the structure of the data.</p>
+													<p class="chart-force">The inner radius has no affect on the <strong>Force chart</strong>.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -324,6 +328,7 @@
 							          				<p class="chart-pie">For the Pie chart the padding will push the radius smaller if the outer-radius plus padding is larger than either the width or height setting.</p>
 							          				<p class="chart-pack">This has no affect on the <strong>Pack chart</strong>. To set the spacing between the data points, use the <strong>data spacing</strong> attribute in the chart theme tab.</p>
 							          				<p class="chart-sunburst">The <strong>Sunburst chart</strong> padding has no effect (Although this may be implemented in a future release.).</p>
+							          				<p class="chart-force">The padding has no affect on the <strong>Force chart</strong>. The extent of the chart in relation to the width and height are determined by the data set and the force between each of the chart nodes.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -350,6 +355,13 @@
 													<p class="chart-pack">The "Nested" <strong>Pack chart</strong> uses only the first two colours in the scheme. The first is the background of the data groups, and the second the background of the data points.</p>
 													<p class="chart-pack">The "Flat" <strong>Pack chart</strong> uses each colour in the scheme to represent the data of each group. The colours relate to the first level of data.</p>
 													<p class="chart-sunburst">The <strong>Sunburst chart</strong> colour scheme represents each group in the data set. Each child data set that does not have any children of it's own will also inherit the same colur as it's parent.</p>
+													<p class="chart-force">The <strong>Force chart</strong> colour scheme uses the first 4 values. These are:</p>
+													<ol class="chart-force">
+														<li>The colour of the "group" nodes.</li>
+														<li>The colour of the "group" node when collapsed.</li>
+														<li>The colour of the data nodes.</li>
+														<li>The colour of the "branches" on the tree.</li>
+													</ol>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -501,6 +513,7 @@
 								          				<p class="chart-pie">Nested data on the <strong>Pie</strong> will show each level of data at a time. To explore each data category further - click on the segment and it will <em>drill down</em> into that category.</p>
 								          				<p class="chart-pack">This is the only dummy data allowed for then <strong>Pack chart</strong>.</p>
 								          				<p class="chart-sunburst">This is the only dummy data allowed for then <strong>Sunburst chart</strong>.</p>
+								          				<p class="chart-force">This is the only dummy data allowed for then <strong>Force chart</strong>.</p>
 								          			</div>
 								          		</div>
 								          	</div>
@@ -554,7 +567,7 @@
 							          				<p>Add a URL to point to a data resource.</p>
 							          				<p class="chart-pie">This data set must return data that is ordinal on one axis for the <strong>Pie chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
 							          				<p class="chart-pack">This data set must return data that is ordinal on one axis for the <strong>Pack chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
-							          				<p class="chart-sunburst">This data set must return data that is ordinal on one axis for the <strong>Sunburst chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
+							          				<p class="chart-sunburst">This data set must return data that is ordinal on one axis for the <strong>Sunburst chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>							       
 							          			</div>
 							          		</div>
 							          	</div>
@@ -569,7 +582,7 @@
 							          				<h2>Data File</h2>
 							          				<p>Upload a file that contains data. Check first that the file has the correct format and data structure for the current chart.</p>
 							          				<p class="chart-pie">This data set must return data that is ordinal on one axis for the <strong>Pie chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
-							          				<p class="chart-pie">This data set must return data that is ordinal on one axis for the <strong>Pack chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
+							          				<p class="chart-pack">This data set must return data that is ordinal on one axis for the <strong>Pack chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -951,6 +964,7 @@
 							          				<p class="chart-pie">The labels in the <strong>Pie chart</strong> show the "ordinal" scale values of the chart.</p>
 							          				<p class="chart-pack">The labels in the <strong>Pack chart</strong> show the data <em>name</em> values.</p>
 							          				<p class="chart-sunburst">There are no label settings in the <strong>Sunburst chart</strong>. There may be labels set with &lt;title&gt; tags in a future release.</p>
+							          				<p class="chart-force">There are no label settings in the <strong>Force chart</strong>.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -1005,6 +1019,7 @@
 							          				<p>This used for border settings on the data items in the chart. Each layout expresses this value in different ways. Generally it will set a border around the data item on the chart.</p>
 							          				<p class="chart-pie">The <strong>Pie chart</strong> data border will draw a line around the whole of each segment. The size of this border can be any real number.</p>
 							          				<p class="chart-pack">(this feature is yet to be implemented) The <strong>Pack chart</strong> data border size is the width of the border around each data group in the "Nested" chart. In the "Flat" chart every data point will have it's border set.</p>
+							          				<p class="chart-force">There are no border settings for the <strong>Force chart</strong>.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -1039,6 +1054,7 @@
 							          				<p class="chart-pie">This setting has no affect on the <strong>Pie chart</strong>.</p>
 							          				<p class="chart-pack">The <strong>Pack chart</strong> data spacing is the spacing between each indivual data item. In the "Flat" chart it creates open space between the bubbles. In the "Nested" chart it is only the data points and not the data groups that pick up this spacing attribte". The spacing attribute will reduce the area of the data items.</p>
 							          				<p class="chart-sunburst">The <strong>Sunburst chart</strong> data spacing setting has no affect on the chart. This may have some implementation in future releases.</p>
+							          				<p class="chart-force">(yet to be implemented) The <strong>Force chart</strong> data spacing sets the force at which the data elements repel each other. A high spacing will force them wider apart, whereas a small spacing will mean that the data will all bunch together at the center of the graph.</p>
 							          			</div>
 							          		</div>
 							          	</div>

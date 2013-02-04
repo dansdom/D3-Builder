@@ -10,10 +10,13 @@
 // Priorities:
 // !!!! currently in the middle of the getBuildSettings() function for each chart. Data handling is key
 // 1a. add a nice animation transition for the scales? that would be nice
+// 2. clean up the jPicker plugin. 
+// 3. implement the spacing attribute on the force chrt. use it to set the force between tree nodes
 
 // Known Bugs (that are bugging me)
 // 1. select pie (nested), build chart. then select flat data and build. Fails to build the flat chart
 // 2. changing from bubble to pack layout doesn't change the colors properly
+
 
 // Chart Plugins priority
 // 1. scatterplot
