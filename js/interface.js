@@ -12,6 +12,7 @@
 // 1a. add a nice animation transition for the scales? that would be nice
 // 2. clean up the jPicker plugin. 
 // 3. implement the spacing attribute on the force chrt. use it to set the force between tree nodes
+// 4. there are a bunch of plugin settings that are no fully implemented through the interface. Namely the "theme" tab. This needs to be gone through
 
 // Known Bugs (that are bugging me)
 // 1. select pie (nested), build chart. then select flat data and build. Fails to build the flat chart

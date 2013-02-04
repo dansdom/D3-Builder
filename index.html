@@ -258,6 +258,7 @@
 							          				<p class="chart-force">The height of the <strong>Force chart</strong>. The center position of the chart will fall exactly halfway of this setting. Note: The data size and the force setting on the chart wil define the extent of the height of this chart.</p>
 							          				<p class="chart-area">The height of the <strong>Area chart</strong>. The Y-axis is determined by this value minus the padding.</p>
 							          				<p class="chart-bar">The height of the <strong>Bar chart</strong>. The Y-axis is determined by this value minus the padding.</p>
+							          				<p class="chart-chord">The height of the <strong>Chord chart</strong>. The radius of the chart is determined by the height minus the padding</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -276,6 +277,7 @@
 							          				<p class="chart-force">The width of the <strong>Force chart</strong>. The center position of the chart will fall exactly halfway of this setting. Note: The data size and the force setting on the chart wil define the extent of the width of this chart.</p>
 							          				<p class="chart-area">The width of the <strong>Area chart</strong>. The X-axis is determined by this value minus the padding.</p>
 							          				<p class="chart-bar">The width of the <strong>Bar chart</strong>. The X-axis is determined by this value minus the padding.</p>
+							          				<p class="chart-chord">The width of the <strong>Chord chart</strong>. The radius of the chart is determined by the width minus the padding</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -298,6 +300,7 @@
 													<p class="chart-force">The outer radius has no affect on the <strong>Force chart</strong>.</p>
 													<p class="chart-area">The outer radius has no affect on the <strong>Area chart</strong>.</p>
 													<p class="chart-bar">The outer radius has no affect on the <strong>Bar chart</strong>.</p>
+													<p class="chart-chord">The outer radius has no affect on the <strong>Chord chart</strong>.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -319,6 +322,7 @@
 													<p class="chart-force">The inner radius has no affect on the <strong>Force chart</strong>.</p>
 													<p class="chart-area">The inner radius has no affect on the <strong>Area chart</strong>.</p>
 													<p class="chart-bar">The inner radius has no affect on the <strong>Bar chart</strong>.</p>
+													<p class="chart-chord">The inner radius has no affect on the <strong>Chord chart</strong>. (In a future implementation this will adjust the width of the outer arcs)</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -339,6 +343,7 @@
 							          				<p class="chart-force">The padding has no affect on the <strong>Force chart</strong>. The extent of the chart in relation to the width and height are determined by the data set and the force between each of the chart nodes.</p>
 							          				<p class="chart-area">The <strong>Area chart</strong> padding will determine the space between the chart and the outer edge.</p>
 							          				<p class="chart-bar">The <strong>Bar chart</strong> padding will determine the space between the chart and the outer edge.</p>
+							          				<p class="chart-chord">The <strong>Chord chart</strong> padding will determine the space between the chart and the outer edge.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -380,6 +385,7 @@
 													</ol>
 													<p class="chart-area">(In the future this chart will suport multiple categories, and the colour scheme will represent the colour of each data group. At that point the current values of the them may be whiched out to the theme object.)</p>
 													<p class="chart-area">The <strong>Bar chart</strong> colour scheme uses only the first value of the palette. (In the future this chart will suport multiple categories, and the colour scheme will represent the colour of each data group.)</p>
+													<p class="chart-chord">The color scheme on a <strong>Chord chart</strong> controls the data segments on the outer arc of the chart. The "chords" or inner arcs that join the edges of the circle will generally pick up the colour of the smallest data group. These "chords" have a reduced opacity from the outer arcs.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -531,9 +537,9 @@
 								          				<h2>Data Nested</h2>
 								          				<p>Here you can choose from 3 different nested data sets. These data sets are <strong><a href="http://en.wikipedia.org/wiki/Ordinal_scale#Ordinal_scale">ordinal</a></strong> and can only be chosen to be used on charts that support ordinal scales.</p>
 								          				<p class="chart-pie">Nested data on the <strong>Pie</strong> will show each level of data at a time. To explore each data category further - click on the segment and it will <em>drill down</em> into that category.</p>
-								          				<p class="chart-pack">This is the only dummy data allowed for then <strong>Pack chart</strong>.</p>
-								          				<p class="chart-sunburst">This is the only dummy data allowed for then <strong>Sunburst chart</strong>.</p>
-								          				<p class="chart-force">This is the only dummy data allowed for then <strong>Force chart</strong>.</p>
+								          				<p class="chart-pack">This is the only dummy data allowed for the <strong>Pack chart</strong>.</p>
+								          				<p class="chart-sunburst">This is the only dummy data allowed for the <strong>Sunburst chart</strong>.</p>
+								          				<p class="chart-force">This is the only dummy data allowed for the <strong>Force chart</strong>.</p>
 								          			</div>
 								          		</div>
 								          	</div>
@@ -569,6 +575,7 @@
 								          			<div class="helpContent">
 								          				<h2>Data Matrix</h2>
 								          				<p>Here you can choose from 3 different Matrix data sets. These data sets consist of a martix of values that point to each other. They can represent the relationship between many different groups. One example would be how sets of populations compare to each other.</p>
+								          				<p class="chart-chord">This is the only dummy data set allowed for the <strong>Chord chart</strong>.</p>
 								          			</div>
 								          		</div>
 								          	</div>
@@ -591,7 +598,8 @@
 							          				<p class="chart-pack">This data set must return data that is ordinal on one axis for the <strong>Pack chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
 							          				<p class="chart-sunburst">This data set must return data that is ordinal on one axis for the <strong>Sunburst chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
 							          				<p class="chart-area">The <strong>Area chart</strong> only takes flat data. This can be "ordinal" or "quantitative".</p>
-							          				<p class="chart-bar">The <strong>Bar chart</strong> only takes flat data. This can be "ordinal" or "quantitative".</p>								       
+							          				<p class="chart-bar">The <strong>Bar chart</strong> only takes flat data. This can be "ordinal" or "quantitative".</p>	
+							          				<p class="chart-chord">The <strong>Chord chart</strong> only takes data as a matrix of connected values.</p>   
 							          			</div>
 							          		</div>
 							          	</div>
@@ -609,6 +617,7 @@
 							          				<p class="chart-pack">This data set must return data that is ordinal on one axis for the <strong>Pack chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
 							          				<p class="chart-area">The <strong>Area chart</strong> only takes flat data. This can be "ordinal" or "quantitative".</p>
 							          				<p class="chart-bar">The <strong>Bar chart</strong> only takes flat data. This can be "ordinal" or "quantitative".</p>
+							          				<p class="chart-chord">The <strong>Chord chart</strong> only takes data as a matrix of connected values.</p>   
 							          			</div>
 							          		</div>
 							          	</div>
@@ -993,6 +1002,7 @@
 							          				<p class="chart-force">There are no label settings in the <strong>Force chart</strong>.</p>
 							          				<p class="chart-area">The labels on the x-axis and y-axis on the <strong>Area chart</strong>.</p>
 							          				<p class="chart-bar">The labels on the x-axis and y-axis on the <strong>Bar chart</strong>.</p>
+							          				<p class="chart-chord">The labels in the <strong>Chord chart</strong> are present on the "tick" scale outside the outer arc, and inside the arc segment. The value inside the arc segment is the total value for that data group.</p>   
 							          			</div>
 							          		</div>
 							          	</div>
@@ -1011,6 +1021,7 @@
 							          				<p class="chart-pack">The <strong>Pack chart</strong> label position does not set any value. The labels are positioned in the middle of each circle.</p>
 							          				<p class="chart-area">The <strong>Area chart</strong> label position does not yet have any value. (In futher releases this may provide spacing away or toward the axis.)</p>
 							          				<p class="chart-bar">The <strong>Bar chart</strong> label position does not yet have any value. (In futher releases this may provide spacing away or toward the axis.)</p>
+							          				<p class="chart-chord">The <strong>Chord chart</strong> label position does not yet have any value. (In futher releases this may provide spacing away or toward the axis.)</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -1027,6 +1038,7 @@
 							          				<p>This colour picker is used to set the colour for the labels on the chart.</p>
 							          				<p class="chart-area">This provides the colour for the labels on the x and y axis, but not the colour of the axis itself. This is set in the <strong>Chart Data Style</strong> field.</p>
 							          				<p class="chart-bar">This provides the colour for the labels on the x and y axis, but not the colour of the axis itself. This is set in the <strong>Chart Data Style</strong> field.</p>
+							          				<p class="chart-chord">This provides the colour for the labels inside the arc segments, the labels on the "tick" scale, and the colour of the "ticks" themselves.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -1054,6 +1066,7 @@
 							          				<p class="chart-force">There are no border settings for the <strong>Force chart</strong>.</p>
 							          				<p class="chart-area">This is the width of the x and y axis on the <strong>Area chart</strong>.</p>
 							          				<p class="chart-bar">This is the width of the x and y axis on the <strong>Bar chart</strong>.</p>
+							          				<p class="chart-chord">This is the width of the borders on the inner chords of the <strong>Chord chart</strong>. (This will be implemented before first release)</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -1072,6 +1085,7 @@
 							          				<p class="chart-pack">The "Nested" <strong>Pack chart</strong> data border colours are set by the colour palette. This is the colour of the data groups. The "Flat" Pack chart inherits it's border coliur from the background colour of that data item.</p>
 							          				<p class="chart-area">This is the colour of the x and y axis on the <strong>Area chart</strong>.</p>
 							          				<p class="chart-bar">This is the colour of the x and y axis on the <strong>Bar chart</strong>.</p>
+							          				<p class="chart-chord">This is the colour of the borders on the inner chords of the <strong>Chord chart</strong>.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -1093,6 +1107,7 @@
 							          				<p class="chart-force">(yet to be implemented) The <strong>Force chart</strong> data spacing sets the force at which the data elements repel each other. A high spacing will force them wider apart, whereas a small spacing will mean that the data will all bunch together at the center of the graph.</p>
 							          				<p class="chart-area">There are no spacing options available for the <strong>Area chart</strong>.</p>
 							          				<p class="chart-bar">There are no spacing options available for the <strong>Bar chart</strong>.</p>
+							          				<p class="chart-chord">There is no implementation of this value for the <strong>Chord chart</strong>.</p>
 							          			</div>
 							          		</div>
 							          	</div>
