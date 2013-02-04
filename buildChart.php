@@ -172,10 +172,10 @@
 	$result = create_zip($files_to_zip, 'chart.zip');
 	
 	// delete the temporary folders from the server
-	deleteDir('chart/js');
-	deleteDir('chart/css');
-	deleteDir('chart/data');
-	deleteDir('chart');
+	//deleteDir('chart/js');
+	//deleteDir('chart/css');
+	//deleteDir('chart/data');
+	//deleteDir('chart');
 
 ?>
 
