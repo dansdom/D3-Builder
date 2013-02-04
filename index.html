@@ -256,6 +256,7 @@
 							          				<p>Sets the height of the chart. This number incorporates any padding that is added to the chart.</p>
 							          				<p>This number is a measurement in pixels.</p>
 							          				<p class="chart-force">The height of the <strong>Force chart</strong>. The center position of the chart will fall exactly halfway of this setting. Note: The data size and the force setting on the chart wil define the extent of the height of this chart.</p>
+							          				<p class="chart-area">The height of the <strong>Area chart</strong>. The Y-axis is determined by this value minus the padding.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -272,6 +273,7 @@
 							          				<p>Sets the height of the chart. This number incorporates any padding that is added to the chart.</p>
 							          				<p>This number is a measurement in pixels.</p>
 							          				<p class="chart-force">The width of the <strong>Force chart</strong>. The center position of the chart will fall exactly halfway of this setting. Note: The data size and the force setting on the chart wil define the extent of the width of this chart.</p>
+							          				<p class="chart-area">The width of the <strong>Area chart</strong>. The X-axis is determined by this value minus the padding.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -292,6 +294,7 @@
 													<p class="chart-pack">This is the setting for the chart size and the data on it. Due to the nature of this chart, the padding setting is inert and will not affect this setting.</p>
 													<p class="chart-sunburst">The <strong>Sunburst chart</strong> outer radius is the full extent of the chart.</p>
 													<p class="chart-force">The outer radius has no affect on the <strong>Force chart</strong>.</p>
+													<p class="chart-area">The outer radius has no affect on the <strong>Area chart</strong>.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -311,6 +314,7 @@
 													<p class="chart-pack">The <atrong>Pack chart</strong> does not use the inner radius property.</p>
 													<p class="chart-sunburst">The <strong>Sunburst chart</strong> inner radius does not do anything. The area in the middle of the chart is determined by the structure of the data.</p>
 													<p class="chart-force">The inner radius has no affect on the <strong>Force chart</strong>.</p>
+													<p class="chart-area">The inner radius has no affect on the <strong>Area chart</strong>.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -329,6 +333,7 @@
 							          				<p class="chart-pack">This has no affect on the <strong>Pack chart</strong>. To set the spacing between the data points, use the <strong>data spacing</strong> attribute in the chart theme tab.</p>
 							          				<p class="chart-sunburst">The <strong>Sunburst chart</strong> padding has no effect (Although this may be implemented in a future release.).</p>
 							          				<p class="chart-force">The padding has no affect on the <strong>Force chart</strong>. The extent of the chart in relation to the width and height are determined by the data set and the force between each of the chart nodes.</p>
+							          				<p class="chart-area">The <strong>Area chart</strong> padding will determine the space between the chart and the outer edge.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -355,12 +360,18 @@
 													<p class="chart-pack">The "Nested" <strong>Pack chart</strong> uses only the first two colours in the scheme. The first is the background of the data groups, and the second the background of the data points.</p>
 													<p class="chart-pack">The "Flat" <strong>Pack chart</strong> uses each colour in the scheme to represent the data of each group. The colours relate to the first level of data.</p>
 													<p class="chart-sunburst">The <strong>Sunburst chart</strong> colour scheme represents each group in the data set. Each child data set that does not have any children of it's own will also inherit the same colur as it's parent.</p>
-													<p class="chart-force">The <strong>Force chart</strong> colour scheme uses the first 4 values. These are:</p>
+													<p class="chart-force">The <strong>Force chart</strong> colour scheme uses only the first 4 values of the palette. These are:</p>
 													<ol class="chart-force">
 														<li>The colour of the "group" nodes.</li>
 														<li>The colour of the "group" node when collapsed.</li>
 														<li>The colour of the data nodes.</li>
 														<li>The colour of the "branches" on the tree.</li>
+													</ol>
+													<p class="chart-area">The <strong>Area chart</strong> colour scheme uses only the first 3 values of the palette. These are:</p>
+													<ol class="chart-area">
+														<li>The colour of the are underneath the data points.</li>
+														<li>The colour of the line that connects the data points on the graph and the border colour of each of the data point circles.</li>
+														<li>The colour of the circles that lie on each of the data points.</li>														
 													</ol>
 							          			</div>
 							          		</div>
@@ -493,6 +504,7 @@
 								          				<p>Here you can choose from 3 different flat data sets. These data sets are <strong><a href="http://en.wikipedia.org/wiki/Ordinal_scale#Ordinal_scale">ordinal</a></strong> and can only be chosen to be used on charts that support ordinal scales.</p>
 								          				<p class="chart-pie">This data <strong>must</strong> be ordinal on one axis for the <strong>Pie chart</strong>. It can be either "Nested" or "Flat".</p>
 								          				<p class="chart-pack">This data <strong>must</strong> be ordinal on one axis for the <strong>Pack chart</strong>. This chart must use "Nested" data.</p>
+								          				<p class="chart-area">The <strong>Area chart</strong> only takes flat data. This can be "ordinal" or "quantitative".</p>
 								          			</div>
 								          		</div>
 								          	</div>
@@ -531,6 +543,7 @@
 								          			<div class="helpContent">
 								          				<h2>Data Quantitative</h2>
 								          				<p>Here you can choose from 3 different Quantitative data sets. These data sets consist of purely numerical value pairs and a primarily used for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Line</strong> charts.</p>
+								          				<p class="chart-area">The <strong>Area chart</strong> only takes flat data. This can be "ordinal" or "quantitative".</p>
 								          			</div>
 								          		</div>
 								          	</div>
@@ -567,7 +580,8 @@
 							          				<p>Add a URL to point to a data resource.</p>
 							          				<p class="chart-pie">This data set must return data that is ordinal on one axis for the <strong>Pie chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
 							          				<p class="chart-pack">This data set must return data that is ordinal on one axis for the <strong>Pack chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
-							          				<p class="chart-sunburst">This data set must return data that is ordinal on one axis for the <strong>Sunburst chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>							       
+							          				<p class="chart-sunburst">This data set must return data that is ordinal on one axis for the <strong>Sunburst chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
+							          				<p class="chart-area">The <strong>Area chart</strong> only takes flat data. This can be "ordinal" or "quantitative".</p>							       
 							          			</div>
 							          		</div>
 							          	</div>
@@ -583,6 +597,7 @@
 							          				<p>Upload a file that contains data. Check first that the file has the correct format and data structure for the current chart.</p>
 							          				<p class="chart-pie">This data set must return data that is ordinal on one axis for the <strong>Pie chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
 							          				<p class="chart-pack">This data set must return data that is ordinal on one axis for the <strong>Pack chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
+							          				<p class="chart-area">The <strong>Area chart</strong> only takes flat data. This can be "ordinal" or "quantitative".</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -965,6 +980,8 @@
 							          				<p class="chart-pack">The labels in the <strong>Pack chart</strong> show the data <em>name</em> values.</p>
 							          				<p class="chart-sunburst">There are no label settings in the <strong>Sunburst chart</strong>. There may be labels set with &lt;title&gt; tags in a future release.</p>
 							          				<p class="chart-force">There are no label settings in the <strong>Force chart</strong>.</p>
+							          				<p class="chart-area">The labels on the x-axis and y-axis on the <strong>Area chart</strong>.</p>
+							          				<p class="chart-bar">The labels on the x-axis and y-axis on the <strong>Bar chart</strong>.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -981,6 +998,8 @@
 							          				<p>This is used to set the position of the labels of each data set in the chart. This value is calculated differently for each chart.</p>
 							          				<p class="chart-pie">The <strong>Pie chart</strong> label position start at 0. This will put the label in the center of the chart. A value of 1 will position the labels exactly in the middle of each pie segment. A value of 2 will place the labels on the outer edge of each segment. To place the labels <em>just</em> on the outerside of each segment a value of around 2.2 is good.</p>
 							          				<p class="chart-pack">The <strong>Pack chart</strong> label position does not set any value. The labels are positioned in the middle of each circle.</p>
+							          				<p class="chart-area">The <strong>Area chart</strong> label position does not yet have any value. (In futher releases this may provide spacing away or toward the axis.)</p>
+							          				<p class="chart-bar">The <strong>Bar chart</strong> label position does not yet have any value. (In futher releases this may provide spacing away or toward the axis.)</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -995,6 +1014,8 @@
 							          			<div class="helpContent">
 							          				<h2>Theme Label Color</h2>
 							          				<p>This colour picker is used to set the colour for the labels on the chart.</p>
+							          				<p class="chart-area">This provides the colour for the labels on the x and y axis, but not the colour of the axis itself. This is set in the <strong>Chart Data Style</strong> field.</p>
+							          				<p class="chart-bar">This provides the colour for the labels on the x and y axis, but not the colour of the axis itself. This is set in the <strong>Chart Data Style</strong> field.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -1020,6 +1041,8 @@
 							          				<p class="chart-pie">The <strong>Pie chart</strong> data border will draw a line around the whole of each segment. The size of this border can be any real number.</p>
 							          				<p class="chart-pack">(this feature is yet to be implemented) The <strong>Pack chart</strong> data border size is the width of the border around each data group in the "Nested" chart. In the "Flat" chart every data point will have it's border set.</p>
 							          				<p class="chart-force">There are no border settings for the <strong>Force chart</strong>.</p>
+							          				<p class="chart-area">This is the width of the x and y axis on the <strong>Area chart</strong>.</p>
+							          				<p class="chart-bar">This is the width of the x and y axis on the <strong>Bar chart</strong>.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -1036,6 +1059,8 @@
 							          				<p>This colour picker is used to set the colour of the border on the data item.</p>
 							          				<p class="chart-pie">A nice effect on the <strong>Pie chart</strong> is to put a data border that is the same colour as the chart background.</p>
 							          				<p class="chart-pack">The "Nested" <strong>Pack chart</strong> data border colours are set by the colour palette. This is the colour of the data groups. The "Flat" Pack chart inherits it's border coliur from the background colour of that data item.</p>
+							          				<p class="chart-area">This is the colour of the x and y axis on the <strong>Area chart</strong>.</p>
+							          				<p class="chart-bar">This is the colour of the x and y axis on the <strong>Bar chart</strong>.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -1055,6 +1080,8 @@
 							          				<p class="chart-pack">The <strong>Pack chart</strong> data spacing is the spacing between each indivual data item. In the "Flat" chart it creates open space between the bubbles. In the "Nested" chart it is only the data points and not the data groups that pick up this spacing attribte". The spacing attribute will reduce the area of the data items.</p>
 							          				<p class="chart-sunburst">The <strong>Sunburst chart</strong> data spacing setting has no affect on the chart. This may have some implementation in future releases.</p>
 							          				<p class="chart-force">(yet to be implemented) The <strong>Force chart</strong> data spacing sets the force at which the data elements repel each other. A high spacing will force them wider apart, whereas a small spacing will mean that the data will all bunch together at the center of the graph.</p>
+							          				<p class="chart-area">There are no spacing options available for the <strong>Area chart</strong>.</p>
+							          				<p class="chart-bar">There are no spacing options available for the <strong>Bar chart</strong>.</p>
 							          			</div>
 							          		</div>
 							          	</div>
