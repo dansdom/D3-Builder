@@ -25,7 +25,7 @@ Settings = {
         };
         settings.chartName = data.theme.headerName;
         settings.spacing = data.theme.spacing;
-        this.settings.fontSize = FormData.theme.labelSize;
+        settings.fontSize = data.theme.labelSize;
 
         return settings;
     },
@@ -49,7 +49,7 @@ Settings = {
         // get the build settings for the chart
         this.getBuildSettings(chartType, settings, chartStyle);
     },
-    getBuildSettings : function(chartType, settings) {
+    getBuildSettings : function(chartType, settings, chartStyle) {
         var script  = 'var chart = document.getElementById("chart");\n';
             script += 'd3.' + chartType + '(chart,' + JSON.stringify(settings) + ');\n';
 

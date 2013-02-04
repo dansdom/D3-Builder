@@ -103,6 +103,7 @@
 							            </select>
 							            <span class="error" title="type-chart"></span>
 							        </li>
+							        <!--
 									<li class="type-settings pie">
 										<label for="type-chart-pie">Pie Type</label>
 										<a class="icon-question-sign" name="#type-chart-pie-help">help</a>
@@ -120,6 +121,7 @@
 											<option value="donut">Donut</option>
 										</select>
 									</li>
+									-->
 									<li class="type-settings pack">
 										<label for="type-chart-pack">Pack Type</label>
 										<a class="icon-question-sign" name="#type-chart-pack-help">help</a>
@@ -130,17 +132,18 @@
 							          				<p>Pack charts lay out data in clusters. There are two types of Pack charts.</p>
 							          				<ol>
 							          					<li>Standard Pack layout - each level of the data is clustered together.</li>
-							          					<li>Pack layout - these charts <i>flatten</i> the data. Each data set group is represented by a different color.</li>
+							          					<li>Pack layout - these charts <em>flatten</em> the data. Each data set group is represented by a different color.</li>
 							          				</ol>
 							          				<p>The Pack layout takes only <a href="http://en.wikipedia.org/wiki/Ordinal_scale#Ordinal_scale">ordinal data</a> sets that are nested in nature.</p>
 							          			</div>
 							          		</div>
 							          	</div>
 										<select id="type-chart-pack" name="type-chart-pack">
-											<option value="pack" selected="selected">Pack</option>
-											<option value="bubble">Bubble</option>
+											<option value="pack" selected="selected">Nested</option>
+											<option value="bubble">Flat (bubble)</option>
 										</select>
 									</li>
+									<!--
 									<li class="type-settings sunburst">
 										<label for="type-chart-sunburst">Sunburst Type</label>
 										<a class="icon-question-sign" name="#type-chart-sunburst-help">help</a>
@@ -158,6 +161,8 @@
 											<option value=""></option>
 										</select>
 									</li>
+									-->
+									<!--
 									<li class="type-settings force">
 										<label for="type-chart-force">Force Type</label>
 										<a class="icon-question-sign" name="#type-chart-force-help">help</a>
@@ -174,6 +179,8 @@
 											<option value="">non-collapsable</option>
 										</select>
 									</li>
+									-->
+									<!--
 									<li class="type-settings area">
 										<label for="type-chart-area">Area Type</label>
 										<a class="icon-question-sign" name="#type-chart-area-help">help</a>
@@ -192,6 +199,8 @@
 											<option value="">data points</option>
 										</select>
 									</li>
+									-->
+									<!--
 									<li class="type-settings bar">
 										<label for="type-chart-bar">Bar Type</label>
 										<a class="icon-question-sign" name="#type-chart-bar-help">help</a>
@@ -210,6 +219,8 @@
 											<option value="">stacked</option>
 										</select>
 									</li>
+									-->
+									<!--
 									<li class="type-settings chord">
 										<label for="type-chart-chord">Chord Type</label>
 										<a class="icon-question-sign" name="#type-chart-chord-help">help</a>
@@ -218,7 +229,7 @@
 							          			<div class="helpContent">
 							          				<h2>Chord Chart</h2>
 							          				<p>The Chord chart represents connections between data set members. Each member can have a value mapped to another member.</p>
-							          				<p>The data groups are represented by the solid arcs on the outside of the chart. Each <i>chord</i> connects two data groups. The width of the chord at the base of the arc represents the relative size of the data compared with the total size of the data set. A chord that does not connect with another data group represents data in a group that maps to itself.</p>
+							          				<p>The data groups are represented by the solid arcs on the outside of the chart. Each <em>chord</em> connects two data groups. The width of the chord at the base of the arc represents the relative size of the data compared with the total size of the data set. A chord that does not connect with another data group represents data in a group that maps to itself.</p>
 							          				<p>The data that the chord chart takes is usually defined as a mtrix of values.</p>
 							          			</div>
 							          		</div>
@@ -227,6 +238,7 @@
 											<option value="" selected="selected">normal</option>
 										</select>
 									</li>
+									-->
 								</ul>
 							</fieldset>
 							
@@ -289,7 +301,7 @@
 							          				<h2>Chart Inner Radius help</h2>
 							          				<p>For charts that have an inner radius, this is the size in pixels of that radius.</p>
 							          				<p>The pie chart can be turned into a donut chart by setting this attribute.</p>
-													<p class="chart-pie">The <strong>Pie chart</strong> inner radius measures the gap in the middle of the chart. 0 is a perfect pie chart, Any positive number makes this chart a <i>donut</i>.</p>
+													<p class="chart-pie">The <strong>Pie chart</strong> inner radius measures the gap in the middle of the chart. 0 is a perfect pie chart, Any positive number makes this chart a <em>donut</em>.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -304,6 +316,7 @@
 							          			<div class="helpContent">
 							          				<h2>Chart Padding</h2>
 							          				<p>This is the padding space between the edges of the chart. This attribute helps create free space around the edges of the chart.</p>
+							          				<p class="chart-pie">For the Pie chart the padding will push the radius smaller if the outer-radius plus padding is larger than either the width or height setting.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -326,7 +339,7 @@
 							          				<h2>Color Scheme</h2>
 							          				<p>There are a number of pre-set color schemes defined. These color schemes color the data and chart components. A pre-set color scheme can be modified, or you can create your own one from scratch.</p>
 							          				<p>To customise a color scheme, you can add or remove colour blocks, or simply re-define the palette size. The colors that are represented in the scheme are represented by the tiles at the bottom of this panel. To change a tiles colour, click on it and select a colour from the colour picker.</p>
-													<p class="chart-pie">The color scheme on a <strong>Pie chart</strong> controls the data segments or <i>wedges</i> of the chart.</p>
+													<p class="chart-pie">The color scheme on a <strong>Pie chart</strong> controls the data segments or <em>wedges</em> of the chart.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -456,6 +469,7 @@
 								          			<div class="helpContent">
 								          				<h2>Data Dummy Flat</h2>
 								          				<p>Here you can choose from 3 different flat data sets. These data sets are <strong><a href="http://en.wikipedia.org/wiki/Ordinal_scale#Ordinal_scale">ordinal</a></strong> and can only be chosen to be used on charts that support ordinal scales.</p>
+								          				<p class="chart-pie">This data <strong>must</strong> be ordinal on one axis.</p>
 								          			</div>
 								          		</div>
 								          	</div>
@@ -473,6 +487,7 @@
 								          			<div class="helpContent">
 								          				<h2>Data Nested</h2>
 								          				<p>Here you can choose from 3 different nested data sets. These data sets are <strong><a href="http://en.wikipedia.org/wiki/Ordinal_scale#Ordinal_scale">ordinal</a></strong> and can only be chosen to be used on charts that support ordinal scales.</p>
+								          				<p class="chart-pie">Nested data on the <strong>Pie</strong> will show each level of data at a time. To explore each data category further - click on the segment and it will <em>drill down</em> into that category.</p>
 								          			</div>
 								          		</div>
 								          	</div>
@@ -524,6 +539,7 @@
 							          			<div class="helpContent">
 							          				<h2>Data Url</h2>
 							          				<p>Add a URL to point to a data resource.</p>
+							          				<p class="chart-pie">This data set must return data that is ordinal on one axis for the <strong>Pie</strong> chart. Values can be set in the <strong>data structure</strong> field.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -537,6 +553,7 @@
 							          			<div class="helpContent">
 							          				<h2>Data File</h2>
 							          				<p>Upload a file that contains data. Check first that the file has the correct format and data structure for the current chart.</p>
+							          				<p class="chart-pie">This data set must return data that is ordinal on one axis for the <strong>Pie</strong> chart. Values can be set in the <strong>data structure</strong> field.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -568,6 +585,7 @@
 							          					    	&nbsp;&nbsp;&nbsp;&nbsp;}<br>
 							          					}							          					
 							          				</code>
+							          				<p class="chart-pie">The <strong>Pie chart</strong> uses the <em>name</em> field as the ordinal axis (or naming field) and the <em>value</em> field as the field values.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -596,7 +614,8 @@
 							          					    	&nbsp;&nbsp;&nbsp;&nbsp;}<br>
 							          					}<br>							          					
 							          				</code>
-							          			</div>
+							          				<p class="chart-pie">The "ordinal" scale of the <strong>Pie chart</strong>.</p>
+							          			</div>							          			
 							          		</div>
 							          	</div>
 							            <input type="text" size="20" name="data-name" id="data-name" placeholder="select the name of a data item" value="name">
@@ -619,6 +638,7 @@
 							          					    	&nbsp;&nbsp;&nbsp;&nbsp;}<br>
 							          					}<br>							          				
 							          				</code>
+							          				<p class="chart-pie">The "quntitative" scale of the <strong>Pie chart</strong>.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -788,7 +808,7 @@
 							          		<div id="data-background-color-help">
 							          			<div class="helpContent">
 							          				<h2>Theme Cackground Color</h2>
-							          				<p>The background colour of the chart</p>
+							          				<p>The background colour of the chart.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -811,6 +831,7 @@
 							          			<div class="helpContent">
 							          				<h2>Theme Header Name</h2>
 							          				<p>A Header for the chart can be used.</p>
+							          				<p class="chart-pie">The "nested" <strong>Pie chart</strong> will display the category name in the header position when the user drills down into the data.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -824,7 +845,7 @@
 							          		<div id="data-header-size-help">
 							          			<div class="helpContent">
 							          				<h2>Theme Header Size</h2>
-							          				<p>This defines the size of the header text in pixels</p>
+							          				<p>This defines the size of the header text in pixels.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -910,7 +931,8 @@
 							          		<div id="data-label-size-help">
 							          			<div class="helpContent">
 							          				<h2>Theme label size</h2>
-							          				<p>This is used to set the size of the chart's header. This value is in pixels.</p>
+							          				<p>This is used to set the size of the chart's labels. This value is in pixels.</p>
+							          				<p class="chart-pie">The labels in the <strong>Pie chart</strong> show the "ordinal" scale values of the chart.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -925,6 +947,7 @@
 							          			<div class="helpContent">
 							          				<h2>Theme Label Position</h2>
 							          				<p>This is used to set the position of the labels of each data set in the chart. This value is calculated differently for each chart.</p>
+							          				<p class="chart-pie">The <strong>Pie chart</strong> label position start at 0. This will put the label in the center of the chart. A value of 1 will position the labels exactly in the middle of each pie segment. A value of 2 will place the labels on the outer edge of each segment. To place the labels <em>just</em> on the outerside of each segment a value of around 2.2 is good.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -961,6 +984,7 @@
 							          			<div class="helpContent">
 							          				<h2>Theme Border Size</h2>
 							          				<p>This used for border settings on the data items in the chart. Each layout expresses this value in different ways. Generally it will set a border around the data item on the chart.</p>
+							          				<p class="chart-pie">The <strong>Pie chart</strong> data border will draw a line around the whole of each segment. The size of this border can be any real number.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -975,6 +999,7 @@
 							          			<div class="helpContent">
 							          				<h2>Theme Border Color</h2>
 							          				<p>This colour picker is used to set the colour of the border on the data item.</p>
+							          				<p class="chart-pie">A nice effect on the <strong>Pie chart</strong> is to put a data border that is the same colour as the chart background.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -990,6 +1015,7 @@
 							          			<div class="helpContent">
 							          				<h2>Theme Data Spacing</h2>
 							          				<p>This is the spacing between each of the data elements.</p>
+							          				<p class="chart-pie">This setting has no effect on the <strong>Pie chart</strong>.</p>
 							          			</div>
 							          		</div>
 							          	</div>
