@@ -157,7 +157,7 @@
 			break;
 		case "file" :
 			// make the dummy data file and add it to the zip
-			// I need to change the plugin settings too!!!! hmmm, more complexity :(
+			// ################ I need to change the plugin settings too!!!! hmmm, more complexity :( ####################
 			// depending on the file type I have to write different types of files
 			create_file($dataObject, 'chart/data/data.json');
 			//create_file("data here", 'chart/data/data.json');
@@ -172,10 +172,10 @@
 	$result = create_zip($files_to_zip, 'chart.zip');
 	
 	// delete the temporary folders from the server
-	//deleteDir('chart/js');
-	//deleteDir('chart/css');
-	//deleteDir('chart/data');
-	//deleteDir('chart');
+	deleteDir('chart/js');
+	deleteDir('chart/css');
+	deleteDir('chart/data');
+	deleteDir('chart');
 
 ?>
 
