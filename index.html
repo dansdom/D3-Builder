@@ -257,6 +257,7 @@
 							          				<p>This number is a measurement in pixels.</p>
 							          				<p class="chart-force">The height of the <strong>Force chart</strong>. The center position of the chart will fall exactly halfway of this setting. Note: The data size and the force setting on the chart wil define the extent of the height of this chart.</p>
 							          				<p class="chart-area">The height of the <strong>Area chart</strong>. The Y-axis is determined by this value minus the padding.</p>
+							          				<p class="chart-bar">The height of the <strong>Bar chart</strong>. The Y-axis is determined by this value minus the padding.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -274,6 +275,7 @@
 							          				<p>This number is a measurement in pixels.</p>
 							          				<p class="chart-force">The width of the <strong>Force chart</strong>. The center position of the chart will fall exactly halfway of this setting. Note: The data size and the force setting on the chart wil define the extent of the width of this chart.</p>
 							          				<p class="chart-area">The width of the <strong>Area chart</strong>. The X-axis is determined by this value minus the padding.</p>
+							          				<p class="chart-bar">The width of the <strong>Bar chart</strong>. The X-axis is determined by this value minus the padding.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -295,6 +297,7 @@
 													<p class="chart-sunburst">The <strong>Sunburst chart</strong> outer radius is the full extent of the chart.</p>
 													<p class="chart-force">The outer radius has no affect on the <strong>Force chart</strong>.</p>
 													<p class="chart-area">The outer radius has no affect on the <strong>Area chart</strong>.</p>
+													<p class="chart-bar">The outer radius has no affect on the <strong>Bar chart</strong>.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -315,6 +318,7 @@
 													<p class="chart-sunburst">The <strong>Sunburst chart</strong> inner radius does not do anything. The area in the middle of the chart is determined by the structure of the data.</p>
 													<p class="chart-force">The inner radius has no affect on the <strong>Force chart</strong>.</p>
 													<p class="chart-area">The inner radius has no affect on the <strong>Area chart</strong>.</p>
+													<p class="chart-bar">The inner radius has no affect on the <strong>Bar chart</strong>.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -334,6 +338,7 @@
 							          				<p class="chart-sunburst">The <strong>Sunburst chart</strong> padding has no effect (Although this may be implemented in a future release.).</p>
 							          				<p class="chart-force">The padding has no affect on the <strong>Force chart</strong>. The extent of the chart in relation to the width and height are determined by the data set and the force between each of the chart nodes.</p>
 							          				<p class="chart-area">The <strong>Area chart</strong> padding will determine the space between the chart and the outer edge.</p>
+							          				<p class="chart-bar">The <strong>Bar chart</strong> padding will determine the space between the chart and the outer edge.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -373,6 +378,8 @@
 														<li>The colour of the line that connects the data points on the graph and the border colour of each of the data point circles.</li>
 														<li>The colour of the circles that lie on each of the data points.</li>														
 													</ol>
+													<p class="chart-area">(In the future this chart will suport multiple categories, and the colour scheme will represent the colour of each data group. At that point the current values of the them may be whiched out to the theme object.)</p>
+													<p class="chart-area">The <strong>Bar chart</strong> colour scheme uses only the first value of the palette. (In the future this chart will suport multiple categories, and the colour scheme will represent the colour of each data group.)</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -505,6 +512,7 @@
 								          				<p class="chart-pie">This data <strong>must</strong> be ordinal on one axis for the <strong>Pie chart</strong>. It can be either "Nested" or "Flat".</p>
 								          				<p class="chart-pack">This data <strong>must</strong> be ordinal on one axis for the <strong>Pack chart</strong>. This chart must use "Nested" data.</p>
 								          				<p class="chart-area">The <strong>Area chart</strong> only takes flat data. This can be "ordinal" or "quantitative".</p>
+								          				<p class="chart-bar">The <strong>Bar chart</strong> only takes flat data. This can be "ordinal" or "quantitative".</p>
 								          			</div>
 								          		</div>
 								          	</div>
@@ -544,6 +552,7 @@
 								          				<h2>Data Quantitative</h2>
 								          				<p>Here you can choose from 3 different Quantitative data sets. These data sets consist of purely numerical value pairs and a primarily used for the <strong>Area</strong>, <strong>Bar</strong> and <strong>Line</strong> charts.</p>
 								          				<p class="chart-area">The <strong>Area chart</strong> only takes flat data. This can be "ordinal" or "quantitative".</p>
+								          				<p class="chart-bar">The <strong>Bar chart</strong> only takes flat data. This can be "ordinal" or "quantitative".</p>
 								          			</div>
 								          		</div>
 								          	</div>
@@ -581,7 +590,8 @@
 							          				<p class="chart-pie">This data set must return data that is ordinal on one axis for the <strong>Pie chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
 							          				<p class="chart-pack">This data set must return data that is ordinal on one axis for the <strong>Pack chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
 							          				<p class="chart-sunburst">This data set must return data that is ordinal on one axis for the <strong>Sunburst chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
-							          				<p class="chart-area">The <strong>Area chart</strong> only takes flat data. This can be "ordinal" or "quantitative".</p>							       
+							          				<p class="chart-area">The <strong>Area chart</strong> only takes flat data. This can be "ordinal" or "quantitative".</p>
+							          				<p class="chart-bar">The <strong>Bar chart</strong> only takes flat data. This can be "ordinal" or "quantitative".</p>								       
 							          			</div>
 							          		</div>
 							          	</div>
@@ -598,6 +608,7 @@
 							          				<p class="chart-pie">This data set must return data that is ordinal on one axis for the <strong>Pie chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
 							          				<p class="chart-pack">This data set must return data that is ordinal on one axis for the <strong>Pack chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
 							          				<p class="chart-area">The <strong>Area chart</strong> only takes flat data. This can be "ordinal" or "quantitative".</p>
+							          				<p class="chart-bar">The <strong>Bar chart</strong> only takes flat data. This can be "ordinal" or "quantitative".</p>
 							          			</div>
 							          		</div>
 							          	</div>
