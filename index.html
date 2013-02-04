@@ -288,6 +288,7 @@
 													<p class="chart-pie">The <strong>Pie chart</strong> outer radius is the full extent of the chart. The labels exist outside of this measurement.</p>
 													<p class="chart-pack">The <strong>Pack chart</strong> outer radius is the full extent of the chart. For the regular "nested" chart this represents the radius of the outermost circle on the chart. For the Flat (or bubble) chart. This value represents the bounding space that the data fits into.</p>
 													<p class="chart-pack">This is the setting for the chart size and the data on it. Due to the nature of this chart, the padding setting is inert and will not affect this setting.</p>
+													<p class="chart-sunburst">The <strong>Sunburst chart</strong> outer radius is the full extent of the chart.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -305,6 +306,7 @@
 							          				<p>The pie chart can be turned into a donut chart by setting this attribute.</p>
 													<p class="chart-pie">The <strong>Pie chart</strong> inner radius measures the gap in the middle of the chart. 0 is a perfect pie chart, Any positive number makes this chart a <em>donut</em>.</p>
 													<p class="chart-pack">The <atrong>Pack chart</strong> does not use the inner radius property.</p>
+													<p class="chart-sunburst">The <strong>Sunburst chart</strong> inner radius does not do anything. The area in the middle of the chart is determined by the structure of the data.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -321,6 +323,7 @@
 							          				<p>This is the padding space between the edges of the chart. This attribute helps create free space around the edges of the chart.</p>
 							          				<p class="chart-pie">For the Pie chart the padding will push the radius smaller if the outer-radius plus padding is larger than either the width or height setting.</p>
 							          				<p class="chart-pack">This has no affect on the <strong>Pack chart</strong>. To set the spacing between the data points, use the <strong>data spacing</strong> attribute in the chart theme tab.</p>
+							          				<p class="chart-sunburst">The <strong>Sunburst chart</strong> padding has no effect (Although this may be implemented in a future release.).</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -346,6 +349,7 @@
 													<p class="chart-pie">The color scheme on a <strong>Pie chart</strong> controls the data segments or <em>wedges</em> of the chart.</p>
 													<p class="chart-pack">The "Nested" <strong>Pack chart</strong> uses only the first two colours in the scheme. The first is the background of the data groups, and the second the background of the data points.</p>
 													<p class="chart-pack">The "Flat" <strong>Pack chart</strong> uses each colour in the scheme to represent the data of each group. The colours relate to the first level of data.</p>
+													<p class="chart-sunburst">The <strong>Sunburst chart</strong> colour scheme represents each group in the data set. Each child data set that does not have any children of it's own will also inherit the same colur as it's parent.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -496,6 +500,7 @@
 								          				<p>Here you can choose from 3 different nested data sets. These data sets are <strong><a href="http://en.wikipedia.org/wiki/Ordinal_scale#Ordinal_scale">ordinal</a></strong> and can only be chosen to be used on charts that support ordinal scales.</p>
 								          				<p class="chart-pie">Nested data on the <strong>Pie</strong> will show each level of data at a time. To explore each data category further - click on the segment and it will <em>drill down</em> into that category.</p>
 								          				<p class="chart-pack">This is the only dummy data allowed for then <strong>Pack chart</strong>.</p>
+								          				<p class="chart-sunburst">This is the only dummy data allowed for then <strong>Sunburst chart</strong>.</p>
 								          			</div>
 								          		</div>
 								          	</div>
@@ -549,6 +554,7 @@
 							          				<p>Add a URL to point to a data resource.</p>
 							          				<p class="chart-pie">This data set must return data that is ordinal on one axis for the <strong>Pie chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
 							          				<p class="chart-pack">This data set must return data that is ordinal on one axis for the <strong>Pack chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
+							          				<p class="chart-sunburst">This data set must return data that is ordinal on one axis for the <strong>Sunburst chart</strong>. Values can be set in the <strong>data structure</strong> field.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -693,7 +699,7 @@
 							          						    &nbsp;&nbsp;&nbsp;&nbsp;y : (number)<br>
 							          					}							          				
 							          				</code>
-							          				<p><strong>CSV example</strong></p>
+							          				<p><strong>CSV example:</strong></p>
 							          				<code>							          					
 							          						<strong>x</strong>, y<br>
 							          						1, 5<br>
@@ -723,7 +729,7 @@
 							          						    &nbsp;&nbsp;&nbsp;&nbsp;<strong>y</strong> : (number)<br>
 							          					}							          					
 							          				</code>
-							          				<p><strong>CSV example</strong></p>
+							          				<p><strong>CSV example:</strong></p>
 							          				<code>							          					
 							          						x, <strong>y</strong><br>
 							          						1, 5<br>
@@ -944,6 +950,7 @@
 							          				<p>This is used to set the size of the chart's labels. This value is in pixels.</p>
 							          				<p class="chart-pie">The labels in the <strong>Pie chart</strong> show the "ordinal" scale values of the chart.</p>
 							          				<p class="chart-pack">The labels in the <strong>Pack chart</strong> show the data <em>name</em> values.</p>
+							          				<p class="chart-sunburst">There are no label settings in the <strong>Sunburst chart</strong>. There may be labels set with &lt;title&gt; tags in a future release.</p>
 							          			</div>
 							          		</div>
 							          	</div>
@@ -986,7 +993,7 @@
 								<ul>
 									<li>
 										<input type="checkbox" id="theme-data" name="theme-data" class="show-section checkField">
-										<label for="theme-data">Chart Data</label>
+										<label for="theme-data">Chart Data Style</label>
 									</li>
 									<li class="theme-data">
 							          	<label for="theme-data-border-size">Data Border Size</label>
@@ -1031,6 +1038,7 @@
 							          				<p>This is the spacing between each of the data elements.</p>
 							          				<p class="chart-pie">This setting has no affect on the <strong>Pie chart</strong>.</p>
 							          				<p class="chart-pack">The <strong>Pack chart</strong> data spacing is the spacing between each indivual data item. In the "Flat" chart it creates open space between the bubbles. In the "Nested" chart it is only the data points and not the data groups that pick up this spacing attribte". The spacing attribute will reduce the area of the data items.</p>
+							          				<p class="chart-sunburst">The <strong>Sunburst chart</strong> data spacing setting has no affect on the chart. This may have some implementation in future releases.</p>
 							          			</div>
 							          		</div>
 							          	</div>
