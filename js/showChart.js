@@ -24,6 +24,8 @@ Settings = {
             default : break;
         };
         settings.chartName = data.theme.headerName;
+        settings.spacing = data.theme.spacing;
+        this.settings.fontSize = FormData.theme.labelSize;
 
         return settings;
     },
@@ -77,7 +79,6 @@ PieChart = {
     getSettings : function() {
         this.settings.innerRadius = FormData.size.innerRadius;
         this.settings.outerRadius = FormData.size.outerRadius;
-        this.settings.fontSize = FormData.theme.labelSize;
         if (FormData.theme.labelPosition > 0) {
             this.settings.labelPosition = FormData.theme.labelPosition;
         }
@@ -128,7 +129,6 @@ PackChart = {
             'leaf' : FormData.colors[1],
             'label' : FormData.colors[2]
         };
-        this.settings.fontSize = FormData.theme.labelSize;
         // I'll need to add this to the form
         //this.settings.speed = FormData.events.speed;
 
@@ -181,7 +181,6 @@ ForceChart = {
             'child' : FormData.colors[2],
             'line' : FormData.colors[3]
         };
-        this.settings.fontSize = FormData.theme.labelSize;
         // I'll need to add this to the form
         //this.settings.charge = FormData.events.charge;
         //this.settings.linkDistance = FormData.events.distance;
@@ -219,7 +218,6 @@ SunburstChart = {
             'borderWidth' : FormData.theme.borderSize + "px",
             'borderColor' : "#" + FormData.theme.borderColor
         }
-        this.settings.fontSize = FormData.theme.labelSize;
         // I'll need to add this to the form
         //this.settings.speed = FormData.events.speed;
 
@@ -272,7 +270,6 @@ AreaChart = {
             x : FormData.data.scale.x,
             y : FormData.data.scale.y
         };
-        this.settings.fontSize = FormData.theme.labelSize;
     },
     getStyle : function() {
         this.chartStyle = "";
@@ -325,7 +322,6 @@ BarChart = {
             x : FormData.data.scale.x,
             y : FormData.data.scale.y
         };
-        this.settings.fontSize = FormData.theme.labelSize;
     },
     getStyle : function() {
         this.chartStyle = "";
@@ -375,7 +371,6 @@ ChordChart = {
             y : FormData.data.scale.y
         };
         */
-        this.settings.fontSize = FormData.theme.labelSize;
         // set the children value to undefined for now
         FormData.data.attributes = undefined;
     },
@@ -391,7 +386,6 @@ ChordChart = {
             this.chartStyle += ".chartName {font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");}\n";
             this.chartStyle += "svg .chartName text {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + "}\n";
         }
-
         this.chartStyle += ".group text {font: " + FormData.theme.labelSize + "px sans-serif;pointer-events: none;}\n"; 
         this.chartStyle += ".chords path {fill-opacity: .67;stroke: #" + FormData.theme.borderColor + ";stroke-width: .5px;}\n";
         this.chartStyle += ".tickUnit line {stroke: #" + FormData.theme.labelColor + "}\n";

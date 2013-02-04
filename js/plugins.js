@@ -108,6 +108,11 @@ Plugins = {
                     inputName : 'theme-data-border-size',
                     rules : {isNumber: true},
                     error : 'please enter a number'
+                },
+                dataSpacing : {
+                    inputName : 'theme-data-spacing',
+                    rules : {isNumber: true},
+                    error : 'please enter a number'
                 }
             },
             onChangeValidation : true,

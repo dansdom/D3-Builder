@@ -775,6 +775,7 @@ ChartTheme = {
 		$("#theme-label-color").attr("value", "000000").trigger("keyup");
 		$("#theme-data-border-size").attr("value", "1");
 		$("#theme-data-border-color").attr("value", "eeeeee").trigger("keyup");
+		$("#theme-data-spacing").attr("value", "1");
 		// hide the sections
 		$("fieldset.theme .theme-background, fieldset.theme .theme-header, fieldset.theme .theme-labels, fieldset.theme .theme-data").css("display", "none");
 		// remove all the form validation classes
@@ -868,10 +869,12 @@ ChartTheme = {
 		if ($("#theme-data").attr("checked") === "checked") {
 			theme.borderSize = parseFloat($("#theme-data-border-size").attr("value"));
 			theme.borderColor = $("#theme-data-border-color").attr("value");
+			theme.spacing = parseFloat($("#theme-data-spacing").attr("value"));
 		}
 		else {
 			theme.borderSize = 0;
 			theme.borderColor = "rgb(0,0,0)";
+			theme.spacing = 0;
 		}
 		
 		// update the data object for the form
