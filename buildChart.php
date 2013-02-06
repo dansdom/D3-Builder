@@ -130,9 +130,9 @@
 
 	// write the style and html files to the temp folder
 	//echo $chartHtml;
-	create_file($chartHtml, "chart/chart.html");
+	create_file(stripslashes($chartHtml), "chart/chart.html");
 	//echo $style;
-	create_file($styleFile, "chart/css/style.css");
+	create_file(stripslashes($styleFile), "chart/css/style.css");
 
 	// zip the files in the chart folder up
 	$files_to_zip = array(
@@ -172,10 +172,10 @@
 	$result = create_zip($files_to_zip, 'chart.zip');
 	
 	// delete the temporary folders from the server
-	//deleteDir('chart/js');
-	//deleteDir('chart/css');
-	//deleteDir('chart/data');
-	//deleteDir('chart');
+	deleteDir('chart/js');
+	deleteDir('chart/css');
+	deleteDir('chart/data');
+	deleteDir('chart');
 
 ?>
 
