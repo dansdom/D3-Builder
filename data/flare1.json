@@ -7,7 +7,7 @@
     {
      "name": "cluster",
      "group": [
-      {"name": "Anti-immigatrion sentiment", "size": 123938},
+      {"name": "Anti-immigatrion sentiment", "size": "123938a"},
       {"name": "CommunityStructure", "size": 3812},
       {"name": "HierarchicalCluster", "size": 6714},
       {"name": "MergeEdge", "size": 743}

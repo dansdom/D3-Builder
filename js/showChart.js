@@ -29,6 +29,22 @@ Settings = {
 
         return settings;
     },
+    // set common CSS styles. namely the background and the header
+    getStyle : function(data, positionType) {
+        var chartStyle = "";
+
+        // get all the theme settings and add them to the style element
+        if (data.theme.backgroundColor) {
+            chartStyle += "svg {background: #" + data.theme.backgroundColor + ";}\n";
+        }
+        // add the header style if there is a value for it
+        if (data.theme.headerName) {
+            chartStyle += ".chartName {font-size:" + data.theme.headerSize + "px; fill:#" + data.theme.headerColor + "; font-weight:bold;-webkit-transform: translate(" + ChartTheme[positionType](data) + ");transform: translate(" + ChartTheme[positionType](data) + ");}\n";
+        }
+
+        return chartStyle;
+
+    },
     // build the chart
     buildChart : function(chartType, settings, chartStyle) {
         var chart = document.getElementById("chart-preview");
@@ -50,16 +66,15 @@ Settings = {
         this.getBuildSettings(chartType, settings, chartStyle);
     },
     getBuildSettings : function(chartType, settings, chartStyle) {
-        var script  = 'var chart = document.getElementById("chart");\n';
-            script += 'd3.' + chartType + '(chart,' + JSON.stringify(settings) + ');\n';
+        var script  = "var chart = document.getElementById('chart');\n";
+            script += "d3." + chartType + "(chart," + JSON.stringify(settings) + ");\n";
 
-        // definately need to change FormData.data object if it is a file upload
         // assign the settings to the CodeBuilder object
         CodeBuilder.settings = {
             formData : FormData,  // send the form data over for further processing
             script : script, // these are the script options
-            style : chartStyle, //this is the plugin css
-            dataObject : JSON.stringify(FormData.data.dataObject)
+            style : chartStyle, // this is the plugin css
+            dataObject : JSON.stringify(FormData.data.dataObject) // chart data object if a file was uploaded
         };
     }
 };
@@ -71,6 +86,8 @@ PieChart = {
         this.settings = Settings.getSettings(FormData);
         // get the specific settings
         this.getSettings();
+        // get the common style elements
+        this.chartStyle = Settings.getStyle(FormData, "getHeaderPositionCentered");
         // get the specific style
         this.getStyle();
         // build the chart
@@ -79,24 +96,15 @@ PieChart = {
     getSettings : function() {
         this.settings.innerRadius = FormData.size.innerRadius;
         this.settings.outerRadius = FormData.size.outerRadius;
-        if (FormData.theme.labelPosition > 0) {
+        //if (FormData.theme.labelPosition > 0) {
             this.settings.labelPosition = FormData.theme.labelPosition;
-        }
+        //}
         // if it's flat then set the parent to 'undefined'
         if (FormData.data.structure === "flat") {
             this.settings.dataStructure.children = undefined;
         }
     },
     getStyle : function() {
-        this.chartStyle = "";
-        // get all the theme settings and add them to the style element
-        if (FormData.theme.backgroundColor) {
-            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}\n";
-        }
-        // add the header style if there is a vlue for it
-        if (FormData.theme.headerName) {
-            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + "; font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");}\n";
-        }
         // add label style
         if (FormData.theme.labelSize) {
             this.chartStyle += ".arc text {font-size:" + FormData.theme.labelSize + "px; fill:#" + FormData.theme.labelColor + "}\n";
@@ -116,6 +124,8 @@ PackChart = {
         this.settings = Settings.getSettings(FormData);
         // get the specific settings
         this.getSettings();
+        // get the common style elements
+        this.chartStyle = Settings.getStyle(FormData, "getHeaderPosition");
         // get the specific style
         this.getStyle();
         // build the chart
@@ -129,20 +139,17 @@ PackChart = {
             'leaf' : FormData.colors[1],
             'label' : FormData.colors[2]
         };
+        if (FormData.theme.labelPosition > 0) {
+            this.settings.labelPosition = FormData.theme.labelPosition;
+        }
+        else {
+            this.settings.labelPosition = false;
+        }
         // I'll need to add this to the form
         //this.settings.speed = FormData.events.speed;
 
     },
     getStyle : function() {
-        this.chartStyle = "";
-        // get all the theme settings and add them to the style element
-        if (FormData.theme.backgroundColor) {
-            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}\n";
-        }
-        // add the header style if there is a vlue for it
-        if (FormData.theme.headerName) {
-            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + ";font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");}\n";
-        }
         // add label style
         if (FormData.theme.labelSize) {
             this.chartStyle += ".node text {font-size:" + FormData.theme.labelSize + "px; fill:#" + FormData.theme.labelColor + "}\n";
@@ -168,6 +175,8 @@ ForceChart = {
         this.settings = Settings.getSettings(FormData);
         // get the specific settings
         this.getSettings();
+        // get the common style elements
+        this.chartStyle = Settings.getStyle(FormData, "getHeaderPosition");
         // get the specific style
         this.getStyle();
         // build the chart
@@ -187,15 +196,7 @@ ForceChart = {
 
     },
     getStyle : function() {
-        this.chartStyle = "";
-        // get all the theme settings and add them to the style element
-        if (FormData.theme.backgroundColor) {
-            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}\n";
-        }
-        // add the header style if there is a vlue for it
-        if (FormData.theme.headerName) {
-            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + ";font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");}\n";
-        }
+        // I still need transfer the colour settings from the plugin settings to a class setting in the CSS me thinks ;)
     }
 };
 
@@ -207,6 +208,8 @@ SunburstChart = {
         this.settings = Settings.getSettings(FormData);
         // get the specific settings
         this.getSettings();
+        // get the common style elements
+        this.chartStyle = Settings.getStyle(FormData, "getHeaderPosition");
         // get the specific style
         this.getStyle();
         // build the chart
@@ -223,15 +226,6 @@ SunburstChart = {
 
     },
     getStyle : function() {
-        this.chartStyle = "";
-        // get all the theme settings and add them to the style element
-        if (FormData.theme.backgroundColor) {
-            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}\n";
-        }
-        // add the header style if there is a vlue for it
-        if (FormData.theme.headerName) {
-            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + ";font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");}\n";
-        }
         // add borders to the segments
         if (FormData.theme.borderSize) {
             this.chartStyle += ".arc path {stroke-width:" + FormData.theme.borderSize + "px; stroke:#" + FormData.theme.borderColor + ";}\n";
@@ -247,6 +241,8 @@ AreaChart = {
         this.settings = Settings.getSettings(FormData);
         // get the specific settings
         this.getSettings();
+        // get the common style elements
+        this.chartStyle = Settings.getStyle(FormData, "getHeaderPosition");
         // get the specific style
         this.getStyle();
         // build the chart
@@ -270,19 +266,15 @@ AreaChart = {
             x : FormData.data.scale.x,
             y : FormData.data.scale.y
         };
+        // set the children to undefined so that the title will show
+        this.settings.dataStructure.children = undefined;
+
     },
     getStyle : function() {
-        this.chartStyle = "";
-
-        // get all the theme settings and add them to the style element
-        if (FormData.theme.backgroundColor) {
-            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}\n";
+        // if the labels are turned off then set the label size to 0
+        if (!FormData.theme.labelSize) {
+            FormData.theme.labelSize = 0;
         }
-        // add the header style if there is a vlue for it
-        if (FormData.theme.headerName) {
-            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + ";font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");}\n";
-        }
-        
         this.chartStyle += ".axis path, .axis line, .domain {fill: none;stroke:#" + FormData.theme.borderColor + ";stroke-width:" + FormData.theme.borderSize + "px;shape-rendering: crispEdges;}\n";
         this.chartStyle += ".line {fill: none;stroke: " + FormData.colors[1] + ";stroke-width: " + FormData.theme.borderSize + "px;}\n";
         this.chartStyle += ".dot {fill: " + FormData.colors[2] + ";stroke: " + FormData.colors[1] + ";stroke-width: 1px;}\n";
@@ -299,6 +291,8 @@ BarChart = {
         this.settings = Settings.getSettings(FormData);
         // get the specific settings
         this.getSettings();
+        // get the common style elements
+        this.chartStyle = Settings.getStyle(FormData, "getHeaderPosition");
         // get the specific style
         this.getStyle();
         // build the chart
@@ -322,19 +316,14 @@ BarChart = {
             x : FormData.data.scale.x,
             y : FormData.data.scale.y
         };
+        // set the children to undefined so that the title will show
+        this.settings.dataStructure.children = undefined;
     },
     getStyle : function() {
-        this.chartStyle = "";
-
-        // get all the theme settings and add them to the style element
-        if (FormData.theme.backgroundColor) {
-            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}\n";
+        // if the labels are turned off then set the label size to 0
+        if (!FormData.theme.labelSize) {
+            FormData.theme.labelSize = 0;
         }
-        // add the header style if there is a vlue for it
-        if (FormData.theme.headerName) {
-            this.chartStyle += ".chartName {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + ";font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");transform: translate(" + ChartTheme.getHeaderPosition(FormData) + ");}\n";
-        }
-        
         this.chartStyle += ".axis path, .axis line, .domain {fill: none;stroke:#" + FormData.theme.borderColor + ";stroke-width:" + FormData.theme.borderSize + "px;shape-rendering: crispEdges;}\n";
         this.chartStyle += ".line {fill: none;stroke: " + FormData.colors[1] + ";stroke-width: " + FormData.theme.borderSize + "px;}\n";
         this.chartStyle += ".dot {fill: " + FormData.colors[2] + ";stroke: " + FormData.colors[1] + ";stroke-width: 1px;}\n";
@@ -351,6 +340,8 @@ ChordChart = {
         this.settings = Settings.getSettings(FormData);
         // get the specific settings
         this.getSettings();
+        // get the common style elements
+        this.chartStyle = Settings.getStyle(FormData, "getHeaderPositionCentered");
         // get the specific style
         this.getStyle();
         // build the chart
@@ -365,25 +356,18 @@ ChordChart = {
             'x' : FormData.colors[3],
             'y' : FormData.colors[4]
         };
-        /*
+        /* 
         this.settings.scale = {
             x : FormData.data.scale.x,
             y : FormData.data.scale.y
         };
         */
-        // set the children value to undefined for now
-        FormData.data.attributes = undefined;
+        // set the children to undefined so that the title will show
+        this.settings.dataStructure.children = undefined;
     },
     getStyle : function() {
-        this.chartStyle = "";
-
-        // get all the theme settings and add them to the style element
-        if (FormData.theme.backgroundColor) {
-            this.chartStyle += "svg {background: #" + FormData.theme.backgroundColor + ";}\n";
-        }
         // add the header style if there is a vlue for it
         if (FormData.theme.headerName) {
-            this.chartStyle += ".chartName {font-weight:bold;-webkit-transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");transform: translate(" + ChartTheme.getHeaderPositionCentered(FormData) + ");}\n";
             this.chartStyle += "svg .chartName text {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + "}\n";
         }
         this.chartStyle += ".group text {font: " + FormData.theme.labelSize + "px sans-serif;pointer-events: none;}\n"; 

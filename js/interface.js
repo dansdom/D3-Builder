@@ -1,14 +1,13 @@
 // TO DO LIST:
 // 1. I think the data options aren't 100% yet
 // 4. optimise the jQuery selectors. atm they are like a big pile of shit.
-// 6. start hooking up the 'upload file' option - started, but need to change the plugins to accept the data object
 // 10. lots of work to implement the 'theme' options
 // 11. Let users create and save their own colour schemes? maybe save a seperate cookie for each scheme, and then go check them? I'll explore this a little later
 // I may save these colors to the server and then provide them as options on the interface
 
 // Priorities:
 // 1. clean up the jPicker plugin. 
-// 2. data parsing from inside each plugin. There neds to be regex that strips out garbage and then parseFloat of those qulitative values on the chart
+// 2. data parsing from inside each plugin. There needs to be regex that strips out garbage and then parseFloat of those qualitative values on the chart
 // 3. implement the spacing attribute on the force chrt. use it to set the force between tree nodes
 // 4. there are a bunch of plugin settings (see 2. - also for the chord chart) that are no fully implemented through the interface. Namely the "theme" tab. This needs to be gone through
 // 5. add a nice animation transition for the scales? that would be nice
@@ -101,7 +100,6 @@ ChartBuilder = {
 				CodeBuilder.packageCode();
 			}
 		});
-
 	},
 	// show/hide sections in the form.
 	showSection : function() {
@@ -169,7 +167,6 @@ ChartBuilder = {
 		ChartData.setValue();
 		ChartTheme.setValue();
 		ChartEvents.setValue();
-		
 	},
 	buildChart : function() {
 		switch (FormData.type.primary) {
@@ -213,7 +210,6 @@ ChartBuilder = {
 	}
 };
 
-
 // each section of the form will have it's own object that will control that part of the interface
 ChartType = {
 	init : function() {
@@ -222,53 +218,81 @@ ChartType = {
 	// handles the chart type selection interaction
 	showType : function() {
 		$("#type-chart").on("change", function() {
-			var value = $(this).attr("value"),
+			var chartType = $(this).attr("value"),
 				dataSelect = $("#data-structure"),
-				// this is probably where I'm going to set the data.allowed flag
-				dataType = $(this).find(":selected").attr("data-allowed"),
-				chartType = $(this).attr("value");
-				options = '<option selected="selected" value="flat">Ordinal Flat</option><option value="nested">Ordinal Nested</option><option value="quantitative">Quantitative</option><option value="matrix">Matrix</option>';
+				scaleX = $("#data-scaleX"),
+				scaleY = $("#data-scaleY"),
+				dataAllowed = Config.dataAllowed[chartType],
+				dataAttributes = Config.dataAttributes[chartType],
+				dataScaleX = Config.dataScaleX[chartType],
+				dataScaleY = Config.dataScaleY[chartType],
+				options = "";
+
+			// return the options for the scale drop down
+			function setScale(settings) {
+				var options = "";
+				for (var i = 0; i < settings.length; i++) {
+					switch (settings[i]) {
+						case "linear" :
+							options += "<option value='linear'>linear</option>";
+							break;
+						case "ordinal" : 
+							options += "<option value='ordinal'>ordinal</option>";
+							break;
+						case "pow" : 
+							options += "<option value='pow'>power</option>";
+							break;
+						default : break;
+					};
+				};
+				return options;
+			}
 
 			// show the secondary chart type select box
 			$("li.type-settings").css("display", "none");
-			$("li." + value).css("display", "block");
+			$("li." + chartType).css("display", "block");
 			
+			// work out what data options to make available. The the array of data allowed for this chart type
+			for (var i = 0; i < dataAllowed.length; i++) {
+				switch (dataAllowed[i]) {
+					case "flat" : 
+						options += "<option value='flat'>Ordinal Flat</option>";
+						break;
+					case "nested" :
+						options += "<option value='nested'>Ordinal Nested</option>";
+						break;
+					case "quantitative" :
+						options += "<option value='quantitative'>Quantitative</option>";
+						break
+					case "matrix" :
+						options += "<option value='matrix'>Matrix</option>";
+						break;
+					default : break;
+				};
+			};
 			// refresh the data structure field
 			dataSelect.html(options);
-			//console.log(dataType);
+			// set the value as the first option on the data-structure option list
+			dataSelect.find("option:eq(0)").attr("selected", "selected");
+			var dataSelected = $("#data-structure option:eq(0)").attr("value");
 
-			// can only select flat data - remove the nested option
-			if (dataType === "flat") {
-				//$("#data-structure").find("option[value='nested']").remove();
-				$("#data-structure").attr("value", "flat");
-				ChartData.selectDataStructure("flat");
+			// work out what data attributes are available and then show those inputs
+			$("li.data-attributes").css("display", "none");
+			for (var i = 0; i < dataAttributes.length; i++) {
+				$("li.data-attributes." + dataAttributes[i]).css("display", "block");
+			};
 
-			}
-			// can only select nested data - remove the flat option
-			else if (dataType === "nested") {
-				//$("#data-structure").find("option[value='flat']").remove();
-				$("#data-structure").attr("value", "nested");
-				ChartData.selectDataStructure("nested");
-			}
-			else if (dataType === "quantitative") {
-				//$("#data-structure").find("option[value='flat']").remove();
-				//$("#data-structure").find("option[value='nested']").remove();
-				$("#data-structure").attr("value", "quantitative");
-				ChartData.selectDataStructure("quantitative");
-			}
-			else if (dataType === "matrix") {
-				//$("#data-structure").find("option[value='flat']").remove();
-				//$("#data-structure").find("option[value='nested']").remove();
-				$("#data-structure").attr("value", "matrix");
-				ChartData.selectDataStructure("matrix");
-			}
-			// can select either
-			else if (dataType === "both") {
-				// just change it to flat
-				ChartData.selectDataStructure("flat");
-			}
+			// refresh the x-scale dropdown list
+			scaleX.html(setScale(dataScaleX));
+			// refresh the x-scale dropdown list
+			scaleY.html(setScale(dataScaleY));
 
-			//console.log(chartType);
+			// #### work out what ranges to display #######
+			// On the to-do list
+			$("li.data-range").css("display", "none");
+			
+			// select the data structure
+			ChartData.selectDataStructure(dataSelected);
 			// set the class on the body object to control the help options
 			ChartType.setBodyType(chartType);
 
@@ -284,7 +308,7 @@ ChartType = {
 		//console.log(bodyClass);
 		if (bodyClass)
 		{
-			classArray = bodyClass.split(' ');
+			classArray = bodyClass.split(" ");
 
 			$.each(classArray, function(index, value) {
 				// check to see if the value gives a positive index
@@ -352,7 +376,6 @@ ChartSize = {
 ChartColors = {
 	init : function() {
 		// I'll need to add the default color palette values before I start the initialise the color pickers
-		this.addColorPickers();
 		this.managePaletteSize();
 		// changes the color scheme
 		setTimeout(function() {
@@ -360,13 +383,15 @@ ChartColors = {
 			// set a timeout of 0 to do this. note: I should browser test that this works ok elsewhere
 			ChartColors.manageColorScheme();	
 		}, 0);
-		
 	},
 	// color scheme constants
 	scheme1 : ["1f77b4","ff7f0e","2ca02c","d62728","9467bd","8c564b","e377c2","7f7f7f","bcbd22","17becf"], // define the standard D3 color schemes, and also add some of my own?
 	scheme2 : ["1f77b4","aec7e8","ff7f0e","ffbb78","2ca02c","98df8a","d62728","ff9896","9467bd","c5b0d5","8c564b","c49c94","e377c2","f7b6d2","7f7f7f","c7c7c7","bcbd22","dbdb8d","17becf","9edae5"],
 	scheme3 : ["393b79","5254a3","6b6ecf","9c9ede","637939","8ca252","b5cf6b","cedb9c","8c6d31","bd9e39","e7ba52","e7cb94","843c39","ad494a","d6616b","e7969c","7b4173","a55194","ce6dbd","de9ed6"],
 	scheme4 : ["3182bd","6baed6","9ecae1","c6dbef","e6550d","fd8d3c","fdae6b","fdd0a2","31a354","74c476","a1d99b","c7e9c0","756bb1","9e9ac8","bcbddc","dadaeb","636363","969696","bdbdbd","d9d9d9"],
+	scheme5 : ["3b2f23","342a1f","81613e","735637","a4b167","929e5c","d6d2b4","bfbba1","4e693b","455d34"],
+	scheme6 : ["645156","4b4143","411a23","b2989e","b29fa3","6d6658","524e46","47371d","b6ad9c","b6afa3","433d4a","333038","201430","988fa5","9b95a5","54604d","41483d","273e19","a0af96","a4af9d"],
+	scheme7 : ["e82351","ae3f59","970b2C","f4587d","f4829c","fdae26","be9145","a46c0c","fec25c","fed287","265aa7","35527d","0c336c","598ad3","799dd3","67dd21","64a63c","3c900b","8fee56","a8ee7f"],
 	reset : function() {
 		// set to default values
 		// set it to a custom scheme
@@ -410,23 +435,6 @@ ChartColors = {
 		});
 		// update the data object
 		FormData.colors = colorScheme;
-	},
-	addColorPickers : function() {
-		var paletteColors = $("fieldset.color .palette li.color input");
-		
-		paletteColors.jPicker({
-			window: {
-				expandable : true,
-				title : 'Data Colour',
-				position : {
-					x: 'screenCenter',
-					y: 200
-				}
-			},
-			images : {
-				clientPath : 'css/img/'
-			}
-		});	
 	},
 	// palette size counter
 	paletteSize : 0,
@@ -518,14 +526,17 @@ ChartColors = {
 		var colorArray = ChartColors[newScheme],
 			colorArrayLength = colorArray.length,
 			palette = $("fieldset.color .palette");
+
+		// ###### Note: I have to reset the alpha cannel on the color picker when changing colour scheme
+		$.jPicker.List[0].color.active.val('a', 255);
 		
 		for (var i = 0; i < colorArrayLength; i++) {
 			// populate the inputs
 			// I have to trigger a keyup event here so that the jpicker plugin can read the value of the input field
-			palette.find("li:eq(" + i + ")").find("input").attr("value", colorArray[i]).trigger("keyup");
+			palette.find("li:eq(" + i + ")").find("input").attr("value", colorArray[i]).trigger("change");
 		}
 		// I'll remove values for those items larger than the array length
-		palette.find("li:gt(" + (colorArrayLength - 1) + ")").find("input").attr("value", "").trigger("keyup");
+		palette.find("li:gt(" + (colorArrayLength - 1) + ")").find("input").attr("value", "").trigger("change");
 	}
 };
 
@@ -564,7 +575,6 @@ ChartData = {
 		$("#data-scaleY").attr("value", FormData.data.scale.y);
 	},
 	getValue : function() {
-		
 		console.log('getting data value');
 		
 		FormData.data = {
@@ -599,12 +609,10 @@ ChartData = {
 		}
 		else if (FormData.data.structure === "matrix") {
 			FormData.data.dummy = $("#data-dummy-matrix").attr("value");
-		}
-		
+		}	
 	},
 	fileData : {},  // data object to hold uploaded file
 	handleFileUpload : function() {
-		
 		// need to reference 'this' from the event handler
 		var dataHandler = this;
 
@@ -663,14 +671,12 @@ ChartData = {
 	        }
 	        else {
 	        	alert("only JSON, CSV and TSV files are allowed");
-	        }
-	        
-		});
-			
+	        } 
+		});	
 	},
 	convertArrayToJSON : function(data) {
 		// converts a set of arrays to a JSON object. When uploading a CSV and converting it to arrays, I want to then save it a JSON on the server
-		// this only converts to a flat structured JSN object
+		// this only converts to a flat structured JSON object
 		var result = [], // the empty data object to be returned
 			attrLength = data[0].length,  // the amount of attributes in the matrix
 			dataHeaders = data[0]; // the categories of the matrix
@@ -765,7 +771,7 @@ ChartData = {
 
 ChartTheme = {
 	init : function() {
-		this.addColorPickers();
+		
 	},
 	reset : function() {
 		// set to default values
@@ -774,12 +780,12 @@ ChartTheme = {
 		$("#theme-header-size").attr("value", "20");
 		$("#theme-header-offsetY").attr("value", "0");
 		$("#theme-header-offsetX").attr("value", "0");
-		$("#theme-header-color").attr("value", "000000").trigger("keyup");
+		$("#theme-header-color").attr("value", "000000").css("color", "#fff").trigger("keyup");
 		$("#theme-label-size").attr("value", "10");
 		$("#theme-label-position").attr("value", "");
-		$("#theme-label-color").attr("value", "000000").trigger("keyup");
+		$("#theme-label-color").attr("value", "000000").css("color", "#fff").trigger("keyup");
 		$("#theme-data-border-size").attr("value", "1");
-		$("#theme-data-border-color").attr("value", "eeeeee").trigger("keyup");
+		$("#theme-data-border-color").attr("value", "000000").css("color", "#fff").trigger("keyup");
 		$("#theme-data-spacing").attr("value", "1");
 		// hide the sections
 		$("fieldset.theme .theme-background, fieldset.theme .theme-header, fieldset.theme .theme-labels, fieldset.theme .theme-data").css("display", "none");
@@ -884,21 +890,6 @@ ChartTheme = {
 		
 		// update the data object for the form
 		FormData.theme = theme;
-	},
-	addColorPickers : function() {
-		$("#theme-background-color, #theme-header-color, #theme-label-color, #theme-data-border-color").jPicker({
-			window: {
-				expandable : true,
-				title : 'Theme Colour',
-				position : {
-					x: 'screenCenter',
-					y: 200
-				}
-			},
-			images : {
-				clientPath: 'css/img/'
-			}
-		});
 	},
 	// gets the header position when the .chartName element naturally sits at the top left of the chart
 	getHeaderPosition : function(data) {
@@ -1009,7 +1000,6 @@ $(document).ready(function()
 
 	// run the plugins
 	Plugins.init();
-	
 });
 
 

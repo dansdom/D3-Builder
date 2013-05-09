@@ -32,7 +32,7 @@ FormDefault = {
             ticksY : "auto"
         },
         scale : {
-            x : "linear",  // these scales can be "linear", "exponential" or "ordinal". default to "linear"
+            x : "linear",  // these scales can be "linear", "pow" or "ordinal". default to "linear"
             y : "linear"
         }
     },
@@ -89,7 +89,7 @@ FormData = {
             ticksY : "auto"
         },
         scale : {
-            x : "linear",  // these scales can be "linear", "exponential" or "ordinal". default to "linear"
+            x : "linear",  // these scales can be "linear", "pow" or "ordinal". default to "linear"
             y : "linear"
         }
     },

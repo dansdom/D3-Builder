@@ -274,8 +274,8 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     node.id = ++i;
                 }
                 nodes.push(node);
-                //console.log(node[value]);
-                return node[value];
+                // clean it up with a parseFloat
+                return parseFloat(node[value]);
             };
 
             data[value] = recurse(data);

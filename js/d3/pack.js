@@ -36,6 +36,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         'data' : null,  // I'll need to figure out how I want to present data options to the user
         'dataUrl' : 'flare.json',  // this is a url for a resource
         'dataType' : 'json',
+        'labelPosition' : false,
         // instead of defining a color array, I will set a color scale and then let the user overwrite it
         'colorRange' : [],
         'colors' : {
@@ -131,7 +132,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         setLayout : function() {
             var container = this;
 
-            console.log(this.opts);
+            //console.log(this.opts);
 
             // DEFINE EACH OF THE TWO TYPES OF LAYOUTS
             // this is the layout for the regular pack i.e. layered chart
@@ -141,7 +142,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             container.pack
                 .size([this.opts.diameter, this.opts.diameter])
                 // custom size function as passed into the options object
-                .value(function(d) { return d[container.opts.dataStructure.value]})
+                .value(function(d) { return parseFloat(d[container.opts.dataStructure.value])})
                 // custom children function as passed into the options object
                 .children(function(d) { return d[container.opts.dataStructure.children]})
                 .padding(container.opts.spacing);
@@ -201,11 +202,17 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 .style("fill", function(d) { return container.color(d.packageName); }); 
 
             // for existing nodes, select the text and then transition them in
-            container.node.select("text")
-                .transition()
-                .delay(container.opts.speed/2)
-                .style("font-size", container.opts.fontSize + "px")
-                .text(function(d) { return d.className.substring(0, d.r / 4); }); 
+            //check if labelPosition is set yet
+            if (container.opts.labelPosition) {
+                container.node.select("text")
+                    .transition()
+                    .delay(container.opts.speed/2)
+                    .style("font-size", container.opts.fontSize + "px")
+                    .text(function(d) { return d.className.substring(0, d.r / 4); }); 
+            }
+            else {
+                container.node.select("text").remove();
+            }
         },
         placeOldBubbleNodes : function() {
             var container = this;
@@ -239,13 +246,16 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 .style("fill", function(d) { return container.color(d.packageName); });
 
             // for the new nodes, append the text and them shorten it after the delay that equals the transition
-            newNodes.append("text")
-                .style("text-anchor", "middle")
-                .style("font-size", container.opts.fontSize + "px")
-                .attr("dy", ".3em")
-                .transition()
-                .delay(container.opts.speed)
-                .text(function(d) { return d.className.substring(0, d.r / 4); });
+            // test to see if the labelPosition set
+            if (container.opts.labelPosition) {
+                newNodes.append("text")
+                    .style("text-anchor", "middle")
+                    .style("font-size", container.opts.fontSize + "px")
+                    .attr("dy", ".3em")
+                    .transition()
+                    .delay(container.opts.speed)
+                    .text(function(d) { return d.className.substring(0, d.r / 4); });
+            }
         },
         placeCurrentPackNodes : function() {
             var container = this;
@@ -283,12 +293,15 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
 
             // start fresh with the text nodes
             container.node.select("text").remove();
-            container.node.filter(function(d) { return !d.children; }).append("text")
-                .attr("dy", ".3em")
-                .style("text-anchor", "middle")
-                .transition()
-                .delay(container.opts.speed)
-                .text(function(d) { return d[container.opts.dataStructure.name].substring(0, d.r / 4); });
+            // check if labelPosition is set before replacing the text
+            if (container.opts.labelPosition) {
+                container.node.filter(function(d) { return !d.children; }).append("text")
+                    .attr("dy", ".3em")
+                    .style("text-anchor", "middle")
+                    .transition()
+                    .delay(container.opts.speed)
+                    .text(function(d) { return d[container.opts.dataStructure.name].substring(0, d.r / 4); });
+            }
         },
         placeOldPackNodes : function() {
             var container = this,
@@ -340,14 +353,17 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 .duration(container.opts.speed)
                 .attr("r", function(d) { return d.r; });
 
-            newNodes.filter(function(d) { return !d.children; })
-                .append("text")
-                .style("text-anchor", "middle")
-                .style("font-size", container.opts.fontSize + "px")
-                .attr("dy", ".3em")
-                .transition()
-                .delay(container.opts.speed)
-                .text(function(d) { return d[container.opts.dataStructure.name].substring(0, d.r / 4); });
+            // check to see if the labelPosition is set before placing text
+            if (container.opts.labelPosition) {
+                newNodes.filter(function(d) { return !d.children; })
+                    .append("text")
+                    .style("text-anchor", "middle")
+                    .style("font-size", container.opts.fontSize + "px")
+                    .attr("dy", ".3em")
+                    .transition()
+                    .delay(container.opts.speed)
+                    .text(function(d) { return d[container.opts.dataStructure.name].substring(0, d.r / 4); });
+            }
 
             // ignore events on the nodes without children
             newNodes.filter(function(d) { return !d.children; })
@@ -396,7 +412,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     .style("font-size", container.opts.fontSize/scaleFactor + "px");
             }
 
-            console.log(centerAdjustment);
+            //console.log(centerAdjustment);
 
             // transform each of the nodes
             chart
@@ -472,7 +488,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     node[children].forEach(function(child) { recurse(node[container.opts.dataStructure.name], child); });
                 }
                 else {
-                    dataList.push({packageName: name, className: node[container.opts.dataStructure.name], value: node.size});
+                    dataList.push({packageName: name, className: node[container.opts.dataStructure.name], value: parseFloat(node[container.opts.dataStructure.value])});
                 }
             };
 

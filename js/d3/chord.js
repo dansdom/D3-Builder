@@ -437,64 +437,20 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 d3.event.stopPropagation();
             }
         },
-        // Returns a flattened hierarchy containing all leaf nodes under the root.
+        // parseFloat on all the data values
         parseData : function(data) {
-           
-            var dataList = [],
-                dataLength = data.length,
-                container = this,
-                children = this.opts.dataStructure.children,
-                total = 0,
-                className,
-                i;
-        
-            // recursively loop through each child of the object
-            //console.log(data);
-            function recurse(name, node) {
-                if (node[children]) {
-                    
-                    node[children].forEach(function(child) { recurse(node[container.opts.dataStructure.name], child); });
-                    // do some error handling here?
-                    if (!node[container.opts.dataStructure.name]) {
-                        className = undefined;
-                    }
-                    else {
-                        className = node[container.opts.dataStructure.name];
-                    }
-                    dataList.push({category: className, className: name, value: total, hasChildren: true});
-                }
-                else {
-                    // do some error handling here?
-                    total += node.size;
-                    if (!node[container.opts.dataStructure.name]) {
-                        className = undefined;
-                    }
-                    else {
-                        className = node[container.opts.dataStructure.name];
-                    }
-                    //console.log('doing push');
-                    dataList.push({category: className, className: name, value: node.size, hasChildren: false});  
-                }
+            
+            var dataLength = data.length;
+
+            for (var i = 0; i < dataLength; i++) {
+                var dataDepth = data[i].length,
+                    dataRow = data[i];
+                for (var j = 0; j < dataDepth; j++) {
+                    dataRow[j] = parseFloat(dataRow[j]);
+                };
             };
             
-            // if there are children defined in the data, then do the recurse. If not, then loop through the array
-            if (children) {
-                // this object will hold the current category that is being displayed
-                container.dataCategory = data[container.opts.dataStructure.name];
-                recurse(null, data);
-            }
-            else {
-                // set the container category to 'all'
-                container.dataCategory = 'all';
-                for (i = 0; i < dataLength; i++) {
-                    dataList.push({category: data[i][container.opts.dataStructure.name], className: 'all', value: data[i][container.opts.dataStructure.value]});
-                    total += data[i][container.opts.dataStructure.value];
-                };
-            }
-            
-            //console.log(dataList);
-            //console.log(container.dataCategory);
-            return dataList;   
+            return data;   
         },
         // updates the data set for the chart
         // I may just want to process the input and then call getData()
@@ -505,7 +461,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             d3.json(url, function(error, data) {
                 // data object
                 //container.data = container.parseData(data);
-                container.data = data;
+                container.data = container.parseData(data);
                 container.updateChart();
             });
         },
@@ -515,14 +471,14 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
 
             // need to test if the data is provided or I have to make a requset first
             if (container.opts.data) {
-                container.data = container.opts.data;
+                container.data = container.parseData(container.opts.data);
                 container.updateChart();
             }
             else {
                 d3.json(container.opts.dataUrl, function(error, data) {
                     // data object
                     //container.data = container.parseData(data);
-                    container.data = data;
+                    container.data = container.parseData(data);
                     container.updateChart();
                 });
             }

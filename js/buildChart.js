@@ -5,13 +5,13 @@ CodeBuilder = {
         // this function will package up all the code and out put it
         console.log(CodeBuilder.settings);
         
-        $.ajax('buildChart.php', {
+        $.ajax("buildChart.php", {
             data : CodeBuilder.settings,
             dataType : "text",
             type : "POST",
             success : function(data) {
                 // ideally this zip file should be served from the php script and not from here
-                window.location.href = '/chart.zip';
+                window.location.href = "/chart.zip";
                 console.log(data);
             },
             error : function(data) {

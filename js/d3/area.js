@@ -35,6 +35,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         'data' : null,  // I'll need to figure out how I want to present data options to the user
         'dataUrl' : null,  // this is a url for a resource
         'dataType' : 'json',
+        'labelPosition' : false,
         'colorRange' : [], // instead of defining a color array, I will set a color scale and then let the user overwrite it
         // maybe only if there is one data set???
         'elements' : {
@@ -51,7 +52,8 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             'x' : 'x1',  // this value may end up being an array so I can support multiple data sets
             'y' : 'y1',
             'ticksX' : 10,  // tha amount of ticks on the x-axis
-            'ticksY' : 5  // the amount of ticks on the y-axis
+            'ticksY' : 5,  // the amount of ticks on the y-axis
+            'children' : undefined
         },
         'scale' : {
             'x' : 'linear',
@@ -89,6 +91,8 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
 
             // create the svg element that holds the chart
             this.setLayout();
+            // set the chart title
+            this.setTitle();
 
             // define the line of the chart
             container.line = this.getLine();
@@ -121,6 +125,33 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             container.chart
                 .attr("class", "chart")
                 .attr("transform", "translate(" + container.margin.left + "," + container.margin.top + ")");
+        },
+        setTitle : function() {
+            var container = this;
+
+            // ####### CHART TITLE #######
+            if (container.opts.chartName) {
+                if (!container.chartName) {
+                    container.chartName = container.chart.append("g")
+                        .attr("class", "chartName")
+                        .append("text");
+                        console.log('adding chart name');
+                }
+                container.chartName = container.chart.select(".chartName").select("text")
+                    .text(function() {
+                        var chartTitle;
+                        if (container.opts.dataStructure.children) {
+                            chartTitle = container.dataCategory;
+                            console.log('there is children');
+                        }
+                        else {
+                            chartTitle = container.opts.chartName;
+                            console.log('there is no children');
+                        }
+                        console.log(chartTitle);
+                        return chartTitle;
+                    });
+            }
         },
         addAxis : function() {
             var container = this;
@@ -252,9 +283,51 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 .y1(container.line.y())
                 .y0(container.yScale(0));
         },
+        isScaleNumeric : function(scale) {
+            // find out whether the scale is numeric or not
+            switch(scale) {
+                case "linear" :
+                    return true;
+                    break;
+                case "pow" :
+                    return true;
+                    break;
+                case "log" :
+                    return true;
+                    break;
+                case "quanitze" :
+                    return true;
+                    break;
+                case "identity" :
+                    return true;
+                    break;
+                default : 
+                    return false;
+            }
+        },
         parseData : function(data) {
             // I may want to flatten out nested data here. not sure yet
-            // if the scale is ordinal, I have to put in an openig value so that I can push the data across the chart
+            // if the scale is ordinal, I have to put in an opening value so that I can push the data across the chart
+            // the first thing I have to do here is make sure the "value" field is numeric.
+            var container = this,
+                scaleX = container.opts.scale.x,
+                scaleY = container.opts.scale.y,
+                dataLength = data.length;
+
+            if (container.isScaleNumeric(scaleX)) {
+                for (var i = 0; i < dataLength; i++) {
+                    // parse the x scale
+                    data[i][container.opts.dataStructure.x] = parseFloat(data[i][container.opts.dataStructure.x]);
+                }
+            }
+
+            if (container.isScaleNumeric(scaleY)) {
+                for (var j = 0; j < dataLength; j++) {
+                    // parse the y scale
+                    data[j][container.opts.dataStructure.y] = parseFloat(data[j][container.opts.dataStructure.y]);
+                }
+            }
+
             return data;
         },
         // need to do some thinking around these next 2 functions
@@ -275,13 +348,14 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     ])
                     // set the range to go from 0 to the width of the chart
                     .range([0, container.width]);
-            }
-            else if (container.opts.scale.x === "exponential") {
-            }
+            }            
             else if (container.opts.scale.x === "ordinal") {
                 container.xScale
                     .domain(container.data.map(function(d) { return d[container.opts.dataStructure.x]; }))
                     .rangeRoundBands([0, container.width], 0.1);
+            }
+            // hopefully I can fit into one of the two current treatments
+            else if (container.opts.scale.x === "pow") {
             }
 
 
@@ -296,15 +370,16 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     ])
                     // set the range to go from 0 to the height of the chart
                     .range([container.height, 0]);
-            }
-            else if (container.opts.scale.y === "exponential") {
-            }
+            }            
             else if (container.opts.scale.y === "ordinal") {
                 container.yScale
                     .domain([
                         0, 
                         d3.max(container.data, function(d) { return d[container.opts.dataStructure.y]; } )])
                     .range([container.height, 0]);
+            }
+            // hopefully I can fit into one of the two current treatments
+            else if (container.opts.scale.y === "pow") {
             }
         },
         setAxis : function() {
@@ -371,7 +446,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             else {
                 // the data is passed straight into the plugin form either a function or a data object
                 // I expect a JSON object here
-                container.data = container.opts.data;
+                container.data = container.parseData(container.opts.data);
                 container.updateChart(); 
             }    
         },

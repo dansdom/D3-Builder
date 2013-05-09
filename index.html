@@ -34,28 +34,39 @@
     <div id="content">
     	<div class="page" role="main">
 
-    		<section id="actionNav" class="grid">
-	    		<nav role="navigation" class="grid-12">
+    		<section id="actionNav">
+	    		<nav role="navigation">
 	    			<ul>
-	    				<li class="label">Build Options:</li>
+	    				<li class="label">Build Options:
+	    					<a class="icon-question-sign" name="#build-help">help</a>
+							<div class="helpBox">
+							    <div id="build-help">
+							        <div class="helpContent">
+							          	<h2>Build Options</h2>
+							          	<p>In this menu you can:</p>
+							          	<ol>
+							          		<li><strong>Update Chart Preview:</strong> Once you make changes to the chart options, you can update the preview of the chart to see what it looks like.</li>
+							          		<li><strong>Reset Chart:</strong> This button resets the entire interface back to the default settings.</li>
+							          		<li><strong>Save Chnages:</strong> You can save your current chart. This will save to a cookie and can only store one chart at a time.</li>
+							          		<li><strong>Load Saved Chart:</strong> If you have saved a chart you can quickly reload it.</li>
+							          		<li><strong>Generate Chart Code:</strong> This will package up the chart for you as a zip file. This will include HTML, CSS and all the Javascript you need to embed the chart onto a webpage. If data has been uploaded, it will save that in a file in the "data" folder.</li>
+							          	</ol>
+							        </div>
+							    </div>
+							</div>
+	    				</li>
 						<li><input type="button" value="Update Chart Preview" class="btn rounded" id="build-update"></li>
 						<li><input type="button" value="Reset Chart" class="btn rounded" id="build-reset"></li>
 						<li><input type="button" value="Save Changes" class="btn rounded" id="build-save"></li>
 						<li><input type="button" value="Load Saved Chart" class="btn rounded" id="build-load"></li>
-						<li><input type="submit" value="Generate Chart Code" class="btn rounded inactive" id="build-submit"></li>
+						<li><input type="submit" value="Generate Chart Code" class="btn rounded" id="build-submit"></li>
 					</ul>
 	    		</nav>
     		</section>
     		
-    		<section role="region" class="rounded">		   				
-	 	   		<div class="grid">
-	 	   			<div class="grid-9 chart-grid">
-						<div class="module">
-							<div id="chart-preview"></div>
-							<style id="chart-style"></style>
-						</div>
-					</div>
-					<div class="grid-3 last">
+    		<section role="region">		   				
+	 	   		<div>
+					<div class="grid-3 last" id="control-panel">
 						<nav id="formNav" class="module">
 							<ul>
 								<li class="btn"><a href="#">Type</a></li>
@@ -66,6 +77,11 @@
 								<li class="btn inactive"><a href="#">Events</a></li>
 							</ul>
 						</nav>
+
+						<!-- colour picker box -->
+						<div style="display:none">
+							<input type="hidden" id="color-value" name="color-value" value="" />
+						</div>
 						
 						<form class="form-stacked module" id="chart-settings">
 							
@@ -92,14 +108,14 @@
 							          		</div>
 							          	</div>
 							          	<select id="type-chart" name="type-chart" class="required">
-											<option value="0" data-allowed="none" selected="selected">-- select a chart type --</option>
-								            <option value="pie" data-allowed="both">Pie</option>
-											<option value="pack" data-allowed="nested">Pack</option>
-											<option value="sunburst" data-allowed="nested">Sunburst</option>
-											<option value="force" data-allowed="nested">Force</option>
-											<option value="area" data-allowed="quantitative">Area</option>
-											<option value="bar" data-allowed="quantitative">Bar</option>
-											<option value="chord" data-allowed="matrix">Chord</option>
+											<option value="0" data-allowed="none" data-scale-x="none" data-scale-y="none" selected="selected">-- select a chart type --</option>
+								            <option value="pie" data-allowed="flat nested" data-scale-x="none" data-scale-y="none">Pie</option>
+											<option value="pack" data-allowed="nested" data-scale-x="none" data-scale-y="none">Pack</option>
+											<option value="sunburst" data-allowed="nested" data-scale-x="none" data-scale-y="none">Sunburst</option>
+											<option value="force" data-allowed="nested" data-scale-x="none" data-scale-y="none">Force</option>
+											<option value="area" data-allowed="quantitative flat" data-scale-x="ordinal" data-scale-y="linear pow">Area</option>
+											<option value="bar" data-allowed="quantitative flat" data-scale=-x="ordinal" data-scale-y="linear pow">Bar</option>
+											<option value="chord" data-allowed="matrix" data-scale-x="none" data-scale-y="none">Chord</option>
 							            </select>
 							            <span class="error" title="type-chart"></span>
 							        </li>
@@ -395,6 +411,9 @@
 											<option value="scheme2">Scheme 2</option>
 											<option value="scheme3">Scheme 3</option>
 											<option value="scheme4">Scheme 4</option>
+											<option value="scheme5">Scheme 5</option><!-- Multicam -->
+											<option value="scheme6">Scheme 6</option>
+											<option value="scheme7">Scheme 7</option>
 							            </select>
 									</li>
 									<li>
@@ -791,7 +810,7 @@
 							          	</div>
 							            <input type="text" size="20" name="data-y" id="data-y" placeholder="select the name of the data on the Y scale" value="y">
 							        </li>
-									<li class="data-scale scaleX">
+									<li class="data-scale x">
 							          	<label for="data-scaleX">Data Scale X</label>
 							          	<a class="icon-question-sign" name="#data-scaleX-help">help</a>
 							          	<div class="helpBox">
@@ -804,11 +823,11 @@
 							          	</div>
 							            <select id="data-scaleX" name="data-scaleX">
 								            <option value="linear" selected="selected">linear</option>
-											<option value="exponential">exponential</option>
+											<option value="pow">pow</option>
 											<option value="ordinal">ordinal</option>
 							            </select>
 							        </li>
-									<li class="data-scale scaleY">
+									<li class="data-scale y">
 							          	<label for="data-scaleY">Data Scale Y</label>
 							          	<a class="icon-question-sign" name="#data-scaleY-help">help</a>
 							          	<div class="helpBox">
@@ -821,11 +840,11 @@
 							          	</div>
 							            <select id="data-scaleY" name="data-scaleY">
 								            <option value="linear" selected="selected">linear</option>
-											<option value="exponential">exponential</option>
+											<option value="pow">pow</option>
 											<option value="ordinal">ordinal</option>
 							            </select>
 							        </li>
-							        <li class="data-range rangeX">
+							        <li class="data-range x">
 							        	<label for="data-rangeX">Data Range X</label>
 							        	<a class="icon-question-sign" name="#data-rangeX-help">help</a>
 							          	<div class="helpBox">
@@ -839,7 +858,7 @@
 							          	</div>
 							        	<input type="text" size="20" name="data-rangeX" id="data-rangeX" placeholder="select the range of the X scale" value="auto">
 							        </li>
-							        <li class="data-range rangeY">
+							        <li class="data-range y">
 							        	<label for="data-rangeY">Data Range Y</label>
 							        	<a class="icon-question-sign" name="#data-rangeY-help">help</a>
 							          	<div class="helpBox">
@@ -1141,12 +1160,17 @@
 							
 						</form>  <!-- end of chart settings form -->
 					</div>
+					<div class="grid-9" id="chart-grid">
+						<div id="chart-preview"></div>
+						<style id="chart-style"></style>
+					</div>
 				</div>
 			</section>
 		
 		</div><!-- end page -->
 	</div><!-- end #content -->
 </div><!--! end of #wrap -->
+
 <!-- JavaScript at the bottom for fast page loading -->
 	<!-- jQuery plugins -->
 	<script src="js/plugins/placeholder.js"></script>
@@ -1165,11 +1189,26 @@
 	<script src="js/d3/bar.js"></script>
 	<script src="js/d3/chord.js"></script>
 	<!-- custom interface -->
+	<script src="js/config.js"></script>
 	<script src="js/formData.js"></script>
 	<script src="js/plugins.js"></script>
 	<script src="js/interface.js"></script>
 	<script src="js/showChart.js"></script>
 	<script src="js/buildChart.js"></script>
+	<!--
+	<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-38320573-1']);
+	  _gaq.push(['_setDomainName', 'sohdoc.org']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	</script>
+	-->
 <!-- end scripts-->
 </body>
 </html>

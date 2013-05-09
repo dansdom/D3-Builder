@@ -46,7 +46,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         // defines the data structure of the document
         'dataStructure' : {
             'name' : 'label',
-            'value' : 'value'
+            'value' : 'size'
         },
         'chartName' : null
     };
@@ -218,7 +218,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     node[children].forEach(function(child) { recurse(node[container.opts.dataStructure.name], child); });
                 }
                 else {
-                    dataList.push({packageName: name, className: node[container.opts.dataStructure.name], value: node.size});
+                    dataList.push({packageName: name, className: node[container.opts.dataStructure.name], value: parseFloat(node[container.opts.dataStructure.value])});
                 }
             };
 
