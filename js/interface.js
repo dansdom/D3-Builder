@@ -12,6 +12,7 @@
 // 5. add a nice animation transition for the scales? that would be nice
 // 6. interface options that will hide and show available settings field for each chart
 // !!! on the x,y charts this line - .rangeRoundBands([0, container.width], 0.1); needs to be fixed up and added as an option for the user to set.
+// !!! Also, just about to implement the data categories for the scatterplot. Could roll this out to the other x,y axis
 
 // Known Bugs (that are bugging me)
 // none
