@@ -356,6 +356,7 @@ ChordChart = {
             'x' : FormData.colors[3],
             'y' : FormData.colors[4]
         };
+        this.settings.labelPosition = FormData.theme.labelPosition;
         /* 
         this.settings.scale = {
             x : FormData.data.scale.x,

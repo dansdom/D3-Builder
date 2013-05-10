@@ -34,10 +34,10 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         'speed' : 1000,
         'padding' : 10,
         'spacing': 5,  // effective setting in D3 is between 0.03 and 0.1. therefore this value will be divided by 100
-        'labelPosition' : 3, // this may get replaced by the labelFrequency setting, or this replace it.
+        'labelPosition' : 0, // this may get replaced by the labelFrequency setting, or this replace it.
         'data' : null,  // I'll need to figure out how I want to present data options to the user
         'dataUrl' : 'flare.json',  // this is a url for a resource
-        'dataType' : 'json',        
+        'dataType' : 'json',
         'colorRange' : [], // instead of defining a color array, I will set a color scale and then let the user overwrite it
         'fontSize' : 12,
         // defines the data structure of the document
@@ -360,17 +360,19 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 .attr("x2", 5)
                 .attr("y2", 0);
 
-            container.tickUnits.append("text")
-                .style("opacity", 1e-6)
-                .attr("x", 8)
-                .attr("dy", ".35em")
-                .attr("transform", function(d) { return d.angle > Math.PI ? "rotate(180) translate(-16)" : null; })
-                .style("text-anchor", function(d) { return d.angle > Math.PI ? "end" : null; })
-                .text(function(d) { return d.label; })
-                .transition()
-                .duration(container.opts.speed)
-                .style("opacity", 1);
-                
+            // if labels are set then show this text
+            if (this.opts.labelPosition) {
+                container.tickUnits.append("text")
+                    .style("opacity", 1e-6)
+                    .attr("x", 8)
+                    .attr("dy", ".35em")
+                    .attr("transform", function(d) { return d.angle > Math.PI ? "rotate(180) translate(-16)" : null; })
+                    .style("text-anchor", function(d) { return d.angle > Math.PI ? "end" : null; })
+                    .text(function(d) { return d.label; })
+                    .transition()
+                    .duration(container.opts.speed)
+                    .style("opacity", 1);
+            } 
 
         },
         addLabels : function() {
@@ -378,19 +380,30 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
 
             // remove all the labels and then start again
             container.arcGroups.selectAll(".label").remove();
-            //  container.chordPaths
-            container.labels = container.arcGroups.append("svg:text")
-                    .attr("class", "label")
-                    .attr("x", 6)
-                    .attr("dy", 17);
-                
-            // add the text paths - atm I'm just adding the value of the group, but with better data integration I will probably use the category name
-            container.labels
-                .append("svg:textPath")
-                // this xlink:href maps the path element onto a target glyph with the matching id
-                .attr("xlink:href", function(d, i) { return "#group" + i; })
-                .text(function(d) { return d.value.toFixed(container.opts.decimalPlaces)} )
-                .attr("startOffset", 5);
+            if (this.opts.labelPosition) {
+               
+                //  container.chordPaths
+                container.labels = container.arcGroups.append("svg:text")
+                        .attr("class", "label")
+                        .attr("dx", function(d) {
+                            if (container.opts.labelPosition) {
+                                return container.opts.labelPosition;
+                            } 
+                            else {
+                                return 0;
+                            }
+                        })
+                        // I'd like this to be configurable
+                        .attr("dy", 17);
+                    
+                // add the text paths - atm I'm just adding the value of the group, but with better data integration I will probably use the category name
+                container.labels
+                    .append("svg:textPath")
+                    // this xlink:href maps the path element onto a target glyph with the matching id
+                    .attr("xlink:href", function(d, i) { return "#group" + i; })
+                    .text(function(d) { return d.value.toFixed(container.opts.decimalPlaces)} )
+                    .attr("startOffset", 5);
+            }
 
         },
         getStepLabel : function(value, step) {
