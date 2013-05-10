@@ -21,7 +21,7 @@ Config = {
 		"area" : 		["x", "y"],
 		"bar" : 		["x", "y"],
 		"chord" : 		["x", "y"],
-		"scatterplot" : ["x", "y"]
+		"scatterplot" : ["x", "y", "category"]
 	},
 	dataScaleX : {
 		"pie" : 		["ordinal"],

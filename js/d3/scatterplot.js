@@ -53,7 +53,8 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             'y' : 'y1',
             'ticksX' : 10,  // tha amount of ticks on the x-axis
             'ticksY' : 5,  // the amount of ticks on the y-axis
-            'children' : undefined
+            'children' : undefined,
+            'type' : 'category'
         },
         'scale' : {
             'x' : 'linear',
