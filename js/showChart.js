@@ -101,7 +101,7 @@ PieChart = {
         //}
         // if it's flat then set the parent to 'undefined'
         if (FormData.data.structure === "flat") {
-            this.settings.dataStructure.children = undefined;
+            this.settings.dataStructure.children = null;
         }
     },
     getStyle : function() {
@@ -267,7 +267,7 @@ AreaChart = {
             y : FormData.data.scale.y
         };
         // set the children to undefined so that the title will show
-        this.settings.dataStructure.children = undefined;
+        this.settings.dataStructure.children = null;
 
     },
     getStyle : function() {
@@ -317,7 +317,7 @@ BarChart = {
             y : FormData.data.scale.y
         };
         // set the children to undefined so that the title will show
-        this.settings.dataStructure.children = undefined;
+        this.settings.dataStructure.children = null;
     },
     getStyle : function() {
         // if the labels are turned off then set the label size to 0
@@ -364,7 +364,7 @@ ChordChart = {
         };
         */
         // set the children to undefined so that the title will show
-        this.settings.dataStructure.children = undefined;
+        this.settings.dataStructure.children = null;
     },
     getStyle : function() {
         // add the header style if there is a vlue for it
