@@ -13,7 +13,7 @@
 // 6. interface options that will hide and show available settings field for each chart
 
 // Known Bugs (that are bugging me)
-// 2. changing from bubble to pack layout doesn't change the colors properly
+// none
 
 
 // Chart Plugins priority:

@@ -117,16 +117,6 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 this.placeOldPackNodes();
                 // place the new nodes
                 this.placeNewPackNodes();
-                // style the circles
-                
-                container.chart.selectAll(".group").selectAll("circle")
-                    .style("stroke", container.opts.colors.group)
-                    .style("fill", container.opts.colors.group)
-                    .style("fill-opacity", container.opts.opacity);
-
-                container.chart.selectAll(".leaf").selectAll("circle")
-                    .style("fill", container.opts.colors.leaf);
-                
             }
         },
         setLayout : function() {
@@ -266,8 +256,6 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
 
             // set the transition of the existing nodes
             container.node.transition()
-                .duration(container.opts.speed)
-                .attr("transform", function(d) { return "translate(" + (d.x + (container.opts.width - container.opts.diameter)/2) + "," + (d.y + (container.opts.height - container.opts.diameter)/2) + ")"; })
                 .attr("class", function(d) {
                     if (d.children) {
                         return "group node";
@@ -275,8 +263,11 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     else {
                         return "leaf node";
                     } 
-                });
-
+                })
+                .transition()
+                .duration(container.opts.speed)
+                .attr("transform", function(d) { return "translate(" + (d.x + (container.opts.width - container.opts.diameter)/2) + "," + (d.y + (container.opts.height - container.opts.diameter)/2) + ")"; });
+               
             // ignore events on the nodes without children
             container.node.filter(function(d) { return !d.children; })
                 .style("pointer-events", "none");
@@ -289,6 +280,9 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     
             container.node.select("circle").transition()
                 .duration(container.opts.speed)
+                .style("stroke", function(d) {if (d.children) {return container.opts.colors.group}})
+                .style("fill", function(d) {if (d.children) {return container.opts.colors.group} else {return container.opts.colors.leaf}})
+                .style("fill-opacity", function(d) {if (d.children) {return container.opts.opacity}})
                 .attr("r", function(d) { return d.r; });
 
             // start fresh with the text nodes
@@ -351,6 +345,9 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 .attr("r", 0)
                 .transition()
                 .duration(container.opts.speed)
+                .style("stroke", function(d) {if (d.children) {return container.opts.colors.group}})
+                .style("fill", function(d) {if (d.children) {return container.opts.colors.group} else {return container.opts.colors.leaf}})
+                .style("fill-opacity", function(d) {if (d.children) {return container.opts.opacity}})
                 .attr("r", function(d) { return d.r; });
 
             // check to see if the labelPosition is set before placing text

@@ -337,11 +337,6 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 total = 0,
                 className,
                 i;
-
-            console.log(this.opts.dataStructure);
-
-            console.log('parsing data');
-            console.log(data);
         
             // recursively loop through each child of the object
             //console.log(data);
@@ -374,13 +369,11 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             
             // if there are children defined in the data, then do the recurse. If not, then loop through the array
             if (children) {
-                console.log('data has children');
                 // this object will hold the current category that is being displayed
                 container.dataCategory = data[container.opts.dataStructure.name];
                 recurse(null, data);
             }
             else {
-                console.log('the data does not have children');
                 // set the container category to 'all'
                 container.dataCategory = 'all';
                 for (i = 0; i < dataLength; i++) {
