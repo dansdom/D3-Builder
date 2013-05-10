@@ -11,6 +11,7 @@
 // 4. there are a bunch of plugin settings (see 2. - also for the chord chart) that are no fully implemented through the interface. Namely the "theme" tab. This needs to be gone through
 // 5. add a nice animation transition for the scales? that would be nice
 // 6. interface options that will hide and show available settings field for each chart
+// !!! on the x,y charts this line - .rangeRoundBands([0, container.width], 0.1); needs to be fixed up and added as an option for the user to set.
 
 // Known Bugs (that are bugging me)
 // none
@@ -187,6 +188,9 @@ ChartBuilder = {
 				break;
 			case "chord" :
 				ChordChart.init();
+				break;
+			case "scatterplot" :
+				ScatterplotChart.init();
 				break;
 			default :
 				break;

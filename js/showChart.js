@@ -378,3 +378,52 @@ ChordChart = {
         this.chartStyle += "text {fill: #" + FormData.theme.labelColor + ";font-size:" + FormData.theme.labelSize + "px;}\n";
     }
 };
+
+// object that builds the "scatterplot" chart
+ScatterplotChart = {
+    init : function() {
+        // get the generic settings
+        this.settings = Settings.getSettings(FormData);
+        // get the specific settings
+        this.getSettings();
+        // get the common style elements
+        this.chartStyle = Settings.getStyle(FormData, "getHeaderPosition");
+        // get the specific style
+        this.getStyle();
+        // build the chart
+        Settings.buildChart("scatterplot", this.settings, this.chartStyle);
+    },
+    getSettings : function() {
+        this.settings.margin = {
+            top : FormData.size.padding,
+            bottom : FormData.size.padding,
+            left : FormData.size.padding,
+            right : FormData.size.padding
+        };
+        this.settings.elements = {
+            'shape' : FormData.colors[0],
+            'line' : FormData.colors[1],
+            'dot' : FormData.colors[2],
+            'x' : FormData.colors[3],
+            'y' : FormData.colors[4]
+        };
+        this.settings.scale = {
+            x : FormData.data.scale.x,
+            y : FormData.data.scale.y
+        };
+        // set the children to undefined so that the title will show
+        this.settings.dataStructure.children = null;
+
+    },
+    getStyle : function() {
+        // if the labels are turned off then set the label size to 0
+        if (!FormData.theme.labelSize) {
+            FormData.theme.labelSize = 0;
+        }
+        this.chartStyle += ".axis path, .axis line, .domain {fill: none;stroke:#" + FormData.theme.borderColor + ";stroke-width:" + FormData.theme.borderSize + "px;shape-rendering: crispEdges;}\n";
+        this.chartStyle += ".line {fill: none;stroke: " + FormData.colors[1] + ";stroke-width: " + FormData.theme.borderSize + "px;}\n";
+        this.chartStyle += ".dot {fill: " + FormData.colors[2] + ";stroke: " + FormData.colors[1] + ";stroke-width: 1px;}\n";
+        this.chartStyle += ".tick {fill:none;stroke:#" + FormData.theme.borderColor + ";stroke-width:" + FormData.theme.borderSize + "px;}\n";
+        this.chartStyle += "text {fill: #" + FormData.theme.labelColor + ";font-size:" + FormData.theme.labelSize + "px;}\n"
+    }
+};

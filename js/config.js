@@ -10,7 +10,8 @@ Config = {
 		"force" : 		["nested"],
 		"area" : 		["quantitative", "flat"],
 		"bar" : 		["quantitative", "flat"],
-		"chord" : 		["matrix"]
+		"chord" : 		["matrix"],
+		"scatterplot" : ["quantitative"]
 	},
 	dataAttributes : {
 		"pie" : 		["name", "value", "children"],
@@ -19,7 +20,8 @@ Config = {
 		"force" : 		["name", "value", "children"],
 		"area" : 		["x", "y"],
 		"bar" : 		["x", "y"],
-		"chord" : 		["x", "y"]
+		"chord" : 		["x", "y"],
+		"scatterplot" : ["x", "y"]
 	},
 	dataScaleX : {
 		"pie" : 		["ordinal"],
@@ -28,7 +30,8 @@ Config = {
 		"force" : 		["ordinal"],
 		"area" : 		["linear", "ordinal"],
 		"bar" : 		["linear", "ordinal"],
-		"chord" : 		["linear"]
+		"chord" : 		["linear"],
+		"scatterplot" : ["linear"]
 	},
 	dataScaleY : {
 		"pie" : 		["linear"],
@@ -37,6 +40,7 @@ Config = {
 		"force" : 		["linear"],
 		"area" : 		["linear"],
 		"bar" : 		["linear"],
-		"chord" : 		["linear"]
+		"chord" : 		["linear"],
+		"scatterplot" : ["linear"]
 	}
 }
