@@ -314,7 +314,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     return d;
                 }
             });
-            console.log(chartData);
+            //console.log(chartData);
             return chartData;
         },
         // resets the zoom on the chart

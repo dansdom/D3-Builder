@@ -25,7 +25,7 @@
 	<link rel="stylesheet" href="css/jPicker-1.1.6.min.css?v=1">
 	<!-- jQuery and HTML5 script so IE knows how to style the html5 elements -->
 	<script src="js/libs/jquery.js"></script>
-	<script src="js/libs/d3.v3.min.js"></script>
+	<script src="js/libs/d3.v3.3.min.js"></script>
 	<script src="js/libs/html5.js"></script>
 </head>
 <body>
@@ -58,7 +58,18 @@
 						<li><input type="button" value="Update Chart Preview" class="btn rounded" id="build-update"></li>
 						<li><input type="button" value="Reset Chart" class="btn rounded" id="build-reset"></li>
 						<li><input type="button" value="Save Changes" class="btn rounded" id="build-save"></li>
-						<li><input type="button" value="Load Saved Chart" class="btn rounded" id="build-load"></li>
+						<li>
+							<input type="button" value="Load Saved Chart" class="btn rounded" id="build-load">
+							<a class="icon-question-sign" name="#load-help" id="build-load-help" style="display:none"></a>
+							<div class="helpBox">
+								<div id="load-help">
+									<div class="helpContent">
+										<h2>No Saved Chart Found</h2>
+										<p>It appears as though there was no chart saved in the browser. This app saves data to a cookie, so you may have cookie's disabled, or cleared your cookie's at some point.</p>
+									</div>
+								</div>
+							</div>
+						</li>
 						<li><input type="submit" value="Generate Chart Code" class="btn rounded" id="build-submit"></li>
 					</ul>
 	    		</nav>
@@ -626,7 +637,7 @@
 							            <input type="text" size="20" name="data-url" id="data-url" placeholder="URL of the data">
 							        </li>
 									<li class="data-source file">
-							          	<label for="data-file">Select Data File <small>(.json, .csv, .tsv)</small></label>
+							          	<label for="data-file">Upload File <small>(.json, .csv, .tsv)</small></label>
 							          	<a class="icon-question-sign" name="#data-file-help">help</a>
 							          	<div class="helpBox">
 							          		<div id="data-file-help">

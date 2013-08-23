@@ -75,13 +75,14 @@ ChartBuilder = {
 			// reset the form first
 			ChartBuilder.resetForm();
 			// load the chart data from the cookie
-			ChartBuilder.getCookie();
-			// build the chart
-			ChartBuilder.setFormValues();
-			// first validate the form
-			$("#chart-settings").validator("validateForm");
-			// once this is done I will show the saved chart
-			//ChartBuilder.buildChart(); - moved to the submit function in Plugins.validator()
+			if (ChartBuilder.getCookie()) {
+				// build the chart
+				ChartBuilder.setFormValues();
+				// first validate the form
+				$("#chart-settings").validator("validateForm");
+				// once this is done I will show the saved chart
+				//ChartBuilder.buildChart(); - moved to the submit function in Plugins.validator()
+			}
 		});
 		
 		$("#build-submit").on("click", function() {
@@ -201,7 +202,18 @@ ChartBuilder = {
 	},
 	getCookie : function() {
 		// returns the cookie
-		FormData = JSON.parse($.cookie("chart_cookie"));
+
+		var cookieData = JSON.parse($.cookie("chart_cookie"));
+		if (cookieData) {
+			FormData = cookieData;
+			return true;
+		}
+		else {
+			//alert('There was no saved chart');
+			// show the help box
+			$("#build-load-help").popup("openBox");
+			return false;
+		}
 	},
 	removeCookie : function() {
 		// deletes the cookie
