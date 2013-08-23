@@ -310,6 +310,4 @@ li.theme-data {display:none}
 
 /* iPhone Retina Display  */
 @media only screen and (-webkit-min-device-pixel-ratio:2),only screen and (min-device-pixel-ratio:2) {
-#header h5 a {background-image:url(img/logo@2x.png);background-size:300px 70px}
-.twitter,.facebook,.email {background-image:url(img/sprite@2x.png);background-size:1000px 600px}
 }

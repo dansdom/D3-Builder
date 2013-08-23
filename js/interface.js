@@ -1,9 +1,6 @@
 // TO DO LIST:
 // 1. I think the data options aren't 100% yet
 // 4. optimise the jQuery selectors. atm they are like a big pile of shit.
-// 10. lots of work to implement the 'theme' options
-// 11. Let users create and save their own colour schemes? maybe save a seperate cookie for each scheme, and then go check them? I'll explore this a little later
-// I may save these colors to the server and then provide them as options on the interface
 
 // Priorities:
 // 2. data parsing from inside each plugin. There needs to be regex that strips out garbage and then parseFloat of those qualitative values on the chart
@@ -19,14 +16,14 @@
 
 
 // Chart Plugins priority:
-// 1. scatterplot
+// 1. Streamgraph
 // 2. difference chart
 // 3. multiple line chart and area (write into current plugins)
 // 3. stacked area and line chart
 // 4. tree layout
 // 5. Hierarchical Edge Bundling
 // 6. node link tree
-// 7. Streamgraph
+
 
 // this object is used to handle the form data on the page
 ChartBuilder = {

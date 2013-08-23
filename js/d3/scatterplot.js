@@ -43,7 +43,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             'line' : 'black',  // the line on the graph - set to null if no line is wanted
             //'area' : 'white',  // I think if there are multiple areas, then I may use the colorRange
             'dot' : '#fdd0a2', // the dots on the line (I may make this a customisable shape though) - set to null if no dot is wanted
-            'dotRadius' : 3.5,  // 0 will show no dots
+            'dotRadius' : 10,  // 0 will show no dots
             'x' : true, //  x-axis - set to null if not wanted - leaving the colors for the stylesheet
             'y' : true //   y-axis - set to null if not wanted - leaving the colors for the stylesheet
         },
@@ -54,7 +54,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             'ticksX' : 10,  // tha amount of ticks on the x-axis
             'ticksY' : 5,  // the amount of ticks on the y-axis
             'children' : undefined,
-            'type' : 'category'
+            'type' : 'colour' // the data category definitions
         },
         'scale' : {
             'x' : 'linear',
@@ -189,7 +189,15 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 .attr("cx", function(d) { return container.xScale(d.x)})
                 .attr("cy", function(d) { return container.yScale(d.y)})
                 .attr("r", container.opts.elements.dotRadius)
-                .style("fill", container.opts.elements.dot)
+                .style("fill", function(d) {
+                    // map the colours to the category if it is set
+                    if (d[container.opts.dataStructure.type]) {
+                        return container.color(d[container.opts.dataStructure.type]);
+                    }
+                    else {
+                        return container.opts.elements.dot;
+                    }
+                })
                 .style("stroke", container.opts.elements.line)
                 .style("stroke-opacity", 1)
                 .style("fill-opacity", 1);
@@ -200,7 +208,15 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 .attr("cx", function(d) { return container.xScale(d.x)})
                 .attr("cy", function(d) { return container.yScale(d.y)})
                 .attr("r", container.opts.elements.dotRadius)
-                .style("fill", container.opts.elements.dot)
+                .style("fill", function(d) {
+                    // map the colours to the category if it is set
+                    if (d[container.opts.dataStructure.type]) {
+                        return container.color(d[container.opts.dataStructure.type]);
+                    }
+                    else {
+                        return container.opts.elements.dot;
+                    }
+                })
                 .style("stroke", container.opts.elements.line)
                 .style("stroke-opacity", 1e-6)
                 .style("fill-opacity", 1e-6)
