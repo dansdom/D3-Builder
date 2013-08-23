@@ -202,13 +202,12 @@ ChartBuilder = {
 	},
 	getCookie : function() {
 		// returns the cookie
-
 		var cookieData = JSON.parse($.cookie("chart_cookie"));
+		
 		if (cookieData) {
 			FormData = cookieData;
 			return true;
-		}
-		else {
+		} else {
 			//alert('There was no saved chart');
 			// show the help box
 			$("#build-load-help").popup("openBox");

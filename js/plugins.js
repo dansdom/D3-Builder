@@ -22,7 +22,7 @@ Plugins = {
     popups : function() {
         // help icon popups
         $(".icon-question-sign").popup({
-            'transparentOpacity' : 30,
+            'transparentOpacity' : 50,
             'boxHeight' : 400,
             'boxWidth' : 500,
             'titleHeight' : 0,
