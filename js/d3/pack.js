@@ -191,6 +191,9 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 .attr("r", function(d) { return d.r; })
                 .style("fill", function(d) { return container.color(d.packageName); }); 
 
+            container.node.select("title")
+                .text(function(d) { return d.className + ": " + container.format(d.value); });
+
             // for existing nodes, select the text and then transition them in
             //check if labelPosition is set yet
             if (container.opts.labelPosition) {
