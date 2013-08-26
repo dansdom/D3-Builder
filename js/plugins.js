@@ -39,8 +39,7 @@ Plugins = {
             activePicker;  // the active picker window box
 
         // math helper function from the jPicker plugin
-        Math.precision = function(value, precision)
-        {
+        Math.precision = function(value, precision) {
             if (precision === undefined) precision = 0;
             return Math.round(value * Math.pow(10, precision)) / Math.pow(10, precision);
         };

@@ -2,6 +2,11 @@
 // 1. I think the data options aren't 100% yet
 // 4. optimise the jQuery selectors. atm they are like a big pile of shit.
 
+// updates: 
+// 1. These plugins need to be updated from their seperate repo: chord, scatterplot, bar and area charts
+// 2. new options for the axis elements for the scatterplot, bar and area charts
+// 3. new tick length option for the chord chart
+
 // Priorities:
 // 2. data parsing from inside each plugin. There needs to be regex that strips out garbage and then parseFloat of those qualitative values on the chart
 // 3. implement the spacing attribute on the force chrt. use it to set the force between tree nodes
