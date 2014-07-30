@@ -357,7 +357,7 @@
 							            <input type="text" size="20" class="small required" name="size-inner-radius" id="size-inner-radius" value="10" placeholder="select chart radius">
 							            <span class="error" title="size-inner-radius"></span>
 							        </li>
-									<li>
+									<li class="size-padding padding">
 							          	<label for="size-padding">Chart Padding</label>
 							          	<a class="icon-question-sign" name="#size-padding-help">help</a>
 							          	<div class="helpBox">
@@ -368,15 +368,81 @@
 							          				<p class="chart-pie">For the Pie chart the padding will push the radius smaller if the outer-radius plus padding is larger than either the width or height setting.</p>
 							          				<p class="chart-pack">This has no affect on the <strong>Pack chart</strong>. To set the spacing between the data points, use the <strong>data spacing</strong> attribute in the chart theme tab.</p>
 							          				<p class="chart-sunburst">The <strong>Sunburst chart</strong> padding has no effect (Although this may be implemented in a future release.).</p>
-							          				<p class="chart-force">The padding has no affect on the <strong>Force chart</strong>. The extent of the chart in relation to the width and height are determined by the data set and the force between each of the chart nodes.</p>
-							          				<p class="chart-area">The <strong>Area chart</strong> padding will determine the space between the chart and the outer edge.</p>
-							          				<p class="chart-bar">The <strong>Bar chart</strong> padding will determine the space between the chart and the outer edge.</p>
+							          				<p class="chart-force">The padding has no affect on the <strong>Force chart</strong>. The extent of the chart in relation to the width and height are determined by the data set and the force between each of the chart nodes.</p>							  
 							          				<p class="chart-chord">The <strong>Chord chart</strong> padding will determine the space between the chart and the outer edge.</p>
 							          			</div>
 							          		</div>
 							          	</div>
 							            <input type="text" size="20" class="small required" name="size-padding" id="size-padding" value="20" placeholder="select chart padding">
 							            <span class="error" title="size-padding"></span>
+							        </li>
+							        <li class="size-padding padding-top">
+							        	<label for="size-padding-top">Chart Padding Top</label>
+							          	<a class="icon-question-sign" name="#size-padding-top-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="size-padding-top-help">
+							          			<div class="helpContent">
+							          				<h2>Chart Top Padding</h2>
+							          				<p>The padding on the top of the chart.</p>
+							          				<p class="chart-area">The <strong>Area chart</strong> </p>
+							          				<p class="chart-bar">The <strong>Bar chart</strong> </p>
+							          				<p class="chart-scatterplot">The <strong>Scatterplot chart</strong> </p>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" class="small required" name="size-padding-top" id="size-padding-top" value="20" placeholder="select chart top padding">
+							            <span class="error" title="size-padding-top"></span>
+							        </li>
+							        <li class="size-padding padding-bottom">
+							        	<label for="size-padding-bottom">Chart Padding Bottom</label>
+							          	<a class="icon-question-sign" name="#size-padding-bottom-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="size-padding-bottom-help">
+							          			<div class="helpContent">
+							          				<h2>Chart Bottom Padding</h2>
+							          				<p>The padding on the bottom of the chart.</p>
+							          				<p class="chart-area">The <strong>Area chart</strong> </p>
+							          				<p class="chart-bar">The <strong>Bar chart</strong> </p>
+							          				<p class="chart-scatterplot">The <strong>Scatterplot chart</strong> </p>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" class="small required" name="size-padding-bottom" id="size-padding-bottom" value="20" placeholder="select chart bottom padding">
+							            <span class="error" title="size-padding-bottom"></span>
+							        </li>
+							        <li class="size-padding padding-left">
+							        	<label for="size-padding-left">Chart Padding Left</label>
+							          	<a class="icon-question-sign" name="#size-padding-left-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="size-padding-left-help">
+							          			<div class="helpContent">
+							          				<h2>Chart Left Padding</h2>
+							          				<p>The padding on the left of the chart.</p>
+							          				<p class="chart-area">The <strong>Area chart</strong> </p>
+							          				<p class="chart-bar">The <strong>Bar chart</strong> </p>
+							          				<p class="chart-scatterplot">The <strong>Scatterplot chart</strong> </p>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" class="small required" name="size-padding-left" id="size-padding-left" value="20" placeholder="select chart left padding">
+							            <span class="error" title="size-padding-left"></span>
+							        </li>
+							        <li class="size-padding padding-right">
+							        	<label for="size-padding-right">Chart Padding Right</label>
+							          	<a class="icon-question-sign" name="#size-padding-right-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="size-padding-right-help">
+							          			<div class="helpContent">
+							          				<h2>Chart Right Padding</h2>
+							          				<p>The padding on the right of the chart.</p>
+							          				<p class="chart-area">The <strong>Area chart</strong> </p>
+							          				<p class="chart-bar">The <strong>Bar chart</strong> </p>
+							          				<p class="chart-scatterplot">The <strong>Scatterplot chart</strong> </p>
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" class="small required" name="size-padding-right" id="size-padding-right" value="20" placeholder="select chart left padding">
+							            <span class="error" title="size-padding-left"></span>
 							        </li>
 								</ul>
 							</fieldset>
@@ -775,6 +841,19 @@
 							        		</div>
 							        	</div>
 							        	<input type="text" size="20" name="data-category" id="data-category" placeholder="select the data categories" value="type">
+							        </li>
+							        <li class="data-attributes key">
+							          	<label for="data-key">Data Key</label>
+							          	<a class="icon-question-sign" name="#data-key-help">help</a>
+							          	<div class="helpBox">
+							          		<div id="data-key-help">
+							          			<div class="helpContent">
+							          				<h2>Data Key</h2>
+							          				<p>If a chart has more than one set of data, this is the category key for each dataset</p>							          				
+							          			</div>
+							          		</div>
+							          	</div>
+							            <input type="text" size="20" name="data-key" id="data-key" placeholder="select the name of the data category key" value="colour">
 							        </li>
 							        <li class="data-attributes x">
 							          	<label for="data-x">Data X</label>

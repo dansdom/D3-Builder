@@ -1,0 +1,24 @@
+{
+  "name": "D3 Builder",
+  "description": "chart building tool for D3 layouts",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dansdom/D3-Builder"
+  },
+  "contributors": [
+    {
+      "name": "Daniel Thomson",
+      "email": "dansdom@gmail.com"
+    }
+  ],
+  "devDependencies": {
+    "grunt": "latest",
+    "grunt-contrib-jshint": "^0.8.0",
+    "grunt-contrib-uglify": "^0.4.0",
+    "grunt-contrib-watch": "^0.5.3",
+    "grunt-contrib-concat": "^0.3.0",
+    "matchdep": "^0.3.0",
+    "grunt-contrib-qunit": "^0.4.0"
+  }
+}

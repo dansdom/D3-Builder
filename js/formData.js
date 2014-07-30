@@ -1,6 +1,6 @@
 // form data object
 // this is the default form object
-FormDefault = {
+var FormDefault = {
     type : {
         current : null,  // this stores the currently displayed chart type to handle the transitions
         primary : 0,
@@ -11,7 +11,11 @@ FormDefault = {
         width : 0,
         outerRadius : 0,
         innerRadius : 0,
-        padding : 0
+        padding : 0,
+        paddingTop : 0,
+        paddingBottom : 0,
+        paddingLeft : 0,
+        paddingRight : 0
     },
     colors : [], // color array
     data : {
@@ -26,6 +30,7 @@ FormDefault = {
             name : "name",
             value : "size",
             children : "children",
+            key : "colour",
             x : "x",
             y : "y",
             ticksX : "auto",
@@ -53,7 +58,7 @@ FormDefault = {
         borderColor : "rgb(0,0,0)"
     },
     events : {}
-}
+};
 
 
 // this objects holds the entire form data object
@@ -68,7 +73,11 @@ FormData = {
         width : 0,
         outerRadius : 0,
         innerRadius : 0,
-        padding : 0
+        padding : 0,
+        paddingTop : 0,
+        paddingBottom : 0,
+        paddingLeft : 0,
+        paddingRight : 0
     },
     colors : [], // color array
     data : {
@@ -83,6 +92,7 @@ FormData = {
             name : "name",
             value : "size",
             children : "children",
+            key : "colour",
             x : "x",
             y : "y",
             ticksX : "auto",

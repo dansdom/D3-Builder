@@ -1,8 +1,8 @@
 // extend code
 // https://github.com/dansdom/extend
-var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=arguments.length,j=!1,d={hasOwn:Object.prototype.hasOwnProperty,class2type:{},type:function(a){return null==a?String(a):d.class2type[Object.prototype.toString.call(a)]||"object"},isPlainObject:function(a){if(!a||"object"!==d.type(a)||a.nodeType||d.isWindow(a))return!1;try{if(a.constructor&&!d.hasOwn.call(a,"constructor")&&!d.hasOwn.call(a.constructor.prototype,"isPrototypeOf"))return!1}catch(c){return!1}for(var b in a);return void 0===b||d.hasOwn.call(a, b)},isArray:Array.isArray||function(a){return"array"===d.type(a)},isFunction:function(a){return"function"===d.type(a)},isWindow:function(a){return null!=a&&a==a.window}};"boolean"===typeof c&&(j=c,c=arguments[1]||{},f=2);"object"!==typeof c&&!d.isFunction(c)&&(c={});k===f&&(c=this,--f);for(;f<k;f++)if(null!=(h=arguments[f]))for(g in h)b=c[g],e=h[g],c!==e&&(j&&e&&(d.isPlainObject(e)||(i=d.isArray(e)))?(i?(i=!1,b=b&&d.isArray(b)?b:[]):b=b&&d.isPlainObject(b)?b:{},c[g]=Extend(j,b,e)):void 0!==e&&(c[g]= e));return c};
+var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=arguments.length,j=!1,d={hasOwn:Object.prototype.hasOwnProperty,class2type:{},type:function(a){return null==a?String(a):d.class2type[Object.prototype.toString.call(a)]||"object"},isPlainObject:function(a){if(!a||"object"!==d.type(a)||a.nodeType||d.isWindow(a))return!1;try{if(a.constructor&&!d.hasOwn.call(a,"constructor")&&!d.hasOwn.call(a.constructor.prototype,"isPrototypeOf"))return!1}catch(c){return!1}for(var b in a);return void 0===b||d.hasOwn.call(a, b)},isArray:Array.isArray||function(a){return"array"===d.type(a)},isFunction:function(a){return"function"===d.type(a)},isWindow:function(a){return null!=a&&a==a.window}};"boolean"===typeof c&&(j=c,c=arguments[1]||{},f=2);"object"!==typeof c&&!d.isFunction(c)&&(c={});k===f&&(c=this,--f);for(;f<k;f++)if(null!=(h=arguments[f]))for(g in h)b=c[g],e=h[g],c!==e&&(j&&e&&(d.isPlainObject(e)||(i=d.isArray(e)))?(i?(i=!1,b=b&&d.isArray(b)?b:[]):b=b&&d.isPlainObject(b)?b:{},c[g]=extend(j,b,e)):void 0!==e&&(c[g]= e));return c};
 
-// D3 plugin template
+// D3 Scatterplot Plugin
 (function (d3) {
     // this ones for you 'uncle' Doug!
     'use strict';
@@ -10,18 +10,15 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
     // Plugin namespace definition
     d3.Scatterplot = function (options, element, callback)
     {
-        // wrap the element in the jQuery object
         this.el = element;
-
         // this is the namespace for all bound event handlers in the plugin
         this.namespace = "scatterplot";
         // extend the settings object with the options, make a 'deep' copy of the object using an empty 'holding' object
         // using the extend code that I ripped out of jQuery
-        this.opts = Extend(true, {}, d3.Scatterplot.settings, options);
+        this.opts = extend(true, {}, d3.Scatterplot.settings, options);
         this.init();
         // run the callback function if it is defined
-        if (typeof callback === "function")
-        {
+        if (typeof callback === "function") {
             callback.call();
         }
     };
@@ -35,26 +32,43 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         'data' : null,  // I'll need to figure out how I want to present data options to the user
         'dataUrl' : null,  // this is a url for a resource
         'dataType' : 'json',
-        'labelPosition' : false,
-        'colorRange' : [], // instead of defining a color array, I will set a color scale and then let the user overwrite it
+        'colorRange' : ['yellow', 'blue', 'teal'], // instead of defining a color array, I will set a color scale and then let the user overwrite it
         // maybe only if there is one data set???
         'elements' : {
-            'shape' : '#fd8d3c',  // I'll have more than just circles here - set to null if no shape is wanted
-            'line' : 'black',  // the line on the graph - set to null if no line is wanted
-            //'area' : 'white',  // I think if there are multiple areas, then I may use the colorRange
-            'dot' : '#fdd0a2', // the dots on the line (I may make this a customisable shape though) - set to null if no dot is wanted
-            'dotRadius' : 10,  // 0 will show no dots
-            'x' : true, //  x-axis - set to null if not wanted - leaving the colors for the stylesheet
-            'y' : true //   y-axis - set to null if not wanted - leaving the colors for the stylesheet
+            'dotRadius' : 3.5,  // 0 will show no dots
+            'xAxis' : {
+                'visible' : true,
+                'tickSize' : 5,
+                'label' : true,
+                'labelOffsetX' : 0,
+                'labelOffsetY' : 40,
+                'labelRotate' : 0,
+                'rangeMin' : null, // can set a value for the minimum range on the x-axis
+                'rangeMax' : null,  // can set a value for the maximum range on the x-axis
+                'domainMin' : null, // will accept 'data-min'. can maually set the minimum value of the chart's domain
+                'domainMax' : null,  // can maually set the maximum value of the chart's domain
+                'domainCustom' : null // can specify a custom domain for the X axis
+            },
+            'yAxis' : {
+                'visible' : true,
+                'tickSize' : 10,
+                'label' : true,
+                'labelOffsetX' : -40,
+                'labelOffsetY' : 0,
+                'labelRotate' : -90,
+                'rangeMin' : null, // can set a value for the minimum range on the y-axis
+                'rangeMax' : null,  // can set a value for the maximum range on the y-axis
+                'domainMin' : null, // will accept 'data-min'. can maually set the minimum value of the chart's domain
+                'domainMax' : null,  // can maually set the maximum value of the chart's domain
+                'domainCustom' : null // can specify a custom domain for the Y axis
+            }
         },
-        'fontSize' : 12,
         'dataStructure' : {
             'x' : 'x1',  // this value may end up being an array so I can support multiple data sets
             'y' : 'y1',
-            'ticksX' : 10,  // tha amount of ticks on the x-axis
-            'ticksY' : 5,  // the amount of ticks on the y-axis
-            'children' : undefined,
-            'type' : 'colour' // the data category definitions
+            'key' : 'key',
+            'ticksX' : 2,  // tha amount of ticks on the x-axis
+            'ticksY' : 2,  // the amount of ticks on the y-axis
         },
         'scale' : {
             'x' : 'linear',
@@ -94,24 +108,24 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             this.setLayout();
             // set the chart title
             this.setTitle();
-
-            // add the x and y axis to the chart
-            this.addAxis();
             // add the elements to the chart
             this.addElements();
-            
+            // add the x and y axis to the chart
+            this.addAxis();
         },
         setLayout : function() {
             var container = this;
 
             // define the svg element
             if (!container.svg) {
-                container.svg = d3.select(container.el).append("svg")      
+                container.svg = d3.select(container.el).append("svg");     
             }
             container.svg
                 .datum(container.data)
-                .attr("width", container.width + container.margin.left + container.margin.right)
-                .attr("height", container.height + container.margin.top + container.margin.bottom);
+                .attr({
+                    "width" : container.width + container.margin.left + container.margin.right,
+                    "height" : container.height + container.margin.top + container.margin.bottom
+                });
 
             // define the chart element
             if (!container.chart) {
@@ -119,121 +133,254 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     
             }
             container.chart
-                .attr("class", "chart")
-                .attr("transform", "translate(" + container.margin.left + "," + container.margin.top + ")");
+                .attr({
+                    "class" : "chart",
+                    "transform" : "translate(" + container.margin.left + "," + container.margin.top + ")"
+                });
         },
         setTitle : function() {
             var container = this;
 
-            // ####### CHART TITLE #######
             if (container.opts.chartName) {
                 if (!container.chartName) {
                     container.chartName = container.chart.append("g")
                         .attr("class", "chartName")
                         .append("text");
-                        console.log('adding chart name');
+                        //console.log('adding chart name');
                 }
                 container.chartName = container.chart.select(".chartName").select("text")
-                    .text(function() {
-                        var chartTitle;
-                        if (container.opts.dataStructure.children) {
-                            chartTitle = container.dataCategory;
-                            console.log('there is children');
-                        }
-                        else {
-                            chartTitle = container.opts.chartName;
-                            console.log('there is no children');
-                        }
-                        console.log(chartTitle);
-                        return chartTitle;
-                    });
+                    .text(container.opts.chartName);
             }
         },
         addAxis : function() {
-            var container = this;
+            var container = this,
+                elementOpts = container.opts.elements;
 
-            // define the X and Y axis
-            if (!container.X) {
-                container.X = container.chart.append("g")
+            // if we are building an x-axis
+            if (elementOpts.xAxis.visible) {
+                // look to see if it is already defined
+                if (!container.X) {
+                    container.X = container.chart.append("g");   
+                }
+                // style the x-axis
+                container.X
+                    .attr({
+                        "class" : "x-axis",
+                        "transform" : "translate(0," + container.height + ")"
+                    })
+                    .style("shape-rendering", "crispEdges")
+                    .call(container.xAxis);
+                // add the labels
+                container.addXLabels();
             }
-            container.X
-                .attr("class", "x-axis")
-                .attr("transform", "translate(0," + container.height + ")")
-                //.style("fill", "none")  // I'm thinking about using the css file for these class styles. Will sleep on it
-                //.style("stroke", "#000")
-                .style("shape-rendering", "crispEdges")
-                .call(container.xAxis);
+            // else if the x-axis exists then remove it
+            else if (container.X) {
+                container.X.remove();
+                // I have to set this to undefined so that I can test for it again
+                container.X = undefined;
+                container.XLabel = undefined;
+            }
 
-            if (!container.Y) {
-                container.Y = container.chart.append("g")
+            // if we are building a y-axis
+            if (elementOpts.yAxis.visible) {
+                // look to see if it is already defined
+                if (!container.Y) {
+                    container.Y = container.chart.append("g");
+                }
+                container.Y
+                    .attr("class", "y-axis")
+                    .style("shape-rendering", "crispEdges")
+                    .call(container.yAxis);
+                // add the labels
+                container.addYLabels();
             }
-            container.Y
-                .attr("class", "y-axis")
-                //.style("fill", "none")
-                //.style("stroke", "#000")
-                .style("shape-rendering", "crispEdges")
-                .call(container.yAxis);
+            // else if the -axis exists then remove it
+            else if (container.Y) {
+                container.Y.remove();
+                container.Y = undefined;
+                container.YLabel = undefined;
+            }
+        },
+        addXLabels : function() {
+            var container = this,
+                xOpts = container.opts.elements.xAxis;
+
+            if (xOpts.label) {
+                if (!container.XLabel) {
+                    container.XLabel = container.X.append("text");
+                }
+                // add the settings to the label
+                container.XLabel
+                    .attr({
+                        "dx" : function() {
+                            var chartLength = container.width,
+                                labelPosition = (chartLength/2) + xOpts.labelOffsetX;
+                            return labelPosition;
+                        },
+                        "dy" : xOpts.labelOffsetY,
+                        "transform" : "rotate(" + xOpts.labelRotate + ")"
+                    })
+                    .style("shape-rendering", "crispEdges")
+                    .text(container.opts.dataStructure.x);
+            }
+            // else remove the label
+            else {
+                if (container.XLabel) {
+                    container.XLabel.remove();
+                    container.XLabel = undefined;
+                }
+            }
+        },
+        addYLabels : function() {
+            var container = this,
+                yOpts = container.opts.elements.yAxis;
+
+            if (yOpts.label) {
+                if (!container.YLabel) {
+                    container.YLabel = container.Y.append("text");
+                }
+                container.YLabel
+                    .attr({
+                        "dy" : yOpts.labelOffsetX,
+                        // note, this is tricky because of the rotation it is actually the "dx" value that gives the vertical positon and not the "dy" value
+                        "dx" : function() {
+                            var chartHeight = container.height,
+                                labelPosition = (chartHeight/2) + yOpts.labelOffsetY;
+                            return -labelPosition;
+                        },
+                        "transform" : "rotate(" + yOpts.labelRotate + ")"
+                    })
+                    .style("shape-rendering", "crispEdges")
+                    .text(container.opts.dataStructure.y);
+            }
+            // else remove the label
+            else {
+                if (container.YLabel) {
+                    container.YLabel.remove();
+                    container.YLabel = undefined;
+                }
+            }
         },
         addElements : function() {
-            var container = this;
-                
+            var container = this,
+                elements = container.opts.elements,
+                dataStructure = container.opts.dataStructure,
+                currentGroups,
+                newGroups,
+                oldGroups;
+
+            //console.log(container.dataLayers);
+            container.groups = container.chart.selectAll(".data-group")
+                .data(container.dataLayers);
+            currentGroups = container.chart.selectAll(".data-group");
+            container.updateCurrentGroups(currentGroups);
+            
+            // add the new data
+            newGroups = container.groups.enter()
+                .append("g")
+                .attr("class", function(d) { return "data-group " + d.key; });
+            container.addNewGroups(newGroups);
+
+            // remove the old data
+            oldGroups = container.groups.exit()
+                .remove();
+        },
+        // updates the current groups on the chart
+        updateCurrentGroups : function(groups) {
+            var container = this,
+                currentGroup;
+
+            groups.each(function(d, i) {
+                currentGroup = d3.select(this);
+                currentGroup.attr("class", function(d) { return "data-group " + d.key; });
+                container.updateGroup(currentGroup, d.values, i);
+            });
+        },
+        // adds new groups to the chart
+        addNewGroups : function(groups) {
+            var container = this,
+                currentGroup;
+
+                groups.each(function(d, i) {
+                    currentGroup = d3.select(this);
+                    container.updateGroup(currentGroup, d.values, i);
+                });
+        },
+        updateGroup : function(group, d, i) {
+            var container = this,
+                elements = container.opts.elements,
+                dataStructure = container.opts.dataStructure,
+                currentCircles,
+                currentSquares;
+
             // get the dots on the line
-            container.circle = container.chart.selectAll(".dot")
-                //.data(container.data.filter(function(d) { return d[container.opts.dataStructure.y]; }))
-                .data(container.data);
+            currentCircles = group.selectAll(".dot")
+                .data(d);
 
             // current circles
-            container.circle
-                .transition()
-                .duration(container.opts.speed)
-                .attr("cx", function(d) { return container.xScale(d.x)})
-                .attr("cy", function(d) { return container.yScale(d.y)})
-                .attr("r", container.opts.elements.dotRadius)
-                .style("fill", function(d) {
-                    // map the colours to the category if it is set
-                    if (d[container.opts.dataStructure.type]) {
-                        return container.color(d[container.opts.dataStructure.type]);
-                    }
-                    else {
-                        return container.opts.elements.dot;
-                    }
+            currentCircles
+                .style({
+                    "stroke-opacity" : 1e-6,
+                    "fill-opacity" : 1e-6
                 })
-                .style("stroke", container.opts.elements.line)
-                .style("stroke-opacity", 1)
-                .style("fill-opacity", 1);
+                .attr({
+                    "cx" : function(d) { return container.xScale(d.x); }, 
+                    "cy" : function(d) { return container.yScale(d.y); } 
+                })
+                .transition()
+              .delay(500)
+                .duration(500)
+                .attr("r", elements.dotRadius)
+                .style({
+                    "fill" : container.opts.colorRange[i],
+                    "stroke" : container.opts.colorRange[i],
+                    "stroke-opacity" : function(d) {
+                        if (d.y > 0) { return 1; } else { return 0; }
+                    },
+                    "fill-opacity" : function(d) {
+                        if (d.y > 0) { return 1; } else { return 0; }
+                    }
+                });
 
             // add the new dots
-            container.circle.enter().append("circle")
-                .attr("class", "dot")
-                .attr("cx", function(d) { return container.xScale(d.x)})
-                .attr("cy", function(d) { return container.yScale(d.y)})
-                .attr("r", container.opts.elements.dotRadius)
-                .style("fill", function(d) {
-                    // map the colours to the category if it is set
-                    if (d[container.opts.dataStructure.type]) {
-                        return container.color(d[container.opts.dataStructure.type]);
-                    }
-                    else {
-                        return container.opts.elements.dot;
-                    }
+            currentCircles.enter().append("circle")
+                .attr({
+                    "class" : "dot",
+                    "cx" : function(d) { return container.xScale(d.x); }, 
+                    "cy" : function(d) { return container.yScale(d.y); },
+                    "r" : elements.dotRadius
                 })
-                .style("stroke", container.opts.elements.line)
-                .style("stroke-opacity", 1e-6)
-                .style("fill-opacity", 1e-6)
-            // define the transition of the new circles
-              .transition()
-                .duration(container.opts.speed)
-                .attr("cx", function(d) { return container.xScale(d.x)})
-                .attr("cy", function(d) { return container.yScale(d.y)})
-                .style("stroke-opacity", 1)
-                .style("fill-opacity", 1);
+                .style({
+                    "fill" : container.opts.colorRange[i],
+                    "stroke" : container.opts.colorRange[i],
+                    "stroke-opacity" : 1e-6,
+                    "fill-opacity" : 1e-6
+                })
+                // define the transition of the new circles
+                .transition()
+              .delay(500)
+                .duration(500)
+                .attr({
+                    "cx" : function(d) { return container.xScale(d.x); }, 
+                    "cy" : function(d) { return container.yScale(d.y); } 
+                })
+                .style({
+                    "stroke-opacity" : function(d) {
+                        if (d.y > 0) { return 1; } else { return 0; }
+                    },
+                    "fill-opacity" : function(d) {
+                        if (d.y > 0) { return 1; } else { return 0; }
+                    }
+                });
 
             // remove the old ones
-            container.circle.exit()
-              .transition()
-                .duration(container.opts.speed)
-                .style("stroke-opacity", 1e-6)
-                .style("fill-opacity", 1e-6)
+            currentCircles.exit()
+                .transition()
+                .duration(500)
+                .style({
+                    "stroke-opacity" : 1e-6,
+                    "fill-opacity" : 1e-6
+                })
                 .remove();
         },
         isScaleNumeric : function(scale) {
@@ -259,25 +406,125 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             }
         },
         parseData : function(data) {
-            // I may want to flatten out nested data here. not sure yet
             // if the scale is ordinal, I have to put in an opening value so that I can push the data across the chart
             // the first thing I have to do here is make sure the "value" field is numeric.
             var container = this,
                 scaleX = container.opts.scale.x,
                 scaleY = container.opts.scale.y,
-                dataLength = data.length;
+                dataLength = data.length,
+                i, j;
 
             if (container.isScaleNumeric(scaleX)) {
-                for (var i = 0; i < dataLength; i++) {
+                for (i = 0; i < dataLength; i++) {
                     // parse the x scale
                     data[i][container.opts.dataStructure.x] = parseFloat(data[i][container.opts.dataStructure.x]);
                 }
             }
 
             if (container.isScaleNumeric(scaleY)) {
-                for (var j = 0; j < dataLength; j++) {
+                for (j = 0; j < dataLength; j++) {
                     // parse the y scale
                     data[j][container.opts.dataStructure.y] = parseFloat(data[j][container.opts.dataStructure.y]);
+                }
+            }
+
+            // if there is a date range then parse the data as a date
+            if (container.opts.scale.x === "date") {
+                for (i = 0; i < dataLength; i++) {
+                    data[i][container.opts.dataStructure.x] = d3.time.format(container.opts.dateFormat).parse(data[i][container.opts.dataStructure.x]);
+                }
+            }
+            if (container.opts.scale.y === "date") {
+                for (j = 0; j < dataLength; j++) {
+                    data[j][container.opts.dataStructure.y] = d3.time.format(container.opts.dateFormat).parse(data[j][container.opts.dataStructure.y]);
+                }
+            }
+
+            
+            // define the stack layout
+            if (!container.stack) {
+                container.stack = d3.layout.stack()
+                    //.offset('zero')
+                    .values(function(d) { return d.values; })
+                    .x(function(d) { return d[container.opts.dataStructure.x]; })
+                    .y(function(d) { return d[container.opts.dataStructure.y]; });
+            }
+
+            if (!container.nest) {
+                container.nest = d3.nest()
+                    .key(function(d) { return d[container.opts.dataStructure.key]; });
+            }
+
+            //console.log(container.nest);
+            var nestedData = container.nest.entries(data);
+            
+            // if the key is undefined then set it to 'none'
+            if (nestedData.length === 1) {
+                if (nestedData[0].key === 'undefined') {
+                    nestedData[0].key = 'none';
+                    for (var i = 0; i < nestedData[0].values.length; i++) {
+                        nestedData[0].values[i][container.opts.dataStructure.key] = 'none';
+                    }
+                }
+            }
+            //console.log(nestedData);
+            // find any missing data and add a zero value for it
+            container.dataNest = container.checkMissingValues(nestedData);
+            container.dataLayers = container.stack(container.dataNest);
+            //console.log(container.dataLayers);
+
+            return data;
+        },
+        // check for any missing values in the data set
+        checkMissingValues : function(data) {
+            var container = this,
+                layer,
+                layerValue,
+                layerX,
+                i, j;
+
+            function checkGroups(pointX) {
+                var layer,
+                    i, j,
+                    hasPointX,
+                    emptyDataPoint;
+               
+                for (i = 0; i < data.length; i++) {
+                    layer = data[i];
+                    //console.log(layer);
+                    hasPointX = false;
+                    for (j = 0; j < layer.values.length; j++) {
+                        //console.log(layer.values[j]);
+                        //console.log('point x: ' + pointX);
+                        if (layer.values[j][container.opts.dataStructure.x] === pointX) {
+                            hasPointX = true;
+                        }
+                    }
+                    if (!hasPointX) {
+                        emptyDataPoint = {};
+                        emptyDataPoint[container.opts.dataStructure.x] = pointX;
+                        emptyDataPoint[container.opts.dataStructure.y] = 0;
+                        emptyDataPoint[container.opts.dataStructure.key] = data[i].key;
+                        data[i].values.push(emptyDataPoint);
+                    }
+                }
+            }
+
+            for (i = 0; i < data.length; i++) {
+                layer = data[i];
+                for (j = 0; j < layer.values.length; j++) {
+                    layerValue = layer.values[j];
+                    //console.log(layerValue);
+                    layerX = layerValue[container.opts.dataStructure.x];
+                    // check each data group for this x value
+                    checkGroups(layerX);
+                }
+            }
+
+            // re-order each data layer
+            for (i = 0; i < data.length; i++) {
+                if (container.isScaleNumeric(container.opts.scale.x)) {
+                    data[i].values.sort(function(a, b) { return d3.ascending(a[container.opts.dataStructure.x], b[container.opts.dataStructure.x]) });
                 }
             }
 
@@ -286,68 +533,103 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         // need to do some thinking around these next 2 functions
         // NOTE: there is SOO much to do in this function. definately will have to go back and make the scales more flexible
         setScale : function() {
-            var container = this;
+            var container = this,
+                elements = container.opts.elements,
+                xStructure = container.opts.dataStructure.x,
+                yStructure = container.opts.dataStructure.y,
+                xScaleOpts = container.opts.scale.x,
+                yScaleOpts = container.opts.scale.y,
+                xRangeMin = elements.xAxis.rangeMin || 0,
+                yRangeMin = elements.yAxis.rangeMin || 0,
+                xRangeMax = elements.xAxis.rangeMax || container.width,
+                yRangeMax = elements.yAxis.rangeMax || container.height,
+                xDomainMin = elements.xAxis.domainMin || 0,
+                xDomainMax = elements.xAxis.domainMax || d3.max(container.data, function(d) { return d[xStructure]; }) || 0,
+                yDomainMin = elements.yAxis.domainMin || 0,
+                yDomainMax = elements.yAxis.domainMax || d3.max(container.data, function(d) { return d[yStructure]; }) || 0;
+             
+            if (xDomainMin === 'data-min') {
+                xDomainMin = d3.min(container.data, function(d) { return d[xStructure]; });
+            }
+
+            if (yDomainMin === 'data-min') {
+                yDomainMin = d3.min(container.data, function(d) { return d[yStructure]; });
+            }  
 
             // set the X scale
-            container.xScale = d3.scale[container.opts.scale.x]()
+            if (xScaleOpts === "date") {
+                container.xScale = d3.time.scale();
+                container.xScale
+                    .domain(d3.extent(container.data, function(d) { return d[xStructure]; }))
+                    .range([xRangeMin, xRangeMax]);
+            }
+            else {
+                container.xScale = d3.scale[xScaleOpts]();
+            }
 
-            if (container.opts.scale.x === "linear") {
+            // set the Domain and range for the X axis
+            if (xScaleOpts === "linear") {
                 // setting the X scale domain to go from the min value to the max value of the data.x set
                 // if multiple areas on the chart, I will have to check all data sets before settings the domain
                 container.xScale
-                    .domain([
-                        d3.min(container.data, function(d) { return d[container.opts.dataStructure.x]; }),
-                        d3.max(container.data, function(d) { return d[container.opts.dataStructure.x]; })
-                    ])
+                    .domain([xDomainMin, xDomainMax])
                     // set the range to go from 0 to the width of the chart
-                    .range([0, container.width]);
+                    .range([xRangeMin, xRangeMax]);
             }            
-            else if (container.opts.scale.x === "ordinal") {
+            else if (xScaleOpts === "ordinal") {
                 container.xScale
-                    .domain(container.data.map(function(d) { return d[container.opts.dataStructure.x]; }))
-                    .rangeRoundBands([0, container.width], 0.1);
+                    .rangeRoundBands([xRangeMin, xRangeMax], 0.1);
+
+                // if the domain is custom and it's an array    
+                if (elements.xAxis.domainCustom && Array.isArray(elements.xAxis.domainCustom)) {
+                    container.xScale.domain(elements.xAxis.domainCustom);
+                } else {
+                    container.xScale.domain(container.data.map(function(d) { return d[xStructure]; }));
+                }
             }
             // hopefully I can fit into one of the two current treatments
-            else if (container.opts.scale.x === "pow") {
+            else if (xScaleOpts === "pow") {
             }
 
 
             // if the scale is ordinal then add the rangeBounds - e.g.: .rangeRoundBands([0, width], .1);  (http://bl.ocks.org/3885304)
-            container.yScale = d3.scale[container.opts.scale.y]()
-                // setting the Y scale domain to go from 0 to the max value of the data.y set
-            if (container.opts.scale.y === "linear") {
+            if (yScaleOpts === "date") {
+                container.yScale = d3.time.scale();
                 container.yScale
-                    .domain([
-                        d3.min(container.data, function(d) { return d[container.opts.dataStructure.y]; }),
-                        d3.max(container.data, function(d) { return d[container.opts.dataStructure.y]; })
-                    ])
+                    .domain(d3.extent(container.data, function(d) { return d[yStructure]; }))
+                    .range([yRangeMax, yRangeMin]);
+            } else {
+                container.yScale = d3.scale[container.opts.scale.y]();
+            }
+            console.log(yDomainMin);
+            // set the Domain and range for the Y axis
+            if (yScaleOpts === "linear") {
+                container.yScale
+                    .domain([yDomainMin, yDomainMax])
                     // set the range to go from 0 to the height of the chart
-                    .range([container.height, 0]);
-            }            
-            else if (container.opts.scale.y === "ordinal") {
+                    .range([yRangeMax, yRangeMin]);
+            } else if (yScaleOpts === "ordinal") {  // ###### more thought needs to be put into whether this  should even be here ######
                 container.yScale
-                    .domain([
-                        d3.min(container.data, function(d) { return d[container.opts.dataStructure.y]; }), 
-                        d3.max(container.data, function(d) { return d[container.opts.dataStructure.y]; } )])
-                    .range([container.height, 0]);
+                    .domain([yDomainMin, yDomainMax])
+                    .range([yRangeMax, yRangeMin]);
             }
             // hopefully I can fit into one of the two current treatments
-            else if (container.opts.scale.y === "pow") {
+            else if (yScaleOpts === "pow") {
             }
         },
         setAxis : function() {
-
             var container = this;
             // need to add tick options here
-
-            this.xAxis = d3.svg.axis()
-                .scale(this.xScale)
+            container.xAxis = d3.svg.axis()
+                .scale(container.xScale)
                 .ticks(container.opts.dataStructure.ticksX)
+                .tickSize(container.opts.elements.xAxis.tickSize)
                 .orient("bottom");
 
-            this.yAxis = d3.svg.axis()
-                .scale(this.yScale)
+            container.yAxis = d3.svg.axis()
+                .scale(container.yScale)
                 .ticks(container.opts.dataStructure.ticksY)
+                .tickSize(container.opts.elements.yAxis.tickSize)
                 .orient("left");
         },
         // updates the data set for the chart
@@ -355,7 +637,7 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         updateData : function(data) {
             var container = this;
 
-            //container.opts.dataUrl = data;
+            container.opts.dataUrl = data;
             this.getData();
         },
         // gets data from a JSON request
@@ -366,7 +648,6 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             if (container.opts.dataUrl) {
                 // go get the data from an ajax call
                 // test whether it's json or csv
-                
                 var regex = /\.([0-9a-z]+)(?:[\?#]|$)/i;
                 var urlExt = container.opts.dataUrl.substring((container.opts.dataUrl.length - 5));
                 var fileType = urlExt.match(regex)[0];
@@ -400,18 +681,19 @@ var Extend = Extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 // the data is passed straight into the plugin form either a function or a data object
                 // I expect a JSON object here
                 container.data = container.parseData(container.opts.data);
+                //console.log(container.data);
                 container.updateChart(); 
             }    
         },
         // updates the settings of the chart
         settings : function(settings) {
-            // the data object is giving to much recursion on the Extend function.
+            // the data object is giving to much recursion on the extend function.
             // will have to manually clean it if more data is being set
             if (settings.data) {
                 this.opts.data = null;
             }
             // I need to sort out whether I want to refresh the graph when the settings are changed
-            this.opts = Extend(true, {}, this.opts, settings);
+            this.opts = extend(true, {}, this.opts, settings);
             // will make custom function to handle setting changes
             this.getData();
         },
