@@ -1,6 +1,6 @@
 // extend code
 // https://github.com/dansdom/extend
-var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=arguments.length,j=!1,d={hasOwn:Object.prototype.hasOwnProperty,class2type:{},type:function(a){return null==a?String(a):d.class2type[Object.prototype.toString.call(a)]||"object"},isPlainObject:function(a){if(!a||"object"!==d.type(a)||a.nodeType||d.isWindow(a))return!1;try{if(a.constructor&&!d.hasOwn.call(a,"constructor")&&!d.hasOwn.call(a.constructor.prototype,"isPrototypeOf"))return!1}catch(c){return!1}for(var b in a);return void 0===b||d.hasOwn.call(a, b)},isArray:Array.isArray||function(a){return"array"===d.type(a)},isFunction:function(a){return"function"===d.type(a)},isWindow:function(a){return null!=a&&a==a.window}};"boolean"===typeof c&&(j=c,c=arguments[1]||{},f=2);"object"!==typeof c&&!d.isFunction(c)&&(c={});k===f&&(c=this,--f);for(;f<k;f++)if(null!=(h=arguments[f]))for(g in h)b=c[g],e=h[g],c!==e&&(j&&e&&(d.isPlainObject(e)||(i=d.isArray(e)))?(i?(i=!1,b=b&&d.isArray(b)?b:[]):b=b&&d.isPlainObject(b)?b:{},c[g]=extend(j,b,e)):void 0!==e&&(c[g]= e));return c};
+//var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=arguments.length,j=!1,d={hasOwn:Object.prototype.hasOwnProperty,class2type:{},type:function(a){return null==a?String(a):d.class2type[Object.prototype.toString.call(a)]||"object"},isPlainObject:function(a){if(!a||"object"!==d.type(a)||a.nodeType||d.isWindow(a))return!1;try{if(a.constructor&&!d.hasOwn.call(a,"constructor")&&!d.hasOwn.call(a.constructor.prototype,"isPrototypeOf"))return!1}catch(c){return!1}for(var b in a);return void 0===b||d.hasOwn.call(a, b)},isArray:Array.isArray||function(a){return"array"===d.type(a)},isFunction:function(a){return"function"===d.type(a)},isWindow:function(a){return null!=a&&a==a.window}};"boolean"===typeof c&&(j=c,c=arguments[1]||{},f=2);"object"!==typeof c&&!d.isFunction(c)&&(c={});k===f&&(c=this,--f);for(;f<k;f++)if(null!=(h=arguments[f]))for(g in h)b=c[g],e=h[g],c!==e&&(j&&e&&(d.isPlainObject(e)||(i=d.isArray(e)))?(i?(i=!1,b=b&&d.isArray(b)?b:[]):b=b&&d.isPlainObject(b)?b:{},c[g]=extend(j,b,e)):void 0!==e&&(c[g]= e));return c};
 
 // D3 plugin template
 (function (d3) {
@@ -104,7 +104,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             var container = this;
 
             // set the chart radii
-            container.innerRadius = Math.min(container.opts.width - container.opts.padding, container.opts.height - container.opts.padding) * .40;
+            container.innerRadius = Math.min(container.opts.width - container.opts.padding, container.opts.height - container.opts.padding) * 0.40;
             container.outerRadius = container.innerRadius * 1.1;
             // define the arc and chord for the transitions
             container.svgArc = d3.svg.arc().innerRadius(container.innerRadius).outerRadius(container.outerRadius);
@@ -130,7 +130,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             // ######## SVG ########
             if (!container.svg) {
                 // add the chart element to the document
-                container.svg = d3.select(container.el).append("svg")
+                container.svg = d3.select(container.el).append("svg");
             }
             container.svg
                 .attr("width", container.opts.width)
@@ -138,7 +138,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
 
             // ####### CHART #########
             if (!container.chart) {
-                container.chart = container.svg.append("g")
+                container.chart = container.svg.append("g");
             }
             container.chart
                 .attr("transform", "translate(" + (container.opts.width / 2) + "," + (container.opts.height / 2) + ")");
@@ -172,14 +172,14 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     // Returns an event handler for fading a given chord group.
                     return function(g, i) {
                         container.chart.selectAll(".chords path")
-                            .filter(function(d) { return d.source.index != i && d.target.index != i; })
+                            .filter(function(d) { return d.source.index !== i && d.target.index !== i; })
                             .transition()
                             .style("opacity", opacity);
                     };
                 },
                 // Interpolate the arcs
                 arcTween = function(arc_svg, old) {
-                    return function(d,i) {
+                    return function(d, i) {
                         // if there is no data stored in the old group then set it to the same as the new value
                         if (!old.groups[i]) {
                             old.groups[i] = d;
@@ -187,8 +187,8 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                         i = d3.interpolate(old.groups[i], d);
                         return function(t) {
                             return arc_svg(i(t));
-                        }
-                    }
+                        };
+                    };
                 };
 
             if (!container.arcs) {
@@ -203,7 +203,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             container.arcGroups.enter()
                 .append("g")
                 .attr("class", "group")
-                .on("mouseover", fade(.1))
+                .on("mouseover", fade(0.1))
                 .on("mouseout", fade(1))
                 .append("path");
 
@@ -249,8 +249,8 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                         i = d3.interpolate(old.chords[i], d);
                         return function(t) {
                             return chord_svg(i(t));
-                        }
-                    }
+                        };
+                    };
                 };
 
             if (!container.chords) {
@@ -402,7 +402,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     .append("svg:textPath")
                     // this xlink:href maps the path element onto a target glyph with the matching id
                     .attr("xlink:href", function(d, i) { return "#group" + i; })
-                    .text(function(d) { return d.value.toFixed(container.opts.decimalPlaces)} )
+                    .text(function(d) { return d.value.toFixed(container.opts.decimalPlaces); })
                     .attr("startOffset", 5);
             }
 
@@ -435,7 +435,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         },
         filterData : function(data, category) {
             var chartData = data.filter(function(d) {
-                if (d.className == category) {
+                if (d.className === category) {
                     return d;
                 }
             });
@@ -461,8 +461,8 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     dataRow = data[i];
                 for (var j = 0; j < dataDepth; j++) {
                     dataRow[j] = parseFloat(dataRow[j]);
-                };
-            };
+                }
+            }
             
             return data;   
         },
@@ -522,7 +522,8 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
     d3.chord = function(element, options, callback) {
         // define the plugin name here so I don't have to change it anywhere else. This name refers to the jQuery data object that will store the plugin data
         var pluginName = "chord",
-            args;
+            args,
+            i;
 
         function applyPluginMethod(el) {
             var pluginInstance = el[pluginName];   
@@ -540,12 +541,13 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             else {
                 pluginInstance[options].apply(pluginInstance, args);
             }
-        };
+        }
 
         function initialisePlugin(el) {
             // define the data object that is going to be attached to the DOM element that the plugin is being called on
             // need to create a global data holding object. 
             var pluginInstance = el[pluginName];
+
             // if the plugin instance already exists then apply the options to it. I don't think I need to init again, but may have to on some plugins
             if (pluginInstance) {
                 // going to need to set the options for the plugin here
@@ -557,7 +559,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 // I think I need to anchor this new object to the DOM element and bind it
                 el[pluginName] = new d3.Chord(options, el, callback);
             }
-        };
+        }
         
         // if the argument is a string representing a plugin method then test which one it is
         if ( typeof options === 'string' ) {
@@ -565,9 +567,9 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             args = Array.prototype.slice.call(arguments, 2);
             // iterate over each object that the function is being called upon
             if (element.length) {
-                for (var i = 0; i < element.length; i++) {
+                for (i = 0; i < element.length; i++) {
                     applyPluginMethod(element[i]);
-                };
+                }
             }
             else {
                 applyPluginMethod(element);
@@ -578,7 +580,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         else {
             // initialise each instance of the plugin
             if (element.length) {
-                for (var i = 0; i < element.length; i++) {
+                for (i = 0; i < element.length; i++) {
                     initialisePlugin(element[i]);
                 }
             }

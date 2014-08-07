@@ -12,7 +12,16 @@ module.exports = function(grunt){
             'js/formData.js', 
             'js/interface.js', 
             'js/plugins.js', 
-            'js/showChart.js'
+            'js/showChart.js',
+            'js/d3/area.js',
+            'js/d3/bar.js',
+            'js/d3/chord.js',
+            'js/d3/force.js',
+            'js/d3/pack.js',
+            'js/d3/pie.js',
+            'js/d3/scatterplot.js',
+            'js/d3/sunburst.js',
+            'js/plugins/extend.js'
           ],
           options: {
             curly: true,
@@ -31,7 +40,8 @@ module.exports = function(grunt){
               jQuery: true,
               $: true,
               d3: true,
-              extend: true
+              extend: true,
+              D3Builder : true
             }
           }
         },

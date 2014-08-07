@@ -1,5 +1,5 @@
 // https://github.com/dansdom/extend
-var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=arguments.length,j=!1,d={hasOwn:Object.prototype.hasOwnProperty,class2type:{},type:function(a){return null==a?String(a):d.class2type[Object.prototype.toString.call(a)]||"object"},isPlainObject:function(a){if(!a||"object"!==d.type(a)||a.nodeType||d.isWindow(a))return!1;try{if(a.constructor&&!d.hasOwn.call(a,"constructor")&&!d.hasOwn.call(a.constructor.prototype,"isPrototypeOf"))return!1}catch(c){return!1}for(var b in a);return void 0===b||d.hasOwn.call(a, b)},isArray:Array.isArray||function(a){return"array"===d.type(a)},isFunction:function(a){return"function"===d.type(a)},isWindow:function(a){return null!=a&&a==a.window}};"boolean"===typeof c&&(j=c,c=arguments[1]||{},f=2);"object"!==typeof c&&!d.isFunction(c)&&(c={});k===f&&(c=this,--f);for(;f<k;f++)if(null!=(h=arguments[f]))for(g in h)b=c[g],e=h[g],c!==e&&(j&&e&&(d.isPlainObject(e)||(i=d.isArray(e)))?(i?(i=!1,b=b&&d.isArray(b)?b:[]):b=b&&d.isPlainObject(b)?b:{},c[g]=extend(j,b,e)):void 0!==e&&(c[g]= e));return c};
+//var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=arguments.length,j=!1,d={hasOwn:Object.prototype.hasOwnProperty,class2type:{},type:function(a){return null==a?String(a):d.class2type[Object.prototype.toString.call(a)]||"object"},isPlainObject:function(a){if(!a||"object"!==d.type(a)||a.nodeType||d.isWindow(a))return!1;try{if(a.constructor&&!d.hasOwn.call(a,"constructor")&&!d.hasOwn.call(a.constructor.prototype,"isPrototypeOf"))return!1}catch(c){return!1}for(var b in a);return void 0===b||d.hasOwn.call(a, b)},isArray:Array.isArray||function(a){return"array"===d.type(a)},isFunction:function(a){return"function"===d.type(a)},isWindow:function(a){return null!=a&&a==a.window}};"boolean"===typeof c&&(j=c,c=arguments[1]||{},f=2);"object"!==typeof c&&!d.isFunction(c)&&(c={});k===f&&(c=this,--f);for(;f<k;f++)if(null!=(h=arguments[f]))for(g in h)b=c[g],e=h[g],c!==e&&(j&&e&&(d.isPlainObject(e)||(i=d.isArray(e)))?(i?(i=!1,b=b&&d.isArray(b)?b:[]):b=b&&d.isPlainObject(b)?b:{},c[g]=extend(j,b,e)):void 0!==e&&(c[g]= e));return c};
 
 // D3 Area Plugin
 (function (d3, undefined) {
@@ -62,7 +62,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 'labelRotate' : -90,
                 'rangeMin' : null, // can set a value for the minimum range on the y-axis
                 'rangeMax' : null,  // can set a value for the maximum range on the y-axis
-                'domainMin' : 0.00001, // will accept 'data-min'. can maually set the minimum value of the chart's domain
+                'domainMin' : null, // will accept 'data-min'. can maually set the minimum value of the chart's domain
                 'domainMax' : null,  // can maually set the maximum value of the chart's domain
                 'domainCustom' : null // can specify a custom domain for the X axis
             }
@@ -601,7 +601,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             if (nestedData.length === 1) {
                 if (nestedData[0].key === 'undefined') {
                     nestedData[0].key = 'none';
-                    for (var i = 0; i < nestedData[0].values.length; i++) {
+                    for (i = 0; i < nestedData[0].values.length; i++) {
                         nestedData[0].values[i][container.opts.dataStructure.key] = 'none';
                     }
                 }
@@ -660,10 +660,14 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 }
             }
 
+            function sortArrayValues(index) {
+                data[index].values.sort(function(a, b) { return d3.ascending(a[container.opts.dataStructure.x], b[container.opts.dataStructure.x]); });
+            }
+
             // re-order each data layer
             for (i = 0; i < data.length; i++) {
-                if (container.isScaleNumeric(container.opts.scale.x)) {
-                    data[i].values.sort(function(a, b) { return d3.ascending(a[container.opts.dataStructure.x], b[container.opts.dataStructure.x]) });
+                if (container.isScaleNumeric(container.opts.scale.x)) {                    
+                    sortArrayValues(i);
                 }
             }
 
@@ -740,7 +744,6 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             } else {
                 container.yScale = d3.scale[container.opts.scale.y]();
             }
-            console.log(yDomainMin);
             // set the Domain and range for the Y axis
             if (yScaleOpts === "linear") {
                 container.yScale

@@ -1,6 +1,8 @@
+
+var D3Builder = D3Builder || {};
 // form data object
 // this is the default form object
-var FormDefault = {
+D3Builder.formDefault = {
     type : {
         current : null,  // this stores the currently displayed chart type to handle the transitions
         primary : 0,
@@ -60,9 +62,8 @@ var FormDefault = {
     events : {}
 };
 
-
 // this objects holds the entire form data object
-FormData = {
+D3Builder.formData = {
     type : {
         current : null,  // this stores the currently displayed chart type to handle the transitions
         primary : 0,

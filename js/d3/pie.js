@@ -1,6 +1,6 @@
 // extend code
 // https://github.com/dansdom/extend
-var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=arguments.length,j=!1,d={hasOwn:Object.prototype.hasOwnProperty,class2type:{},type:function(a){return null==a?String(a):d.class2type[Object.prototype.toString.call(a)]||"object"},isPlainObject:function(a){if(!a||"object"!==d.type(a)||a.nodeType||d.isWindow(a))return!1;try{if(a.constructor&&!d.hasOwn.call(a,"constructor")&&!d.hasOwn.call(a.constructor.prototype,"isPrototypeOf"))return!1}catch(c){return!1}for(var b in a);return void 0===b||d.hasOwn.call(a, b)},isArray:Array.isArray||function(a){return"array"===d.type(a)},isFunction:function(a){return"function"===d.type(a)},isWindow:function(a){return null!=a&&a==a.window}};"boolean"===typeof c&&(j=c,c=arguments[1]||{},f=2);"object"!==typeof c&&!d.isFunction(c)&&(c={});k===f&&(c=this,--f);for(;f<k;f++)if(null!=(h=arguments[f]))for(g in h)b=c[g],e=h[g],c!==e&&(j&&e&&(d.isPlainObject(e)||(i=d.isArray(e)))?(i?(i=!1,b=b&&d.isArray(b)?b:[]):b=b&&d.isPlainObject(b)?b:{},c[g]=extend(j,b,e)):void 0!==e&&(c[g]= e));return c};
+//var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=arguments.length,j=!1,d={hasOwn:Object.prototype.hasOwnProperty,class2type:{},type:function(a){return null==a?String(a):d.class2type[Object.prototype.toString.call(a)]||"object"},isPlainObject:function(a){if(!a||"object"!==d.type(a)||a.nodeType||d.isWindow(a))return!1;try{if(a.constructor&&!d.hasOwn.call(a,"constructor")&&!d.hasOwn.call(a.constructor.prototype,"isPrototypeOf"))return!1}catch(c){return!1}for(var b in a);return void 0===b||d.hasOwn.call(a, b)},isArray:Array.isArray||function(a){return"array"===d.type(a)},isFunction:function(a){return"function"===d.type(a)},isWindow:function(a){return null!=a&&a==a.window}};"boolean"===typeof c&&(j=c,c=arguments[1]||{},f=2);"object"!==typeof c&&!d.isFunction(c)&&(c={});k===f&&(c=this,--f);for(;f<k;f++)if(null!=(h=arguments[f]))for(g in h)b=c[g],e=h[g],c!==e&&(j&&e&&(d.isPlainObject(e)||(i=d.isArray(e)))?(i?(i=!1,b=b&&d.isArray(b)?b:[]):b=b&&d.isPlainObject(b)?b:{},c[g]=extend(j,b,e)):void 0!==e&&(c[g]= e));return c};
 
 // D3 plugin template
 (function (d3) {
@@ -30,8 +30,8 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
     d3.Pie.settings = {
         'height' : 500,
         'width' : 500,
-        'innerRadius' : 200,
-        'outerRadius' : 10,
+        'innerRadius' : 20,
+        'outerRadius' : 200,
         'speed' : 1000,
         'padding': 2,
         'labelPosition' : false, // this is the position of the segment labels. 0 = center of chart. 1 = center of segment. > 2 = outside the chart
@@ -52,7 +52,6 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
     // plugin functions go here
     d3.Pie.prototype = {
         init : function() {
-
             var container = this;
             // set the scale for the chart - I may or may not actually use this scale
             container.scaleX = d3.scale.linear().range([0, this.opts.width]);
@@ -62,10 +61,8 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             
             // go get the data
             this.getData();
-
         },
         updateChart : function() {
-
             var container = this,
                 oldValues,
                 newValues;
@@ -121,7 +118,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             if (!container.arc) {
                 container.arc = d3.svg.arc()
                     .startAngle(function(d) { return d.startAngle; })
-                    .endAngle(function(d) { return d.endAngle; })
+                    .endAngle(function(d) { return d.endAngle; });
             }
             container.arc
                 .outerRadius(container.opts.outerRadius - container.opts.padding)
@@ -130,7 +127,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             // ######## SVG ########
             if (!container.svg) {
                 // add the chart element to the document
-                container.svg = d3.select(container.el).append("svg")
+                container.svg = d3.select(container.el).append("svg");
             }
             container.svg
                 .attr("width", this.opts.width)
@@ -138,7 +135,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
 
             // ####### CHART #########
             if (!container.chart) {
-                container.chart = container.svg.append("g")
+                container.chart = container.svg.append("g");
             }
             container.chart
                 .attr("transform", "translate(" + this.opts.width / 2 + "," + this.opts.height / 2 + ")");
@@ -261,22 +258,19 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     .delay(container.opts.speed)
                     .attr("transform", function(d) { 
                         var center = container.arc.centroid(d);
-                        console.log('i am a new value');
                         return "translate(" + (center[0] * labelPosition) + "," + (center[1] * labelPosition) + ")";
                     })
                     .attr("dy", ".35em")
                     .style("text-anchor", "middle")
-                    .text(function(d) { return d.data.category});
-
+                    .text(function(d) { return d.data.category; });
 
                 // is there a better way of coding this???
                 container.values.each(function() {
                     //console.log(this);
-                    var slice = d3.select(this);
-                    var label = slice.select("text")[0][0];
-                    console.log(label);
+                    var slice = d3.select(this),
+                        label = slice.select("text")[0][0];
+
                     if (label) {
-                        console.log('there is a setLabel');
                         slice.select("text")
                             .attr("transform", function(d) { 
                                 var center = container.arc.centroid(d);
@@ -284,33 +278,28 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                             })
                             .attr("dy", ".35em")
                             .style("text-anchor", "middle")
-                            .text(function(d) { return d.data.category});
-                    }
-                    else {
-                        console.log('no labels');
+                            .text(function(d) { return d.data.category; });
+                    } else {
                         slice.append("text")
                             .transition()
                             .delay(container.opts.speed)
                             .attr("transform", function(d) { 
                                 var center = container.arc.centroid(d);
-                                console.log('i am a new value');
                                 return "translate(" + (center[0] * labelPosition) + "," + (center[1] * labelPosition) + ")";
                             })
                             .attr("dy", ".35em")
                             .style("text-anchor", "middle")
-                            .text(function(d) { return d.data.category});
+                            .text(function(d) { return d.data.category; });
                     }
                 });
-
-            }
-            else {
+            } else {
                 //oldValues.select("text").remove();
                 container.values.select("text").remove();
             }
         },
         filterData : function(data, category) {
             var chartData = data.filter(function(d) {
-                if (d.className == category) {
+                if (d.className === category) {
                     return d;
                 }
             });
@@ -365,7 +354,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     //console.log('doing push');
                     dataList.push({category: className, className: name, value: parseFloat(node[container.opts.dataStructure.value]), hasChildren: false});  
                 }
-            };
+            }
             
             // if there are children defined in the data, then do the recurse. If not, then loop through the array
             if (children) {
@@ -379,7 +368,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 for (i = 0; i < dataLength; i++) {
                     dataList.push({category: data[i][container.opts.dataStructure.name], className: 'all', value: data[i][container.opts.dataStructure.value]});
                     total += data[i][container.opts.dataStructure.value];
-                };
+                }
             }
             
             //console.log(dataList);
@@ -440,7 +429,8 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
     d3.pie = function(element, options, callback) {
         // define the plugin name here so I don't have to change it anywhere else. This name refers to the jQuery data object that will store the plugin data
         var pluginName = "pie",
-            args;
+            args,
+            i;
 
         function applyPluginMethod(el) {
             var pluginInstance = el[pluginName];   
@@ -458,7 +448,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             else {
                 pluginInstance[options].apply(pluginInstance, args);
             }
-        };
+        }
 
         function initialisePlugin(el) {
             // define the data object that is going to be attached to the DOM element that the plugin is being called on
@@ -475,7 +465,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 // I think I need to anchor this new object to the DOM element and bind it
                 el[pluginName] = new d3.Pie(options, el, callback);
             }
-        };
+        }
         
         // if the argument is a string representing a plugin method then test which one it is
         if ( typeof options === 'string' ) {
@@ -483,9 +473,9 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             args = Array.prototype.slice.call(arguments, 2);
             // iterate over each object that the function is being called upon
             if (element.length) {
-                for (var i = 0; i < element.length; i++) {
+                for (i = 0; i < element.length; i++) {
                     applyPluginMethod(element[i]);
-                };
+                }
             }
             else {
                 applyPluginMethod(element);
@@ -496,7 +486,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         else {
             // initialise each instance of the plugin
             if (element.length) {
-                for (var i = 0; i < element.length; i++) {
+                for (i = 0; i < element.length; i++) {
                     initialisePlugin(element[i]);
                 }
             }

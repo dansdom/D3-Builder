@@ -1,8 +1,9 @@
 // Configuration Object
 //
 // sets the options for the interface for each chart type. This is a purely data object
+var D3Builder = D3Builder || {};
 
-var Config = {
+D3Builder.config = {
     dataAllowed : {
         "pie" :         ["flat", "nested"],
         "pack" :        ["nested"],
@@ -11,7 +12,8 @@ var Config = {
         "area" :        ["quantitative", "flat"],
         "bar" :         ["quantitative", "flat"],
         "chord" :       ["matrix"],
-        "scatterplot" : ["quantitative"]
+        "scatterplot" : ["quantitative"],
+        "streamgraph" : ["quantitative", "flat"]
     },
     dataAttributes : {
         "pie" :         ["name", "value", "children"],
@@ -21,7 +23,8 @@ var Config = {
         "area" :        ["x", "y", "key"],
         "bar" :         ["x", "y", "key"],
         "chord" :       ["x", "y"],
-        "scatterplot" : ["x", "y", "key"]
+        "scatterplot" : ["x", "y", "key"],
+        "streamgraph" : ["x", "y", "key"]
     },
     dataScaleX : {
         "pie" :         ["ordinal"],
@@ -31,7 +34,8 @@ var Config = {
         "area" :        ["linear", "ordinal"],
         "bar" :         ["linear", "ordinal"],
         "chord" :       ["linear"],
-        "scatterplot" : ["linear"]
+        "scatterplot" : ["linear"],
+        "streamgraph" : ["linear", "ordinal"]
     },
     dataScaleY : {
         "pie" :         ["linear"],
@@ -41,16 +45,18 @@ var Config = {
         "area" :        ["linear"],
         "bar" :         ["linear"],
         "chord" :       ["linear"],
-        "scatterplot" : ["linear"]
+        "scatterplot" : ["linear"],
+        "streamgraph" : ["linear"]
     },
-    sizePadding : {
-        "pie" :         ["padding"],
-        "pack" :        ["padding"],
-        "sunburst" :    ["padding"],
-        "force" :       ["padding"],
+    sizeAttributes : {
+        "pie" :         ["outer-radius", "inner-radius", "padding"],
+        "pack" :        ["outer-radius", "padding"],
+        "sunburst" :    ["outer-radius"],
+        "force" :       [],
         "area" :        ["padding-left", "padding-right", "padding-top", "padding-bottom"],
         "bar" :         ["padding-left", "padding-right", "padding-top", "padding-bottom"],
-        "chord" :       ["padding"],
-        "scatterplot" : ["padding-left", "padding-right", "padding-top", "padding-bottom"]
+        "chord" :       ["outer-radius", "inner-radius", "padding"],
+        "scatterplot" : ["padding-left", "padding-right", "padding-top", "padding-bottom"],
+        "streamgraph" : ["padding-left", "padding-right", "padding-top", "padding-bottom"]
     }
 };

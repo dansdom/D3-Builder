@@ -1,37 +1,41 @@
+// extend code
+// https://github.com/dansdom/extend
+//var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=arguments.length,j=!1,d={hasOwn:Object.prototype.hasOwnProperty,class2type:{},type:function(a){return null==a?String(a):d.class2type[Object.prototype.toString.call(a)]||"object"},isPlainObject:function(a){if(!a||"object"!==d.type(a)||a.nodeType||d.isWindow(a))return!1;try{if(a.constructor&&!d.hasOwn.call(a,"constructor")&&!d.hasOwn.call(a.constructor.prototype,"isPrototypeOf"))return!1}catch(c){return!1}for(var b in a);return void 0===b||d.hasOwn.call(a, b)},isArray:Array.isArray||function(a){return"array"===d.type(a)},isFunction:function(a){return"function"===d.type(a)},isWindow:function(a){return null!=a&&a==a.window}};"boolean"===typeof c&&(j=c,c=arguments[1]||{},f=2);"object"!==typeof c&&!d.isFunction(c)&&(c={});k===f&&(c=this,--f);for(;f<k;f++)if(null!=(h=arguments[f]))for(g in h)b=c[g],e=h[g],c!==e&&(j&&e&&(d.isPlainObject(e)||(i=d.isArray(e)))?(i?(i=!1,b=b&&d.isArray(b)?b:[]):b=b&&d.isPlainObject(b)?b:{},c[g]=extend(j,b,e)):void 0!==e&&(c[g]= e));return c};
 
-// D3 Bar Graph template
+// D3 Streamgraph Plugin
 (function (d3, undefined) {
     // this ones for you 'uncle' Doug!
     'use strict';
     
     // Plugin namespace definition
-    d3.Bar = function (options, element, callback)
-    {
+    d3.Streamgraph = function (options, element, callback) {
         this.el = element;
         this.callback = callback;
         // this is the namespace for all bound event handlers in the plugin
-        this.namespace = "bar";
+        this.namespace = "streamgraph";
         // extend the settings object with the options, make a 'deep' copy of the object using an empty 'holding' object
         // using the extend code that I ripped out of jQuery
-        this.opts = extend(true, {}, d3.Bar.settings, options);
-        this.init();
+        this.opts = extend(true, {}, d3.Streamgraph.settings, options);
+        // something wrong the the extend method and date objects
+        this.init();        
     };
     
     // these are the plugin default settings that will be over-written by user settings
-    d3.Bar.settings = {
+    d3.Streamgraph.settings = {
         'height': '730',
         'width': '460',
-        'speed' : 1000,  // transition speed
+        'speed' : 2000,  // transition speed
         'margin': {top: 30, right: 10, bottom: 80, left: 80},
         'data' : null,  // I'll need to figure out how I want to present data options to the user
         'dataUrl' : null,  // this is a url for a resource
         'dataType' : 'json',
-        'dateFormat' : '%d-%b-%y',  // if a date scale is being used then this is the option to format it
-        'colorRange' : ['red'], // instead of defining a color array, I will set a color scale and then let the user overwrite it
+        'dateFormat' : '%m/%d/%y',  // if a date scale is being used then this is the option to format it
+        'offset' : 'zero',  // this is the stacking offset. https://github.com/mbostock/d3/wiki/Stack-Layout#wiki-offset: 'silhouette', 'wiggle', 'expand', 'zero'
+        'colorRange' : [], // instead of defining a color array, I will set a color scale and then let the user overwrite it
         // maybe only if there is one data set???
         'elements' : {
-            'barWidth' : 10,
-            'barOpacity' : 1,
+            'line' : 'black',  // the line on the graph - set to null if no line is wanted
+            'area' : '#ccc',  // show area
             'xAxis' : {
                 'visible' : true,
                 'tickSize' : 5,
@@ -52,28 +56,29 @@
                 'labelOffsetX' : -40,
                 'labelOffsetY' : 0,
                 'labelRotate' : -90,
-                'rangeMin' : null, // can set a value for the minimum range on the x-axis
-                'rangeMax' : null,  // can set a value for the maximum range on the x-axis
+                'rangeMin' : null, // can set a value for the minimum range on the y-axis
+                'rangeMax' : null,  // can set a value for the maximum range on the y-axis
                 'domainMin' : null, // will accept 'data-min'. can maually set the minimum value of the chart's domain
                 'domainMax' : null,  // can maually set the maximum value of the chart's domain
-                'domainCustom' : null // can specify a custom domain for the Y axis
+                'domainCustom' : null // can specify a custom domain for the X axis
             }
         },
         'dataStructure' : {
-            'x' : 'name',  // this value may end up being an array so I can support multiple data sets. These define the axis' for ordinal scale
+            'x' : 'date',  // this value may end up being an array so I can support multiple data sets
             'y' : 'value',
+            'key' : 'key',  // the data categories key
             'ticksX' : 10,  // tha amount of ticks on the x-axis
-            'ticksY' : 5  // the amount of ticks on the y-axis
+            'ticksY' : 10  // the amount of ticks on the y-axis
         },
         'scale' : {
-            'x' : 'linear',  // add ordinal support
+            'x' : 'date',
             'y' : 'linear'
         },
         'chartName' : false  // If there is a chart name then insert the value. This allows for deep exploration to show category name
     };
     
     // plugin functions go here
-    d3.Bar.prototype = {
+    d3.Streamgraph.prototype = {
         init : function() {
             var container = this;
 
@@ -101,15 +106,16 @@
 
             // create the svg element that holds the chart
             this.setLayout();
-            // add the elements to the chart
-            this.addElements();
             // add the x and y axis to the chart
             this.addAxis();
-
-            // run the callback function after the plugin has finished initialising
+            // add the elements to the chart
+            this.addElements();
+            
+            // run the callback after the plugin has finished initialising
             if (typeof container.callback === "function") {
                 container.callback.call(this, container);
             }
+            //console.log(this.dataLayers);
         },
         setLayout : function() {
             var container = this;
@@ -120,10 +126,8 @@
             }
             container.svg
                 .datum(container.data)
-                .attr({
-                    "width" : container.width + container.margin.left + container.margin.right,
-                    "height" : container.height + container.margin.top + container.margin.bottom
-                });
+                .attr("width", container.width + container.margin.left + container.margin.right)
+                .attr("height", container.height + container.margin.top + container.margin.bottom);
 
             // define the chart element
             if (!container.chart) {
@@ -131,10 +135,8 @@
                     
             }
             container.chart
-                .attr({
-                    "class" : "chart",
-                    "transform" : "translate(" + container.margin.left + "," + container.margin.top + ")"
-                });
+                .attr("class", "chart")
+                .attr("transform", "translate(" + container.margin.left + "," + container.margin.top + ")");
         },
         setTitle : function() {
             var container = this;
@@ -162,10 +164,8 @@
                 }
                 // style the x-axis
                 container.X
-                    .attr({
-                        "class" : "x-axis",
-                        "transform" : "translate(0," + container.height + ")"
-                    })
+                    .attr("class", "x-axis")
+                    .attr("transform", "translate(0," + container.height + ")")
                     .style("shape-rendering", "crispEdges")
                     .call(container.xAxis);
                 // add the labels
@@ -260,63 +260,45 @@
             }
         },
         addElements : function() {
-            var container = this;
-            
-            container.bars = container.chart.selectAll(".bar")
-                .data(container.data);
+            var container = this,
+                elements = container.opts.elements,
+                dataStructure = container.opts.dataStructure;
 
-            container.bars
+            // these two guys are going to need to be put into seperate functions that allow for multiple inputs
+            container.xScale.domain(d3.extent(container.data, function(d) { return d[container.opts.dataStructure.x]; }));
+            container.yScale.domain([0, d3.max(container.data, function(d) { return d.y0 + d.y; })]);
+            
+            if (!container.area) {
+                container.area = d3.svg.area()
+                    // I'll have options for interpolation here
+                    .interpolate("cardinal")
+                    .x(function(d) { return container.xScale(d[container.opts.dataStructure.x]); })
+                    .y0(function(d) { return container.yScale(d.y0); })
+                    .y1(function(d) { return container.yScale(d.y0 + d.y); });
+            }
+
+            container.layers = container.chart.selectAll(".layer")
+                .data(container.dataLayers);
+
+            console.log(container.dataLayers);
+
+            container.layers
                 .transition()
                 .duration(container.opts.speed)
-                .attr({
-                    "fill" : container.opts.colorRange[0],
-                    "x" : function(d) { return container.xScale(d[container.opts.dataStructure.x]); },
-                    "width" : function() {
-                        // if the scale is ordinal then return container.xScale.rangeBand() - else use the option
-                        var barWidth;
-                        if (container.opts.scale.x === "linear") {
-                            barWidth = container.opts.elements.barWidth;
-                        }
-                        else if (container.opts.scale.x === "ordinal") {
-                            barWidth = container.xScale.rangeBand();
-                        }
-                        return barWidth;
-                    },
-                    "y" : function(d) { return container.yScale(d[container.opts.dataStructure.y]); },
-                    "height" : function(d) {
-                        // the -1 here is some slight mis alingment from the d3 library
-                        return container.height - container.yScale(d[container.opts.dataStructure.y]) - 1; 
-                    }
-                })  
-                .style("opacity", container.opts.elements.barOpacity);
-                
-            
-            container.bars.enter()
-                .append("rect")
-                .attr({
-                    "class" : "bar",
-                    "fill" : container.opts.colorRange[0],
-                    "x" : function(d) { return container.xScale(d[container.opts.dataStructure.x]); },
-                    "width" : function() {
-                        // if the scale is ordinal then return container.xScale.rangeBand() - else use the option
-                        var barWidth;
-                        if (container.opts.scale.x === "linear") {
-                            barWidth = container.opts.elements.barWidth;
-                        }
-                        else if (container.opts.scale.x === "ordinal") {
-                            barWidth = container.xScale.rangeBand();
-                        }
-                        return barWidth;
-                    },
-                    "y" : function(d) { return container.yScale(d[container.opts.dataStructure.y]); },
-                    "height" : function(d) { return container.height - container.yScale(d[container.opts.dataStructure.y]) - 1; }
-                })
-                .style("fill-opacity", 1e-6)
-                .transition()
-                .duration(container.opts.speed)
-                .style("fill-opacity", container.opts.elements.barOpacity);
+                .attr("d", function(d) { return container.area(d.values); })
+                .style("fill", function(d, i) { return container.color(i); });
 
-            container.bars.exit()
+            container.layers.enter()
+                .append("path")
+                .attr("class", "layer")
+                .attr("d", function(d) { return container.area(d.values); })
+                //.style("fill-opacity", 1e-6)
+                .style("fill", function(d, i) { return container.color(i); })
+                .transition()
+                .duration(container.opts.speed);
+                //.style("fill-opacity", 1);
+
+            container.layers.exit()
                 .transition()
                 .duration(container.opts.speed)
                 .style("fill-opacity", 1e-6)
@@ -339,32 +321,8 @@
                     return false;
             }
         },
-        parseData : function(data) {
-            // if the scale is ordinal, I have to put in an opening value so that I can push the data across the chart
-            // the first thing I have to do here is make sure the "value" field is numeric.
-            var container = this,
-                scaleX = container.opts.scale.x,
-                scaleY = container.opts.scale.y,
-                dataLength = data.length;
-
-            if (container.isScaleNumeric(scaleX)) {
-                for (var i = 0; i < dataLength; i++) {
-                    // parse the x scale
-                    data[i][container.opts.dataStructure.x] = parseFloat(data[i][container.opts.dataStructure.x]);
-                }
-            }
-
-            if (container.isScaleNumeric(scaleY)) {
-                for (var j = 0; j < dataLength; j++) {
-                    // parse the y scale
-                    data[j][container.opts.dataStructure.y] = parseFloat(data[j][container.opts.dataStructure.y]);
-                }
-            }
-
-            return data;
-        },
         // need to do some thinking around these next 2 functions
-        // NOTE: there is SOO much to do in this function. definately will have to go back and make the scales more flexible - not sure if the bar chart should have non-ordinal scales
+        // NOTE: there is SOO much to do in this function. definately will have to go back and make the scales more flexible
         setScale : function() {
             var container = this,
                 elements = container.opts.elements,
@@ -464,6 +422,75 @@
                 .tickSize(container.opts.elements.yAxis.tickSize)
                 .orient("left");
         },
+        parseData : function(data) {
+            // if the scale is ordinal, I have to put in an opening value so that I can push the data across the chart
+            // the first thing I have to do here is make sure the "value" field is numeric.
+            var container = this,
+                scaleX = container.opts.scale.x,
+                scaleY = container.opts.scale.y,
+                dataLength = data.length,
+                i, j;
+
+            if (container.isScaleNumeric(scaleX)) {
+                for (i = 0; i < dataLength; i++) {
+                    // parse the x scale
+                    data[i][container.opts.dataStructure.x] = parseFloat(data[i][container.opts.dataStructure.x]);
+                }
+            }
+
+            if (container.isScaleNumeric(scaleY)) {
+                for (j = 0; j < dataLength; j++) {
+                    // parse the y scale
+                    data[j][container.opts.dataStructure.y] = parseFloat(data[j][container.opts.dataStructure.y]);
+                }
+            }
+
+            // if there is a date range then parse the data as a date
+            if (container.opts.scale.x === "date") {
+                for (i = 0; i < dataLength; i++) {
+                    data[i][container.opts.dataStructure.x] = d3.time.format(container.opts.dateFormat).parse(data[i][container.opts.dataStructure.x]);
+                }
+            }
+            if (container.opts.scale.y === "date") {
+                for (j = 0; j < dataLength; j++) {
+                    data[j][container.opts.dataStructure.y] = d3.time.format(container.opts.dateFormat).parse(data[j][container.opts.dataStructure.y]);
+                }
+            }
+
+            
+            // define the stack layout
+            if (!container.stack) {
+                container.stack = d3.layout.stack()
+                    //.offset('zero')
+                    .values(function(d) { return d.values; })
+                    .x(function(d) { return d[container.opts.dataStructure.x]; })
+                    .y(function(d) { return d[container.opts.dataStructure.y]; });
+            }
+
+            if (!container.nest) {
+                container.nest = d3.nest()
+                    .key(function(d) { return d[container.opts.dataStructure.key]; });
+            }
+
+            //console.log(container.nest);
+            var nestedData = container.nest.entries(data);
+            
+            // if the key is undefined then set it to 'none'
+            if (nestedData.length === 1) {
+                if (nestedData[0].key === 'undefined') {
+                    nestedData[0].key = 'none';
+                    for (i = 0; i < nestedData[0].values.length; i++) {
+                        nestedData[0].values[i][container.opts.dataStructure.key] = 'none';
+                    }
+                }
+            }
+            //console.log(nestedData);
+            // find any missing data and add a zero value for it
+            container.dataLayers = container.stack(nestedData);
+            //console.log(container.dataLayers);
+
+            return data;
+        },
         // updates the data set for the chart
         // I may just want to process the input and then call getData()
         updateData : function(data) {
@@ -480,7 +507,6 @@
             if (container.opts.dataUrl) {
                 // go get the data from an ajax call
                 // test whether it's json or csv
-                
                 var regex = /\.([0-9a-z]+)(?:[\?#]|$)/i;
                 var urlExt = container.opts.dataUrl.substring((container.opts.dataUrl.length - 5));
                 var fileType = urlExt.match(regex)[0];
@@ -489,7 +515,7 @@
                     //console.log('do json call');
                     // build the chart
                     d3.json(container.opts.dataUrl, function(error, data) {
-                        container.data = data;
+                        container.data = container.parseData(data);
                         container.updateChart(); 
                     });
                 }
@@ -497,7 +523,7 @@
                     //console.log('do csv call');
                     // build the chart
                     d3.csv(container.opts.dataUrl, function(error, data) {
-                        container.data = data;
+                        container.data = container.parseData(data);
                         container.updateChart(); 
                     });
                 }
@@ -505,7 +531,7 @@
                     //console.log('do csv call');
                     // build the chart
                     d3.csv(container.opts.dataUrl, function(error, data) {
-                        container.data = data;
+                        container.data = container.parseData(data);
                         container.updateChart(); 
                     });
                 }
@@ -513,9 +539,10 @@
             else {
                 // the data is passed straight into the plugin form either a function or a data object
                 // I expect a JSON object here
-                container.data = container.opts.data;
+                container.data = container.parseData(container.opts.data);
+                //console.log(container.data);
                 container.updateChart(); 
-            }  
+            }    
         },
         // updates the settings of the chart
         settings : function(settings) {
@@ -538,9 +565,9 @@
     
     // the plugin bridging layer to allow users to call methods and add data after the plguin has been initialised
     // props to https://github.com/jsor/jcarousel/blob/master/src/jquery.jcarousel.js for the base of the code & http://isotope.metafizzy.co/ for a good implementation
-    d3.bar = function(element, options, callback) {
+    d3.streamgraph = function(element, options, callback) {
         // define the plugin name here so I don't have to change it anywhere else. This name refers to the jQuery data object that will store the plugin data
-        var pluginName = "bar",
+        var pluginName = "streamgraph",
             args,
             i;
 
@@ -575,7 +602,7 @@
             else {
                 el.setAttribute(pluginName, true);
                 // I think I need to anchor this new object to the DOM element and bind it
-                el[pluginName] = new d3.Bar(options, el, callback);
+                el[pluginName] = new d3.Streamgraph(options, el, callback);
             }
         }
         

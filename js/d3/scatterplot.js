@@ -1,6 +1,6 @@
 // extend code
 // https://github.com/dansdom/extend
-var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=arguments.length,j=!1,d={hasOwn:Object.prototype.hasOwnProperty,class2type:{},type:function(a){return null==a?String(a):d.class2type[Object.prototype.toString.call(a)]||"object"},isPlainObject:function(a){if(!a||"object"!==d.type(a)||a.nodeType||d.isWindow(a))return!1;try{if(a.constructor&&!d.hasOwn.call(a,"constructor")&&!d.hasOwn.call(a.constructor.prototype,"isPrototypeOf"))return!1}catch(c){return!1}for(var b in a);return void 0===b||d.hasOwn.call(a, b)},isArray:Array.isArray||function(a){return"array"===d.type(a)},isFunction:function(a){return"function"===d.type(a)},isWindow:function(a){return null!=a&&a==a.window}};"boolean"===typeof c&&(j=c,c=arguments[1]||{},f=2);"object"!==typeof c&&!d.isFunction(c)&&(c={});k===f&&(c=this,--f);for(;f<k;f++)if(null!=(h=arguments[f]))for(g in h)b=c[g],e=h[g],c!==e&&(j&&e&&(d.isPlainObject(e)||(i=d.isArray(e)))?(i?(i=!1,b=b&&d.isArray(b)?b:[]):b=b&&d.isPlainObject(b)?b:{},c[g]=extend(j,b,e)):void 0!==e&&(c[g]= e));return c};
+//var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=arguments.length,j=!1,d={hasOwn:Object.prototype.hasOwnProperty,class2type:{},type:function(a){return null==a?String(a):d.class2type[Object.prototype.toString.call(a)]||"object"},isPlainObject:function(a){if(!a||"object"!==d.type(a)||a.nodeType||d.isWindow(a))return!1;try{if(a.constructor&&!d.hasOwn.call(a,"constructor")&&!d.hasOwn.call(a.constructor.prototype,"isPrototypeOf"))return!1}catch(c){return!1}for(var b in a);return void 0===b||d.hasOwn.call(a, b)},isArray:Array.isArray||function(a){return"array"===d.type(a)},isFunction:function(a){return"function"===d.type(a)},isWindow:function(a){return null!=a&&a==a.window}};"boolean"===typeof c&&(j=c,c=arguments[1]||{},f=2);"object"!==typeof c&&!d.isFunction(c)&&(c={});k===f&&(c=this,--f);for(;f<k;f++)if(null!=(h=arguments[f]))for(g in h)b=c[g],e=h[g],c!==e&&(j&&e&&(d.isPlainObject(e)||(i=d.isArray(e)))?(i?(i=!1,b=b&&d.isArray(b)?b:[]):b=b&&d.isPlainObject(b)?b:{},c[g]=extend(j,b,e)):void 0!==e&&(c[g]= e));return c};
 
 // D3 Scatterplot Plugin
 (function (d3) {
@@ -32,7 +32,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         'data' : null,  // I'll need to figure out how I want to present data options to the user
         'dataUrl' : null,  // this is a url for a resource
         'dataType' : 'json',
-        'colorRange' : ['yellow', 'blue', 'teal'], // instead of defining a color array, I will set a color scale and then let the user overwrite it
+        'colorRange' : ['black'], // instead of defining a color array, I will set a color scale and then let the user overwrite it
         // maybe only if there is one data set???
         'elements' : {
             'dotRadius' : 3.5,  // 0 will show no dots
@@ -96,7 +96,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 container.color = d3.scale.category20();
             }
 
-            container.margin = this.opts.margin,
+            container.margin = this.opts.margin;
             container.width = this.opts.width - container.margin.left - container.margin.right;
             container.height = this.opts.height - container.margin.top - container.margin.bottom; 
 
@@ -388,19 +388,14 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             switch(scale) {
                 case "linear" :
                     return true;
-                    break;
                 case "pow" :
                     return true;
-                    break;
                 case "log" :
                     return true;
-                    break;
                 case "quanitze" :
                     return true;
-                    break;
                 case "identity" :
                     return true;
-                    break;
                 default : 
                     return false;
             }
@@ -462,7 +457,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             if (nestedData.length === 1) {
                 if (nestedData[0].key === 'undefined') {
                     nestedData[0].key = 'none';
-                    for (var i = 0; i < nestedData[0].values.length; i++) {
+                    for (i = 0; i < nestedData[0].values.length; i++) {
                         nestedData[0].values[i][container.opts.dataStructure.key] = 'none';
                     }
                 }
@@ -521,10 +516,14 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 }
             }
 
+            function sortArrayValues(index) {
+                data[index].values.sort(function(a, b) { return d3.ascending(a[container.opts.dataStructure.x], b[container.opts.dataStructure.x]); });
+            }
+
             // re-order each data layer
             for (i = 0; i < data.length; i++) {
-                if (container.isScaleNumeric(container.opts.scale.x)) {
-                    data[i].values.sort(function(a, b) { return d3.ascending(a[container.opts.dataStructure.x], b[container.opts.dataStructure.x]) });
+                if (container.isScaleNumeric(container.opts.scale.x)) {                    
+                    sortArrayValues(i);
                 }
             }
 
@@ -601,7 +600,6 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             } else {
                 container.yScale = d3.scale[container.opts.scale.y]();
             }
-            console.log(yDomainMin);
             // set the Domain and range for the Y axis
             if (yScaleOpts === "linear") {
                 container.yScale
@@ -709,7 +707,8 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
     d3.scatterplot = function(element, options, callback) {
         // define the plugin name here so I don't have to change it anywhere else. This name refers to the jQuery data object that will store the plugin data
         var pluginName = "scatterplot",
-            args;
+            args,
+            i;
 
         function applyPluginMethod(el) {
             var pluginInstance = el[pluginName];   
@@ -727,7 +726,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             else {
                 pluginInstance[options].apply(pluginInstance, args);
             }
-        };
+        }
 
         function initialisePlugin(el) {
             // define the data object that is going to be attached to the DOM element that the plugin is being called on
@@ -744,7 +743,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 // I think I need to anchor this new object to the DOM element and bind it
                 el[pluginName] = new d3.Scatterplot(options, el, callback);
             }
-        };
+        }
         
         // if the argument is a string representing a plugin method then test which one it is
         if ( typeof options === 'string' ) {
@@ -752,9 +751,9 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             args = Array.prototype.slice.call(arguments, 2);
             // iterate over each object that the function is being called upon
             if (element.length) {
-                for (var i = 0; i < element.length; i++) {
+                for (i = 0; i < element.length; i++) {
                     applyPluginMethod(element[i]);
-                };
+                }
             }
             else {
                 applyPluginMethod(element);
@@ -765,7 +764,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         else {
             // initialise each instance of the plugin
             if (element.length) {
-                for (var i = 0; i < element.length; i++) {
+                for (i = 0; i < element.length; i++) {
                     initialisePlugin(element[i]);
                 }
             }

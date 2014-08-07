@@ -1,436 +1,466 @@
+var D3Builder = D3Builder || {};
 // settings object that handles most of the plugin settings parameters
 // some specific settings will be handled by each build object
-Settings = {
-    // get the settings for the plugin
-    getSettings : function(data) {
-        var settings = {};
+D3Builder.settings = (function(d3, undefined) {
+    'use strict';
+    // constructs all the common settings from the form
+    var settings = {
+        // get the settings for the plugin
+        getSettings : function(data) {
+            var settingsHolder = {};
 
-        //console.log(data);
+            //console.log(data);
+            settingsHolder.width = data.size.width;
+            settingsHolder.height = data.size.height;
+            settingsHolder.margin = {
+                top : data.size.paddingTop,
+                bottom : data.size.paddingBottom,
+                left : data.size.paddingLeft,
+                right : data.size.paddingRight
+            };
+            settingsHolder.padding = data.size.padding;
+            settingsHolder.colorRange = data.colors;
+            settingsHolder.dataStructure = data.data.attributes;
+            // do a case statement to find the data
+            switch (data.data.source) {
+                case "dummy" :
+                    settingsHolder.dataUrl = data.data.dummy;
+                    break;
+                case "url" :
+                    settingsHolder.dataUrl = data.data.url;
+                    break;
+                case "file" :
+                    settingsHolder.data = data.data.dataObject;  // note I will need to read this file and store the result before this point
+                    break;
+                default : break;
+            }
+            settingsHolder.chartName = data.theme.headerName;
+            settingsHolder.spacing = data.theme.spacing;
+            settingsHolder.fontSize = data.theme.labelSize;
 
-        settings.width = data.size.width;
-        settings.height = data.size.height;
-        settings.margin = {
-            top : data.size.paddingTop,
-            bottom : data.size.paddingBottom,
-            left : data.size.paddingLeft,
-            right : data.size.paddingRight
-        };
-        settings.colorRange = data.colors;
-        settings.dataStructure = data.data.attributes;
-        // do a case statement to find the data
-        switch (data.data.source) {
-            case "dummy" :
-                settings.dataUrl = data.data.dummy;
-                break;
-            case "url" :
-                settings.dataUrl = data.data.url;
-                break;
-            case "file" :
-                settings.data = data.data.dataObject;  // note I will need to read this file and store the result before this point
-                break;
-            default : break;
-        };
-        settings.chartName = data.theme.headerName;
-        settings.spacing = data.theme.spacing;
-        settings.fontSize = data.theme.labelSize;
+            return settingsHolder;
+        },
+        // set common CSS styles. namely the background and the header
+        getStyle : function(data, positionType) {
+            var chartStyle = "";
 
-        return settings;
-    },
-    // set common CSS styles. namely the background and the header
-    getStyle : function(data, positionType) {
-        var chartStyle = "";
+            // get all the theme settings and add them to the style element
+            if (data.theme.backgroundColor) {
+                chartStyle += "svg {background: #" + data.theme.backgroundColor + ";}\n";
+            }
+            // add the header style if there is a value for it
+            if (data.theme.headerName) {
+                chartStyle += ".chartName {font-size:" + data.theme.headerSize + "px; fill:#" + data.theme.headerColor + "; font-weight:bold;-webkit-transform: translate(" + D3Builder.chartTheme[positionType](data) + ");transform: translate(" + D3Builder.chartTheme[positionType](data) + ");}\n";
+            }
 
-        // get all the theme settings and add them to the style element
-        if (data.theme.backgroundColor) {
-            chartStyle += "svg {background: #" + data.theme.backgroundColor + ";}\n";
+            return chartStyle;
+
+        },
+        // build the chart
+        buildChart : function(chartType, settings, chartStyle) {
+            var chart = document.getElementById("chart-preview");
+
+            // destroy the current
+            if (D3Builder.formData.type.current && D3Builder.formData.type.current !== chartType) {
+                d3[D3Builder.formData.type.current](chart, "destroy");
+            }
+
+            //console.log(this.chartStyle)
+            // add the style element
+            $("#chart-style").html(chartStyle);
+                
+            //console.log(settings);
+            d3[chartType](chart, settings);
+            D3Builder.formData.type.current = chartType;
+
+            // get the build settings for the chart
+            this.getBuildSettings(chartType, settings, chartStyle);
+        },
+        getBuildSettings : function(chartType, settings, chartStyle) {
+            var script  = "var chart = document.getElementById('chart');\n";
+                script += "d3." + chartType + "(chart," + JSON.stringify(settings) + ");\n";
+
+            // assign the settings to the CodeBuilder object
+            D3Builder.codeBuilder.settings = {
+                formData : D3Builder.formData,  // send the form data over for further processing
+                script : script, // these are the script options
+                style : chartStyle, // this is the plugin css
+                dataObject : JSON.stringify(D3Builder.formData.data.dataObject) // chart data object if a file was uploaded
+            };
         }
-        // add the header style if there is a value for it
-        if (data.theme.headerName) {
-            chartStyle += ".chartName {font-size:" + data.theme.headerSize + "px; fill:#" + data.theme.headerColor + "; font-weight:bold;-webkit-transform: translate(" + ChartTheme[positionType](data) + ");transform: translate(" + ChartTheme[positionType](data) + ");}\n";
-        }
+    };
 
-        return chartStyle;
-
-    },
-    // build the chart
-    buildChart : function(chartType, settings, chartStyle) {
-        var chart = document.getElementById("chart-preview");
-
-        // destroy the current
-        if (FormData.type.current && FormData.type.current !== chartType) {
-            d3[FormData.type.current](chart, "destroy");
-        }
-
-        //console.log(this.chartStyle)
-        // add the style element
-        $("#chart-style").html(chartStyle);
-            
-        console.log(settings);
-        d3[chartType](chart, settings);
-        FormData.type.current = chartType;
-
-        // get the build settings for the chart
-        this.getBuildSettings(chartType, settings, chartStyle);
-    },
-    getBuildSettings : function(chartType, settings, chartStyle) {
-        var script  = "var chart = document.getElementById('chart');\n";
-            script += "d3." + chartType + "(chart," + JSON.stringify(settings) + ");\n";
-
-        // assign the settings to the CodeBuilder object
-        CodeBuilder.settings = {
-            formData : FormData,  // send the form data over for further processing
-            script : script, // these are the script options
-            style : chartStyle, // this is the plugin css
-            dataObject : JSON.stringify(FormData.data.dataObject) // chart data object if a file was uploaded
-        };
-    }
-};
+    return settings;
+})(d3);
 
 // object that builds the "pie" chart
-PieChart = {
-    init : function() {
-        // get the generic settings
-        this.settings = Settings.getSettings(FormData);
-        // get the specific settings
-        this.getSettings();
-        // get the common style elements
-        this.chartStyle = Settings.getStyle(FormData, "getHeaderPositionCentered");
-        // get the specific style
-        this.getStyle();
-        // build the chart
-        Settings.buildChart("pie", this.settings, this.chartStyle);
-    },
-    getSettings : function() {
-        this.settings.innerRadius = FormData.size.innerRadius;
-        this.settings.outerRadius = FormData.size.outerRadius;
-        //if (FormData.theme.labelPosition > 0) {
-            this.settings.labelPosition = FormData.theme.labelPosition;
-        //}
-        // if it's flat then set the parent to 'undefined'
-        if (FormData.data.structure === "flat") {
+D3Builder.pieChart = (function(undefined) {
+    'use strict';
+    // object that builds the pie chart
+    var pieChart = {
+        init : function() {
+            // get the generic settings
+            this.settings = D3Builder.settings.getSettings(D3Builder.formData);
+            // get the specific settings
+            this.getSettings();
+            // get the common style elements
+            this.chartStyle = D3Builder.settings.getStyle(D3Builder.formData, "getHeaderPositionCentered");
+            // get the specific style
+            this.getStyle();
+            // build the chart
+            D3Builder.settings.buildChart("pie", this.settings, this.chartStyle);
+        },
+        getSettings : function() {
+            this.settings.innerRadius = D3Builder.formData.size.innerRadius;
+            this.settings.outerRadius = D3Builder.formData.size.outerRadius;
+            //if (D3Builder.formData.theme.labelPosition > 0) {
+                this.settings.labelPosition = D3Builder.formData.theme.labelPosition;
+            //}
+            // if it's flat then set the parent to 'undefined'
+            if (D3Builder.formData.data.structure === "flat") {
+                this.settings.dataStructure.children = null;
+            }
+        },
+        getStyle : function() {
+            // add label style
+            if (D3Builder.formData.theme.labelSize) {
+                this.chartStyle += ".arc text {font-size:" + D3Builder.formData.theme.labelSize + "px; fill:#" + D3Builder.formData.theme.labelColor + "}\n";
+            }
+            // add borders to the segments
+            if (D3Builder.formData.theme.borderSize) {
+                this.chartStyle += ".arc path {stroke-width:" + D3Builder.formData.theme.borderSize + "px; stroke:#" + D3Builder.formData.theme.borderColor + ";}\n";
+            }
+        }
+    };
+
+    return pieChart;
+})();
+
+D3Builder.packChart = (function(undefined) {
+    'use strict';
+    // object that builds the "pack" chart
+    var packChart = {
+        init : function() {
+            // get the generic settings
+            this.settings = D3Builder.settings.getSettings(D3Builder.formData);
+            // get the specific settings
+            this.getSettings();
+            // get the common style elements
+            this.chartStyle = D3Builder.settings.getStyle(D3Builder.formData, "getHeaderPosition");
+            // get the specific style
+            this.getStyle();
+            // build the chart
+            D3Builder.settings.buildChart("pack", this.settings, this.chartStyle);
+        },
+        getSettings : function() {
+            this.settings.diameter = D3Builder.formData.size.outerRadius;
+            this.settings.chartType = D3Builder.formData.type.secondary;
+            this.settings.colors = {
+                'group' : D3Builder.formData.colors[0],
+                'leaf' : D3Builder.formData.colors[1],
+                'label' : D3Builder.formData.colors[2]
+            };
+            if (D3Builder.formData.theme.labelPosition > 0) {
+                this.settings.labelPosition = D3Builder.formData.theme.labelPosition;
+            } else {
+                this.settings.labelPosition = false;
+            }
+        },
+        getStyle : function() {
+            // add label style
+            if (D3Builder.formData.theme.labelSize) {
+                this.chartStyle += ".node text {font-size:" + D3Builder.formData.theme.labelSize + "px; fill:#" + D3Builder.formData.theme.labelColor + "}\n";
+            }
+            if (this.settings.chartType === "pack") {
+                this.chartStyle += ".pack circle {stroke-width: 1px;}\n";
+                this.chartStyle += ".leaf circle {fill-opacity: 1;}\n";
+                this.chartStyle += ".group circle:hover {stroke-width:2px;cursor:pointer;}\n";
+                this.chartStyle += ".group:first-child circle:hover {cursor:default;stroke-width:1px;stroke:" + this.settings.colors.group + "}\n";
+            } else if (this.settings.chartType === "bubble") {
+                // not sure I even need to add any style for this type
+            }   
+        }
+    };
+
+    return packChart;
+})();
+
+D3Builder.forceChart = (function(undefined) {
+    'use strict';
+
+    // object that builds the "force" chart
+    var forceChart = {
+        init : function() {
+            // get the generic settings
+            this.settings = D3Builder.settings.getSettings(D3Builder.formData);
+            // get the specific settings
+            this.getSettings();
+            // get the common style elements
+            this.chartStyle = D3Builder.settings.getStyle(D3Builder.formData, "getHeaderPosition");
+            // get the specific style
+            this.getStyle();
+            // build the chart
+            D3Builder.settings.buildChart("force", this.settings, this.chartStyle);
+        },
+        getSettings : function() {
+            this.chartType = D3Builder.formData.type.secondary;
+            this.settings.colors = {
+                'parent' : D3Builder.formData.colors[0],
+                'group' : D3Builder.formData.colors[1],
+                'child' : D3Builder.formData.colors[2],
+                'line' : D3Builder.formData.colors[3]
+            };
+            // I'll need to add this to the form
+            //this.settings.charge = FormData.events.charge;
+            //this.settings.linkDistance = FormData.events.distance;
+        },
+        getStyle : function() {
+            // I still need transfer the colour settings from the plugin settings to a class setting in the CSS me thinks ;)
+        }
+    };
+
+    return forceChart;
+})();
+
+D3Builder.sunburstChart = (function(undefined) {
+    'use strict';
+    // object that builds the "sunburst" chart
+    var sunburstChart = {
+        init : function() {
+            // get the generic settings
+            this.settings = D3Builder.settings.getSettings(D3Builder.formData);
+            // get the specific settings
+            this.getSettings();
+            // get the common style elements
+            this.chartStyle = D3Builder.settings.getStyle(D3Builder.formData, "getHeaderPosition");
+            // get the specific style
+            this.getStyle();
+            // build the chart
+            D3Builder.settings.buildChart("sunburst", this.settings, this.chartStyle);
+        },
+        getSettings : function() {
+            this.settings.radius = D3Builder.formData.size.outerRadius;
+            this.settings.elements = {
+                'borderWidth' : D3Builder.formData.theme.borderSize + "px",
+                'borderColor' : "#" + D3Builder.formData.theme.borderColor
+            };
+        },
+        getStyle : function() {
+            // add borders to the segments
+            if (D3Builder.formData.theme.borderSize) {
+                this.chartStyle += ".arc path {stroke-width:" + D3Builder.formData.theme.borderSize + "px; stroke:#" + D3Builder.formData.theme.borderColor + ";}\n";
+            }
+        }
+    };
+
+    return sunburstChart;
+})();
+
+D3Builder.areaChart = (function(undefined) {
+    'use strict';
+    // object that builds the "area" chart
+    var areaChart = {
+        init : function() {
+            // get the generic settings
+            this.settings = D3Builder.settings.getSettings(D3Builder.formData);
+            // get the specific settings
+            this.getSettings();
+            // get the common style elements
+            this.chartStyle = D3Builder.settings.getStyle(D3Builder.formData, "getHeaderPosition");
+            // get the specific style
+            this.getStyle();
+            // build the chart
+            D3Builder.settings.buildChart("area", this.settings, this.chartStyle);
+        },
+        getSettings : function() {
+            var formData = D3Builder.formData;
+
+            this.settings.margin = {
+                top : formData.size.paddingTop,
+                bottom : formData.size.paddingBottom,
+                left : formData.size.paddingLeft,
+                right : formData.size.paddingRight
+            };
+            // I should come back to these settings and add form elements for more settings
+            this.settings.elements = {
+                line : true,
+                lineOpacity : 1,
+                area : true,
+                areaOpacity : 0.8,
+                dot : true,
+                dotRadius : 3
+            };
+            this.settings.scale = {
+                x : formData.data.scale.x,
+                y : formData.data.scale.y
+            };
+            // set the children to undefined so that the title will show
             this.settings.dataStructure.children = null;
+
+        },
+        getStyle : function() {
+            var formData = D3Builder.formData;
+
+            // if the labels are turned off then set the label size to 0
+            if (!formData.theme.labelSize) {
+                formData.theme.labelSize = 0;
+            }
+            this.chartStyle += ".axis path, .axis line, .domain {fill: none;stroke:#" + formData.theme.borderColor + ";stroke-width:" + formData.theme.borderSize + "px;shape-rendering: crispEdges;}\n";
+            this.chartStyle += ".line {fill: none;stroke: " + formData.colors[1] + ";stroke-width: " + formData.theme.borderSize + "px;}\n";
+            this.chartStyle += ".dot {fill: " + formData.colors[2] + ";stroke: " + formData.colors[1] + ";stroke-width: 1px;}\n";
+            this.chartStyle += ".tick {fill:none;stroke:#" + formData.theme.borderColor + ";stroke-width:" + formData.theme.borderSize + "px;}\n";
+            this.chartStyle += "text {fill: #" + formData.theme.labelColor + ";font-size:" + formData.theme.labelSize + "px;stroke:none}\n";
         }
-    },
-    getStyle : function() {
-        // add label style
-        if (FormData.theme.labelSize) {
-            this.chartStyle += ".arc text {font-size:" + FormData.theme.labelSize + "px; fill:#" + FormData.theme.labelColor + "}\n";
+    };
+    
+    return areaChart;
+})();
+
+D3Builder.barChart = (function(undefined) {
+    'use strict';
+    // object that builds the "bar" chart - I badly need to clean up this function and the bar chart plugin options as well
+    var barChart = {
+        init : function() {
+            // get the generic settings
+            this.settings = D3Builder.settings.getSettings(D3Builder.formData);
+            // get the specific settings
+            this.getSettings();
+            // get the common style elements
+            this.chartStyle = D3Builder.settings.getStyle(D3Builder.formData, "getHeaderPosition");
+            // get the specific style
+            this.getStyle();
+            // build the chart
+            D3Builder.settings.buildChart("bar", this.settings, this.chartStyle);
+        },
+        getSettings : function() {
+            var formData = D3Builder.formData;
+
+            this.settings.margin = {
+                top : formData.size.paddingTop,
+                bottom : formData.size.paddingBottom,
+                left : formData.size.paddingLeft,
+                right : formData.size.paddingRight
+            };
+            this.settings.elements = {
+                barWidth : 10,
+                barOpacity : 0.8
+            };
+            this.settings.scale = {
+                x : formData.data.scale.x,
+                y : formData.data.scale.y
+            };
+            // set the children to undefined so that the title will show
+            this.settings.dataStructure.children = null;
+        },
+        getStyle : function() {
+            var formData = D3Builder.formData;
+
+            // if the labels are turned off then set the label size to 0
+            if (!D3Builder.formData.theme.labelSize) {
+                D3Builder.formData.theme.labelSize = 0;
+            }
+            this.chartStyle += ".axis path, .axis line, .domain {fill: none;stroke:#" + formData.theme.borderColor + ";stroke-width:" + formData.theme.borderSize + "px;shape-rendering: crispEdges;}\n";
+            this.chartStyle += ".line {fill: none;stroke: " + formData.colors[1] + ";stroke-width: " + formData.theme.borderSize + "px;}\n";
+            this.chartStyle += ".dot {fill: " + formData.colors[2] + ";stroke: " + formData.colors[1] + ";stroke-width: 1px;}\n";
+            this.chartStyle += ".tick {fill:none;stroke:#" + formData.theme.borderColor + ";stroke-width:" + formData.theme.borderSize + "px;}\n";
+            this.chartStyle += "text {fill: #" + formData.theme.labelColor + ";font-size:" + formData.theme.labelSize + "px;stroke:none}\n";
         }
-        // add borders to the segments
-        if (FormData.theme.borderSize) {
-            this.chartStyle += ".arc path {stroke-width:" + FormData.theme.borderSize + "px; stroke:#" + FormData.theme.borderColor + ";}\n";
+    };
+
+    return barChart;
+})();
+
+D3Builder.chordChart = (function(undefined) {
+    'use strict';
+    // object that builds the "chord" chart - I badly need to clean up this function and the bar chart plugin options as well
+    var chordChart = {
+        init : function() {
+            // get the generic settings
+            this.settings = D3Builder.settings.getSettings(D3Builder.formData);
+            // get the specific settings
+            this.getSettings();
+            // get the common style elements
+            this.chartStyle = D3Builder.settings.getStyle(D3Builder.formData, "getHeaderPositionCentered");
+            // get the specific style
+            this.getStyle();
+            // build the chart
+            D3Builder.settings.buildChart("chord", this.settings, this.chartStyle);
+        },
+        getSettings : function() {
+            var formData = D3Builder.formData;
+
+            this.settings.spacing = formData.size.innerRadius;
+            this.settings.labelPosition = formData.theme.labelPosition;
+            // set the children to undefined so that the title will show
+            this.settings.dataStructure.children = null;
+        },
+        getStyle : function() {
+            var formData = D3Builder.formData;
+
+            // add the header style if there is a vlue for it
+            if (formData.theme.headerName) {
+                this.chartStyle += "svg .chartName text {font-size:" + formData.theme.headerSize + "px; fill:#" + formData.theme.headerColor + "}\n";
+            }
+            this.chartStyle += ".group text {font: " + formData.theme.labelSize + "px sans-serif;pointer-events: none;}\n"; 
+            this.chartStyle += ".chords path {fill-opacity: .67;stroke: #" + formData.theme.borderColor + ";stroke-width: .5px;}\n";
+            this.chartStyle += ".tickUnit line {stroke: #" + formData.theme.labelColor + "}\n";
+            this.chartStyle += ".tickUnit text {fill: #" + formData.theme.labelColor + "}\n";
+            this.chartStyle += "text {fill: #" + formData.theme.labelColor + ";font-size:" + formData.theme.labelSize + "px;}\n";
         }
-    }
-};
+    };
 
+    return chordChart;
+})();
 
-// object that builds the "pack" chart
-PackChart = {
-    init : function() {
-        // get the generic settings
-        this.settings = Settings.getSettings(FormData);
-        // get the specific settings
-        this.getSettings();
-        // get the common style elements
-        this.chartStyle = Settings.getStyle(FormData, "getHeaderPosition");
-        // get the specific style
-        this.getStyle();
-        // build the chart
-        Settings.buildChart("pack", this.settings, this.chartStyle);
-    },
-    getSettings : function() {
-        this.settings.diameter = FormData.size.outerRadius;
-        this.settings.chartType = FormData.type.secondary;
-        this.settings.colors = {
-            'group' : FormData.colors[0],
-            'leaf' : FormData.colors[1],
-            'label' : FormData.colors[2]
-        };
-        if (FormData.theme.labelPosition > 0) {
-            this.settings.labelPosition = FormData.theme.labelPosition;
+D3Builder.scatterplotChart = (function(undefined) {
+    'use strict';
+    // object that builds the "scatterplot" chart
+    var scatterplotChart = {
+        init : function() {
+            // get the generic settings
+            this.settings = D3Builder.settings.getSettings(D3Builder.formData);
+            // get the specific settings
+            this.getSettings();
+            // get the common style elements
+            this.chartStyle = D3Builder.settings.getStyle(D3Builder.formData, "getHeaderPosition");
+            // get the specific style
+            this.getStyle();
+            // build the chart
+            D3Builder.settings.buildChart("scatterplot", this.settings, this.chartStyle);
+        },
+        getSettings : function() {
+            var formData = D3Builder.formData;
+
+            this.settings.margin = {
+                top : formData.size.paddingTop,
+                bottom : formData.size.paddingBottom,
+                left : formData.size.paddingLeft,
+                right : formData.size.paddingRight
+            };
+            this.settings.elements = {
+                dotRadius : 3
+            };
+            this.settings.scale = {
+                x : formData.data.scale.x,
+                y : formData.data.scale.y
+            };
+            // set the children to undefined so that the title will show
+            this.settings.dataStructure.children = null;
+
+        },
+        getStyle : function() {
+            var formData = D3Builder.formData;
+            // if the labels are turned off then set the label size to 0
+            if (!D3Builder.formData.theme.labelSize) {
+                D3Builder.formData.theme.labelSize = 0;
+            }
+            this.chartStyle += ".axis path, .axis line, .domain {fill: none;stroke:#" + formData.theme.borderColor + ";stroke-width:" + formData.theme.borderSize + "px;shape-rendering: crispEdges;}\n";
+            this.chartStyle += ".line {fill: none;stroke: " + formData.colors[1] + ";stroke-width: " + formData.theme.borderSize + "px;}\n";
+            this.chartStyle += ".dot {fill: " + formData.colors[2] + ";stroke: " + formData.colors[1] + ";stroke-width: 1px;}\n";
+            this.chartStyle += ".tick {fill:none;stroke:#" + formData.theme.borderColor + ";stroke-width:" + formData.theme.borderSize + "px;}\n";
+            this.chartStyle += "text {fill: #" + formData.theme.labelColor + ";font-size:" + formData.theme.labelSize + "px;stroke:none}\n";
         }
-        else {
-            this.settings.labelPosition = false;
-        }
-        // I'll need to add this to the form
-        //this.settings.speed = FormData.events.speed;
+    };
 
-    },
-    getStyle : function() {
-        // add label style
-        if (FormData.theme.labelSize) {
-            this.chartStyle += ".node text {font-size:" + FormData.theme.labelSize + "px; fill:#" + FormData.theme.labelColor + "}\n";
-        }
-        if (this.settings.chartType === "pack") {
-            this.chartStyle += ".pack circle {stroke-width: 1px;}\n";
-            this.chartStyle += ".leaf circle {fill-opacity: 1;}\n";
-            this.chartStyle += ".group circle:hover {stroke-width:2px;cursor:pointer;}\n";
-            this.chartStyle += ".group:first-child circle:hover {cursor:default;stroke-width:1px;stroke:" + this.settings.colors.group + "}\n";
-        }
-        else if (this.settings.chartType === "bubble") {
-            // not sure I even need to add any style for this type
-        }
-        
-    }
-};
-
-
-// object that builds the "force" chart
-ForceChart = {
-    init : function() {
-        // get the generic settings
-        this.settings = Settings.getSettings(FormData);
-        // get the specific settings
-        this.getSettings();
-        // get the common style elements
-        this.chartStyle = Settings.getStyle(FormData, "getHeaderPosition");
-        // get the specific style
-        this.getStyle();
-        // build the chart
-        Settings.buildChart("force", this.settings, this.chartStyle);
-    },
-    getSettings : function() {
-        this.chartType = FormData.type.secondary;
-        this.settings.colors = {
-            'parent' : FormData.colors[0],
-            'group' : FormData.colors[1],
-            'child' : FormData.colors[2],
-            'line' : FormData.colors[3]
-        };
-        // I'll need to add this to the form
-        //this.settings.charge = FormData.events.charge;
-        //this.settings.linkDistance = FormData.events.distance;
-
-    },
-    getStyle : function() {
-        // I still need transfer the colour settings from the plugin settings to a class setting in the CSS me thinks ;)
-    }
-};
-
-
-// object that builds the "sunburst" chart
-SunburstChart = {
-    init : function() {
-        // get the generic settings
-        this.settings = Settings.getSettings(FormData);
-        // get the specific settings
-        this.getSettings();
-        // get the common style elements
-        this.chartStyle = Settings.getStyle(FormData, "getHeaderPosition");
-        // get the specific style
-        this.getStyle();
-        // build the chart
-        Settings.buildChart("sunburst", this.settings, this.chartStyle);
-    },
-    getSettings : function() {
-        this.settings.radius = FormData.size.outerRadius;
-        this.settings.elements = {
-            'borderWidth' : FormData.theme.borderSize + "px",
-            'borderColor' : "#" + FormData.theme.borderColor
-        }
-        // I'll need to add this to the form
-        //this.settings.speed = FormData.events.speed;
-
-    },
-    getStyle : function() {
-        // add borders to the segments
-        if (FormData.theme.borderSize) {
-            this.chartStyle += ".arc path {stroke-width:" + FormData.theme.borderSize + "px; stroke:#" + FormData.theme.borderColor + ";}\n";
-        }
-    }
-};
-
-
-// object that builds the "area" chart
-AreaChart = {
-    init : function() {
-        // get the generic settings
-        this.settings = Settings.getSettings(FormData);
-        // get the specific settings
-        this.getSettings();
-        // get the common style elements
-        this.chartStyle = Settings.getStyle(FormData, "getHeaderPosition");
-        // get the specific style
-        this.getStyle();
-        // build the chart
-        Settings.buildChart("area", this.settings, this.chartStyle);
-    },
-    getSettings : function() {
-        this.settings.margin = {
-            top : FormData.size.paddingTop,
-            bottom : FormData.size.paddingBottom,
-            left : FormData.size.paddingLeft,
-            right : FormData.size.paddingRight
-        };
-        this.settings.elements = {
-            'shape' : FormData.colors[0],
-            'line' : FormData.colors[1],
-            'dot' : FormData.colors[2],
-            'x' : FormData.colors[3],
-            'y' : FormData.colors[4]
-        };
-        this.settings.scale = {
-            x : FormData.data.scale.x,
-            y : FormData.data.scale.y
-        };
-        // set the children to undefined so that the title will show
-        this.settings.dataStructure.children = null;
-
-    },
-    getStyle : function() {
-        // if the labels are turned off then set the label size to 0
-        if (!FormData.theme.labelSize) {
-            FormData.theme.labelSize = 0;
-        }
-        this.chartStyle += ".axis path, .axis line, .domain {fill: none;stroke:#" + FormData.theme.borderColor + ";stroke-width:" + FormData.theme.borderSize + "px;shape-rendering: crispEdges;}\n";
-        this.chartStyle += ".line {fill: none;stroke: " + FormData.colors[1] + ";stroke-width: " + FormData.theme.borderSize + "px;}\n";
-        this.chartStyle += ".dot {fill: " + FormData.colors[2] + ";stroke: " + FormData.colors[1] + ";stroke-width: 1px;}\n";
-        this.chartStyle += ".tick {fill:none;stroke:#" + FormData.theme.borderColor + ";stroke-width:" + FormData.theme.borderSize + "px;}\n";
-        this.chartStyle += "text {fill: #" + FormData.theme.labelColor + ";font-size:" + FormData.theme.labelSize + "px;stroke:none}\n"
-    }
-};
-
-
-// object that builds the "bar" chart - I badly need to clean up this function and the bar chart plugin options as well
-BarChart = {
-    init : function() {
-        // get the generic settings
-        this.settings = Settings.getSettings(FormData);
-        // get the specific settings
-        this.getSettings();
-        // get the common style elements
-        this.chartStyle = Settings.getStyle(FormData, "getHeaderPosition");
-        // get the specific style
-        this.getStyle();
-        // build the chart
-        Settings.buildChart("bar", this.settings, this.chartStyle);
-    },
-    getSettings : function() {
-        this.settings.margin = {
-            top : FormData.size.padding,
-            bottom : FormData.size.padding,
-            left : FormData.size.padding,
-            right : FormData.size.padding
-        };
-        this.settings.elements = {
-            'bars' : FormData.colors[0],
-            'line' : FormData.colors[1],
-            'dot' : FormData.colors[2],
-            'x' : FormData.colors[3],
-            'y' : FormData.colors[4]
-        };
-        this.settings.scale = {
-            x : FormData.data.scale.x,
-            y : FormData.data.scale.y
-        };
-        // set the children to undefined so that the title will show
-        this.settings.dataStructure.children = null;
-    },
-    getStyle : function() {
-        // if the labels are turned off then set the label size to 0
-        if (!FormData.theme.labelSize) {
-            FormData.theme.labelSize = 0;
-        }
-        this.chartStyle += ".axis path, .axis line, .domain {fill: none;stroke:#" + FormData.theme.borderColor + ";stroke-width:" + FormData.theme.borderSize + "px;shape-rendering: crispEdges;}\n";
-        this.chartStyle += ".line {fill: none;stroke: " + FormData.colors[1] + ";stroke-width: " + FormData.theme.borderSize + "px;}\n";
-        this.chartStyle += ".dot {fill: " + FormData.colors[2] + ";stroke: " + FormData.colors[1] + ";stroke-width: 1px;}\n";
-        this.chartStyle += ".tick {fill:none;stroke:#" + FormData.theme.borderColor + ";stroke-width:" + FormData.theme.borderSize + "px;}\n";
-        this.chartStyle += "text {fill: #" + FormData.theme.labelColor + ";font-size:" + FormData.theme.labelSize + "px;stroke:none}\n";
-    }
-};
-
-
-// object that builds the "chord" chart - I badly need to clean up this function and the bar chart plugin options as well
-ChordChart = {
-    init : function() {
-        // get the generic settings
-        this.settings = Settings.getSettings(FormData);
-        // get the specific settings
-        this.getSettings();
-        // get the common style elements
-        this.chartStyle = Settings.getStyle(FormData, "getHeaderPositionCentered");
-        // get the specific style
-        this.getStyle();
-        // build the chart
-        Settings.buildChart("chord", this.settings, this.chartStyle);
-    },
-    getSettings : function() {
-        this.settings.spacing = FormData.size.innerRadius;
-        this.settings.elements = {
-            'bars' : FormData.colors[0],
-            'line' : FormData.colors[1],
-            'dot' : FormData.colors[2],
-            'x' : FormData.colors[3],
-            'y' : FormData.colors[4]
-        };
-        this.settings.labelPosition = FormData.theme.labelPosition;
-        /* 
-        this.settings.scale = {
-            x : FormData.data.scale.x,
-            y : FormData.data.scale.y
-        };
-        */
-        // set the children to undefined so that the title will show
-        this.settings.dataStructure.children = null;
-    },
-    getStyle : function() {
-        // add the header style if there is a vlue for it
-        if (FormData.theme.headerName) {
-            this.chartStyle += "svg .chartName text {font-size:" + FormData.theme.headerSize + "px; fill:#" + FormData.theme.headerColor + "}\n";
-        }
-        this.chartStyle += ".group text {font: " + FormData.theme.labelSize + "px sans-serif;pointer-events: none;}\n"; 
-        this.chartStyle += ".chords path {fill-opacity: .67;stroke: #" + FormData.theme.borderColor + ";stroke-width: .5px;}\n";
-        this.chartStyle += ".tickUnit line {stroke: #" + FormData.theme.labelColor + "}\n";
-        this.chartStyle += ".tickUnit text {fill: #" + FormData.theme.labelColor + "}\n";
-        this.chartStyle += "text {fill: #" + FormData.theme.labelColor + ";font-size:" + FormData.theme.labelSize + "px;}\n";
-    }
-};
-
-// object that builds the "scatterplot" chart
-ScatterplotChart = {
-    init : function() {
-        // get the generic settings
-        this.settings = Settings.getSettings(FormData);
-        // get the specific settings
-        this.getSettings();
-        // get the common style elements
-        this.chartStyle = Settings.getStyle(FormData, "getHeaderPosition");
-        // get the specific style
-        this.getStyle();
-        // build the chart
-        Settings.buildChart("scatterplot", this.settings, this.chartStyle);
-    },
-    getSettings : function() {
-        this.settings.margin = {
-            top : FormData.size.padding,
-            bottom : FormData.size.padding,
-            left : FormData.size.padding,
-            right : FormData.size.padding
-        };
-        this.settings.elements = {
-            'shape' : FormData.colors[0],
-            'line' : FormData.colors[1],
-            'dot' : FormData.colors[2],
-            'x' : FormData.colors[3],
-            'y' : FormData.colors[4]
-        };
-        this.settings.scale = {
-            x : FormData.data.scale.x,
-            y : FormData.data.scale.y
-        };
-        // set the children to undefined so that the title will show
-        this.settings.dataStructure.children = null;
-
-    },
-    getStyle : function() {
-        // if the labels are turned off then set the label size to 0
-        if (!FormData.theme.labelSize) {
-            FormData.theme.labelSize = 0;
-        }
-        this.chartStyle += ".axis path, .axis line, .domain {fill: none;stroke:#" + FormData.theme.borderColor + ";stroke-width:" + FormData.theme.borderSize + "px;shape-rendering: crispEdges;}\n";
-        this.chartStyle += ".line {fill: none;stroke: " + FormData.colors[1] + ";stroke-width: " + FormData.theme.borderSize + "px;}\n";
-        this.chartStyle += ".dot {fill: " + FormData.colors[2] + ";stroke: " + FormData.colors[1] + ";stroke-width: 1px;}\n";
-        this.chartStyle += ".tick {fill:none;stroke:#" + FormData.theme.borderColor + ";stroke-width:" + FormData.theme.borderSize + "px;}\n";
-        this.chartStyle += "text {fill: #" + FormData.theme.labelColor + ";font-size:" + FormData.theme.labelSize + "px;stroke:none}\n"
-    }
-};
+    return scatterplotChart;
+})();

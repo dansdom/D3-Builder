@@ -1,6 +1,6 @@
 // extend code
 // https://github.com/dansdom/extend
-var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=arguments.length,j=!1,d={hasOwn:Object.prototype.hasOwnProperty,class2type:{},type:function(a){return null==a?String(a):d.class2type[Object.prototype.toString.call(a)]||"object"},isPlainObject:function(a){if(!a||"object"!==d.type(a)||a.nodeType||d.isWindow(a))return!1;try{if(a.constructor&&!d.hasOwn.call(a,"constructor")&&!d.hasOwn.call(a.constructor.prototype,"isPrototypeOf"))return!1}catch(c){return!1}for(var b in a);return void 0===b||d.hasOwn.call(a, b)},isArray:Array.isArray||function(a){return"array"===d.type(a)},isFunction:function(a){return"function"===d.type(a)},isWindow:function(a){return null!=a&&a==a.window}};"boolean"===typeof c&&(j=c,c=arguments[1]||{},f=2);"object"!==typeof c&&!d.isFunction(c)&&(c={});k===f&&(c=this,--f);for(;f<k;f++)if(null!=(h=arguments[f]))for(g in h)b=c[g],e=h[g],c!==e&&(j&&e&&(d.isPlainObject(e)||(i=d.isArray(e)))?(i?(i=!1,b=b&&d.isArray(b)?b:[]):b=b&&d.isPlainObject(b)?b:{},c[g]=extend(j,b,e)):void 0!==e&&(c[g]= e));return c};
+//var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=arguments.length,j=!1,d={hasOwn:Object.prototype.hasOwnProperty,class2type:{},type:function(a){return null==a?String(a):d.class2type[Object.prototype.toString.call(a)]||"object"},isPlainObject:function(a){if(!a||"object"!==d.type(a)||a.nodeType||d.isWindow(a))return!1;try{if(a.constructor&&!d.hasOwn.call(a,"constructor")&&!d.hasOwn.call(a.constructor.prototype,"isPrototypeOf"))return!1}catch(c){return!1}for(var b in a);return void 0===b||d.hasOwn.call(a, b)},isArray:Array.isArray||function(a){return"array"===d.type(a)},isFunction:function(a){return"function"===d.type(a)},isWindow:function(a){return null!=a&&a==a.window}};"boolean"===typeof c&&(j=c,c=arguments[1]||{},f=2);"object"!==typeof c&&!d.isFunction(c)&&(c={});k===f&&(c=this,--f);for(;f<k;f++)if(null!=(h=arguments[f]))for(g in h)b=c[g],e=h[g],c!==e&&(j&&e&&(d.isPlainObject(e)||(i=d.isArray(e)))?(i?(i=!1,b=b&&d.isArray(b)?b:[]):b=b&&d.isPlainObject(b)?b:{},c[g]=extend(j,b,e)):void 0!==e&&(c[g]= e));return c};
 
 // D3 plugin template
 (function (d3) {
@@ -87,7 +87,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             this.setTitle();
 
             // if type = Bubble (i.e. shallow representation), create the bubble svg
-            if (container.opts.chartType == 'bubble') {
+            if (container.opts.chartType === 'bubble') {
                 // resets the charts position. Only for the bubble type
                 container.chart
                     .on("click", function() {
@@ -103,11 +103,11 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 // make sure the style is right
                 container.chart.selectAll(".node").selectAll("circle")
                     .style("fill-opacity", 1)
-                    .style("stroke", null)
+                    .style("stroke", null);
 
             }
             // if type = Pack (i.e. deep representation)
-            else if (container.opts.chartType == 'pack') {
+            else if (container.opts.chartType === 'pack') {
 
                 // define the data set and then append the g nodes for the data
                 // add class depending on if the node has children 
@@ -132,9 +132,9 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             container.pack
                 .size([this.opts.diameter, this.opts.diameter])
                 // custom size function as passed into the options object
-                .value(function(d) { return parseFloat(d[container.opts.dataStructure.value])})
+                .value(function(d) { return parseFloat(d[container.opts.dataStructure.value]); })
                 // custom children function as passed into the options object
-                .children(function(d) { return d[container.opts.dataStructure.children]})
+                .children(function(d) { return d[container.opts.dataStructure.children]; })
                 .padding(container.opts.spacing);
 
             // this is the layout for the bubble pack i.e. flat chart
@@ -283,9 +283,9 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     
             container.node.select("circle").transition()
                 .duration(container.opts.speed)
-                .style("stroke", function(d) {if (d.children) {return container.opts.colors.group}})
-                .style("fill", function(d) {if (d.children) {return container.opts.colors.group} else {return container.opts.colors.leaf}})
-                .style("fill-opacity", function(d) {if (d.children) {return container.opts.opacity}})
+                .style("stroke", function(d) {if (d.children) { return container.opts.colors.group; }})
+                .style("fill", function(d) {if (d.children) { return container.opts.colors.group; } else { return container.opts.colors.leaf; }})
+                .style("fill-opacity", function(d) {if (d.children) { return container.opts.opacity; }})
                 .attr("r", function(d) { return d.r; });
 
             // start fresh with the text nodes
@@ -348,9 +348,9 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 .attr("r", 0)
                 .transition()
                 .duration(container.opts.speed)
-                .style("stroke", function(d) {if (d.children) {return container.opts.colors.group}})
-                .style("fill", function(d) {if (d.children) {return container.opts.colors.group} else {return container.opts.colors.leaf}})
-                .style("fill-opacity", function(d) {if (d.children) {return container.opts.opacity}})
+                .style("stroke", function(d) {if (d.children) { return container.opts.colors.group; }})
+                .style("fill", function(d) {if (d.children) { return container.opts.colors.group; } else { return container.opts.colors.leaf; }})
+                .style("fill-opacity", function(d) {if (d.children) { return container.opts.opacity; }})
                 .attr("r", function(d) { return d.r; });
 
             // check to see if the labelPosition is set before placing text
@@ -387,10 +387,10 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 leftPos = (d.x - d.r),
                 topPos = -(d.y - d.r);
 
-            chart.select("text").remove();                
+            chart.select("text").remove();            
 
             // if it's a 'pack' chart, then filter text nodes
-            if (container.opts.chartType == 'bubble') {
+            if (container.opts.chartType === 'bubble') {
                 text = chart
                     .append("text")
                     .style("font-size", "0px")
@@ -400,7 +400,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     .text(function(d) { return d.className.substring(0, (d.r * scaleFactor) / 4); })
                     .style("font-size", container.opts.fontSize/scaleFactor + "px");
             }
-            else if (container.opts.chartType == 'pack') {
+            else if (container.opts.chartType === 'pack') {
                 text = chart
                     .filter(function(d) { return !d.children; })
                     .append("text")
@@ -441,7 +441,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 .remove();
 
             // if it's a 'pack' chart, then filter text nodes
-            if (container.opts.chartType == 'bubble') {
+            if (container.opts.chartType === 'bubble') {
                 text = chart
                     .append("text")
                     .style("font-size", "0px")
@@ -451,10 +451,9 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     .text(function(d) {
                         return d.className.substring(0, d.r / 4);
                     })
-                    .style("font-size", container.opts.fontSize + "px")
-
+                    .style("font-size", container.opts.fontSize + "px");
             }
-            else if (container.opts.chartType == 'pack') {
+            else if (container.opts.chartType === 'pack') {
                 text = chart
                     .filter(function(d) {
                         return !d.children;
@@ -467,7 +466,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     .text(function(d) {
                         return d[container.opts.dataStructure.name].substring(0, d.r / 4);
                     })
-                    .style("font-size", container.opts.fontSize + "px")
+                    .style("font-size", container.opts.fontSize + "px");
             }
 
             // stops the propagation of the event
@@ -490,7 +489,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 else {
                     dataList.push({packageName: name, className: node[container.opts.dataStructure.name], value: parseFloat(node[container.opts.dataStructure.value])});
                 }
-            };
+            }
 
             recurse(null, data);
             return {children: dataList};  
@@ -546,7 +545,8 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
     d3.pack = function(element, options, callback) {
         // define the plugin name here so I don't have to change it anywhere else. This name refers to the jQuery data object that will store the plugin data
         var pluginName = "pack",
-            args;
+            args,
+            i;
 
         function applyPluginMethod(el) {
             var pluginInstance = el[pluginName];   
@@ -564,7 +564,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             else {
                 pluginInstance[options].apply(pluginInstance, args);
             }
-        };
+        }
 
         function initialisePlugin(el) {
             // define the data object that is going to be attached to the DOM element that the plugin is being called on
@@ -581,7 +581,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 // I think I need to anchor this new object to the DOM element and bind it
                 el[pluginName] = new d3.Pack(options, el, callback);
             }
-        };
+        }
         
         // if the argument is a string representing a plugin method then test which one it is
         if ( typeof options === 'string' ) {
@@ -589,9 +589,9 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             args = Array.prototype.slice.call(arguments, 2);
             // iterate over each object that the function is being called upon
             if (element.length) {
-                for (var i = 0; i < element.length; i++) {
+                for (i = 0; i < element.length; i++) {
                     applyPluginMethod(element[i]);
-                };
+                }
             }
             else {
                 applyPluginMethod(element);
@@ -602,7 +602,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         else {
             // initialise each instance of the plugin
             if (element.length) {
-                for (var i = 0; i < element.length; i++) {
+                for (i = 0; i < element.length; i++) {
                     initialisePlugin(element[i]);
                 }
             }
