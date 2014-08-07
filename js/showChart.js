@@ -444,8 +444,6 @@ D3Builder.scatterplotChart = (function(undefined) {
                 x : formData.data.scale.x,
                 y : formData.data.scale.y
             };
-            // set the children to undefined so that the title will show
-            this.settings.dataStructure.children = null;
 
         },
         getStyle : function() {
@@ -463,4 +461,58 @@ D3Builder.scatterplotChart = (function(undefined) {
     };
 
     return scatterplotChart;
+})();
+
+
+D3Builder.streamgraphChart = (function(undefined) {
+    'use strict';
+    // objects that builds the streamgraph chart
+    var streamgraphChart = {
+        init : function() {
+            // get the generic settings
+            this.settings = D3Builder.settings.getSettings(D3Builder.formData);
+            // get the specific settings
+            this.getSettings();
+            // get the common style elements
+            this.chartStyle = D3Builder.settings.getStyle(D3Builder.formData, "getHeaderPosition");
+            // get the specific style
+            this.getStyle();
+            // build the chart
+            D3Builder.settings.buildChart("streamgraph", this.settings, this.chartStyle);
+        },
+        getSettings : function() {
+            var formData = D3Builder.formData;
+
+            this.settings.margin = {
+                top : formData.size.paddingTop,
+                bottom : formData.size.paddingBottom,
+                left : formData.size.paddingLeft,
+                right : formData.size.paddingRight
+            };
+            this.settings.elements = {
+                line : 'red',
+                area : true
+            };
+            this.settings.scale = {
+                x : formData.data.scale.x,
+                y : formData.data.scale.y
+            };
+        },
+        getStyle : function() {
+            var formData = D3Builder.formData;
+
+            // if the labels are turned off then set the label size to 0
+            if (!formData.theme.labelSize) {
+                formData.theme.labelSize = 0;
+            }
+            this.chartStyle += ".axis path, .axis line, .domain {fill: none;stroke:#" + formData.theme.borderColor + ";stroke-width:" + formData.theme.borderSize + "px;shape-rendering: crispEdges;}\n";
+            this.chartStyle += ".line {fill: none;stroke: " + formData.colors[1] + ";stroke-width: " + formData.theme.borderSize + "px;}\n";
+            this.chartStyle += ".dot {fill: " + formData.colors[2] + ";stroke: " + formData.colors[1] + ";stroke-width: 1px;}\n";
+            this.chartStyle += ".tick {fill:none;stroke:#" + formData.theme.borderColor + ";stroke-width:" + formData.theme.borderSize + "px;}\n";
+            this.chartStyle += "text {fill: #" + formData.theme.labelColor + ";font-size:" + formData.theme.labelSize + "px;stroke:none}\n";
+        }
+    }
+
+    return streamgraphChart;
+
 })();

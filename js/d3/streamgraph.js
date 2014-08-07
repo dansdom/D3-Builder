@@ -16,6 +16,7 @@
         // extend the settings object with the options, make a 'deep' copy of the object using an empty 'holding' object
         // using the extend code that I ripped out of jQuery
         this.opts = extend(true, {}, d3.Streamgraph.settings, options);
+        console.log(this.opts);
         // something wrong the the extend method and date objects
         this.init();        
     };
@@ -486,8 +487,68 @@
             }
             //console.log(nestedData);
             // find any missing data and add a zero value for it
-            container.dataLayers = container.stack(nestedData);
+            container.dataNest = container.checkMissingValues(nestedData);
+            container.dataLayers = container.stack(container.dataNest);
             //console.log(container.dataLayers);
+
+            return data;
+        },
+        // check for any missing values in the data set
+        checkMissingValues : function(data) {
+            var container = this,
+                layer,
+                layerValue,
+                layerX,
+                i, j;
+
+            function checkGroups(pointX) {
+                var layer,
+                    i, j,
+                    hasPointX,
+                    emptyDataPoint;
+               
+                for (i = 0; i < data.length; i++) {
+                    layer = data[i];
+                    //console.log(layer);
+                    hasPointX = false;
+                    for (j = 0; j < layer.values.length; j++) {
+                        //console.log(layer.values[j]);
+                        //console.log('point x: ' + pointX);
+                        if (layer.values[j][container.opts.dataStructure.x] === pointX) {
+                            hasPointX = true;
+                        }
+                    }
+                    if (!hasPointX) {
+                        emptyDataPoint = {};
+                        emptyDataPoint[container.opts.dataStructure.x] = pointX;
+                        emptyDataPoint[container.opts.dataStructure.y] = 0;
+                        emptyDataPoint[container.opts.dataStructure.key] = data[i].key;
+                        data[i].values.push(emptyDataPoint);
+                    }
+                }
+            }
+
+            for (i = 0; i < data.length; i++) {
+                layer = data[i];
+                for (j = 0; j < layer.values.length; j++) {
+                    layerValue = layer.values[j];
+                    //console.log(layerValue);
+                    layerX = layerValue[container.opts.dataStructure.x];
+                    // check each data group for this x value
+                    checkGroups(layerX);
+                }
+            }
+
+            function sortArrayValues(index) {
+                data[index].values.sort(function(a, b) { return d3.ascending(a[container.opts.dataStructure.x], b[container.opts.dataStructure.x]); });
+            }
+
+            // re-order each data layer
+            for (i = 0; i < data.length; i++) {
+                if (container.isScaleNumeric(container.opts.scale.x)) {                    
+                    sortArrayValues(i);
+                }
+            }
 
             return data;
         },

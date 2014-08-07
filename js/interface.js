@@ -198,6 +198,9 @@ D3Builder.chartBuilder = (function($, d3, undefined) {
                 case "scatterplot" :
                     D3Builder.scatterplotChart.init();
                     break;
+                case "streamgraph" :
+                    D3Builder.streamgraphChart.init();
+                    break;
                 default :
                     break;
             }
@@ -269,6 +272,7 @@ D3Builder.chartType = (function($, d3, undefined) {
                             default : break;
                         }
                     }
+                    console.log(options);
                     return options;
                 }
 
@@ -818,14 +822,20 @@ D3Builder.chartData = (function($, d3, undefined) {
             else if (structure === "flat") {
                 children.css("display", "none");
                 $("li.data-source.dummy .flat").css("display", "block");
+                // select the X scale option
+                $("#data-scaleX").val("ordinal").change();  
             }
             else if (structure === "quantitative") {
                 children.css("display", "none");
                 $("li.data-source.dummy .quantitative").css("display", "block");
+                // select the X scale option
+                $("#data-scaleX").val("linear").change();  
             }
             else if (structure === "matrix") {
                 children.css("display", "none");
                 $("li.data-source.dummy .matrix").css("display", "block");
+                // select the X scale option
+                $("#data-scaleX").val("linear").change();  
             }
             // everything allowed
             else {
