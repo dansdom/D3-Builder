@@ -1,7 +1,7 @@
 var D3Builder = D3Builder || {};
 // settings object that handles most of the plugin settings parameters
 // some specific settings will be handled by each build object
-D3Builder.settings = (function(d3, undefined) {
+D3Builder.settings = (function(d3, $, undefined) {
     'use strict';
     // constructs all the common settings from the form
     var settings = {
@@ -91,7 +91,7 @@ D3Builder.settings = (function(d3, undefined) {
     };
 
     return settings;
-})(d3);
+})(d3, jQuery);
 
 // object that builds the "pie" chart
 D3Builder.pieChart = (function(undefined) {

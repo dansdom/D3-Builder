@@ -278,7 +278,9 @@ li.theme-data {display:none}
 #popupBox .helpContent .chart-force,
 #popupBox .helpContent .chart-area,
 #popupBox .helpContent .chart-bar,
-#popupBox .helpContent .chart-chord {display:none;}
+#popupBox .helpContent .chart-chord,
+#popupBox .helpContent .chart-scatterplot,
+#popupBox .helpContent .chart-streamgraph {display:none;}
 
 .current-chart-pie #popupBox .helpContent .chart-pie {display:block;}
 .current-chart-pack #popupBox .helpContent .chart-pack {display:block;}
@@ -287,6 +289,8 @@ li.theme-data {display:none}
 .current-chart-area #popupBox .helpContent .chart-area {display:block;}
 .current-chart-bar #popupBox .helpContent .chart-bar {display:block;}
 .current-chart-chord #popupBox .helpContent .chart-chord {display:block;}
+.current-chart-scatterplot #popupBox .helpContent .chart-scatterplot {display:block;}
+.current-chart-streamgraph #popupBox .helpContent .chart-streamgraph {display:block;}
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
    MEDIA QUERIES  
