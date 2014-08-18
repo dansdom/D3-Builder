@@ -243,7 +243,7 @@ D3Builder.chartType = (function($, d3, undefined) {
         // handles the chart type selection interaction
         showType : function() {
             $("#type-chart").on("change", function() {
-                var chartType = $(this).attr("value"),
+                var chartType = $(this).prop("value"),
                     dataSelect = $("#data-structure"),
                     scaleX = $("#data-scaleX"),
                     scaleY = $("#data-scaleY"),
@@ -272,7 +272,6 @@ D3Builder.chartType = (function($, d3, undefined) {
                             default : break;
                         }
                     }
-                    console.log(options);
                     return options;
                 }
 
@@ -302,7 +301,7 @@ D3Builder.chartType = (function($, d3, undefined) {
                 dataSelect.html(options);
                 // set the value as the first option on the data-structure option list
                 dataSelect.find("option:eq(0)").attr("selected", "selected");
-                var dataSelected = $("#data-structure option:eq(0)").attr("value");
+                var dataSelected = $("#data-structure option:eq(0)").prop("value");
 
                 // work out what data attributes are available and then show those inputs
                 $("li.data-attributes").css("display", "none");
@@ -360,20 +359,20 @@ D3Builder.chartType = (function($, d3, undefined) {
         },
         setValue : function() {
             // set to default values
-            $("#type-chart").attr("value", D3Builder.formData.type.primary);
+            $("#type-chart").prop("value", D3Builder.formData.type.primary);
             // if the primary is set then find the secondary
             if (D3Builder.formData.type.primary) {
                 // shoe the submenu
                 $("li.type-settings." + D3Builder.formData.type.primary).css("display", "block");
-                $("#type-chart-" + D3Builder.formData.type.primary).attr("value", D3Builder.formData.type.secondary);
+                $("#type-chart-" + D3Builder.formData.type.primary).prop("value", D3Builder.formData.type.secondary);
             }
         },
         getValue : function() {
-            var type = $("#type-chart").attr("value");
+            var type = $("#type-chart").prop("value");
             // set the form Data object if the chart type is set
             if (type) {
                 D3Builder.formData.type.primary = type;
-                D3Builder.formData.type.secondary = $("li." + type + " select").attr("value");
+                D3Builder.formData.type.secondary = $("li." + type + " select").prop("value");
             }
         }
     };
@@ -387,39 +386,39 @@ D3Builder.chartSize = (function($, d3, undefined) {
     var chartSize = {
         reset : function() {
             // set to default values
-            $("#size-height").attr("value", "680");
-            $("#size-width").attr("value", "680");
-            $("#size-outer-radius").attr("value", "300");
-            $("#size-inner-radius").attr("value", "0");
-            $("#size-padding").attr("value", "20");
-            $("#size-padding-top").attr("value", "20");
-            $("#size-padding-bottom").attr("value", "20");
-            $("#size-padding-left").attr("value", "20");
-            $("#size-padding-right").attr("value", "20");
+            $("#size-height").prop("value", "680");
+            $("#size-width").prop("value", "680");
+            $("#size-outer-radius").prop("value", "300");
+            $("#size-inner-radius").prop("value", "0");
+            $("#size-padding").prop("value", "20");
+            $("#size-padding-top").prop("value", "20");
+            $("#size-padding-bottom").prop("value", "20");
+            $("#size-padding-left").prop("value", "20");
+            $("#size-padding-right").prop("value", "20");
         },
         setValue : function() {
             // set to default values
-            $("#size-height").attr("value", D3Builder.formData.size.height);
-            $("#size-width").attr("value", D3Builder.formData.size.width);
-            $("#size-outer-radius").attr("value", D3Builder.formData.size.outerRadius);
-            $("#size-inner-radius").attr("value", D3Builder.formData.size.innerRadius);
-            $("#size-padding").attr("value", D3Builder.formData.size.padding);
-            $("#size-padding-top").attr("value", D3Builder.formData.size.paddingTop);
-            $("#size-padding-bottom").attr("value", D3Builder.formData.size.paddingBottom);
-            $("#size-padding-left").attr("value", D3Builder.formData.size.paddingLeft);
-            $("#size-padding-right").attr("value", D3Builder.formData.size.paddingRight);
+            $("#size-height").prop("value", D3Builder.formData.size.height);
+            $("#size-width").prop("value", D3Builder.formData.size.width);
+            $("#size-outer-radius").prop("value", D3Builder.formData.size.outerRadius);
+            $("#size-inner-radius").prop("value", D3Builder.formData.size.innerRadius);
+            $("#size-padding").prop("value", D3Builder.formData.size.padding);
+            $("#size-padding-top").prop("value", D3Builder.formData.size.paddingTop);
+            $("#size-padding-bottom").prop("value", D3Builder.formData.size.paddingBottom);
+            $("#size-padding-left").prop("value", D3Builder.formData.size.paddingLeft);
+            $("#size-padding-right").prop("value", D3Builder.formData.size.paddingRight);
         },
         getValue : function() {
             D3Builder.formData.size = {
-                height : parseFloat($("#size-height").attr("value")),
-                width : parseFloat($("#size-width").attr("value")),
-                outerRadius : parseFloat($("#size-outer-radius").attr("value")),
-                innerRadius : parseFloat($("#size-inner-radius").attr("value")),
-                padding : parseFloat($("#size-padding").attr("value")),
-                paddingTop : parseFloat($("#size-padding-top").attr("value")),
-                paddingBottom : parseFloat($("#size-padding-bottom").attr("value")),
-                paddingLeft : parseFloat($("#size-padding-left").attr("value")),
-                paddingRight : parseFloat($("#size-padding-right").attr("value"))
+                height : parseFloat($("#size-height").prop("value")),
+                width : parseFloat($("#size-width").prop("value")),
+                outerRadius : parseFloat($("#size-outer-radius").prop("value")),
+                innerRadius : parseFloat($("#size-inner-radius").prop("value")),
+                padding : parseFloat($("#size-padding").prop("value")),
+                paddingTop : parseFloat($("#size-padding-top").prop("value")),
+                paddingBottom : parseFloat($("#size-padding-bottom").prop("value")),
+                paddingLeft : parseFloat($("#size-padding-left").prop("value")),
+                paddingRight : parseFloat($("#size-padding-right").prop("value"))
             };
         }
     };
@@ -453,9 +452,9 @@ D3Builder.chartColors = (function($, d3, undefined) {
         reset : function() {
             // set to default values
             // set it to a custom scheme
-            $("#color-scheme").attr("value", 0);
+            $("#color-scheme").prop("value", 0);
             // set palette size to auto
-            $("#color-palette-size").attr("value", 0);
+            $("#color-palette-size").prop("value", 0);
             // remove the selected class
             $("fieldset.color .palette li").removeClass("selected");
 
@@ -466,12 +465,12 @@ D3Builder.chartColors = (function($, d3, undefined) {
                 paletteList = $("fieldset.color .palette li");
 
             // set it to a custom scheme
-            $("#color-scheme").attr("value", 0);
+            $("#color-scheme").prop("value", 0);
             // set palette size to auto
-            $("#color-palette-size").attr("value", 0);
+            $("#color-palette-size").prop("value", 0);
 
             for (var i = 0; i < paletteSize; i++) {
-                $(paletteList[i]).addClass("selected").find("input").attr("value", D3Builder.formData.colors[i]).trigger("keyup");
+                $(paletteList[i]).addClass("selected").find("input").prop("value", D3Builder.formData.colors[i]).trigger("keyup");
             }
             // remove selected class from any item greater than the list length
             $("fieldset.color .palette li:gt(" + paletteSize + ")").removeClass("selected");
@@ -484,7 +483,7 @@ D3Builder.chartColors = (function($, d3, undefined) {
             
             // cycle through only the selected items
             palette.find("li.selected").each(function() {
-                var currentValue = $(this).find("input").attr("value");
+                var currentValue = $(this).find("input").prop("value");
                 // if currentValue is a color, then add it, else forget it
                 if (currentValue) {
                     // turn it into a hex value
@@ -500,14 +499,14 @@ D3Builder.chartColors = (function($, d3, undefined) {
             var colors = this,
                 paletteColors = $(".palette li.color input");
             
-            colors.paletteSize = parseInt($("#color-palette-size").attr("value"));
+            colors.paletteSize = parseInt($("#color-palette-size").prop("value"));
             // I need to populate the intial palette size
             //console.log(paletteSize);
             $("fieldset.color .palette li.color:lt(" + colors.paletteSize + ")").addClass("selected");
             
             $("#color-palette-size").on("change", function() {
                 // update the palette size variable
-                colors.paletteSize = parseInt($(this).attr("value"));
+                colors.paletteSize = parseInt($(this).prop("value"));
                 // if it's a custom size then do nothing
                 if (colors.paletteSize > 0) {
                     $("fieldset.color .palette li.color:lt(" + colors.paletteSize + ")").addClass("selected");
@@ -526,9 +525,9 @@ D3Builder.chartColors = (function($, d3, undefined) {
                 //console.log(paletteSize);
                 $("fieldset.color .palette li.color:eq(" + (colors.paletteSize - 1) + ")").addClass("selected");
                 // set palette size to "auto"
-                $("#color-palette-size").attr("value", 0);
+                $("#color-palette-size").prop("value", 0);
                 // set the theme to custom
-                $("#color-scheme").attr("value", 0);
+                $("#color-scheme").prop("value", 0);
             });
             
             // remove a color from the palette
@@ -543,15 +542,15 @@ D3Builder.chartColors = (function($, d3, undefined) {
                 //console.log(paletteSize);
                 $("fieldset.color .palette li.selected:eq(" + colors.paletteSize + ")").removeClass("selected");
                 // set palette size to "auto"
-                $("#color-palette-size").attr("value", 0);
+                $("#color-palette-size").prop("value", 0);
                 // set the theme to custom
-                $("#color-scheme").attr("value", 0);
+                $("#color-scheme").prop("value", 0);
             });
         },
         manageColorScheme : function() {
             var colors = this,
                 // when page initialises, insert the default color scheme
-                colorScheme = $("#color-scheme").attr("value");
+                colorScheme = $("#color-scheme").prop("value");
 
             if (colorScheme === "0") {
                 console.log("there is no color scheme selected");
@@ -561,7 +560,7 @@ D3Builder.chartColors = (function($, d3, undefined) {
             
             // event handling for the select box
             $("#color-scheme").on("change", function() {
-                colorScheme = $(this).attr("value");
+                colorScheme = $(this).prop("value");
                 if (colorScheme === "0") {
                     console.log("not changing the scheme");
                     return;
@@ -572,7 +571,7 @@ D3Builder.chartColors = (function($, d3, undefined) {
                 $("fieldset.color .palette li.color:lt(" + schemeLength + ")").addClass("selected");
                 $("fieldset.color .palette li.color:gt(" + (schemeLength-1) + ")").removeClass("selected");
                 // I need to set the palette size to auto
-                $("#color-palette-size").attr("value", 0);
+                $("#color-palette-size").prop("value", 0);
                 // will need to set the palette to the right size for the particular scheme
                 colors.paletteSize = schemeLength;
                 colors.changeColorScheme(colorScheme);
@@ -589,10 +588,10 @@ D3Builder.chartColors = (function($, d3, undefined) {
             for (var i = 0; i < colorArrayLength; i++) {
                 // populate the inputs
                 // I have to trigger a keyup event here so that the jpicker plugin can read the value of the input field
-                palette.find("li:eq(" + i + ")").find("input").attr("value", colorArray[i]).trigger("change");
+                palette.find("li:eq(" + i + ")").find("input").prop("value", colorArray[i]).trigger("change");
             }
             // I'll remove values for those items larger than the array length
-            palette.find("li:gt(" + (colorArrayLength - 1) + ")").find("input").attr("value", "").trigger("change");
+            palette.find("li:gt(" + (colorArrayLength - 1) + ")").find("input").prop("value", "").trigger("change");
         }
     };
 
@@ -610,72 +609,72 @@ D3Builder.chartData = (function($, d3, undefined) {
         },
         reset : function() {
             // set to default values
-            $("#data-name").attr("value", "name");
-            $("#data-value").attr("value", "size");
-            $("#data-children").attr("value", "group");
-            $("#data-key").attr("value", "colour");
-            $("#data-x").attr("value", "x");
-            $("#data-y").attr("value", "y");
+            $("#data-name").prop("value", "name");
+            $("#data-value").prop("value", "size");
+            $("#data-children").prop("value", "group");
+            $("#data-key").prop("value", "colour");
+            $("#data-x").prop("value", "x");
+            $("#data-y").prop("value", "y");
             $(".data-source").css("display", "none");
             $(".data-source.dummy").css("display", "block");
         },
         setValue : function() {
             var formData = D3Builder.formData;
             // set to default values
-            $("#data-source").attr("value", formData.data.source);
+            $("#data-source").prop("value", formData.data.source);
 
             $(".data-source").css("display", "none");
             var dataSource = $(".data-source." + formData.data.source);
             dataSource.css("display","block");
 
             // the rest of the form
-            $("#data-structure").attr("value", formData.data.structure);
-            $("#data-name").attr("value", formData.data.attributes.name);
-            $("#data-value").attr("value", formData.data.attributes.value);
-            $("#data-children").attr("value", formData.data.attributes.children);
-            $("#data-key").attr("value", formData.data.attributes.key);
-            $("#data-x").attr("value", formData.data.attributes.x);
-            $("#data-y").attr("value", formData.data.attributes.y);
-            $("#data-scaleX").attr("value", formData.data.scale.x);
-            $("#data-scaleY").attr("value", formData.data.scale.y);
+            $("#data-structure").prop("value", formData.data.structure);
+            $("#data-name").prop("value", formData.data.attributes.name);
+            $("#data-value").prop("value", formData.data.attributes.value);
+            $("#data-children").prop("value", formData.data.attributes.children);
+            $("#data-key").prop("value", formData.data.attributes.key);
+            $("#data-x").prop("value", formData.data.attributes.x);
+            $("#data-y").prop("value", formData.data.attributes.y);
+            $("#data-scaleX").prop("value", formData.data.scale.x);
+            $("#data-scaleY").prop("value", formData.data.scale.y);
         },
         getValue : function() {
             //console.log('getting data value');
             var formData = D3Builder.formData;
             
             formData.data = {
-                source : $("#data-source").attr("value"),
-                structure : $("#data-structure").attr("value"),
-                url : $("#data-url").attr("value"),
-                file : $("#data-file").attr("value"),
+                source : $("#data-source").prop("value"),
+                structure : $("#data-structure").prop("value"),
+                url : $("#data-url").prop("value"),
+                file : $("#data-file").prop("value"),
                 dataObject : formData.data.dataObject,  //  I need to preserve this value if it is already set via file upload
                 // I want to strip down the whitespace
                 attributes : {
-                    name : $("#data-name").attr("value"),
-                    value : $("#data-value").attr("value"),
-                    children : $("#data-children").attr("value"),
-                    key : $("#data-key").attr("value"),
-                    x : $("#data-x").attr("value"),
-                    y : $("#data-y").attr("value")
+                    name : $("#data-name").prop("value"),
+                    value : $("#data-value").prop("value"),
+                    children : $("#data-children").prop("value"),
+                    key : $("#data-key").prop("value"),
+                    x : $("#data-x").prop("value"),
+                    y : $("#data-y").prop("value")
                 },
                 scale : {
-                    x : $("#data-scaleX").attr("value"),
-                    y : $("#data-scaleY").attr("value")
+                    x : $("#data-scaleX").prop("value"),
+                    y : $("#data-scaleY").prop("value")
                 }
             };
 
             // work out what data url to use
             if (formData.data.structure === "flat") {
-                formData.data.dummy = $("#data-dummy-flat").attr("value");
+                formData.data.dummy = $("#data-dummy-flat").prop("value");
             }
             else if (formData.data.structure === "nested") {
-                formData.data.dummy = $("#data-dummy-nested").attr("value");
+                formData.data.dummy = $("#data-dummy-nested").prop("value");
             }
             else if (formData.data.structure === "quantitative") {
-                formData.data.dummy = $("#data-dummy-quantitative").attr("value");
+                formData.data.dummy = $("#data-dummy-quantitative").prop("value");
             }
             else if (formData.data.structure === "matrix") {
-                formData.data.dummy = $("#data-dummy-matrix").attr("value");
+                formData.data.dummy = $("#data-dummy-matrix").prop("value");
             }   
         },
         fileData : {},  // data object to hold uploaded file
@@ -779,7 +778,7 @@ D3Builder.chartData = (function($, d3, undefined) {
         },
         dataSource : function() {
             $("#data-source").on("change", function() {
-                var source = $(this).attr("value"),
+                var source = $(this).prop("value"),
                     dataFields = $("fieldset.data .data-source");
                     
                 switch (source) {
@@ -803,7 +802,7 @@ D3Builder.chartData = (function($, d3, undefined) {
             var chartData = this;
             // handle the data structure select box
             $("#data-structure").on("change", function() {
-                var structure = $(this).attr("value");
+                var structure = $(this).prop("value");
                 
                 chartData.selectDataStructure(structure);
             });
@@ -856,18 +855,18 @@ D3Builder.chartTheme = (function($, d3, undefined) {
         },
         reset : function() {
             // set to default values
-            $("#theme-background-color").attr("value", "ffffff").trigger("keyup");
-            $("#theme-header-name").attr("value", "");
-            $("#theme-header-size").attr("value", "20");
-            $("#theme-header-offsetY").attr("value", "0");
-            $("#theme-header-offsetX").attr("value", "0");
-            $("#theme-header-color").attr("value", "000000").css("color", "#fff").trigger("keyup");
-            $("#theme-label-size").attr("value", "10");
-            $("#theme-label-position").attr("value", "1");
-            $("#theme-label-color").attr("value", "000000").css("color", "#fff").trigger("keyup");
-            $("#theme-data-border-size").attr("value", "1");
-            $("#theme-data-border-color").attr("value", "000000").css("color", "#fff").trigger("keyup");
-            $("#theme-data-spacing").attr("value", "1");
+            $("#theme-background-color").prop("value", "ffffff").trigger("keyup");
+            $("#theme-header-name").prop("value", "");
+            $("#theme-header-size").prop("value", "20");
+            $("#theme-header-offsetY").prop("value", "0");
+            $("#theme-header-offsetX").prop("value", "0");
+            $("#theme-header-color").prop("value", "000000").css("color", "#fff").trigger("keyup");
+            $("#theme-label-size").prop("value", "10");
+            $("#theme-label-position").prop("value", "1");
+            $("#theme-label-color").prop("value", "000000").css("color", "#fff").trigger("keyup");
+            $("#theme-data-border-size").prop("value", "1");
+            $("#theme-data-border-color").prop("value", "000000").css("color", "#fff").trigger("keyup");
+            $("#theme-data-spacing").prop("value", "1");
             // hide the sections
             $("fieldset.theme .theme-background, fieldset.theme .theme-header, fieldset.theme .theme-labels, fieldset.theme .theme-data").css("display", "none");
             // remove all the form validation classes
@@ -882,26 +881,26 @@ D3Builder.chartTheme = (function($, d3, undefined) {
             if (formData.theme.backgroundColor) {
                 $("#theme-background").attr("checked", "checked");
                 $("li.theme-background").css("display", "block");
-                $("#theme-background-color").attr("value", formData.theme.backgroundColor).trigger("keyup");
+                $("#theme-background-color").prop("value", formData.theme.backgroundColor).trigger("keyup");
             }
             // if there is a header then set it
             if (formData.theme.headerName) {
                 $("#theme-header").attr("checked", "checked");
                 $("#li.theme-header").css("display", "block");
-                $("#theme-header-name").attr("value", formData.theme.headerName);
-                $("#theme-header-size").attr("value", formData.theme.headerSize);
-                $("#theme-header-position").attr("value", formData.theme.headerPosition);
-                $("#theme-header-offsetY").attr("value", formData.theme.headerOffset.y);
-                $("#theme-header-offsetX").attr("value", formData.theme.headerOffset.x);
-                $("#theme-header-color").attr("value", formData.theme.headerColor).trigger("keyup");
+                $("#theme-header-name").prop("value", formData.theme.headerName);
+                $("#theme-header-size").prop("value", formData.theme.headerSize);
+                $("#theme-header-position").prop("value", formData.theme.headerPosition);
+                $("#theme-header-offsetY").prop("value", formData.theme.headerOffset.y);
+                $("#theme-header-offsetX").prop("value", formData.theme.headerOffset.x);
+                $("#theme-header-color").prop("value", formData.theme.headerColor).trigger("keyup");
             }
             // if there are labels
             if (formData.theme.labelSize) {
                 $("#theme-labels").attr("checked", "checked");
                 $("li.theme-labels").css("display", "block");
-                $("#theme-label-size").attr("value", formData.theme.labelSize);
-                $("#theme-label-position").attr("value", formData.theme.labelPosition);
-                $("#theme-label-color").attr("value", formData.theme.labelColor).trigger("keyup");
+                $("#theme-label-size").prop("value", formData.theme.labelSize);
+                $("#theme-label-position").prop("value", formData.theme.labelPosition);
+                $("#theme-label-color").prop("value", formData.theme.labelColor).trigger("keyup");
             }
             // the borders - still to do
             if (formData.theme.borderSize) {
@@ -918,7 +917,7 @@ D3Builder.chartTheme = (function($, d3, undefined) {
             
             // background color check
             if ($("#theme-background").attr("checked") === "checked") {
-                theme.backgroundColor = $("#theme-background-color").attr("value");
+                theme.backgroundColor = $("#theme-background-color").prop("value");
             }
             else {
                 theme.backgroundColor = false;
@@ -926,14 +925,14 @@ D3Builder.chartTheme = (function($, d3, undefined) {
             
             // header check
             if ($("#theme-header").attr("checked") === "checked") {
-                theme.headerName = $("#theme-header-name").attr("value");
-                theme.headerSize = parseFloat($("#theme-header-size").attr("value"));
-                theme.headerPosition = $("#theme-header-position").attr("value");
+                theme.headerName = $("#theme-header-name").prop("value");
+                theme.headerSize = parseFloat($("#theme-header-size").prop("value"));
+                theme.headerPosition = $("#theme-header-position").prop("value");
                 theme.headerOffset = {
-                    x : parseFloat($("#theme-header-offsetX").attr("value")),
-                    y : parseFloat($("#theme-header-offsetY").attr("value"))
+                    x : parseFloat($("#theme-header-offsetX").prop("value")),
+                    y : parseFloat($("#theme-header-offsetY").prop("value"))
                 };
-                theme.headerColor = $("#theme-header-color").attr("value");
+                theme.headerColor = $("#theme-header-color").prop("value");
             }
             else {
                 theme.headerName = false;
@@ -948,9 +947,9 @@ D3Builder.chartTheme = (function($, d3, undefined) {
             
             // label check
             if ($("#theme-labels").attr("checked") === "checked") {
-                theme.labelSize = parseFloat($("#theme-label-size").attr("value"));
-                theme.labelPosition = parseFloat($("#theme-label-position").attr("value"));
-                theme.labelColor = $("#theme-label-color").attr("value");
+                theme.labelSize = parseFloat($("#theme-label-size").prop("value"));
+                theme.labelPosition = parseFloat($("#theme-label-position").prop("value"));
+                theme.labelColor = $("#theme-label-color").prop("value");
             }
             else {
                 theme.labelSize = false;
@@ -960,9 +959,9 @@ D3Builder.chartTheme = (function($, d3, undefined) {
             
             // chart data style
             if ($("#theme-data").attr("checked") === "checked") {
-                theme.borderSize = parseFloat($("#theme-data-border-size").attr("value"));
-                theme.borderColor = $("#theme-data-border-color").attr("value");
-                theme.spacing = parseFloat($("#theme-data-spacing").attr("value"));
+                theme.borderSize = parseFloat($("#theme-data-border-size").prop("value"));
+                theme.borderColor = $("#theme-data-border-color").prop("value");
+                theme.spacing = parseFloat($("#theme-data-spacing").prop("value"));
             }
             else {
                 theme.borderSize = 0;

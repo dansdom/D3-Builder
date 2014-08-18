@@ -92,7 +92,7 @@ D3Builder.plugins = (function($, undefined) {
             themeColorInputs.after('<span class="jPicker"><span class="Icon"><span class="Color">&nbsp;</span><span class="Alpha" style="background-image: url(&quot;css/img/bar-opacity.png&quot;); visibility: hidden;">&nbsp;</span><span title="Click To Open Color Picker" class="Image" style="background-image: url(&quot;css/img/picker.gif&quot;);">&nbsp;</span><span class="Container">&nbsp;</span></span></span>');
             // should I setActiveColor for each of these items now? probably
             themeColorInputs.each(function() {
-                var color = "#" + $(this).attr("value");
+                var color = "#" + $(this).prop("value");
                 $(this).css("background-color", color).next().find(".Color").css("background-color", color);
             });
 
@@ -117,7 +117,7 @@ D3Builder.plugins = (function($, undefined) {
             // commit callback
             function(color, context) {
                 setActiveColor(color);
-                activeInput.attr("value", color.val("hex"));
+                activeInput.prop("value", color.val("hex"));
             },
             // live callback
             function(color, context) {  
@@ -132,14 +132,14 @@ D3Builder.plugins = (function($, undefined) {
                 // set the active field
                 activeInput = $(this);
                 activePicker = activeInput.next();
-                $("#color-value").attr("value", activeInput.attr("value")).trigger("keyup");
+                $("#color-value").prop("value", activeInput.prop("value")).trigger("keyup");
             });
             themeColorInputs.on("change", function() {
                 // when these inputs are changed then send it to the colour picker to get the value and then set background and color
                 // set the active field
                 activeInput = $(this);
                 activePicker = activeInput.next();
-                $("#color-value").attr("value", activeInput.attr("value")).trigger("keyup");
+                $("#color-value").prop("value", activeInput.prop("value")).trigger("keyup");
             });
             themeColorInputs.on("focus", function() {
                 activeInput = $(this);
@@ -148,7 +148,7 @@ D3Builder.plugins = (function($, undefined) {
             themeColorInputs.next().on("click", function() {
                 activeInput = $(this).prev();
                 activePicker = $(this);
-                $("#color-value").attr("value", activeInput.attr("value")).trigger("keyup");
+                $("#color-value").prop("value", activeInput.prop("value")).trigger("keyup");
                 $.jPicker.List[0].show();
             });  
         },
