@@ -386,27 +386,29 @@ D3Builder.chartSize = (function($, d3, undefined) {
     var chartSize = {
         reset : function() {
             // set to default values
-            $("#size-height").prop("value", "680");
-            $("#size-width").prop("value", "680");
-            $("#size-outer-radius").prop("value", "300");
-            $("#size-inner-radius").prop("value", "0");
-            $("#size-padding").prop("value", "20");
-            $("#size-padding-top").prop("value", "20");
-            $("#size-padding-bottom").prop("value", "20");
-            $("#size-padding-left").prop("value", "20");
-            $("#size-padding-right").prop("value", "20");
+            var sizes = D3Builder.formDefault.size;
+            $("#size-height").prop("value", sizes.height);
+            $("#size-width").prop("value", sizes.width);
+            $("#size-outer-radius").prop("value", sizes.outerRadius);
+            $("#size-inner-radius").prop("value", sizes.innerRadius);
+            $("#size-padding").prop("value", sizes.padding);
+            $("#size-padding-top").prop("value", sizes.paddingTop);
+            $("#size-padding-bottom").prop("value", sizes.paddingBottom);
+            $("#size-padding-left").prop("value", sizes.paddingLeft);
+            $("#size-padding-right").prop("value", sizes.paddingRight);
         },
         setValue : function() {
             // set to default values
-            $("#size-height").prop("value", D3Builder.formData.size.height);
-            $("#size-width").prop("value", D3Builder.formData.size.width);
-            $("#size-outer-radius").prop("value", D3Builder.formData.size.outerRadius);
-            $("#size-inner-radius").prop("value", D3Builder.formData.size.innerRadius);
-            $("#size-padding").prop("value", D3Builder.formData.size.padding);
-            $("#size-padding-top").prop("value", D3Builder.formData.size.paddingTop);
-            $("#size-padding-bottom").prop("value", D3Builder.formData.size.paddingBottom);
-            $("#size-padding-left").prop("value", D3Builder.formData.size.paddingLeft);
-            $("#size-padding-right").prop("value", D3Builder.formData.size.paddingRight);
+            var sizes = D3Builder.formData.size;
+            $("#size-height").prop("value", sizes.height);
+            $("#size-width").prop("value", sizes.width);
+            $("#size-outer-radius").prop("value", sizes.outerRadius);
+            $("#size-inner-radius").prop("value", sizes.innerRadius);
+            $("#size-padding").prop("value", sizes.padding);
+            $("#size-padding-top").prop("value", sizes.paddingTop);
+            $("#size-padding-bottom").prop("value", sizes.paddingBottom);
+            $("#size-padding-left").prop("value", sizes.paddingLeft);
+            $("#size-padding-right").prop("value", sizes.paddingRight);
         },
         getValue : function() {
             D3Builder.formData.size = {
@@ -609,14 +611,24 @@ D3Builder.chartData = (function($, d3, undefined) {
         },
         reset : function() {
             // set to default values
-            $("#data-name").prop("value", "name");
-            $("#data-value").prop("value", "size");
-            $("#data-children").prop("value", "group");
-            $("#data-key").prop("value", "colour");
-            $("#data-x").prop("value", "x");
-            $("#data-y").prop("value", "y");
+            var defaults = D3Builder.formDefault;
+            // set to default values
+            $("#data-source").prop("value", defaults.data.source);
+
             $(".data-source").css("display", "none");
-            $(".data-source.dummy").css("display", "block");
+            var dataSource = $(".data-source." + defaults.data.source);
+            dataSource.css("display","block");
+
+            // the rest of the form
+            $("#data-structure").prop("value", defaults.data.structure);
+            $("#data-name").prop("value", defaults.data.attributes.name);
+            $("#data-value").prop("value", defaults.data.attributes.value);
+            $("#data-children").prop("value", defaults.data.attributes.children);
+            $("#data-key").prop("value", defaults.data.attributes.key);
+            $("#data-x").prop("value", defaults.data.attributes.x);
+            $("#data-y").prop("value", defaults.data.attributes.y);
+            $("#data-scaleX").prop("value", defaults.data.scale.x);
+            $("#data-scaleY").prop("value", defaults.data.scale.y);
         },
         setValue : function() {
             var formData = D3Builder.formData;

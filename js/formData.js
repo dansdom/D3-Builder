@@ -9,19 +9,19 @@ D3Builder.formDefault = {
         secondary : "pie"
     },
     size : {
-        height : 0,
-        width : 0,
-        outerRadius : 0,
+        height : 680,
+        width : 680,
+        outerRadius : 300,
         innerRadius : 0,
-        padding : 0,
-        paddingTop : 0,
-        paddingBottom : 0,
-        paddingLeft : 0,
-        paddingRight : 0
+        padding : 50,
+        paddingTop : 50,
+        paddingBottom : 50,
+        paddingLeft : 50,
+        paddingRight : 50
     },
     colors : [], // color array
     data : {
-        source : "string",  // hmmm what to default to?
+        source : "spoke",  // hmmm what to default to?
         structure : "flat", // this will either be "flat" or "nested"
         allowed : "flat", // data type allowed "flat-single", "nested-single", "flat-multi", "nested-multi", "both-single", "both-multi" - multi allows for multiple values in each field
         dummy : null, // dummy data set to be used
@@ -82,7 +82,7 @@ D3Builder.formData = {
     },
     colors : [], // color array
     data : {
-        source : "string",  // hmmm what to default to?
+        source : "spoke",  // hmmm what to default to?
         structure : "flat", // this will either be "flat" or "nested"
         allowed : "flat", // data type allowed "flat", "nested", "flat-multi", "nested-multi" - multi allows for multiple values in each field
         dummy : null, // dummy data set to be used
