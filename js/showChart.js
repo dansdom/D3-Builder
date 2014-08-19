@@ -37,6 +37,22 @@ D3Builder.settings = (function(d3, $, undefined) {
             settingsHolder.chartName = data.theme.headerName;
             settingsHolder.spacing = data.theme.spacing;
             settingsHolder.fontSize = data.theme.labelSize;
+            // legend object
+            settingsHolder.legend = {};
+            if (data.theme.legendSize) {
+                settingsHolder.legend = {
+                    visible : true,
+                    size : data.theme.legendSize,
+                    align : data.theme.legendAlign,
+                    offset : {
+                        x : data.theme.legendOffsetX,
+                        y : data.theme.legendOffsetY
+                    }
+                };
+            } else {
+                // don't show the legend
+                settingsHolder.legend.visible = false;
+            }
 
             return settingsHolder;
         },
@@ -50,7 +66,7 @@ D3Builder.settings = (function(d3, $, undefined) {
             }
             // add the header style if there is a value for it
             if (data.theme.headerName) {
-                chartStyle += ".chartName {font-size:" + data.theme.headerSize + "px; fill:#" + data.theme.headerColor + "; font-weight:bold;-webkit-transform: translate(" + D3Builder.chartTheme[positionType](data) + ");transform: translate(" + D3Builder.chartTheme[positionType](data) + ");}\n";
+                chartStyle += ".chartName text {font-size:" + data.theme.headerSize + "px; fill:#" + data.theme.headerColor + "; font-weight:bold;-webkit-transform: translate(" + D3Builder.chartTheme[positionType](data) + ");transform: translate(" + D3Builder.chartTheme[positionType](data) + ");}\n";
             }
 
             return chartStyle;
@@ -111,13 +127,16 @@ D3Builder.pieChart = (function(undefined) {
             D3Builder.settings.buildChart("pie", this.settings, this.chartStyle);
         },
         getSettings : function() {
-            this.settings.innerRadius = D3Builder.formData.size.innerRadius;
-            this.settings.outerRadius = D3Builder.formData.size.outerRadius;
+            var formData = D3Builder.formData;
+
+            this.settings.innerRadius = formData.size.innerRadius;
+            this.settings.outerRadius = formData.size.outerRadius;
+            this.settings.opacity = formData.theme.opacity;
             //if (D3Builder.formData.theme.labelPosition > 0) {
-                this.settings.labelPosition = D3Builder.formData.theme.labelPosition;
+                this.settings.labelPosition = formData.theme.labelPosition;
             //}
             // if it's flat then set the parent to 'undefined'
-            if (D3Builder.formData.data.structure === "flat") {
+            if (formData.data.structure === "flat") {
                 this.settings.dataStructure.children = null;
             }
         },

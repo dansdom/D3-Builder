@@ -78,6 +78,15 @@
             'x' : 'linear',
             'y' : 'linear'
         },
+        'legend' : { // shows a legend for the groups
+            'visible' : true,  // set false for no legend
+            'size' : 16,  // line height/ font-size and box size for each legend item
+            'align' : 'right', // align 'left' or 'right' of the chart
+            'offset' : {  // offset of the legend
+                'x' : 0,
+                'y' : 0
+            }
+        },  
         'chartName' : false  // If there is a chart name then insert the value. This allows for deep exploration to show category name
     };
     
@@ -85,7 +94,6 @@
     d3.Area.prototype = {
         init : function() {
             var container = this;
-
             // build the chart with the data
             this.getData();
         },
@@ -110,6 +118,9 @@
 
             // create the svg element that holds the chart
             this.setLayout();
+            // set the title
+            this.setTitle();
+            
             // define the line of the chart
             container.line = this.getLine();
             // define the area that sits under the line
@@ -118,6 +129,9 @@
             this.addAxis();
             // add the elements to the chart
             this.addElements();
+
+            // make the legend
+            this.setLegend();
             
             // run the callback after the plugin has finished initialising
             if (typeof container.callback === "function") {
@@ -157,10 +171,142 @@
                     container.chartName = container.chart.append("g")
                         .attr("class", "chartName")
                         .append("text");
-                        //console.log('adding chart name');
                 }
                 container.chartName = container.chart.select(".chartName").select("text")
                     .text(container.opts.chartName);
+            }
+        },
+        setLegend : function() {
+            var container = this,
+                newGroups,
+                oldGroups,
+                legendOpts = container.opts.legend,
+                legendSize = parseFloat(legendOpts.size) || 20,
+                legendX = parseFloat(legendOpts.offset.x) || 0,
+                legendY = parseFloat(legendOpts.offset.y) || 0;
+
+            function updateGroups(groups) {
+                groups.each(function(d, i) {
+                    var currentGroup = d3.select(this);
+                    currentGroup.attr({
+                            "class" : function(d) { return "legend-group " + d.key; },
+                            "transform" : function() { return "translate(" + legendX + ", " + ((i * (legendSize + 2)) + legendY) + ")"; }
+                        });
+
+                    currentGroup.select("text")
+                        .text(function(d) { return d.key; })
+                        .attr({
+                            "x" : function() { //container.width - 5
+                                if (legendOpts.align === 'left') {
+                                    return legendSize + 5;
+                                } else {
+                                    return container.width - 5;
+                                }
+                            }, 
+                            "y" : legendOpts.size / 2,
+                            "dy" : ".35em"
+                        })
+                        .style({
+                            "text-anchor" : function() {
+                                if (legendOpts.align === "left") {
+                                    return "start";
+                                } else {
+                                    return "end";
+                                }
+                            },
+                            "font-size" : legendOpts.size - 4  + "px"
+                        });
+
+                    currentGroup.select("rect")
+                        .attr({
+                            "fill" : function(d) { return container.opts.colorRange[i]; },
+                            "width" : legendOpts.size,
+                            "height" : legendOpts.size,
+                            "x" : function() { //container.width
+                                if (legendOpts.align === 'left') {
+                                    return 0;
+                                } else {
+                                    return container.width;
+                                }
+                            } 
+                        });
+                });
+            }
+
+            function addGroups(groups) {
+                groups.each(function(d, i) {
+                    var currentGroup = d3.select(this);
+                    currentGroup
+                        .attr({
+                            "class" : function(d) { return "legend-group " + d.key; },
+                            "transform" : function() { return "translate(" + legendX + ", " + ((i * (legendSize + 2)) + legendY) + ")"; }
+                        });
+
+                    currentGroup.append("text")
+                        .text(function(d) { return d.key; })
+                        .attr({
+                            "x" : function() { //container.width - 5
+                                if (legendOpts.align === 'left') {
+                                    return legendSize + 5;
+                                } else {
+                                    return container.width - 5;
+                                }
+                            }, 
+                            "y" : legendOpts.size / 2,
+                            "dy" : ".35em"
+                        })
+                        .style({
+                            "text-anchor" : function() {
+                                if (legendOpts.align === "left") {
+                                    return "start";
+                                } else {
+                                    return "end";
+                                }
+                            },
+                            "font-size" : legendOpts.size - 4  + "px"
+                        });
+
+                    currentGroup.append("rect")
+                        .attr({
+                            "fill" : function(d) { return container.opts.colorRange[i]; },
+                            "width" : legendOpts.size,
+                            "height" : legendOpts.size,
+                            "x" : function() { //container.width
+                                if (legendOpts.align === 'left') {
+                                    return 0;
+                                } else {
+                                    return container.width;
+                                }
+                            }
+                        });
+                });
+            }
+
+            if (legendOpts.visible) {
+                if (!container.legend) {
+                    container.legend = container.chart.append("g")
+                        .attr("class", "legend");
+                }
+                // construct a legend for data group
+                container.legendGroups = container.legend.selectAll(".legend-group")
+                    .data(container.dataLayers);
+
+                // update the current legend items
+                updateGroups(container.legendGroups);
+
+                // add the new legend items
+                newGroups = container.legendGroups.enter()
+                    .append("g")
+                    .attr("class", function(d) { return "legend-group " + d.key; })
+                addGroups(newGroups);
+
+                // remove old legend items
+                oldGroups = container.legendGroups.exit()
+                    .remove();
+
+            } else {
+                container.chart.select(".legend").remove();
+                container.legend = null;
             }
         },
         addAxis : function() {
@@ -554,6 +700,7 @@
                 i, j;
 
             if (container.isScaleNumeric(scaleX)) {
+                console.log(scaleX);
                 for (i = 0; i < dataLength; i++) {
                     // parse the x scale
                     data[i][container.opts.dataStructure.x] = parseFloat(data[i][container.opts.dataStructure.x]);
@@ -578,7 +725,6 @@
                     data[j][container.opts.dataStructure.y] = d3.time.format(container.opts.dateFormat).parse(data[j][container.opts.dataStructure.y]);
                 }
             }
-
             
             // define the stack layout
             if (!container.stack) {
@@ -594,7 +740,6 @@
                     .key(function(d) { return d[container.opts.dataStructure.key]; });
             }
 
-            //console.log(container.nest);
             var nestedData = container.nest.entries(data);
             
             // if the key is undefined then set it to 'none'
@@ -606,7 +751,7 @@
                     }
                 }
             }
-            //console.log(nestedData);
+
             // find any missing data and add a zero value for it
             container.dataNest = container.checkMissingValues(nestedData);
             container.dataLayers = container.stack(container.dataNest);

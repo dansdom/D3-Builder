@@ -863,7 +863,12 @@ D3Builder.chartTheme = (function($, d3, undefined) {
 
     var chartTheme = {
         init : function() {
-            
+            // set the range value
+            var opacity = $('#theme-data-opacity').prop('value');
+            $('#theme-data-opacity-value').html(opacity);
+            $('#theme-data-opacity').on('change', function(e) {
+                $('#theme-data-opacity-value').html($(this).prop('value'));
+            });
         },
         reset : function() {
             // set to default values
@@ -878,7 +883,12 @@ D3Builder.chartTheme = (function($, d3, undefined) {
             $("#theme-label-color").prop("value", "000000").css("color", "#fff").trigger("keyup");
             $("#theme-data-border-size").prop("value", "1");
             $("#theme-data-border-color").prop("value", "000000").css("color", "#fff").trigger("keyup");
+            $("#theme-data-opacity").prop("value", "0.5");
             $("#theme-data-spacing").prop("value", "1");
+            $("#theme-legend-size").prop("value", "16");
+            $("#theme-legend-align").prop("value", "right");
+            $("#theme-legend-offsetX").prop("value", "0");
+            $("#theme-legend-offsetY").prop("value", "0");
             // hide the sections
             $("fieldset.theme .theme-background, fieldset.theme .theme-header, fieldset.theme .theme-labels, fieldset.theme .theme-data").css("display", "none");
             // remove all the form validation classes
@@ -914,15 +924,21 @@ D3Builder.chartTheme = (function($, d3, undefined) {
                 $("#theme-label-position").prop("value", formData.theme.labelPosition);
                 $("#theme-label-color").prop("value", formData.theme.labelColor).trigger("keyup");
             }
-            // the borders - still to do
+            // if there are borders
             if (formData.theme.borderSize) {
-
+                $("#theme-data-border-size").prop("value", formData.theme.borderSize);
+                $("#theme-data-border-color").prop("value", formData.theme.borderColor).trigger("keyup");
+                $("#theme-data-spacing").prop("value", formData.theme.spacing);
+                $("#theme-data-opacity").prop("value", formData.theme.opacity);
+                $("#theme-data-opacity-value").html(formData.theme.opacity);
             }
-            // still haven't build the data stuff in the theme object
-            if (formData.theme.data) {
-
+            // if there is a legend
+            if (formData.theme.legendSize) {
+                $("#theme-legend-size").prop("value", formData.theme.legendSize);
+                $("#theme-legend-align").prop("value", formData.theme.legendAlign);
+                $("#theme-legend-offsetX").prop("value", formData.theme.legendOffset.x);
+                $("#theme-legend-offsetY").prop("value", formData.theme.legendOffset.y);
             }
-
         },
         getValue : function() {
             var theme = {};
@@ -973,12 +989,31 @@ D3Builder.chartTheme = (function($, d3, undefined) {
             if ($("#theme-data").attr("checked") === "checked") {
                 theme.borderSize = parseFloat($("#theme-data-border-size").prop("value"));
                 theme.borderColor = $("#theme-data-border-color").prop("value");
+                theme.opacity = $("#theme-data-opacity").prop("value");
                 theme.spacing = parseFloat($("#theme-data-spacing").prop("value"));
             }
             else {
                 theme.borderSize = 0;
                 theme.borderColor = "rgb(0,0,0)";
+                theme.opacity = 1;
                 theme.spacing = 0;
+            }
+
+            // chart legend style
+            if ($("#theme-legend").attr("checked") === "checked") {
+                theme.legendSize = parseFloat($("#theme-legend-size").prop("value"));
+                theme.legendAlign = $("#theme-legend-align").prop("value");
+                theme.legendOffset = {
+                    x : parseFloat($("#theme-legend-offsetX").prop("value")),
+                    y : parseFloat($("#theme-legend-offsetY").prop("value"))
+                }
+            } else {
+                theme.legendSize = 0,
+                theme.legendAlign = 'right',
+                theme.legendOffset = {
+                    x : 0,
+                    y : 0
+                }
             }
             
             // update the data object for the form

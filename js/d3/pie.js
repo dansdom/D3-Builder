@@ -39,6 +39,7 @@
         'dataUrl' : 'flare.json',  // this is a url for a resource
         'dataType' : 'json',        
         'colorRange' : [], // instead of defining a color array, I will set a color scale and then let the user overwrite it
+        'opacity' : 0.5,  // opacity of the segments
         'fontSize' : 12,
         // defines the data structure of the document
         'dataStructure' : {
@@ -201,14 +202,17 @@
                     };
                 };
 
+            console.log('setting paths');
+            console.log(container.opts.opacity);
             // ######## PATHS ###########
             // these are the fills of the pie
             container.values.select("path")
                 .transition()
                 .duration(speed)
                 .attr("d", container.arc)
-                .style("fill", function(d) {
-                    return container.color(d.data.category);
+                .style({
+                    "fill" : function(d) { return container.color(d.data.category); },
+                    "fill-opacity" : container.opts.opacity
                 })
                 .attrTween("d", arcTween);
 
@@ -220,8 +224,9 @@
                 .delay(speed)
                 .duration(speed)
                 .attr("d", container.arc)
-                .style("fill", function(d) {
-                    return container.color(d.data.category);
+                .style({
+                    "fill" : function(d) { return container.color(d.data.category); },
+                    "fill-opacity" : container.opts.opacity
                 })
                 .each(function(d) { 
                     if (d) {
@@ -239,19 +244,6 @@
 
             // if the label position is set then add the labels, if not then don't and remove any old ones
             if (labelPosition > 0) {
-
-                // append the text labels - I could make this an option
-                /*
-                container.values.select("text")
-                    .attr("transform", function(d) { 
-                        var center = container.arc.centroid(d);
-                        return "translate(" + (center[0] * labelPosition) + "," + (center[1] * labelPosition) + ")";
-                    })
-                    .attr("dy", ".35em")
-                    .style("text-anchor", "middle")
-                    .text(function(d) { return d.data.category});
-                */
-
 
                 newValues.append("text")
                     .transition()

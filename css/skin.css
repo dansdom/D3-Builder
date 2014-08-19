@@ -243,7 +243,8 @@ li.type-settings {display:none}
 li.theme-background,
 li.theme-header,
 li.theme-labels,
-li.theme-data {display:none}
+li.theme-data,
+li.theme-legend {display:none}
 #theme-background-color, #theme-header-color, #theme-label-color, #theme-data-border-color {display:inline-block;}
 
 #chart-settings .palette {padding-top:5px;}

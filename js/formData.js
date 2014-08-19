@@ -57,7 +57,15 @@ D3Builder.formDefault = {
         labelPosition : 0,
         labelColor : "rgb(0,0,0)",
         borderSize : 0,
-        borderColor : "rgb(0,0,0)"
+        borderColor : "rgb(0,0,0)",
+        spacing : 1,
+        opacity : 1,
+        legendSize : 16,
+        legendAlign : 'right',
+        legendOffset : {
+            x : 0,
+            y : 0
+        }
     },
     events : {}
 };
@@ -118,7 +126,15 @@ D3Builder.formData = {
         labelPosition : 0,
         labelColor : "rgb(0,0,0)",
         borderSize : 0,
-        borderColor : "rgb(0,0,0)"
+        borderColor : "rgb(0,0,0)",
+        spacing : 1,
+        opacity : 1,
+        legendSize : 16,
+        legendAlign : 'right',
+        legendOffset : {
+            x : 0,
+            y : 0
+        }
     },
     events : {}
 };

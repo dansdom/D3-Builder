@@ -1228,6 +1228,20 @@
                                         </div>
                                     </li>
                                     <li class="theme-data">
+                                        <label for="theme-data-opacity">Data Opacity</label>
+                                        <a class="icon icon-question-sign" name="#data-opacity-help">help</a>
+                                        <div class="helpBox">
+                                            <div id="data-opacity-help">
+                                                <div class="helpContent">
+                                                    <h2>Theme Data Opacity</h2>
+                                                    <p>This is the opacity of the data set.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="range" size="20" class="small" name="theme-data-opacity" id="theme-data-opacity" min="0" max="1" step="0.05" value="1" />
+                                        <span id="theme-data-opacity-value"></span>
+                                    </li>
+                                    <li class="theme-data">
                                         <label for="theme-data-spacing">Data Spacing</label>
                                         <a class="icon-question-sign" name="#data-spacing-help">help</a>
                                         <div class="helpBox">
@@ -1247,6 +1261,65 @@
                                         </div>
                                         <input type="text" size="20" class="small validate" name="theme-data-spacing" id="theme-data-spacing" placeholder="data spacing">
                                         <span class="error" title="theme-data-spacing"></span>
+                                    </li>
+                                </ul>
+                                <!-- chart legend settings -->
+                                <ul>
+                                    <li class="section-header">
+                                        <input type="checkbox" id="theme-legend" name="theme-legend" class="show-section checkField">
+                                        <label for="theme-legend">Legend Style</label>
+                                    </li>
+                                    <li class="theme-legend">
+                                        <label for="theme-legend-size">Legend Item Size</label>
+                                        <a class="icon icon-question-sign" name="#legend-size-help">help</a>
+                                        <div class="helpBox">
+                                            <div id="legend-size-help">
+                                                <div class="helpContent">
+                                                    <h2>Theme Legend Size</h2>
+                                                    <p>This is the size of each item in the legend. This size controls the size of the box and font size of the text.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="text" size="20" class="small validate" name="theme-legend-size" id="theme-legend-size" placeholder="legend size">
+                                        <span class="error" title="theme-legend-size"></span>
+                                    </li>
+                                    <li class="theme-legend">
+                                        <label for="theme-legend-align">Legend Alignment</label>
+                                        <a class="icon icon-question-sign" name="#legend-align-help">help</a>
+                                        <div class="helpBox">
+                                            <div id="legend-align-help">
+                                                <div class="helpContent">
+                                                    <h2>Theme Legend Alignment</h2>
+                                                    <p>This is the alignment of the legend on the chart. Two values are accepted - 'left' and 'right'</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="text" size="20" class="small validate" name="theme-legend-align" id="theme-legend-align" placeholder="legend alignment">
+                                        <span class="error" title="theme-legend-align"></span>
+                                    </li>
+                                    <li class="theme-legend">
+                                        <label for="theme=legend-offsetX">Legend Horizontal Offset</label>
+                                        <a class="icon icon-question-sign" name="#legend-offsetX-help">help</a>
+                                        <div class="helpBox">
+                                            <div id="legend-offsetX-help">
+                                                <h2>Theme Legend Horizontal Offset</h2>
+                                                <p>This is the horizontal offset of the legend element.</p>
+                                            </div>
+                                        </div>
+                                        <input type="text" size="20" class="small validate" name="theme-legend-offsetX" id="theme-legend-offsetX" placeholder="legend horizontal offset">
+                                        <span class="error" title="theme-legend-offsetX"></span>
+                                    </li>
+                                    <li class="theme-legend">
+                                        <label for="theme=legend-offsetY">Legend Vertical Offset</label>
+                                        <a class="icon icon-question-sign" name="#legend-offsetY-help">help</a>
+                                        <div class="helpBox">
+                                            <div id="legend-offsetY-help">
+                                                <h2>Theme Legend Vertical Offset</h2>
+                                                <p>This is the vertical offset of the legend element.</p>
+                                            </div>
+                                        </div>
+                                        <input type="text" size="20" class="small validate" name="theme-legend-offsetY" id="theme-legend-offsetY" placeholder="legend vertical offset">
+                                        <span class="error" title="theme-legend-offsetY"></span>
                                     </li>
                                 </ul>
                             </fieldset>

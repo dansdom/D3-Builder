@@ -234,6 +234,21 @@ D3Builder.plugins = (function($, undefined) {
                         inputName : 'theme-data-spacing',
                         rules : {isNumber: true},
                         error : 'please enter a number'
+                    },
+                    legendSize : {
+                        inputName : 'theme-legend-size',
+                        rules : {isNumber: true},
+                        error : 'please enter a number'
+                    },
+                    legendOffsetX : {
+                        inputName : 'theme-legend-offsetX',
+                        rules : {isNumber: true},
+                        error : 'please enter a number'
+                    },
+                    legendOffsetY : {
+                        inputName : 'theme-legend-offsetY',
+                        rules : {isNumber: true},
+                        error : 'please enter a number'
                     }
                 },
                 onChangeValidation : true,

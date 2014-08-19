@@ -74,6 +74,15 @@
             'x' : 'linear',
             'y' : 'linear'
         },
+        'legend' : { // shows a legend for the groups
+            'visible' : true,  // set false for no legend
+            'size' : 16,  // line height/ font-size and box size for each legend item
+            'align' : 'right', // align 'left' or 'right' of the chart
+            'offset' : {  // offset of the legend
+                'x' : 0,
+                'y' : 0
+            }
+        },  
         'chartName' : false  // If there is a chart name then insert the value. This allows for deep exploration to show category name
     };
     
@@ -112,6 +121,14 @@
             this.addElements();
             // add the x and y axis to the chart
             this.addAxis();
+
+            // make the legend
+            this.setLegend();
+
+            // run the callback after the plugin has finished initialising
+            if (typeof container.callback === "function") {
+                container.callback.call(this, container);
+            }
         },
         setLayout : function() {
             var container = this;
@@ -150,6 +167,139 @@
                 }
                 container.chartName = container.chart.select(".chartName").select("text")
                     .text(container.opts.chartName);
+            }
+        },
+        setLegend : function() {
+            var container = this,
+                newGroups,
+                oldGroups,
+                legendOpts = container.opts.legend,
+                legendSize = parseFloat(legendOpts.size) || 20,
+                legendX = parseFloat(legendOpts.offset.x) || 0,
+                legendY = parseFloat(legendOpts.offset.y) || 0;
+
+            function updateGroups(groups) {
+                groups.each(function(d, i) {
+                    var currentGroup = d3.select(this);
+                    currentGroup.attr({
+                            "class" : function(d) { return "legend-group " + d.key; },
+                            "transform" : function() { return "translate(" + legendX + ", " + ((i * (legendSize + 2)) + legendY) + ")"; }
+                        });
+
+                    currentGroup.select("text")
+                        .text(function(d) { return d.key; })
+                        .attr({
+                            "x" : function() { //container.width - 5
+                                if (legendOpts.align === 'left') {
+                                    return legendSize + 5;
+                                } else {
+                                    return container.width - 5;
+                                }
+                            }, 
+                            "y" : legendOpts.size / 2,
+                            "dy" : ".35em"
+                        })
+                        .style({
+                            "text-anchor" : function() {
+                                if (legendOpts.align === "left") {
+                                    return "start";
+                                } else {
+                                    return "end";
+                                }
+                            },
+                            "font-size" : legendOpts.size - 4  + "px"
+                        });
+
+                    currentGroup.select("rect")
+                        .attr({
+                            "fill" : function(d) { return container.opts.colorRange[i]; },
+                            "width" : legendOpts.size,
+                            "height" : legendOpts.size,
+                            "x" : function() { //container.width
+                                if (legendOpts.align === 'left') {
+                                    return 0;
+                                } else {
+                                    return container.width;
+                                }
+                            } 
+                        });
+                });
+            }
+
+            function addGroups(groups) {
+                groups.each(function(d, i) {
+                    var currentGroup = d3.select(this);
+                    currentGroup
+                        .attr({
+                            "class" : function(d) { return "legend-group " + d.key; },
+                            "transform" : function() { return "translate(" + legendX + ", " + ((i * (legendSize + 2)) + legendY) + ")"; }
+                        });
+
+                    currentGroup.append("text")
+                        .text(function(d) { return d.key; })
+                        .attr({
+                            "x" : function() { //container.width - 5
+                                if (legendOpts.align === 'left') {
+                                    return legendSize + 5;
+                                } else {
+                                    return container.width - 5;
+                                }
+                            }, 
+                            "y" : legendOpts.size / 2,
+                            "dy" : ".35em"
+                        })
+                        .style({
+                            "text-anchor" : function() {
+                                if (legendOpts.align === "left") {
+                                    return "start";
+                                } else {
+                                    return "end";
+                                }
+                            },
+                            "font-size" : legendOpts.size - 4  + "px"
+                        });
+
+                    currentGroup.append("rect")
+                        .attr({
+                            "fill" : function(d) { return container.opts.colorRange[i]; },
+                            "width" : legendOpts.size,
+                            "height" : legendOpts.size,
+                            "x" : function() { //container.width
+                                if (legendOpts.align === 'left') {
+                                    return 0;
+                                } else {
+                                    return container.width;
+                                }
+                            }
+                        });
+                });
+            }
+
+            if (legendOpts.visible) {
+                if (!container.legend) {
+                    container.legend = container.chart.append("g")
+                        .attr("class", "legend");
+                }
+                // construct a legend for data group
+                container.legendGroups = container.legend.selectAll(".legend-group")
+                    .data(container.dataLayers);
+
+                // update the current legend items
+                updateGroups(container.legendGroups);
+
+                // add the new legend items
+                newGroups = container.legendGroups.enter()
+                    .append("g")
+                    .attr("class", function(d) { return "legend-group " + d.key; })
+                addGroups(newGroups);
+
+                // remove old legend items
+                oldGroups = container.legendGroups.exit()
+                    .remove();
+
+            } else {
+                container.chart.select(".legend").remove();
+                container.legend = null;
             }
         },
         addAxis : function() {
@@ -270,9 +420,10 @@
                 oldGroups;
 
             //console.log(container.dataLayers);
+            currentGroups = container.chart.selectAll(".data-group");
             container.groups = container.chart.selectAll(".data-group")
                 .data(container.dataLayers);
-            currentGroups = container.chart.selectAll(".data-group");
+            
             container.updateCurrentGroups(currentGroups);
             
             // add the new data
@@ -324,8 +475,8 @@
                     "fill-opacity" : 1e-6
                 })
                 .attr({
-                    "cx" : function(d) { return container.xScale(d.x); }, 
-                    "cy" : function(d) { return container.yScale(d.y); } 
+                    "cx" : function(d) { return container.xScale(d[dataStructure.x]); }, 
+                    "cy" : function(d) { return container.yScale(d[dataStructure.y]); } 
                 })
                 .transition()
               .delay(500)
@@ -346,8 +497,8 @@
             currentCircles.enter().append("circle")
                 .attr({
                     "class" : "dot",
-                    "cx" : function(d) { return container.xScale(d.x); }, 
-                    "cy" : function(d) { return container.yScale(d.y); },
+                    "cx" : function(d) { return container.xScale(d[dataStructure.x]); }, 
+                    "cy" : function(d) { return container.yScale(d[dataStructure.y]); },
                     "r" : elements.dotRadius
                 })
                 .style({
@@ -361,8 +512,8 @@
               .delay(500)
                 .duration(500)
                 .attr({
-                    "cx" : function(d) { return container.xScale(d.x); }, 
-                    "cy" : function(d) { return container.yScale(d.y); } 
+                    "cx" : function(d) { return container.xScale(d[dataStructure.x]); }, 
+                    "cy" : function(d) { return container.yScale(d[dataStructure.y]); } 
                 })
                 .style({
                     "stroke-opacity" : function(d) {
