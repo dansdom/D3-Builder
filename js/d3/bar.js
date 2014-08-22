@@ -175,14 +175,24 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 legendOpts = container.opts.legend,
                 legendSize = parseFloat(legendOpts.size) || 20,
                 legendX = parseFloat(legendOpts.offset.x) || 0,
-                legendY = parseFloat(legendOpts.offset.y) || 0;
+                legendY = parseFloat(legendOpts.offset.y) || 0,
+                legendHeight = container.dataNest.length * (legendSize + 2);
 
             function updateGroups(groups) {
                 groups.each(function(d, i) {
                     var currentGroup = d3.select(this);
+                    console.log(container.dataNest.length);
                     currentGroup.attr({
                             "class" : function(d) { return "legend-group " + d.key; },
-                            "transform" : function() { return "translate(" + legendX + ", " + ((i * (legendSize + 2)) + legendY) + ")"; }
+                            "transform" : function() { 
+                                var groupPosition;
+                                if (container.opts.elements.layoutType === 'stacked') {
+                                    groupPosition = "translate(" + legendX + ", " + (legendHeight - (i * (legendSize + 2)) + legendY) + ")"; 
+                                } else {
+                                    groupPosition = "translate(" + legendX + ", " + ((i * (legendSize + 2)) + legendY) + ")"; 
+                                }
+                                return groupPosition;
+                            }
                         });
 
                     currentGroup.select("text")
@@ -231,7 +241,15 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     currentGroup
                         .attr({
                             "class" : function(d) { return "legend-group " + d.key; },
-                            "transform" : function() { return "translate(" + legendX + ", " + ((i * (legendSize + 2)) + legendY) + ")"; }
+                            "transform" : function() { 
+                                var groupPosition;
+                                if (container.opts.elements.layoutType === 'stacked') {
+                                    groupPosition = "translate(" + legendX + ", " + (legendHeight - (i * (legendSize + 2)) + legendY) + ")"; 
+                                } else {
+                                    groupPosition = "translate(" + legendX + ", " + ((i * (legendSize + 2)) + legendY) + ")"; 
+                                }
+                                return groupPosition;
+                            }
                         });
 
                     currentGroup.append("text")
