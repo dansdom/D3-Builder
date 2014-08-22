@@ -176,7 +176,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 legendSize = parseFloat(legendOpts.size) || 20,
                 legendX = parseFloat(legendOpts.offset.x) || 0,
                 legendY = parseFloat(legendOpts.offset.y) || 0,
-                legendHeight = container.dataNest.length * (legendSize + 2);
+                legendHeight = (container.dataNest.length-1) * (legendSize + 2);
 
             function updateGroups(groups) {
                 groups.each(function(d, i) {
