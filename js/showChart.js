@@ -362,7 +362,8 @@ D3Builder.barChart = (function(undefined) {
             };
             this.settings.elements = {
                 barWidth : 10,
-                barOpacity : 0.8
+                barOpacity : 0.8,
+                layoutType : D3Builder.formData.type.secondary
             };
             this.settings.scale = {
                 x : formData.data.scale.x,

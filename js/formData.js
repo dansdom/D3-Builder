@@ -31,7 +31,7 @@ D3Builder.formDefault = {
         attributes : {
             name : "name",
             value : "size",
-            children : "children",
+            children : "group",
             key : "colour",
             x : "x",
             y : "y",
@@ -100,7 +100,7 @@ D3Builder.formData = {
         attributes : {
             name : "name",
             value : "size",
-            children : "children",
+            children : "group",
             key : "colour",
             x : "x",
             y : "y",

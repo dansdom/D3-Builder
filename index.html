@@ -231,26 +231,23 @@
                                         </select>
                                     </li>
                                     -->
-                                    <!--
                                     <li class="type-settings bar">
-                                        <label for="type-chart-bar">Bar Type</label>
-                                        <a class="icon-question-sign" name="#type-chart-bar-help">help</a>
+                                        <label for="type-chart-bar">Bar Types</label>
+                                        <a class="icon icon-question-sign" name="#type-chart-bar-help">help</a>
                                         <div class="helpBox">
                                             <div id="type-chart-bar-help">
                                                 <div class="helpContent">
-                                                    <h2>Bar Chart</h2>
-                                                    <p>The Bar chart plots flat data. It draws a tower to represent each of the data values.</p>
-                                                    <p>This chart type takes <a href="http://en.wikipedia.org/wiki/Ordinal_scale#Ordinal_scale">ordinal</a> data.</p>
-                                                    <p>These chart types can have multiple scale and range definitions (to be completed....)</p>
+                                                    <h2>Bar Charts</h2>
+                                                    <p>The bar chart has 2 layout settings. They are 'stacked' and 'grouped'.</p>
+                                                    <p>Stacked charts will have a single coloumn for each group with the data points stacked on top of each other. The grouped chart data will stack horizontally across the x axis.</p>
                                                 </div>
                                             </div>
                                         </div>
                                         <select id="type-chart-bar" name="type-chart-bar">
-                                            <option value="" selected="selected">normal</option>
-                                            <option value="">stacked</option>
+                                            <option value="stacked" selected="selected">Stacked</option>
+                                            <option value="grouped">Grouped</option>
                                         </select>
                                     </li>
-                                    -->
                                     <!--
                                     <li class="type-settings chord">
                                         <label for="type-chart-chord">Chord Type</label>
@@ -1294,7 +1291,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <input type="text" size="20" class="small validate" name="theme-legend-align" id="theme-legend-align" placeholder="legend alignment">
+                                        <select name="theme-legend-align" id="theme-legend-align">
+                                            <option value="left">left</option>
+                                            <option value="right" selected="selected">right</option>
+                                        </select>
                                         <span class="error" title="theme-legend-align"></span>
                                     </li>
                                     <li class="theme-legend">
