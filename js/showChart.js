@@ -483,7 +483,6 @@ D3Builder.scatterplotChart = (function(undefined) {
     return scatterplotChart;
 })();
 
-
 D3Builder.streamgraphChart = (function(undefined) {
     'use strict';
     // objects that builds the streamgraph chart
@@ -534,5 +533,4 @@ D3Builder.streamgraphChart = (function(undefined) {
     }
 
     return streamgraphChart;
-
 })();
