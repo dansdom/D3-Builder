@@ -444,13 +444,13 @@ D3Builder.chartColors = (function($, d3, undefined) {
             }, 0);
         },
         // color scheme constants
-        scheme1 : ["#1f77b4","#ff7f0e","#2ca02c","#d62728","#9467bd","#8c564b","#e377c2","#7f7f7f","#bcbd22","#17becf"], // define the standard D3 color schemes, and also add some of my own?
-        scheme2 : ["#1f77b4","#aec7e8","#ff7f0e","#ffbb78","#2ca02c","#98df8a","#d62728","#ff9896","#9467bd","#c5b0d5","#8c564b","#c49c94","#e377c2","#f7b6d2","#7f7f7f","#c7c7c7","#bcbd22","#dbdb8d","#17becf","9edae5"],
-        scheme3 : ["#393b79","#5254a3","#6b6ecf","#9c9ede","#637939","#8ca252","#b5cf6b","#cedb9c","#8c6d31","#bd9e39","#e7ba52","#e7cb94","#843c39","#ad494a","#d6616b","#e7969c","#7b4173","#a55194","#ce6dbd","de9ed6"],
-        scheme4 : ["#3182bd","#6baed6","#9ecae1","#c6dbef","#e6550d","#fd8d3c","#fdae6b","#fdd0a2","#31a354","#74c476","#a1d99b","#c7e9c0","#756bb1","#9e9ac8","#bcbddc","#dadaeb","#636363","#969696","#bdbdbd","d9d9d9"],
-        scheme5 : ["#3b2f23","#342a1f","#81613e","#735637","#a4b167","#929e5c","#d6d2b4","#bfbba1","#4e693b","#455d34"],
-        scheme6 : ["#645156","#4b4143","#411a23","#b2989e","#b29fa3","#6d6658","#524e46","#47371d","#b6ad9c","#b6afa3","#433d4a","#333038","#201430","#988fa5","#9b95a5","#54604d","#41483d","#273e19","#a0af96","a4af9d"],
-        scheme7 : ["#e82351","#ae3f59","#970b2C","#f4587d","#f4829c","#fdae26","#be9145","#a46c0c","#fec25c","#fed287","#265aa7","#35527d","#0c336c","#598ad3","#799dd3","#67dd21","#64a63c","#3c900b","#8fee56","a8ee7f"],
+        scheme1 : ["1f77b4","ff7f0e","2ca02c","d62728","9467bd","8c564b","e377c2","7f7f7f","bcbd22","17becf"], // define the standard D3 color schemes, and also add some of my own?
+        scheme2 : ["1f77b4","aec7e8","ff7f0e","ffbb78","2ca02c","98df8a","d62728","ff9896","9467bd","c5b0d5","8c564b","c49c94","e377c2","f7b6d2","7f7f7f","c7c7c7","bcbd22","dbdb8d","17becf","9edae5"],
+        scheme3 : ["393b79","5254a3","6b6ecf","9c9ede","637939","8ca252","b5cf6b","cedb9c","8c6d31","bd9e39","e7ba52","e7cb94","843c39","ad494a","d6616b","e7969c","7b4173","a55194","ce6dbd","de9ed6"],
+        scheme4 : ["3182bd","6baed6","9ecae1","c6dbef","e6550d","fd8d3c","fdae6b","fdd0a2","31a354","74c476","a1d99b","c7e9c0","756bb1","9e9ac8","bcbddc","dadaeb","636363","969696","bdbdbd","d9d9d9"],
+        scheme5 : ["3b2f23","342a1f","81613e","735637","a4b167","929e5c","d6d2b4","bfbba1","4e693b","455d34"],
+        scheme6 : ["645156","4b4143","411a23","b2989e","b29fa3","6d6658","524e46","47371d","b6ad9c","b6afa3","433d4a","333038","201430","988fa5","9b95a5","54604d","41483d","273e19","a0af96","a4af9d"],
+        scheme7 : ["e82351","ae3f59","970b2C","f4587d","f4829c","fdae26","be9145","a46c0c","fec25c","fed287","265aa7","35527d","0c336c","598ad3","799dd3","67dd21","64a63c","3c900b","8fee56","a8ee7f"],
         reset : function() {
             // set to default values
             // set it to a custom scheme
@@ -489,7 +489,7 @@ D3Builder.chartColors = (function($, d3, undefined) {
                 // if currentValue is a color, then add it, else forget it
                 if (currentValue) {
                     // turn it into a hex value
-                    colorScheme.push(currentValue);
+                    colorScheme.push("#" + currentValue);
                 }
             });
             // update the data object
