@@ -8,22 +8,16 @@
     'use strict';
     
     // Plugin namespace definition
-    d3.Pack = function (options, element, callback)
-    {
+    d3.Pack = function (options, element, callback) {
         // wrap the element in the jQuery object
         this.el = element;
-
+        this.callback = callback;
         // this is the namespace for all bound event handlers in the plugin
         this.namespace = "pack";
         // extend the settings object with the options, make a 'deep' copy of the object using an empty 'holding' object
         // using the extend code that I ripped out of jQuery
         this.opts = extend(true, {}, d3.Pack.settings, options);
         this.init();
-        // run the callback function if it is defined
-        if (typeof callback === "function")
-        {
-            callback.call();
-        }
     };
     
     // these are the plugin default settings that will be over-written by user settings
@@ -54,6 +48,16 @@
             'children' : 'group'
         },
         'chartName' : null,
+        'tooltip' : { // tooltip options
+            'visible' : true,
+            'id' : 'tooltip',
+            'height' : 60,
+            'width' : 200,
+            'offset' : {
+                'x' : 10,
+                'y' : -30
+            }
+        },
         'speed' : 1500  // speed of the trasitions
     };
     
@@ -76,8 +80,7 @@
             // if there is a colour range defined for this chart then use the settings. If not, use the inbuild category20 colour range
             if (this.opts.colorRange.length > 0) {
                 container.color = d3.scale.ordinal().range(this.opts.colorRange);
-            }
-            else {
+            } else {
                 container.color = d3.scale.category20();
             }
 
@@ -85,12 +88,14 @@
             this.setLayout();
             // set the chart title
             this.setTitle();
+            // add the tooltip
+            this.addTooltip();
 
             // if type = Bubble (i.e. shallow representation), create the bubble svg
             if (container.opts.chartType === 'bubble') {
                 // resets the charts position. Only for the bubble type
                 container.chart
-                    .on("click", function() {
+                    .on("click.reset", function() {
                         container.resetChart();
                     });
 
@@ -117,6 +122,11 @@
                 this.placeOldPackNodes();
                 // place the new nodes
                 this.placeNewPackNodes();
+            }
+
+            // run the callback function after the plugin has finished initialising
+            if (typeof container.callback === "function") {
+                container.callback.call(this, container);
             }
         },
         setLayout : function() {
@@ -151,9 +161,11 @@
                 container.chart = d3.select(container.el).append("svg");
             }
             container.chart
-                .attr("width", this.opts.width)
-                .attr("height", this.opts.height)
-                .attr("class", container.opts.chartType);
+                .attr({
+                    "width" : this.opts.width,
+                    "height" : this.opts.height,
+                    "class" : container.opts.chartType
+                });
 
         },
         setTitle : function() {
@@ -189,7 +201,7 @@
                 .transition()
                 .duration(container.opts.speed)
                 .attr("r", function(d) { return d.r; })
-                .style("fill", function(d) { return container.color(d.packageName); }); 
+                .style("fill", function(d) { return container.color(d.name); }); 
 
             container.node.select("title")
                 .text(function(d) { return d.className + ": " + container.format(d.value); });
@@ -222,9 +234,11 @@
                 // define the new nodes and then move them into the correct place
                 newNodes = container.node.enter()
                     .append("g")
-                    .attr("transform", function(d) { return "translate(" + (d.x + (container.opts.width - container.opts.diameter)/2) + "," + (d.y + (container.opts.height - container.opts.diameter)/2) + ")"; })
-                    .attr("class", "node")
-                    .on("click", function(d) { container.zoom(d); });
+                    .attr({
+                        "transform" : function(d) { return "translate(" + (d.x + (container.opts.width - container.opts.diameter)/2) + "," + (d.y + (container.opts.height - container.opts.diameter)/2) + ")"; },
+                        "class" : "node"
+                    })
+                    .on("click.zoom", function(d) { container.zoom(d); });
                     
             // for the new nodes add the4 title for them
             newNodes.append("title")
@@ -236,18 +250,25 @@
                 .transition()
                 .duration(container.opts.speed)
                 .attr("r", function(d) { return d.r; })
-                .style("fill", function(d) { return container.color(d.packageName); });
+                .style("fill", function(d) { return container.color(d.name); });
 
             // for the new nodes, append the text and them shorten it after the delay that equals the transition
             // test to see if the labelPosition set
             if (container.opts.labelPosition) {
                 newNodes.append("text")
-                    .style("text-anchor", "middle")
-                    .style("font-size", container.opts.fontSize + "px")
+                    .style({
+                        "text-anchor" : "middle",
+                        "font-size" : container.opts.fontSize + "px"
+                    })
                     .attr("dy", ".3em")
                     .transition()
                     .delay(container.opts.speed)
                     .text(function(d) { return d.className.substring(0, d.r / 4); });
+            }
+
+            // add tooltip events
+            if (container.opts.tooltip.visible) {
+                container.addTooltipEvents(newNodes);
             }
         },
         placeCurrentPackNodes : function() {
@@ -262,30 +283,27 @@
                 .attr("class", function(d) {
                     if (d.children) {
                         return "group node";
-                    }
-                    else {
+                    } else {
                         return "leaf node";
                     } 
                 })
                 .transition()
                 .duration(container.opts.speed)
                 .attr("transform", function(d) { return "translate(" + (d.x + (container.opts.width - container.opts.diameter)/2) + "," + (d.y + (container.opts.height - container.opts.diameter)/2) + ")"; });
-               
-            // ignore events on the nodes without children
-            container.node.filter(function(d) { return !d.children; })
-                .style("pointer-events", "none");
 
             // only put zoom event on nodes that are parents
             // enable pointer events
             container.node.filter(function(d) { return d.children; })
-                .on("click", function(d) { container.zoom(d); })
+                .on("click.zoom", function(d) { container.zoom(d); })
                 .style("pointer-events", null);
                     
             container.node.select("circle").transition()
                 .duration(container.opts.speed)
-                .style("stroke", function(d) {if (d.children) { return container.opts.colors.group; }})
-                .style("fill", function(d) {if (d.children) { return container.opts.colors.group; } else { return container.opts.colors.leaf; }})
-                .style("fill-opacity", function(d) {if (d.children) { return container.opts.opacity; }})
+                .style({
+                    "stroke" : function(d) {if (d.children) { return container.opts.colors.group; }},
+                    "fill" : function(d) {if (d.children) { return container.opts.colors.group; } else { return container.opts.colors.leaf; }},
+                    "fill-opacity" : function(d) {if (d.children) { return container.opts.opacity; }}
+                })
                 .attr("r", function(d) { return d.r; });
 
             // start fresh with the text nodes
@@ -299,6 +317,15 @@
                     .delay(container.opts.speed)
                     .text(function(d) { return d[container.opts.dataStructure.name].substring(0, d.r / 4); });
             }
+
+            // add tooltip events
+            if (container.opts.tooltip.visible) {
+                container.addTooltipEvents(container.node);
+            } else {
+                // ignore events on the nodes without children
+                container.node.filter(function(d) { return !d.children; })
+                    .style("pointer-events", "none");
+            }
         },
         placeOldPackNodes : function() {
             var container = this,
@@ -308,8 +335,10 @@
             oldNodes.select("circle")
                 .transition()
                 .duration(container.opts.speed)
-                .style("fill-opacity", 1e-6)
-                .style("stroke-opacity", 1e-6)
+                .style({
+                    "fill-opacity" : 1e-6,
+                    "stroke-opacity" : 1e-6
+                })
                 .remove();
 
             oldNodes.select("title")
@@ -330,50 +359,117 @@
             var container = this,
                 newNodes = container.node.enter()
                     .append("g")
-                    .attr("transform", function(d) { return "translate(" + (d.x + (container.opts.width - container.opts.diameter)/2) + "," + (d.y + (container.opts.height - container.opts.diameter)/2) + ")"; })
-                    .attr("class", function(d) {
-                        if (d.children) {
-                            return "group node";
-                        }
-                        else {
-                            return "leaf node";
+                    .attr({
+                        "transform" : function(d) { return "translate(" + (d.x + (container.opts.width - container.opts.diameter)/2) + "," + (d.y + (container.opts.height - container.opts.diameter)/2) + ")"; },
+                        "class" : function(d) {
+                            if (d.children) {
+                                return "group node";
+                            } else {
+                                return "leaf node";
+                            }
                         } 
                     });
 
             // only put zoom event on nodes that are parents
             newNodes.filter(function(d) { return d.children; })
-                .on("click", function(d) { container.zoom(d); });
+                .on("click.zoom", function(d) { container.zoom(d); });
 
             newNodes.append("circle")
                 .attr("r", 0)
                 .transition()
                 .duration(container.opts.speed)
-                .style("stroke", function(d) {if (d.children) { return container.opts.colors.group; }})
-                .style("fill", function(d) {if (d.children) { return container.opts.colors.group; } else { return container.opts.colors.leaf; }})
-                .style("fill-opacity", function(d) {if (d.children) { return container.opts.opacity; }})
+                .style({
+                    "stroke" : function(d) {if (d.children) { return container.opts.colors.group; }},
+                    "fill" : function(d) {if (d.children) { return container.opts.colors.group; } else { return container.opts.colors.leaf; }},
+                    "fill-opacity" : function(d) {if (d.children) { return container.opts.opacity; }}
+                })
                 .attr("r", function(d) { return d.r; });
 
             // check to see if the labelPosition is set before placing text
             if (container.opts.labelPosition) {
                 newNodes.filter(function(d) { return !d.children; })
                     .append("text")
-                    .style("text-anchor", "middle")
-                    .style("font-size", container.opts.fontSize + "px")
+                    .style({
+                        "text-anchor" : "middle",
+                        "font-size" : container.opts.fontSize + "px"
+                    })
                     .attr("dy", ".3em")
                     .transition()
                     .delay(container.opts.speed)
                     .text(function(d) { return d[container.opts.dataStructure.name].substring(0, d.r / 4); });
             }
 
-            // ignore events on the nodes without children
-            newNodes.filter(function(d) { return !d.children; })
-                .style("pointer-events", "none");
-
             // only put zoom event on nodes that are parents
             // enable pointer events
             newNodes.filter(function(d) { return d.children; })
-                .on("click", function(d) { container.zoom(d); })
-                .style("pointer-events", null);     
+                .on("click.zoom", function(d) { container.zoom(d); })
+                .style("pointer-events", null); 
+
+            // add tooltip events
+            if (container.opts.tooltip.visible) {
+                container.addTooltipEvents(newNodes);
+            } else {
+                // ignore events on the nodes without children
+                newNodes.filter(function(d) { return !d.children; })
+                    .style("pointer-events", "none");
+            }   
+        },
+        addTooltip : function() {
+            var container = this,
+                toolOpts = container.opts.tooltip,
+                tooltip, name, value;
+
+            if (toolOpts.visible) {
+                // create a stacking context
+                d3.select(container.el).style("position", "relative");
+                // if the tooltip already exists then remove it
+                tooltip = d3.select(container.el).select("#" + toolOpts.id).remove();
+                tooltip = d3.select(container.el).append("div");                
+
+                tooltip.attr('id', toolOpts.id)
+                    .attr("class", "tooltip")
+                    .style({
+                        "height" : toolOpts.height + "px",
+                        "width" : toolOpts.width + "px",
+                        "position" : "absolute",
+                        "display" : "none",
+                        "top" : "0px",
+                        "left" : "0px"
+                    });
+                name = tooltip.append("div").attr("class", "name");
+                name.append("label").text("Name: ");
+                name.append("span");
+                value = tooltip.append("div").attr("class", "value");
+                value.append("label").text("Value: ");
+                value.append("span")
+            }
+        },
+        addTooltipEvents : function(elements) {
+            var container = this;
+
+            // remove any previously bound tooltip first
+            elements
+                .on("mouseover.tooltip", null)
+                .on("mouseout.tooltip", null)
+                .on("mouseover.tooltip", function(d, i) {
+                    var tooltip = d3.select("#" + container.opts.tooltip.id),
+                        mouse = d3.mouse(container.el);
+
+                    tooltip.style({
+                        "display" : "block",
+                        "left" : (mouse[0] + container.opts.tooltip.offset.x) + "px",
+                        "top" : (mouse[1] + container.opts.tooltip.offset.y) + "px"
+                    });
+
+                    tooltip.select(".name").select("span")
+                        .text(d.name);
+
+                    tooltip.select(".value").select("span")
+                        .text(d.value);
+                })
+                .on("mouseout.tooltip", function(d, i) {
+                    $("#tooltip").css("display", "none");
+                });
         },
         zoom : function(d, i) {
             var container = this,
@@ -393,8 +489,10 @@
             if (container.opts.chartType === 'bubble') {
                 text = chart
                     .append("text")
-                    .style("font-size", "0px")
-                    .style("text-anchor", "middle")
+                    .style({
+                        "font-size" : "0px",
+                        "text-anchor" : "middle"
+                    })
                     .attr("dy", ".3em")
                     .transition().delay(container.opts.speed).duration(100)
                     .text(function(d) { return d.className.substring(0, (d.r * scaleFactor) / 4); })
@@ -404,19 +502,19 @@
                 text = chart
                     .filter(function(d) { return !d.children; })
                     .append("text")
-                    .style("font-size", "0px")
-                    .style("text-anchor", "middle")
+                    .style({
+                        "font-size" : "0px",
+                        "text-anchor" : "middle"
+                    })
                     .attr("dy", ".3em")
                     .transition().delay(container.opts.speed).duration(100)
                     .text(function(d) { return d[container.opts.dataStructure.name].substring(0, (d.r * scaleFactor) / 4); })
                     .style("font-size", container.opts.fontSize/scaleFactor + "px");
             }
 
-            //console.log(centerAdjustment);
-
             // transform each of the nodes
-            chart
-                .transition().duration(container.opts.speed)
+            chart.transition()
+                .duration(container.opts.speed)
                 .attr("transform", function(d) { 
                     return "scale(" + scaleFactor + ") translate(" + (d.x - leftPos + centerAdjustment.x) + "," + (d.y + topPos + centerAdjustment.y) + ")";
                 });
@@ -430,22 +528,22 @@
                 text,
                 chart = container.chart.selectAll("g");
 
-            chart
-                .transition().duration(container.opts.speed)
+            chart.transition()
+                .duration(container.opts.speed)
                 .attr("transform", function(d) { 
-                return "scale(1) translate(" + d.x + "," + d.y + ")";
-            });
+                    return "scale(1) translate(" + d.x + "," + d.y + ")";
+                });
 
-            chart
-                .select("text")
-                .remove();
+            chart.select("text").remove();
 
             // if it's a 'pack' chart, then filter text nodes
             if (container.opts.chartType === 'bubble') {
                 text = chart
                     .append("text")
-                    .style("font-size", "0px")
-                    .style("text-anchor", "middle")
+                    .style({
+                        "font-size" : "0px",
+                        "text-anchor" : "middle"
+                    })
                     .attr("dy", ".3em")
                     .transition().delay(container.opts.speed).duration(100)
                     .text(function(d) {
@@ -459,8 +557,10 @@
                         return !d.children;
                     })
                     .append("text")
-                    .style("font-size", "0px")
-                    .style("text-anchor", "middle")
+                    .style({
+                        "font-size" : "0px",
+                        "text-anchor" : "middle"
+                    })
                     .attr("dy", ".3em")
                     .transition().delay(container.opts.speed).duration(100)
                     .text(function(d) {
@@ -487,7 +587,7 @@
                     node[children].forEach(function(child) { recurse(node[container.opts.dataStructure.name], child); });
                 }
                 else {
-                    dataList.push({packageName: name, className: node[container.opts.dataStructure.name], value: parseFloat(node[container.opts.dataStructure.value])});
+                    dataList.push({name: name, className: node[container.opts.dataStructure.name], value: parseFloat(node[container.opts.dataStructure.value])});
                 }
             }
 
@@ -511,8 +611,7 @@
             if (container.opts.data) {
                 container.data = container.opts.data;
                 container.updateChart();
-            }
-            else {
+            } else {
                 d3.json(this.opts.dataUrl, function(error, data) {
                     container.data = data;
                     // build the chart
@@ -537,6 +636,9 @@
             this.el.removeAttribute(this.namespace);
             this.el.removeChild(this.el.children[0]);
             this.el[this.namespace] = null;
+            if (this.opts.tooltip.visible) {
+                d3.select(this.el).select("#" + this.opts.tooltip.id).remove();
+            }
         }     
     };
     

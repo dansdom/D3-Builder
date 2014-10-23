@@ -76,6 +76,8 @@ D3Builder.settings = (function(d3, $, undefined) {
         buildChart : function(chartType, settings, chartStyle) {
             var chart = document.getElementById("chart-preview");
 
+            console.log(settings);
+
             // destroy the current
             if (D3Builder.formData.type.current && D3Builder.formData.type.current !== chartType) {
                 d3[D3Builder.formData.type.current](chart, "destroy");

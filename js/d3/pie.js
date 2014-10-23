@@ -8,22 +8,16 @@
     'use strict';
     
     // Plugin namespace definition
-    d3.Pie = function (options, element, callback)
-    {
+    d3.Pie = function (options, element, callback) {
         // wrap the element in the jQuery object
         this.el = element;
-
+        this.callback = callback;
         // this is the namespace for all bound event handlers in the plugin
         this.namespace = "pie";
         // extend the settings object with the options, make a 'deep' copy of the object using an empty 'holding' object
         // using the extend code that I ripped out of jQuery
         this.opts = extend(true, {}, d3.Pie.settings, options);
         this.init();
-        // run the callback function if it is defined
-        if (typeof callback === "function")
-        {
-            callback.call();
-        }
     };
     
     // these are the plugin default settings that will be over-written by user settings
@@ -54,6 +48,16 @@
             'offset' : {  // offset of the legend
                 'x' : 0,
                 'y' : 0
+            }
+        },
+        'tooltip' : { // tooltip options
+            'visible' : true,
+            'id' : 'tooltip',
+            'height' : 60,
+            'width' : 200,
+            'offset' : {
+                'x' : 10,
+                'y' : -30
             }
         },
         'chartName' : false  // If there is a chart name then insert the value. This allows for deep exploration to show category name
@@ -112,8 +116,22 @@
             // set the labels for the chart
             this.setLabels(oldValues, newValues);
 
+            // add tooltip events
+            if (container.opts.tooltip.visible) {
+                container.addTooltipEvents(newValues);
+                container.addTooltipEvents(oldValues);
+            }
+
             // make the legend
             this.setLegend();
+
+            // add the tooltip
+            this.addTooltip();
+
+            // run the callback function after the plugin has finished initialising
+            if (typeof container.callback === "function") {
+                container.callback.call(this, container);
+            }
         },
         setLayout : function() {
             var container = this;
@@ -315,18 +333,18 @@
             // add event binding
             container.values
                 // clear current events
-                .on("mouseover", null)
-                .on("mouseout", null)
-                .on("click", null)
-                .on("mouseover", function(d) {
+                .on("mouseover.transition", null)
+                .on("mouseout.transition", null)
+                .on("click.transition", null)
+                .on("mouseover.transition", function(d) {
                     var center = container.arc.centroid(d);
                     var move = "translate(" + (center[0] * 0.2) + "," + (center[1] * 0.2) + ")";
                     d3.select(this).transition().duration(200).attr("transform", move);
                 })
-                .on("mouseout", function() {
+                .on("mouseout.transition", function() {
                     d3.select(this).transition().duration(200).attr("transform", "translate(0,0)");
                 })
-                .on("click", function(d) {
+                .on("click.transition", function(d) {
                     // get the new data set
                     //console.log(d);
                     // check to see if there are children
@@ -431,6 +449,65 @@
                 //oldValues.select("text").remove();
                 container.values.select("text").remove();
             }
+        },
+        addTooltip : function() {
+            var container = this,
+                toolOpts = container.opts.tooltip,
+                tooltip, name, value;
+
+            if (toolOpts.visible) {
+                // create a stacking context
+                d3.select(container.el).style("position", "relative");
+                // if the tooltip already exists then remove it
+                tooltip = d3.select(container.el).select("#" + toolOpts.id).remove();
+                tooltip = d3.select(container.el).append("div");                
+
+                tooltip.attr('id', toolOpts.id)
+                    .attr("class", "tooltip")
+                    .style({
+                        "height" : toolOpts.height + "px",
+                        "width" : toolOpts.width + "px",
+                        "position" : "absolute",
+                        "display" : "none",
+                        "top" : "0px",
+                        "left" : "0px"
+                    });
+                name = tooltip.append("div").attr("class", "name");
+                name.append("label").text("Name: ");
+                name.append("span");
+                value = tooltip.append("div").attr("class", "value");
+                value.append("label").text("Value: ");
+                value.append("span")
+            }
+        },
+        addTooltipEvents : function(elements) {
+            var container = this;
+
+            // remove any previously bound tooltip first
+            elements
+                .on("mouseover.tooltip", null)
+                .on("mouseout.tooltip", null)
+                .on("mouseover.tooltip", function(d, i) {
+                    var tooltip = d3.select("#" + container.opts.tooltip.id),
+                        mouse = d3.mouse(container.el);
+
+                    tooltip.style({
+                        "display" : "block",
+                        "left" : (mouse[0] + container.opts.tooltip.offset.x) + "px",
+                        "top" : (mouse[1] + container.opts.tooltip.offset.y) + "px"
+                    });
+
+                    console.log(d);
+
+                    tooltip.select(".name").select("span")
+                        .text(d.data.category);
+
+                    tooltip.select(".value").select("span")
+                        .text(d.data.value);
+                })
+                .on("mouseout.tooltip", function(d, i) {
+                    $("#tooltip").css("display", "none");
+                });
         },
         filterData : function(data, category) {
             var chartData = data.filter(function(d) {
@@ -556,6 +633,9 @@
             this.el.removeAttribute(this.namespace);
             this.el.removeChild(this.el.children[0]);
             this.el[this.namespace] = null;
+            if (this.opts.tooltip.visible) {
+                d3.select(this.el).select("#" + this.opts.tooltip.id).remove();
+            }
         }     
     };
     

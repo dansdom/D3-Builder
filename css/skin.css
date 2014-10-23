@@ -259,6 +259,11 @@ li.theme-legend {display:none}
 #control-panel legend {display:block;text-align:center;padding:5px 0 20px;width:100%;font-family: 'quandoregular';text-shadow:0 1px 0px rgba(255, 255, 255, 0.75);text-decoration:underline;}
 #chart-preview {text-align:center;padding:20px;}
 
+/* tooltip  */
+.tooltip {background:#fff;border-radius:3px;box-shadow:2px 2px 5px rgba(0,0,0,0.5);text-align:left;}
+.tooltip > div {padding:6px 10px 0;}
+.tooltip span {}
+.tooltip label {display:inline-block;width:50px;font-weight:bold;}
 
 /* PLUGINS (jQuery)  
  * ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */

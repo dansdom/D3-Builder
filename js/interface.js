@@ -111,7 +111,7 @@ D3Builder.chartBuilder = (function($, d3, undefined) {
                 var section = $(this),
                     sectionItems = $(this).attr("id");
                     
-                if (section.attr("checked") === "checked") {
+                if (section.prop("checked")) {
                     $("." + sectionItems).css("display", "block");
                 }
                 else {
@@ -944,7 +944,7 @@ D3Builder.chartTheme = (function($, d3, undefined) {
             var theme = {};
             
             // background color check
-            if ($("#theme-background").attr("checked") === "checked") {
+            if ($("#theme-background").prop("checked")) {
                 theme.backgroundColor = $("#theme-background-color").prop("value");
             }
             else {
@@ -952,7 +952,7 @@ D3Builder.chartTheme = (function($, d3, undefined) {
             }
             
             // header check
-            if ($("#theme-header").attr("checked") === "checked") {
+            if ($("#theme-header").prop("checked")) {
                 theme.headerName = $("#theme-header-name").prop("value");
                 theme.headerSize = parseFloat($("#theme-header-size").prop("value"));
                 theme.headerPosition = $("#theme-header-position").prop("value");
@@ -974,7 +974,7 @@ D3Builder.chartTheme = (function($, d3, undefined) {
             }
             
             // label check
-            if ($("#theme-labels").attr("checked") === "checked") {
+            if ($("#theme-labels").prop("checked")) {
                 theme.labelSize = parseFloat($("#theme-label-size").prop("value"));
                 theme.labelPosition = parseFloat($("#theme-label-position").prop("value"));
                 theme.labelColor = $("#theme-label-color").prop("value");
@@ -986,7 +986,7 @@ D3Builder.chartTheme = (function($, d3, undefined) {
             }
             
             // chart data style
-            if ($("#theme-data").attr("checked") === "checked") {
+            if ($("#theme-data").prop("checked")) {
                 theme.borderSize = parseFloat($("#theme-data-border-size").prop("value"));
                 theme.borderColor = $("#theme-data-border-color").prop("value");
                 theme.opacity = $("#theme-data-opacity").prop("value");
@@ -1000,7 +1000,7 @@ D3Builder.chartTheme = (function($, d3, undefined) {
             }
 
             // chart legend style
-            if ($("#theme-legend").attr("checked") === "checked") {
+            if ($("#theme-legend").prop("checked")) {
                 theme.legendSize = parseFloat($("#theme-legend-size").prop("value"));
                 theme.legendAlign = $("#theme-legend-align").prop("value");
                 theme.legendOffset = {
