@@ -8,22 +8,16 @@
     'use strict';
     
     // Plugin namespace definition
-    d3.Sunburst = function (options, element, callback)
-    {
+    d3.Sunburst = function (options, element, callback) {
         // wrap the element in the jQuery object
         this.el = element;
-
+        this.callback = callback;
         // this is the namespace for all bound event handlers in the plugin
         this.namespace = "sunburst";
         // extend the settings object with the options, make a 'deep' copy of the object using an empty 'holding' object
         // using the extend code that I ripped out of jQuery
         this.opts = extend(true, {}, d3.Sunburst.settings, options);
         this.init();
-        // run the callback function if it is defined
-        if (typeof callback === "function")
-        {
-            callback.call();
-        }
     };
     
     // these are the plugin default settings that will be over-written by user settings
@@ -43,10 +37,20 @@
             'borderWidth' : 1
         },
         'fontSize' : 12,
-        // defines the data structure of the document
+        // defines the data structure of the chart
         'dataStructure' : {
             'name' : 'label',
             'value' : 'size'
+        },
+        'tooltip' : { // tooltip options
+            'visible' : true,
+            'id' : 'tooltip',
+            'height' : 60,
+            'width' : 200,
+            'offset' : {
+                'x' : 10,
+                'y' : -30
+            }
         },
         'chartName' : null
     };
@@ -86,8 +90,7 @@
             // if there is a colour range defined for this chart then use the settings. If not, use the inbuild category20 colour range
             if (this.opts.colorRange.length > 0) {
                 container.color = d3.scale.ordinal().range(this.opts.colorRange);
-            }
-            else {
+            } else {
                 container.color = d3.scale.category20c();
             }
 
@@ -95,6 +98,8 @@
             this.setLayout();
             // set the chart title
             this.setTitle();
+            // add the tooltip
+            this.addTooltip();
 
             container.path = container.chart.datum(container.data).select(".sunburst").selectAll("path")
                 .data(container.partition.nodes);
@@ -106,14 +111,15 @@
                 .attr("display", function(d) { return d.depth ? null : "none"; }) // hide inner ring
                 //.attr("d", container.arc)
                 .attrTween("d", arcTween)
-                .style("stroke", container.opts.elements.borderColor)
-                .style("stroke-width", container.opts.elements.borderWidth)
-                .style("fill", function(d) {
-                    if (d[container.opts.dataStructure.children]) {
-                        return container.color(d.name);
-                    }
-                    else {
-                        return container.color(d.parent.name);
+                .style({
+                    "stroke" : container.opts.elements.borderColor,
+                    "stroke-width" : container.opts.elements.borderWidth,
+                    "fill" : function(d) {
+                        if (d[container.opts.dataStructure.children]) {
+                            return container.color(d.name);
+                        } else {
+                            return container.color(d.parent.name);
+                        }
                     }
                 });
                 
@@ -125,20 +131,31 @@
                 .each(stash)
                 .attr("display", function(d) { return d.depth ? null : "none"; }) // hide inner ring
                 //.attr("d", container.arc)
-                .style("stroke", container.opts.elements.borderColor)
-                .style("stroke-width", container.opts.elements.borderWidth)
-                .style("fill", function(d) {
-                    if (d[container.opts.dataStructure.children]) {
-                        return container.color(d.name);
-                    }
-                    else {
-                        return container.color(d.parent.name);
-                    }
+                .style({
+                    "stroke" : container.opts.elements.borderColor,
+                    "stroke-width" : container.opts.elements.borderWidth,
+                    "fill" : function(d) {
+                        if (d[container.opts.dataStructure.children]) {
+                            return container.color(d.name);
+                        } else {
+                            return container.color(d.parent.name);
+                        }
+                    },
+                    "fill-rule" : "evenodd"
                 })
-                .style("fill-rule", "evenodd")
                 .transition()
                 .duration(container.opts.speed)
-                .attrTween("d", arcTween);   
+                .attrTween("d", arcTween); 
+
+            if (container.opts.tooltip.visible) {
+                container.addTooltipEvents(container.path);
+                //container.addTooltipEvents(newValues);
+            }
+
+            // run the callback function after the plugin has finished initialising
+            if (typeof container.callback === "function") {
+                container.callback.call(this, container);
+            }  
         },
         setLayout : function() {
             var container = this;
@@ -149,8 +166,10 @@
                     
             }
             container.chart
-                .attr("width", container.opts.width)
-                .attr("height", container.opts.height);
+                .attr({
+                    "width" : container.opts.width,
+                    "height" : container.opts.height
+                });
 
             // define the sunburst element
             if (!container.sunburst) {
@@ -179,6 +198,63 @@
                     .innerRadius(function(d) { return Math.sqrt(d.y); })
                     .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
             }
+        },
+        addTooltip : function() {
+            var container = this,
+                toolOpts = container.opts.tooltip,
+                tooltip, name, value;
+
+            if (toolOpts.visible) {
+                // create a stacking context
+                d3.select(container.el).style("position", "relative");
+                // if the tooltip already exists then remove it
+                tooltip = d3.select(container.el).select("#" + toolOpts.id).remove();
+                tooltip = d3.select(container.el).append("div");                
+
+                tooltip.attr('id', toolOpts.id)
+                    .attr("class", "tooltip")
+                    .style({
+                        "height" : toolOpts.height + "px",
+                        "width" : toolOpts.width + "px",
+                        "position" : "absolute",
+                        "display" : "none",
+                        "top" : "0px",
+                        "left" : "0px"
+                    });
+                name = tooltip.append("div").attr("class", "name");
+                name.append("label").text("Name: ");
+                name.append("span");
+                value = tooltip.append("div").attr("class", "value");
+                value.append("label").text("Value: ");
+                value.append("span")
+            }
+        },
+        addTooltipEvents : function(elements) {
+            var container = this;
+
+            // remove any previously bound tooltip first
+            elements
+                .on("mouseover.tooltip", null)
+                .on("mouseout.tooltip", null)
+                .on("mouseover.tooltip", function(d, i) {
+                    var tooltip = d3.select("#" + container.opts.tooltip.id),
+                        mouse = d3.mouse(container.el);
+
+                    tooltip.style({
+                        "display" : "block",
+                        "left" : (mouse[0] + container.opts.tooltip.offset.x) + "px",
+                        "top" : (mouse[1] + container.opts.tooltip.offset.y) + "px"
+                    });
+
+                    tooltip.select(".name").select("span")
+                        .text(d.name);
+
+                    tooltip.select(".value").select("span")
+                        .text(d.value);
+                })
+                .on("mouseout.tooltip", function(d, i) {
+                    d3.select("#" + container.opts.tooltip.id).style("display", "none");
+                });
         },
         setTitle : function() {
             var container = this;
@@ -218,7 +294,7 @@
                     node[children].forEach(function(child) { recurse(node[container.opts.dataStructure.name], child); });
                 }
                 else {
-                    dataList.push({packageName: name, className: node[container.opts.dataStructure.name], value: parseFloat(node[container.opts.dataStructure.value])});
+                    dataList.push({name: name, className: node[container.opts.dataStructure.name], value: parseFloat(node[container.opts.dataStructure.value])});
                 }
             }
 
@@ -245,8 +321,7 @@
             if (container.opts.data) {
                 container.data = container.opts.data;
                 container.updateChart();
-            }
-            else {
+            } else {
                 d3.json(this.opts.dataUrl, function(error, data) {
                     // data object
                     container.data = data;
@@ -272,6 +347,9 @@
             this.el.removeAttribute(this.namespace);
             this.el.removeChild(this.el.children[0]);
             this.el[this.namespace] = null;
+            if (this.opts.tooltip.visible) {
+                d3.select(this.el).select("#" + this.opts.tooltip.id).remove();
+            }
         }     
     };
     

@@ -8,22 +8,16 @@
     'use strict';
     
     // Plugin namespace definition
-    d3.Chord = function (options, element, callback)
-    {
+    d3.Chord = function (options, element, callback) {
         // wrap the element in the jQuery object
         this.el = element;
-
+        this.callback = callback;
         // this is the namespace for all bound event handlers in the plugin
         this.namespace = "chord";
         // extend the settings object with the options, make a 'deep' copy of the object using an empty 'holding' object
         // using the extend code that I ripped out of jQuery
         this.opts = extend(true, {}, d3.Chord.settings, options);
         this.init();
-        // run the callback function if it is defined
-        if (typeof callback === "function")
-        {
-            callback.call();
-        }
     };
     
     // these are the plugin default settings that will be over-written by user settings
@@ -32,6 +26,7 @@
         'width' : 500,
         'radius' : 200,
         'speed' : 1000,
+        'fadeOpacity' : 0.1,  // popacity of faded elements
         'padding' : 10,
         'spacing': 5,  // effective setting in D3 is between 0.03 and 0.1. therefore this value will be divided by 100
         'labelPosition' : 0, // this may get replaced by the labelFrequency setting, or this replace it.
@@ -40,36 +35,35 @@
         'dataType' : 'json',
         'colorRange' : [], // instead of defining a color array, I will set a color scale and then let the user overwrite it
         'fontSize' : 12,
-        // defines the data structure of the document
-        'dataStructure' : {
-            'name' : 'name',
-            'value' : 'size',
-            'children' : undefined
-        },
         'tickFrequency' : 0.3,  // this is a frquency multiplier - may not produce whole numbers
         'tickLength' : 10,  // length of the ticks on the chart
         'labelFrequency' : 5,
         'decimalPlaces' : 2,
+        'tooltip' : { // tooltip options
+            'visible' : true,
+            'id' : 'tooltip',
+            'height' : 60,
+            'width' : 300,
+            'offset' : {
+                'x' : 10,
+                'y' : -30
+            }
+        },
         'chartName' : false  // If there is a chart name then insert the value. This allows for deep exploration to show category name
     };
     
     // plugin functions go here
     d3.Chord.prototype = {
         init : function() {
-
             var container = this;
             // set the scale for the chart - I may or may not actually use this scale
             container.scaleX = d3.scale.linear().range([0, this.opts.width]);
             container.scaleY = d3.scale.linear().range([0, this.opts.height]);
-            // define the data format - not 100% sure what this does. will need to research this attribute
-            //container.format = d3.format(",d");
             
             // go get the data
             this.getData();
-
         },
         updateChart : function() {
-
             var container = this,
                 oldValues,
                 newValues;
@@ -77,28 +71,31 @@
             // if there is a colour range defined for this chart then use the settings. If not, use the inbuild category20 colour range
             if (this.opts.colorRange.length > 0) {
                 container.color = d3.scale.ordinal().range(this.opts.colorRange);
-            }
-            else {
+            } else {
                 container.color = d3.scale.category20();
             }
                 
             // set the layout of the chart
             this.setLayout();
-            // set the chart title
-            this.setTitle();
             
             // set the arcs of the chart    
             this.setArcs();
-            
             // set the paths for the chart
             this.setChords();
-
             // set the ticks for the chart
             this.setTicks();
-
             // add the labels on the chart
             this.addLabels();
-            
+
+            // set the chart title
+            this.setTitle();
+            // add the tooltip
+            this.addTooltip();
+
+            // run the callback function after the plugin has finished initialising
+            if (typeof container.callback === "function") {
+                container.callback.call(this, container);
+            }
         },
         setLayout : function() {
             var container = this;
@@ -110,31 +107,29 @@
             container.svgArc = d3.svg.arc().innerRadius(container.innerRadius).outerRadius(container.outerRadius);
             container.svgChord = d3.svg.chord().radius(container.innerRadius);
 
-            // ###### LAYOUT ######
             // define the chord layout
             if (!container.chord) {
                 container.chord = d3.layout.chord();
-            }
-            // store the old values of the chart
-            else {
+            } else { // store the old values of the chart
                 container.oldValues = {
                     groups : container.chord.groups(),
                     chords : container.chord.chords()
                 };
             }
             container.chord
-                .padding(container.opts.spacing/100)  // divide by 100 so it fits in the D3-Builder interface
+                .padding(container.opts.spacing / 100)  // divide by 100 so it fits in the D3-Builder interface
                 .sortSubgroups(d3.descending)
                 .matrix(container.data);
 
-            // ######## SVG ########
             if (!container.svg) {
                 // add the chart element to the document
                 container.svg = d3.select(container.el).append("svg");
             }
             container.svg
-                .attr("width", container.opts.width)
-                .attr("height", container.opts.height);
+                .attr({
+                    "width" : container.opts.width,
+                    "height" : container.opts.height
+                });
 
             // ####### CHART #########
             if (!container.chart) {
@@ -146,7 +141,6 @@
         setTitle : function() {
             var container = this;
 
-            // ####### CHART TITLE #######
             if (container.opts.chartName) {
                 if (!container.chartName) {
                     container.chartName = container.chart.append("g")
@@ -154,16 +148,7 @@
                         .append("text");
                 }
                 container.chartName = container.chart.select(".chartName").select("text")
-                    .text(function() {
-                        var chartTitle;
-                        if (container.opts.dataStructure.children) {
-                            chartTitle = container.dataCategory;
-                        }
-                        else {
-                            chartTitle = container.opts.chartName;
-                        }
-                        return chartTitle;
-                    });
+                    .text(function() { return container.opts.chartName; });
             }
         },
         setArcs : function() {
@@ -203,16 +188,18 @@
             container.arcGroups.enter()
                 .append("g")
                 .attr("class", "group")
-                .on("mouseover", fade(0.1))
-                .on("mouseout", fade(1))
+                .on("mouseover.fade", fade(container.opts.fadeOpacity))
+                .on("mouseout.fade", fade(1))
                 .append("path");
 
             // fade out the old arcs
             container.arcGroups.exit()
                 .transition()
                 .duration(container.opts.speed)
-                .style("fill-opacity", 1e-6)
-                .style("stroke-opacity", 1e-6)
+                .style({
+                    "fill-opacity" : 1e-6,
+                    "stroke-opacity" : 1e-6
+                })
                 .remove();
             
             // define the arc paths
@@ -223,20 +210,26 @@
                     .attr("id", function(d, i) { return "group" + i; })
                     .transition()
                     .duration(container.opts.speed)
-                    .style("fill", function(d) { return container.color(d.index); })
-                    .style("stroke", function(d) { return container.color(d.index); })
+                    .style({
+                        "fill" : function(d) { return container.color(d.index); },
+                        "stroke" : function(d) { return container.color(d.index); }
+                    })
                     .attrTween("d", arcTween(container.svgArc, container.oldValues));   
-            }
-            else {
+            } else {
                 container.arcPaths
                     .attr("id", function(d, i) { return "group" + i; })
                     .transition()
                     .duration(container.opts.speed)
-                    .style("fill", function(d) { return container.color(d.index); })
-                    .style("stroke", function(d) { return container.color(d.index); })
+                    .style({
+                        "fill" : function(d) { return container.color(d.index); },
+                        "stroke" : function(d) { return container.color(d.index); }
+                    })
                     .attr("d", container.svgArc);
             }
-                
+
+            if (container.opts.tooltip.visible) {
+                container.addTooltipArcs(container.arcGroups);
+            }     
         },
         setChords : function() {
             var container = this,
@@ -269,45 +262,54 @@
                     .transition()
                     .duration(container.opts.speed)
                     .attrTween("d", chordTween(container.svgChord, container.oldValues))
-                    .style("fill", function(d) { return container.color(d.target.index); })
-                    .style("opacity", 1);
-            }
-            else {
+                    .style({
+                        "fill" : function(d) { return container.color(d.target.index); },
+                        "opacity" : 1
+                    });
+            } else {
                 container.chordPaths
                     .transition()
                     .duration(container.opts.speed)
                     .attr("d", container.svgChord)
-                    .style("fill", function(d) { return container.color(d.target.index); })
-                    .style("opacity", 1);
+                    .style({
+                        "fill" : function(d) { return container.color(d.target.index); },
+                        "opacity" : 1
+                    });
             }
 
             container.chordPaths.exit()
                 .transition()
                 .duration(container.opts.speed)
-                .style("fill-opacity", 1e-6)
-                .style("stroke-opacity", 1e-6)
-                .remove();
-                
+                .style({
+                    "fill-opacity" : 1e-6,
+                    "stroke-opacity" : 1e-6
+                })
+                .remove(); 
+
+            if (container.opts.tooltip.visible) {
+                container.addTooltipChords(container.chordPaths);
+            }    
         },
         setTicks : function() {
             var container = this,
                 // Returns an array of tick angles and labels, given a group.
                 // Note: this function is a bit of a mess atm. Will need to refactor
                 groupTicks = function(d) {
-                    var k = (d.endAngle - d.startAngle) / d.value;
-                    //console.log("value: " + d.value);
-                    // get angle, then divide by total angle. this gives me the percetage
-                    var anglePercentage = (d.endAngle - d.startAngle) / (Math.PI * 2) * 100;
-                    //console.log(anglePercentage);
-                    // value per degree of the circle
-                    var valueDeg = d.value / anglePercentage;
-                    //console.log("valueDeg: " + valueDeg);
-                    // number of digits in that value
-                    var valueDegUnit = parseInt(valueDeg).toString().length;
-                    //console.log("value per degree: " + valueDegUnit);
-                    // 10 to the power of that value minus 1
-                    var steps = Math.pow(10, valueDegUnit - 1);
-                    //console.log("steps: " + steps);
+                    var k = (d.endAngle - d.startAngle) / d.value,
+                        //console.log("value: " + d.value);
+                        // get angle, then divide by total angle. this gives me the percetage
+                        anglePercentage = (d.endAngle - d.startAngle) / (Math.PI * 2) * 100,
+                        //console.log(anglePercentage);
+                        // value per degree of the circle
+                        valueDeg = d.value / anglePercentage,
+                        //console.log("valueDeg: " + valueDeg);
+                        // number of digits in that value
+                        valueDegUnit = parseInt(valueDeg).toString().length,
+                        //console.log("value per degree: " + valueDegUnit);
+                        // 10 to the power of that value minus 1
+                        steps = Math.pow(10, valueDegUnit - 1);
+                        //console.log("steps: " + steps);
+
                     return d3.range(0, d.value, steps/container.opts.tickFrequency).map(function(v, i) {
                         //console.log("v: "+v+", i:"+i);
                         return {
@@ -317,8 +319,7 @@
                                 var label;
                                 if (i % container.opts.labelFrequency) {
                                     label = null;
-                                }
-                                else {
+                                } else {
                                     //label = (v).toFixed(container.opts.decimalPlaces) + stepUnit;
                                     label = container.getStepLabel(v, steps);
                                 }
@@ -348,33 +349,136 @@
                 .data(groupTicks);
                 
             container.tickUnits.enter().append("g")
-                .attr("class", "tickUnit")
-                .attr("transform", function(d) {
-                    return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")" + " translate(" + container.outerRadius +", 0)";
+                .attr({
+                    "class" : "tickUnit",
+                    "transform" : function(d) {
+                        return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")" + " translate(" + container.outerRadius +", 0)";
+                    }
                 });
 
             container.tickUnits.append("line")
                 .transition()
                 .duration(container.opts.speed)
-                .attr("x1", 1)
-                .attr("y1", 0)
-                .attr("x2", container.opts.tickLength)
-                .attr("y2", 0);
+                .attr({
+                    "x1" : 1,
+                    "y1" : 0,
+                    "x2" : container.opts.tickLength,
+                    "y2" : 0
+                });
 
             // if labels are set then show this text
             if (this.opts.labelPosition) {
                 container.tickUnits.append("text")
-                    .style("opacity", 1e-6)
-                    .attr("x", 8)
-                    .attr("dy", ".35em")
-                    .attr("transform", function(d) { return d.angle > Math.PI ? "rotate(180) translate(-16)" : null; })
-                    .style("text-anchor", function(d) { return d.angle > Math.PI ? "end" : null; })
-                    .text(function(d) { return d.label; })
+                    .style({
+                        "opacity" : 1e-6,
+                        "text-anchor" : function(d) { return d.angle > Math.PI ? "end" : null; }
+                    })
+                    .attr({
+                        "x" : 8,
+                        "dy" : ".35em",
+                        "transform" : function(d) { return d.angle > Math.PI ? "rotate(180) translate(-16)" : null; }
+                    })
+                    .text(function(d, i) { return d.label; })
                     .transition()
                     .duration(container.opts.speed)
                     .style("opacity", 1);
             } 
+        },
+        addTooltip : function() {
+            var container = this,
+                toolOpts = container.opts.tooltip,
+                tooltip, name, value;
 
+            if (toolOpts.visible) {
+                // create a stacking context
+                d3.select(container.el).style("position", "relative");
+                // if the tooltip already exists then remove it
+                tooltip = d3.select(container.el).select("#" + toolOpts.id).remove();
+                tooltip = d3.select(container.el).append("div");                
+
+                tooltip.attr('id', toolOpts.id)
+                    .attr("class", "tooltip")
+                    .style({
+                        "height" : toolOpts.height + "px",
+                        "width" : toolOpts.width + "px",
+                        "position" : "absolute",
+                        "display" : "none",
+                        "top" : "0px",
+                        "left" : "0px"
+                    });
+                name = tooltip.append("div").attr("class", "name");
+                name.append("label").text("Name: ");
+                name.append("span");
+                value = tooltip.append("div").attr("class", "value");
+                value.append("label").text("Value: ");
+                value.append("span")
+            }
+        },
+        addTooltipArcs : function(elements) {
+            var container = this;
+
+            // remove any previously bound tooltip first
+            elements
+                .on("mouseover.tooltip", null)
+                .on("mouseout.tooltip", null)
+                .on("mouseover.tooltip", function(d, i) {
+                    var tooltip = d3.select("#" + container.opts.tooltip.id),
+                        mouse = d3.mouse(container.el);
+
+                    tooltip.style({
+                        "display" : "block",
+                        "left" : (mouse[0] + container.opts.tooltip.offset.x) + "px",
+                        "top" : (mouse[1] + container.opts.tooltip.offset.y) + "px"
+                    });
+
+                    tooltip.select(".name").select("span")
+                        .text(container.dataGroups[i]);
+
+                    tooltip.select(".value").select("span")
+                        .text(d.value);
+                })
+                .on("mouseout.tooltip", function(d, i) {
+                    d3.select("#" + container.opts.tooltip.id).style("display", "none");
+                });
+        },
+        addTooltipChords : function(elements) {
+            var container = this;
+
+            elements
+                .on("mouseover.tooltip", null)
+                .on("mouseout.tooltip", null)
+                .on("mouseover.tooltip", function(d, i) {
+                    var tooltip = d3.select("#" + container.opts.tooltip.id),
+                        mouse = d3.mouse(container.el),
+                        chordIndex = i;
+
+                    tooltip.style({
+                        "display" : "block",
+                        "left" : (mouse[0] + container.opts.tooltip.offset.x) + "px",
+                        "top" : (mouse[1] + container.opts.tooltip.offset.y) + "px"
+                    });
+
+                    tooltip.select(".name").select("span")
+                        .text(container.dataGroups[d.source.index] + " (source), " + container.dataGroups[d.target.index] + " (target)");
+
+                    tooltip.select(".value").select("span")
+                        .text(d.source.value + " (source), " + d.target.value + " (target)");
+                    // fade the other chords out
+                    container.chart.selectAll(".chords path")
+                            .filter(function(d, i) { return chordIndex !== i; })
+                            .transition()
+                            .style("opacity", container.opts.fadeOpacity);
+                })
+                .on("mouseout.tooltip", function() {
+                    var chordIndex = i;
+
+                    d3.select("#" + container.opts.tooltip.id).style("display", "none");
+                    // fade chords back in
+                    container.chart.selectAll(".chords path")
+                            .filter(function(d, i) { return chordIndex !== i; })
+                            .transition()
+                            .style("opacity", 1);
+                });
         },
         addLabels : function() {
             var container = this;
@@ -385,25 +489,27 @@
                
                 //  container.chordPaths
                 container.labels = container.arcGroups.append("svg:text")
-                        .attr("class", "label")
-                        .attr("dx", function(d) {
-                            if (container.opts.labelPosition) {
-                                return container.opts.labelPosition;
-                            } 
-                            else {
-                                return 0;
+                        .attr({
+                            "class" : "label",
+                            "dy" : 17, // I'd like this to be configurable
+                            "dx" : function(d) {
+                                if (container.opts.labelPosition) {
+                                    return container.opts.labelPosition;
+                                } else {
+                                    return 0;
+                                }
                             }
-                        })
-                        // I'd like this to be configurable
-                        .attr("dy", 17);
+                        });  
                     
                 // add the text paths - atm I'm just adding the value of the group, but with better data integration I will probably use the category name
                 container.labels
                     .append("svg:textPath")
                     // this xlink:href maps the path element onto a target glyph with the matching id
-                    .attr("xlink:href", function(d, i) { return "#group" + i; })
-                    .text(function(d) { return d.value.toFixed(container.opts.decimalPlaces); })
-                    .attr("startOffset", 5);
+                    .attr({
+                        "xlink:href" : function(d, i) { return "#group" + i; },
+                        "startOffset" : 5
+                    })
+                    .text(function(d, i) { return container.dataGroups[i] + " : " + d.value.toFixed(container.opts.decimalPlaces); });      
             }
 
         },
@@ -411,23 +517,22 @@
             var container = this,
                 labelLength = parseInt(value).toString().length,
                 divider = 1,
-                stepUnit = "";
+                stepUnit = "",
+                endResult;
 
             // I need to work how how many values I will test for
             if (labelLength > 3 && labelLength < 7) {
                 stepUnit = "k";
                 divider = 1000;
-            }
-            else if (labelLength > 6 && labelLength < 10) {
+            } else if (labelLength > 6 && labelLength < 10) {
                 stepUnit = "m";
                 divider = 1000000;
-            }
-            else if (labelLength > 9 && labelLength < 13) {
+            } else if (labelLength > 9 && labelLength < 13) {
                 stepUnit = "b";
                 divider = 1000000000;
             }
             //console.log("unit: " + stepUnit);
-            var endResult = (value / divider).toFixed(container.opts.decimalPlaces) + " " + stepUnit;
+            endResult = (value / divider).toFixed(container.opts.decimalPlaces) + " " + stepUnit;
             //console.log("end value: " + endResult);
             //console.groupEnd();
             
@@ -453,8 +558,11 @@
         },
         // parseFloat on all the data values
         parseData : function(data) {
-            
-            var dataLength = data.length;
+            var container = this,
+                dataLength;
+
+            container.dataGroups = data.shift();
+            dataLength = data.length;
 
             for (var i = 0; i < dataLength; i++) {
                 var dataDepth = data[i].length,
@@ -487,8 +595,7 @@
             if (container.opts.data) {
                 container.data = container.parseData(container.opts.data);
                 container.updateChart();
-            }
-            else {
+            } else {
                 d3.json(container.opts.dataUrl, function(error, data) {
                     // data object
                     //container.data = container.parseData(data);
@@ -514,6 +621,9 @@
             this.el.removeAttribute(this.namespace);
             this.el.removeChild(this.el.children[0]);
             this.el[this.namespace] = null;
+            if (this.opts.tooltip.visible) {
+                d3.select(this.el).select("#" + this.opts.tooltip.id).remove();
+            }
         }     
     };
     
@@ -570,8 +680,7 @@
                 for (i = 0; i < element.length; i++) {
                     applyPluginMethod(element[i]);
                 }
-            }
-            else {
+            } else {
                 applyPluginMethod(element);
             }
             
@@ -583,8 +692,7 @@
                 for (i = 0; i < element.length; i++) {
                     initialisePlugin(element[i]);
                 }
-            }
-            else {
+            } else {
                 initialisePlugin(element);
             }
         }

@@ -468,7 +468,7 @@
                         .text(d.value);
                 })
                 .on("mouseout.tooltip", function(d, i) {
-                    $("#tooltip").css("display", "none");
+                    d3.select("#" + container.opts.tooltip.id).style("display", "none");
                 });
         },
         zoom : function(d, i) {

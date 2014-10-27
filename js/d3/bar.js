@@ -638,7 +638,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                         .text(d[container.opts.dataStructure.y]);
                 })
                 .on("mouseout.tooltip", function(d, i) {
-                    $("#tooltip").css("display", "none");
+                    d3.select("#" + container.opts.tooltip.id).style("display", "none");
                 });
         },
         isScaleNumeric : function(scale) {

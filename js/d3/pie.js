@@ -93,6 +93,8 @@
             this.setLayout();
             // set the chart title
             this.setTitle();
+            // add the tooltip
+            this.addTooltip();
             
             // ############ VALUES #############
             container.values = container.chart.selectAll(".arc")
@@ -124,9 +126,6 @@
 
             // make the legend
             this.setLegend();
-
-            // add the tooltip
-            this.addTooltip();
 
             // run the callback function after the plugin has finished initialising
             if (typeof container.callback === "function") {
@@ -506,7 +505,7 @@
                         .text(d.data.value);
                 })
                 .on("mouseout.tooltip", function(d, i) {
-                    $("#tooltip").css("display", "none");
+                    d3.select("#" + container.opts.tooltip.id).style("display", "none");
                 });
         },
         filterData : function(data, category) {
