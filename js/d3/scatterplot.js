@@ -8,19 +8,15 @@
     'use strict';
     
     // Plugin namespace definition
-    d3.Scatterplot = function (options, element, callback)
-    {
+    d3.Scatterplot = function (options, element, callback) {
         this.el = element;
+        this.callback = callback;
         // this is the namespace for all bound event handlers in the plugin
         this.namespace = "scatterplot";
         // extend the settings object with the options, make a 'deep' copy of the object using an empty 'holding' object
         // using the extend code that I ripped out of jQuery
         this.opts = extend(true, {}, d3.Scatterplot.settings, options);
         this.init();
-        // run the callback function if it is defined
-        if (typeof callback === "function") {
-            callback.call();
-        }
     };
     
     // these are the plugin default settings that will be over-written by user settings
@@ -32,7 +28,7 @@
         'data' : null,  // I'll need to figure out how I want to present data options to the user
         'dataUrl' : null,  // this is a url for a resource
         'dataType' : 'json',
-        'colorRange' : ['black'], // instead of defining a color array, I will set a color scale and then let the user overwrite it
+        'colorRange' : [], // instead of defining a color array, I will set a color scale and then let the user overwrite it
         // maybe only if there is one data set???
         'elements' : {
             'dotRadius' : 3.5,  // 0 will show no dots
@@ -82,7 +78,17 @@
                 'x' : 0,
                 'y' : 0
             }
-        },  
+        },
+        'tooltip' : { // tooltip options
+            'visible' : true,
+            'id' : 'tooltip',
+            'height' : 60,
+            'width' : 200,
+            'offset' : {
+                'x' : 10,
+                'y' : -30
+            }
+        },
         'chartName' : false  // If there is a chart name then insert the value. This allows for deep exploration to show category name
     };
     
@@ -100,8 +106,7 @@
             // if there is a colour range defined for this chart then use the settings. If not, use the inbuild category20 colour range
             if (this.opts.colorRange.length > 0) {
                 container.color = d3.scale.ordinal().range(this.opts.colorRange);
-            }
-            else {
+            } else {
                 container.color = d3.scale.category20();
             }
 
@@ -124,6 +129,8 @@
 
             // make the legend
             this.setLegend();
+            // add the tooltip
+            this.addTooltip();
 
             // run the callback after the plugin has finished initialising
             if (typeof container.callback === "function") {
@@ -212,7 +219,7 @@
 
                     currentGroup.select("rect")
                         .attr({
-                            "fill" : function(d) { return container.opts.colorRange[i]; },
+                            "fill" : function(d) { return container.color(i); },
                             "width" : legendOpts.size,
                             "height" : legendOpts.size,
                             "x" : function() { //container.width
@@ -261,7 +268,7 @@
 
                     currentGroup.append("rect")
                         .attr({
-                            "fill" : function(d) { return container.opts.colorRange[i]; },
+                            "fill" : function(d) { return container.color(i); },
                             "width" : legendOpts.size,
                             "height" : legendOpts.size,
                             "x" : function() { //container.width
@@ -483,8 +490,8 @@
                 .duration(500)
                 .attr("r", elements.dotRadius)
                 .style({
-                    "fill" : container.opts.colorRange[i],
-                    "stroke" : container.opts.colorRange[i],
+                    "fill" : container.color(i),
+                    "stroke" : container.color(i),
                     "stroke-opacity" : function(d) {
                         if (d.y > 0) { return 1; } else { return 0; }
                     },
@@ -502,8 +509,8 @@
                     "r" : elements.dotRadius
                 })
                 .style({
-                    "fill" : container.opts.colorRange[i],
-                    "stroke" : container.opts.colorRange[i],
+                    "fill" : container.color(i),
+                    "stroke" : container.color(i),
                     "stroke-opacity" : 1e-6,
                     "fill-opacity" : 1e-6
                 })
@@ -533,6 +540,68 @@
                     "fill-opacity" : 1e-6
                 })
                 .remove();
+
+            // add tooltip event
+            if (container.opts.tooltip.visible) {
+                container.addTooltipEvents(currentCircles);
+            }
+        },
+        addTooltip : function() {
+            var container = this,
+                toolOpts = container.opts.tooltip,
+                tooltip, name, value;
+
+            if (toolOpts.visible) {
+                // create a stacking context
+                d3.select(container.el).style("position", "relative");
+                // if the tooltip already exists then remove it
+                tooltip = d3.select(container.el).select("#" + toolOpts.id).remove();
+                tooltip = d3.select(container.el).append("div");                
+
+                tooltip.attr('id', toolOpts.id)
+                    .attr("class", "tooltip")
+                    .style({
+                        "height" : toolOpts.height + "px",
+                        "width" : toolOpts.width + "px",
+                        "position" : "absolute",
+                        "display" : "none",
+                        "top" : "0px",
+                        "left" : "0px"
+                    });
+                name = tooltip.append("div").attr("class", "name");
+                name.append("label").text("Name: ");
+                name.append("span");
+                value = tooltip.append("div").attr("class", "value");
+                value.append("label").text("Value: ");
+                value.append("span")
+            }
+        },
+        addTooltipEvents : function(elements) {
+            var container = this;
+
+            // remove any previously bound tooltip first
+            elements
+                .on("mouseover.tooltip", null)
+                .on("mouseout.tooltip", null)
+                .on("mouseover.tooltip", function(d, i) {
+                    var tooltip = d3.select("#" + container.opts.tooltip.id),
+                        mouse = d3.mouse(container.el);
+
+                    tooltip.style({
+                        "display" : "block",
+                        "left" : (mouse[0] + container.opts.tooltip.offset.x) + "px",
+                        "top" : (mouse[1] + container.opts.tooltip.offset.y) + "px"
+                    });
+
+                    tooltip.select(".name").select("span")
+                        .text(d[container.opts.dataStructure.key]);
+
+                    tooltip.select(".value").select("span")
+                        .text(d[container.opts.dataStructure.y]);
+                })
+                .on("mouseout.tooltip", function(d, i) {
+                    d3.select("#" + container.opts.tooltip.id).style("display", "none");
+                });
         },
         isScaleNumeric : function(scale) {
             // find out whether the scale is numeric or not

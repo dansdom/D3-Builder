@@ -107,8 +107,10 @@
                 this.placeNewBubbleNodes();
                 // make sure the style is right
                 container.chart.selectAll(".node").selectAll("circle")
-                    .style("fill-opacity", 1)
-                    .style("stroke", null);
+                    .style({
+                        "fill-opacity" : 1,
+                        "stroke" : null
+                    });
 
             }
             // if type = Pack (i.e. deep representation)

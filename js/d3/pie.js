@@ -84,8 +84,7 @@
             // if there is a colour range defined for this chart then use the settings. If not, use the inbuild category20 colour range
             if (this.opts.colorRange.length > 0) {
                 container.color = d3.scale.ordinal().range(this.opts.colorRange);
-            }
-            else {
+            } else {
                 container.color = d3.scale.category20();
             }
                 
@@ -235,7 +234,7 @@
 
                     currentGroup.select("rect")
                         .attr({
-                            "fill" : function(d) { return container.opts.colorRange[i]; },
+                            "fill" : function(d) { return container.color(i); },
                             "width" : legendOpts.size,
                             "height" : legendOpts.size,
                             "x" : function() { //container.width
@@ -284,7 +283,7 @@
 
                     currentGroup.append("rect")
                         .attr({
-                            "fill" : function(d) { return container.opts.colorRange[i]; },
+                            "fill" : function(d) { return container.color(i); },
                             "width" : legendOpts.size,
                             "height" : legendOpts.size,
                             "x" : function() { //container.width
@@ -495,8 +494,6 @@
                         "left" : (mouse[0] + container.opts.tooltip.offset.x) + "px",
                         "top" : (mouse[1] + container.opts.tooltip.offset.y) + "px"
                     });
-
-                    console.log(d);
 
                     tooltip.select(".name").select("span")
                         .text(d.data.category);

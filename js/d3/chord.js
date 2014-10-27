@@ -39,6 +39,15 @@
         'tickLength' : 10,  // length of the ticks on the chart
         'labelFrequency' : 5,
         'decimalPlaces' : 2,
+        'legend' : { // shows a legend for the groups
+            'visible' : true,  // set false for no legend
+            'size' : 16,  // line height/ font-size and box size for each legend item
+            'align' : 'right', // align 'left' or 'right' of the chart
+            'offset' : {  // offset of the legend
+                'x' : 0,
+                'y' : 0
+            }
+        },
         'tooltip' : { // tooltip options
             'visible' : true,
             'id' : 'tooltip',
@@ -89,6 +98,8 @@
 
             // set the chart title
             this.setTitle();
+            // make the legend
+            this.setLegend();
             // add the tooltip
             this.addTooltip();
 
@@ -149,6 +160,140 @@
                 }
                 container.chartName = container.chart.select(".chartName").select("text")
                     .text(function() { return container.opts.chartName; });
+            }
+        },
+        setLegend : function() {
+            var container = this,
+                newGroups,
+                oldGroups,
+                legendOpts = container.opts.legend,
+                legendSize = parseFloat(legendOpts.size) || 20,
+                legendX = parseFloat(legendOpts.offset.x) || 0,
+                legendY = parseFloat(legendOpts.offset.y) || 0;
+
+            function updateGroups(groups) {
+                groups.each(function(d, i) {
+                    var currentGroup = d3.select(this);
+                    currentGroup.attr({
+                            "class" : function(d) { return "legend-group " + d; },
+                            "transform" : function() { return "translate(" + legendX + ", " + ((i * (legendSize + 2)) + legendY) + ")"; }
+                        });
+
+                    currentGroup.select("text")
+                        .text(function(d) { return d; })
+                        .attr({
+                            "x" : function() { //container.width - 5
+                                if (legendOpts.align === 'left') {
+                                    return legendSize * 2 + 5;
+                                } else {
+                                    return container.opts.width - legendSize - 5;
+                                }
+                            }, 
+                            "y" : legendOpts.size / 2,
+                            "dy" : ".35em"
+                        })
+                        .style({
+                            "text-anchor" : function() {
+                                if (legendOpts.align === "left") {
+                                    return "start";
+                                } else {
+                                    return "end";
+                                }
+                            },
+                            "font-size" : legendOpts.size - 4  + "px"
+                        });
+
+                    currentGroup.select("rect")
+                        .attr({
+                            "fill" : function(d) { return container.color(i); },
+                            "width" : legendOpts.size,
+                            "height" : legendOpts.size,
+                            "x" : function() { //container.width
+                                if (legendOpts.align === 'left') {
+                                    return legendSize;
+                                } else {
+                                    return container.opts.width - legendSize;
+                                }
+                            } 
+                        });
+                });
+            }
+
+            function addGroups(groups) {
+                groups.each(function(d, i) {
+                    var currentGroup = d3.select(this);
+                    currentGroup
+                        .attr({
+                            "class" : function(d) { return "legend-group " + d; },
+                            "transform" : function() { return "translate(" + legendX + ", " + ((i * (legendSize + 2)) + legendY) + ")"; }
+                        });
+
+                    currentGroup.append("text")
+                        .text(function(d) { return d; })
+                        .attr({
+                            "x" : function() { //container.width - 5
+                                if (legendOpts.align === 'left') {
+                                    return legendSize * 2 + 5;
+                                } else {
+                                    return container.opts.width - legendSize - 5;
+                                }
+                            }, 
+                            "y" : legendOpts.size / 2,
+                            "dy" : ".35em"
+                        })
+                        .style({
+                            "text-anchor" : function() {
+                                if (legendOpts.align === "left") {
+                                    return "start";
+                                } else {
+                                    return "end";
+                                }
+                            },
+                            "font-size" : legendOpts.size - 4  + "px"
+                        });
+
+                    currentGroup.append("rect")
+                        .attr({
+                            "fill" : function(d) { return container.color(i); },
+                            "width" : legendOpts.size,
+                            "height" : legendOpts.size,
+                            "x" : function() { //container.width
+                                if (legendOpts.align === 'left') {
+                                    return legendSize;
+                                } else {
+                                    return container.opts.width - legendSize;
+                                }
+                            }
+                        });
+                });
+            }
+
+            if (legendOpts.visible) {
+                if (!container.legend) {
+                    container.legend = container.chart.append("g")
+                        .attr("class", "legend")
+                        .attr("transform", "translate(" + (-container.opts.width/2) + ", " + (-container.opts.height/2) + ")");
+                }
+                // construct a legend for data group
+                container.legendGroups = container.legend.selectAll(".legend-group")
+                    .data(container.dataGroups);
+
+                // update the current legend items
+                updateGroups(container.legendGroups);
+
+                // add the new legend items
+                newGroups = container.legendGroups.enter()
+                    .append("g")
+                    .attr("class", function(d) { return "legend-group " + d; })
+                addGroups(newGroups);
+
+                // remove old legend items
+                oldGroups = container.legendGroups.exit()
+                    .remove();
+
+            } else {
+                container.chart.select(".legend").remove();
+                container.legend = null;
             }
         },
         setArcs : function() {

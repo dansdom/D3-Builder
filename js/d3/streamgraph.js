@@ -16,7 +16,6 @@
         // extend the settings object with the options, make a 'deep' copy of the object using an empty 'holding' object
         // using the extend code that I ripped out of jQuery
         this.opts = extend(true, {}, d3.Streamgraph.settings, options);
-        console.log(this.opts);
         // something wrong the the extend method and date objects
         this.init();        
     };
@@ -83,6 +82,16 @@
                 'x' : 0,
                 'y' : 0
             }
+        },
+        'tooltip' : { // tooltip options
+            'visible' : true,
+            'id' : 'tooltip',
+            'height' : 60,
+            'width' : 200,
+            'offset' : {
+                'x' : 10,
+                'y' : -30
+            }
         },  
         'chartName' : false  // If there is a chart name then insert the value. This allows for deep exploration to show category name
     };
@@ -101,8 +110,7 @@
             // if there is a colour range defined for this chart then use the settings. If not, use the inbuild category20 colour range
             if (this.opts.colorRange.length > 0) {
                 container.color = d3.scale.ordinal().range(this.opts.colorRange);
-            }
-            else {
+            } else {
                 container.color = d3.scale.category20();
             }
 
@@ -121,8 +129,12 @@
             // add the elements to the chart
             this.addElements();
 
+            // set the chart title
+            this.setTitle();
             // make the legend
             this.setLegend();
+            // add the tooltip
+            this.addTooltip();
             
             // run the callback after the plugin has finished initialising
             if (typeof container.callback === "function") {
@@ -426,8 +438,6 @@
             container.layers = container.chart.selectAll(".layer")
                 .data(container.dataLayers);
 
-            console.log(container.dataLayers);
-
             container.layers
                 .transition()
                 .duration(container.opts.speed)
@@ -449,6 +459,80 @@
                 .duration(container.opts.speed)
                 .style("fill-opacity", 1e-6)
                 .remove();
+
+            // add tooltip event
+            if (container.opts.tooltip.visible) {
+                container.addTooltipEvents(container.layers);
+            }
+        },
+        addTooltip : function() {
+            var container = this,
+                toolOpts = container.opts.tooltip,
+                tooltip, name, value;
+
+            if (toolOpts.visible) {
+                // create a stacking context
+                d3.select(container.el).style("position", "relative");
+                // if the tooltip already exists then remove it
+                tooltip = d3.select(container.el).select("#" + toolOpts.id).remove();
+                tooltip = d3.select(container.el).append("div");                
+
+                tooltip.attr('id', toolOpts.id)
+                    .attr("class", "tooltip")
+                    .style({
+                        "height" : toolOpts.height + "px",
+                        "width" : toolOpts.width + "px",
+                        "position" : "absolute",
+                        "display" : "none",
+                        "top" : "0px",
+                        "left" : "0px"
+                    });
+                name = tooltip.append("div").attr("class", "name");
+                name.append("label").text("Name: ");
+                name.append("span");
+                value = tooltip.append("div").attr("class", "value");
+                value.append("label").text("Value: ");
+                value.append("span")
+            }
+        },
+        addTooltipEvents : function(elements) {
+            var container = this;
+
+            // updates the tooltip values
+            function updateTooltip(d, i, el) {
+                var tooltip = d3.select("#" + container.opts.tooltip.id),
+                    mouseContainer = d3.mouse(container.el),
+                    mouseElement = d3.mouse(el);
+
+                tooltip.style({
+                    "left" : (mouseContainer[0] + container.opts.tooltip.offset.x) + "px",
+                    "top" : (mouseContainer[1] + container.opts.tooltip.offset.y) + "px"
+                });
+
+                tooltip.select(".name").select("span")
+                    .text(d.key);
+
+                // get the position of the mouse on the x axis
+                // and then show the line value
+                var xValue = container.xScale.invert(mouseElement[0]);
+                tooltip.select(".value").select("span")
+                    .text(xValue);
+            }
+
+            // remove any previously bound tooltip first
+            elements
+                .on("mouseover.tooltip", null)
+                .on("mouseout.tooltip", null)
+                .on("mousemove.tooltip", null)
+                .on("mouseover.tooltip", function(d, i) {
+                    d3.select("#" + container.opts.tooltip.id).style("display", "block");
+                })
+                .on("mouseout.tooltip", function(d, i) {
+                    d3.select("#" + container.opts.tooltip.id).style("display", "none");
+                })
+                .on("mousemove", function(d, i) {
+                    updateTooltip(d, i, this);
+                });
         },
         isScaleNumeric : function(scale) {
             // find out whether the scale is numeric or not

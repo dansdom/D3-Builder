@@ -109,8 +109,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             // if there is a colour range defined for this chart then use the settings. If not, use the inbuild category20 colour range
             if (this.opts.colorRange.length > 0) {
                 container.color = d3.scale.ordinal().range(this.opts.colorRange);
-            }
-            else {
+            } else {
                 container.color = d3.scale.category20();
             }
 
@@ -233,7 +232,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
 
                     currentGroup.select("rect")
                         .attr({
-                            "fill" : function(d) { return container.opts.colorRange[i]; },
+                            "fill" : function(d) { return container.color(i); },
                             "width" : legendOpts.size,
                             "height" : legendOpts.size,
                             "x" : function() { //container.width
@@ -290,7 +289,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
 
                     currentGroup.append("rect")
                         .attr({
-                            "fill" : function(d) { return container.opts.colorRange[i]; },
+                            "fill" : function(d) { return container.color(i); },
                             "width" : legendOpts.size,
                             "height" : legendOpts.size,
                             "x" : function() { //container.width
@@ -527,7 +526,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     "y" : function(d) { return container.yScale(d[container.opts.dataStructure.y]); },
                     "height" : function(d) { return container.height - container.yScale(d[container.opts.dataStructure.y]); }
                 })
-                .style("fill", function(d, i) { return container.opts.colorRange[i]; });
+                .style("fill", function(d, i) { return container.color(i); });
 
             groupBars.enter()
                 .append("rect")
@@ -537,7 +536,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     "y" : function(d) { return container.yScale(d[container.opts.dataStructure.y]); },
                     "height" : function(d) { return container.height - container.yScale(d[container.opts.dataStructure.y]); }
                 })
-                .style("fill", function(d, i) { return container.opts.colorRange[i]; });
+                .style("fill", function(d, i) { return container.color(i); });
 
             groupBars.exit().remove();
 
@@ -565,7 +564,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     "y" : function(d) { return container.yScale(d.y1); },
                     "height" : function(d) { return container.yScale(d.y0) - container.yScale(d.y1); },
                 })
-                .style("fill", function(d, i) { return container.opts.colorRange[i]; });
+                .style("fill", function(d, i) { return container.color(i); });
 
             groupBars.enter()
                 .append("rect")
@@ -575,7 +574,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     "y" : function(d) { return container.yScale(d.y1); },
                     "height" : function(d) { return container.yScale(d.y0) - container.yScale(d.y1); },
                 })
-                .style("fill", function(d, i) { return container.opts.colorRange[i]; });
+                .style("fill", function(d, i) { return container.color(i); });
 
             groupBars.exit().remove();
 
