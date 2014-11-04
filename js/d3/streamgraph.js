@@ -492,7 +492,7 @@
                 name.append("span");
                 value = tooltip.append("div").attr("class", "value");
                 value.append("label").text("Value: ");
-                value.append("span")
+                value.append("span");
             }
         },
         addTooltipEvents : function(elements) {

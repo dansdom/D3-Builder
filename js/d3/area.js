@@ -86,7 +86,17 @@
                 'x' : 0,
                 'y' : 0
             }
-        },  
+        },
+        'tooltip' : { // tooltip options
+            'visible' : true,
+            'id' : 'tooltip',
+            'height' : 60,
+            'width' : 200,
+            'offset' : {
+                'x' : 10,
+                'y' : -30
+            }
+        }, 
         'chartName' : false  // If there is a chart name then insert the value. This allows for deep exploration to show category name
     };
     
@@ -118,8 +128,6 @@
 
             // create the svg element that holds the chart
             this.setLayout();
-            // set the title
-            this.setTitle();
             
             // define the line of the chart
             container.line = this.getLine();
@@ -130,8 +138,12 @@
             // add the elements to the chart
             this.addElements();
 
+            // set the title
+            this.setTitle();
             // make the legend
             this.setLegend();
+            // add the tooltip
+            this.addTooltip();
             
             // run the callback after the plugin has finished initialising
             if (typeof container.callback === "function") {
@@ -441,6 +453,11 @@
             // remove the old data
             oldGroups = container.groups.exit()
                 .remove();
+
+            // add tooltip event
+            if (container.opts.tooltip.visible) {
+                container.addTooltipEvents(container.groups);
+            }
         },
         // updates the current groups on the chart
         updateCurrentGroups : function(groups) {
@@ -673,6 +690,101 @@
             }
             return area;
         },
+        addTooltip : function() {
+            var container = this,
+                toolOpts = container.opts.tooltip,
+                tooltip, name, value, i,
+                dataLength = container.dataLayers.length;
+
+            function addDataGroup(index) {
+                var toolGroup = tooltip.append("div").attr("id", "toolGroup" + index),
+                    groupName = toolGroup.append("div").attr("class", "name"),
+                    groupValue = toolGroup.append("div").attr("class", "value");
+
+                groupName.append("label").text("Name: ");
+                groupName.append("span");
+                groupValue.append("label").text("Value: ");
+                groupValue.append("span");
+            }
+
+            if (toolOpts.visible) {
+                // create a stacking context
+                d3.select(container.el).style("position", "relative");
+                // if the tooltip already exists then remove it
+                tooltip = d3.select(container.el).select("#" + toolOpts.id).remove();
+                tooltip = d3.select(container.el).append("div");                
+
+                tooltip.attr('id', toolOpts.id)
+                    .attr("class", "tooltip")
+                    .style({
+                        //"height" : toolOpts.height + "px",
+                        "width" : toolOpts.width + "px",
+                        "position" : "absolute",
+                        "display" : "none",
+                        "top" : "0px",
+                        "left" : "0px"
+                    });
+
+                for (i = 0; i < dataLength; i++) {
+                    addDataGroup(i);
+                }
+            }
+        },
+        addTooltipEvents : function(elements) {
+            var container = this;
+
+            // updates the tooltip values
+            function updateTooltip(d, el) {
+                var tooltip = d3.select("#" + container.opts.tooltip.id),
+                    mouseContainer = d3.mouse(container.el),
+                    mouseElement = d3.mouse(el),
+                    xValue = container.xScale.invert(mouseElement[0]), // get the position of the mouse on the x axis
+                    dataLength = container.dataLayers.length,
+                    i,
+                    bisect = d3.bisector(function(d) { return d.x; }).right,
+                    bisectorIndex, d0, d1, tooltipIndex;
+
+                tooltip.style({
+                    "left" : (mouseContainer[0] + container.opts.tooltip.offset.x) + "px",
+                    "top" : (mouseContainer[1] + container.opts.tooltip.offset.y) + "px"
+                });
+
+                for (i = 0; i < dataLength; i++) {
+                    tooltip.select("#toolGroup" + i).select(".name").select("span")
+                        .text(container.dataLayers[i].key);
+
+                    // get the index of the bisector
+                    bisectorIndex = bisect(container.dataLayers[i].values, xValue, 1);
+                    // get the val;ues of the bisector and the one before it
+                    d0 = container.dataLayers[i].values[bisectorIndex - 1];
+                    d1 = container.dataLayers[i].values[bisectorIndex];
+                    // test which value is closer
+                    if (Math.abs(d0.x - xValue) < Math.abs(xValue - d1.x)) {
+                        tooltipIndex = d0;
+                    } else {
+                        tooltipIndex = d1;
+                    }
+
+                    tooltip.select("#toolGroup" + i).select(".value").select("span")
+                        .text(tooltipIndex.y);
+                }
+            }
+
+            // remove any previously bound tooltip first
+            elements.select(".area")
+                .on("mouseover.tooltip", null)
+                .on("mouseout.tooltip", null)
+                .on("mousemove.tooltip", null)
+                .on("mouseover.tooltip", function(d, i) {
+                    d3.select("#" + container.opts.tooltip.id).style("display", "block");
+                })
+                .on("mouseout.tooltip", function(d, i) {
+                    d3.select("#" + container.opts.tooltip.id).style("display", "none");
+                })
+                .on("mousemove", function(d, i) {
+                    updateTooltip(d, this);
+                });
+        },
         isScaleNumeric : function(scale) {
             // find out whether the scale is numeric or not
             switch(scale) {
@@ -700,7 +812,6 @@
                 i, j;
 
             if (container.isScaleNumeric(scaleX)) {
-                console.log(scaleX);
                 for (i = 0; i < dataLength; i++) {
                     // parse the x scale
                     data[i][container.opts.dataStructure.x] = parseFloat(data[i][container.opts.dataStructure.x]);
