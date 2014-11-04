@@ -192,7 +192,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             function updateGroups(groups) {
                 groups.each(function(d, i) {
                     var currentGroup = d3.select(this);
-                    console.log(container.dataNest.length);
+                    
                     currentGroup.attr({
                             "class" : function(d) { return "legend-group " + d.key; },
                             "transform" : function() { 
@@ -460,7 +460,6 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
 
             // if groups then update the groups, if not then make stacks
             if (container.opts.elements.layoutType === 'grouped') {
-                console.log('it is grouped');
                 if (container.opts.scale.x !== 'ordinal') {
                     alert('grouped data must be on an ordinal scale. Set scale.x = "ordinal"');
                     return;
@@ -838,7 +837,6 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 yDomainGroupMax = d3.max(container.dataGroups, function(d) { return d.total });
              
             if (xDomainMin === 'data-min') {
-                console.log('domain min is data-min');
                 xDomainMin = d3.min(container.data, function(d) { return d[xStructure]; });
             }
 

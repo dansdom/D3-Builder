@@ -1,5 +1,5 @@
 // https://github.com/dansdom/extend
-//var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=arguments.length,j=!1,d={hasOwn:Object.prototype.hasOwnProperty,class2type:{},type:function(a){return null==a?String(a):d.class2type[Object.prototype.toString.call(a)]||"object"},isPlainObject:function(a){if(!a||"object"!==d.type(a)||a.nodeType||d.isWindow(a))return!1;try{if(a.constructor&&!d.hasOwn.call(a,"constructor")&&!d.hasOwn.call(a.constructor.prototype,"isPrototypeOf"))return!1}catch(c){return!1}for(var b in a);return void 0===b||d.hasOwn.call(a, b)},isArray:Array.isArray||function(a){return"array"===d.type(a)},isFunction:function(a){return"function"===d.type(a)},isWindow:function(a){return null!=a&&a==a.window}};"boolean"===typeof c&&(j=c,c=arguments[1]||{},f=2);"object"!==typeof c&&!d.isFunction(c)&&(c={});k===f&&(c=this,--f);for(;f<k;f++)if(null!=(h=arguments[f]))for(g in h)b=c[g],e=h[g],c!==e&&(j&&e&&(d.isPlainObject(e)||(i=d.isArray(e)))?(i?(i=!1,b=b&&d.isArray(b)?b:[]):b=b&&d.isPlainObject(b)?b:{},c[g]=extend(j,b,e)):void 0!==e&&(c[g]= e));return c};
+var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=arguments.length,j=!1,d={hasOwn:Object.prototype.hasOwnProperty,class2type:{},type:function(a){return null==a?String(a):d.class2type[Object.prototype.toString.call(a)]||"object"},isPlainObject:function(a){if(!a||"object"!==d.type(a)||a.nodeType||d.isWindow(a))return!1;try{if(a.constructor&&!d.hasOwn.call(a,"constructor")&&!d.hasOwn.call(a.constructor.prototype,"isPrototypeOf"))return!1}catch(c){return!1}for(var b in a);return void 0===b||d.hasOwn.call(a, b)},isArray:Array.isArray||function(a){return"array"===d.type(a)},isFunction:function(a){return"function"===d.type(a)},isWindow:function(a){return null!=a&&a==a.window}};"boolean"===typeof c&&(j=c,c=arguments[1]||{},f=2);"object"!==typeof c&&!d.isFunction(c)&&(c={});k===f&&(c=this,--f);for(;f<k;f++)if(null!=(h=arguments[f]))for(g in h)b=c[g],e=h[g],c!==e&&(j&&e&&(d.isPlainObject(e)||(i=d.isArray(e)))?(i?(i=!1,b=b&&d.isArray(b)?b:[]):b=b&&d.isPlainObject(b)?b:{},c[g]=extend(j,b,e)):void 0!==e&&(c[g]= e));return c};
 
 // D3 Area Plugin
 (function (d3, undefined) {
@@ -231,7 +231,7 @@
 
                     currentGroup.select("rect")
                         .attr({
-                            "fill" : function(d) { return container.opts.colorRange[i]; },
+                            "fill" : function(d) { return container.color(i); },
                             "width" : legendOpts.size,
                             "height" : legendOpts.size,
                             "x" : function() { //container.width
@@ -280,7 +280,7 @@
 
                     currentGroup.append("rect")
                         .attr({
-                            "fill" : function(d) { return container.opts.colorRange[i]; },
+                            "fill" : function(d) { return container.color(i); },
                             "width" : legendOpts.size,
                             "height" : legendOpts.size,
                             "x" : function() { //container.width
@@ -470,12 +470,12 @@
                 // make the transitions for each of the current groups
                 currentGroup.select(".line")
                     .attr("d", function(d) { return container.line(d.values); })
-                    .style("stroke", container.opts.colorRange[i]);
+                    .style("stroke", container.color(i));
 
                 currentGroup.select(".area")
                     .attr("d", function(d) { return container.area(d.values); })
                     .style({
-                        "fill" : container.opts.colorRange[i],
+                        "fill" : container.color(i),
                         "fill-opacity" : container.opts.elements.areaOpacity
                     });
 
@@ -495,7 +495,7 @@
                             "class" : "line",
                             "d" : function(d) { return container.line(d.values); }
                         })
-                        .style("stroke", container.opts.colorRange[i]);
+                        .style("stroke", container.color(i));
 
                     currentGroup.append("path")
                         .attr({
@@ -503,7 +503,7 @@
                             "d" : function(d) { return container.area(d.values); }
                         })
                         .style({
-                            "fill" : container.opts.colorRange[i],
+                            "fill" : container.color(i),
                             "fill-opacity" : container.opts.elements.areaOpacity
                         });
 
@@ -537,8 +537,8 @@
                     .duration(500)
                     .attr("r", elements.dotRadius)
                     .style({
-                        "fill" : container.opts.colorRange[i],
-                        "stroke" : container.opts.colorRange[i],
+                        "fill" : container.color(i),
+                        "stroke" : container.color(i),
                         "stroke-opacity" : function(d) {
                             if (d.y > 0) { return 1; } else { return 0; }
                         },
@@ -556,8 +556,8 @@
                         "r" : elements.dotRadius
                     })
                     .style({
-                        "fill" : container.opts.colorRange[i],
-                        "stroke" : container.opts.colorRange[i],
+                        "fill" : container.color(i),
+                        "stroke" : container.color(i),
                         "stroke-opacity" : 1e-6,
                         "fill-opacity" : 1e-6
                     })
@@ -612,8 +612,8 @@
                         "height" : elements.squareSize
                     })
                     .style({
-                        "fill" : container.opts.colorRange[i],
-                        "stroke" : container.opts.colorRange[i],
+                        "fill" : container.color(i),
+                        "stroke" : container.color(i),
                         "stroke-opacity" : function(d) {
                             if (d.y > 0) { return 1; } else { return 0; }
                         },
@@ -632,8 +632,8 @@
                         "height" : elements.squareSize
                     })
                     .style({
-                        "fill" : container.opts.colorRange[i],
-                        "stroke" : container.opts.colorRange[i],
+                        "fill" : container.color(i),
+                        "stroke" : container.color(i),
                         "stroke-opacity" : 1e-6,
                         "fill-opacity" : 1e-6
                     })
@@ -738,10 +738,12 @@
                 var tooltip = d3.select("#" + container.opts.tooltip.id),
                     mouseContainer = d3.mouse(container.el),
                     mouseElement = d3.mouse(el),
+                    xRange = container.opts.dataStructure.x,
+                    yRange = container.opts.dataStructure.y,
                     xValue = container.xScale.invert(mouseElement[0]), // get the position of the mouse on the x axis
                     dataLength = container.dataLayers.length,
                     i,
-                    bisect = d3.bisector(function(d) { return d.x; }).right,
+                    bisect = d3.bisector(function(d) { return d[xRange]; }).right,
                     bisectorIndex, d0, d1, tooltipIndex;
 
                 tooltip.style({
@@ -758,15 +760,16 @@
                     // get the val;ues of the bisector and the one before it
                     d0 = container.dataLayers[i].values[bisectorIndex - 1];
                     d1 = container.dataLayers[i].values[bisectorIndex];
+                    
                     // test which value is closer
-                    if (Math.abs(d0.x - xValue) < Math.abs(xValue - d1.x)) {
+                    if (Math.abs(d0[xRange] - xValue) < Math.abs(xValue - d1[xRange])) {
                         tooltipIndex = d0;
                     } else {
                         tooltipIndex = d1;
                     }
 
                     tooltip.select("#toolGroup" + i).select(".value").select("span")
-                        .text(tooltipIndex.y);
+                        .text(tooltipIndex[yRange]);
                 }
             }
 

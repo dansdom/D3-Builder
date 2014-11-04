@@ -313,7 +313,7 @@
                 // add the new legend items
                 newGroups = container.legendGroups.enter()
                     .append("g")
-                    .attr("class", function(d) { console.log(d); return "legend-group " + d.category; })
+                    .attr("class", function(d) { return "legend-group " + d.category; })
                 addGroups(newGroups);
 
                 // remove old legend items
