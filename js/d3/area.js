@@ -869,7 +869,6 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             // find any missing data and add a zero value for it
             container.dataNest = container.checkMissingValues(nestedData);
             container.dataLayers = container.stack(container.dataNest);
-            //console.log(container.dataLayers);
 
             return data;
         },
@@ -879,45 +878,68 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 layer,
                 layerValue,
                 layerX,
-                i, j;
+                i, j,
+                duplicates = {},
+                xRange = [];
 
-            function checkGroups(pointX) {
+            function checkGroups(range) {
                 var layer,
-                    i, j,
+                    i, j, k,
                     hasPointX,
-                    emptyDataPoint;
-               
-                for (i = 0; i < data.length; i++) {
-                    layer = data[i];
-                    //console.log(layer);
-                    hasPointX = false;
-                    for (j = 0; j < layer.values.length; j++) {
-                        //console.log(layer.values[j]);
-                        //console.log('point x: ' + pointX);
-                        if (layer.values[j][container.opts.dataStructure.x] === pointX) {
-                            hasPointX = true;
+                    emptyDataPoint,
+                    rangeValue,
+                    layerLength,
+                    rangeLength = range.length,
+                    dataLength = data.length;
+
+                // check each data point against the range and add a value if it doesn't exist
+                for (i = 0; i < rangeLength; i++) {
+                    rangeValue = range[i];
+                    // check over each data layer
+                    for (j = 0; j < dataLength; j++) {
+                        // check each item in the data group
+                        layer = data[j];
+                        layerLength = layer.values.length;
+                        hasPointX = false;
+                        for (k = 0; k < layerLength; k++) {
+                            // check the items value against the range value
+                            if (layer.values[k][container.opts.dataStructure.x].valueOf() === rangeValue.valueOf()) {
+                                hasPointX = true;
+                            }
                         }
-                    }
-                    if (!hasPointX) {
-                        emptyDataPoint = {};
-                        emptyDataPoint[container.opts.dataStructure.x] = pointX;
-                        emptyDataPoint[container.opts.dataStructure.y] = 0;
-                        emptyDataPoint[container.opts.dataStructure.key] = data[i].key;
-                        data[i].values.push(emptyDataPoint);
+                        // if the point is empty then assign a zero value
+                        if (!hasPointX) {
+                            //console.log('there is a missing value');
+                            emptyDataPoint = {};
+                            emptyDataPoint[container.opts.dataStructure.x] = rangeValue;
+                            emptyDataPoint[container.opts.dataStructure.y] = 0;
+                            emptyDataPoint[container.opts.dataStructure.key] = layer.key;
+                            layer.values.push(emptyDataPoint);
+                        }
                     }
                 }
             }
 
+            // construct the x range that the data will be mapped to
             for (i = 0; i < data.length; i++) {
                 layer = data[i];
                 for (j = 0; j < layer.values.length; j++) {
                     layerValue = layer.values[j];
-                    //console.log(layerValue);
-                    layerX = layerValue[container.opts.dataStructure.x];
-                    // check each data group for this x value
-                    checkGroups(layerX);
+                    xRange.push(layerValue[container.opts.dataStructure.x]);
                 }
             }
+
+            // store an object of array values
+            xRange = xRange.filter(function(item, index, inputArray) {
+                var hash = item.valueOf(),
+                    isDup = duplicates[hash];
+
+                duplicates[hash] = true;
+                return !isDup;
+            });
+
+            // fill in any missing values ifrom the x range
+            checkGroups(xRange);
 
             function sortArrayValues(index) {
                 data[index].values.sort(function(a, b) { return d3.ascending(a[container.opts.dataStructure.x], b[container.opts.dataStructure.x]); });
