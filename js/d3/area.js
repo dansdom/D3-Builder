@@ -733,6 +733,24 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         addTooltipEvents : function(elements) {
             var container = this;
 
+            // check the position of the mouse with xScale
+            function getOrdinalIndex(mousePosition) {
+                var leftEdges = container.xScale.range(),
+                    bandWidth = container.xScale.rangeBand(),
+                    closestIndex, closestPoint, closestCenter,
+                    centerPoint, distance, i;
+
+                for (i = 0; i < leftEdges.length; i++) {
+                    centerPoint = leftEdges[i] + (bandWidth / 2);
+                    distance = Math.abs(mousePosition - centerPoint);
+                    if (!closestCenter || distance < closestCenter) {
+                        closestCenter = distance;
+                        closestIndex = i;
+                    } 
+                }
+                return closestIndex;
+            }
+
             // updates the tooltip values
             function updateTooltip(d, el) {
                 var tooltip = d3.select("#" + container.opts.tooltip.id),
@@ -740,11 +758,18 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     mouseElement = d3.mouse(el),
                     xRange = container.opts.dataStructure.x,
                     yRange = container.opts.dataStructure.y,
-                    xValue = container.xScale.invert(mouseElement[0]), // get the position of the mouse on the x axis
+                    xValue, 
+                    scaleNumeric = container.isScaleNumeric(container.opts.scale.x),
                     dataLength = container.dataLayers.length,
-                    i,
                     bisect = d3.bisector(function(d) { return d[xRange]; }).right,
-                    bisectorIndex, d0, d1, tooltipIndex;
+                    bisectorIndex, d0, d1, tooltipIndex, i;
+
+                // get the position of the mouse on the x axis
+                if (scaleNumeric) {
+                    xValue = container.xScale.invert(mouseElement[0]);
+                } else {
+                    bisectorIndex = getOrdinalIndex(mouseElement[0]);
+                }
 
                 tooltip.style({
                     "left" : (mouseContainer[0] + container.opts.tooltip.offset.x) + "px",
@@ -755,17 +780,23 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     tooltip.select("#toolGroup" + i).select(".name").select("span")
                         .text(container.dataLayers[i].key);
 
-                    // get the index of the bisector
-                    bisectorIndex = bisect(container.dataLayers[i].values, xValue, 1);
-                    // get the val;ues of the bisector and the one before it
-                    d0 = container.dataLayers[i].values[bisectorIndex - 1];
-                    d1 = container.dataLayers[i].values[bisectorIndex];
-                    
-                    // test which value is closer
-                    if (Math.abs(d0[xRange] - xValue) < Math.abs(xValue - d1[xRange])) {
-                        tooltipIndex = d0;
+                    if (scaleNumeric) {
+                        // get the index of the bisector
+                        bisectorIndex = bisect(container.dataLayers[i].values, xValue, 1);
+                        //console.log('bisectorIndex: ' + bisectorIndex);
+                        //console.log(container.dataLayers[i].values);
+                        // get the val;ues of the bisector and the one before it
+                        d0 = container.dataLayers[i].values[bisectorIndex - 1];
+                        d1 = container.dataLayers[i].values[bisectorIndex];
+                        
+                        // test which value is closer
+                        if (Math.abs(d0[xRange] - xValue) < Math.abs(xValue - d1[xRange])) {
+                            tooltipIndex = d0;
+                        } else {
+                            tooltipIndex = d1;
+                        }
                     } else {
-                        tooltipIndex = d1;
+                        tooltipIndex = container.dataLayers[i].values[bisectorIndex];
                     }
 
                     tooltip.select("#toolGroup" + i).select(".value").select("span")
