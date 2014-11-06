@@ -669,7 +669,13 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             var container = this,
                 line = d3.svg.line()
                     //.interpolate("basis")
-                    .x(function(d) { return container.xScale(d[container.opts.dataStructure.x]); })
+                    .x(function(d) { 
+                        if (container.isScaleNumeric(container.opts.scale.x)) {
+                            return container.xScale(d[container.opts.dataStructure.x]); 
+                        } else {
+                            return container.xScale(d[container.opts.dataStructure.x]) + (container.xScale.rangeBand() / 2); 
+                        }
+                    })
                     .y(function(d) { return container.yScale(d[container.opts.dataStructure.y]); });
 
             if (container.opts.interpolate) {
