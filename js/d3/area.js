@@ -946,10 +946,8 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
             }
 
             // re-order each data layer
-            for (i = 0; i < data.length; i++) {
-                if (container.isScaleNumeric(container.opts.scale.x)) {                    
-                    sortArrayValues(i);
-                }
+            for (i = 0; i < data.length; i++) {         
+                sortArrayValues(i);
             }
 
             return data;
