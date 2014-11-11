@@ -284,11 +284,10 @@ D3Builder.plugins = (function($, undefined) {
                 var section = $(this).attr("id"),
                     sectionInputs = $(this).closest("fieldset").find("li." + section + " input");
                     
-                if ($(this).attr("checked")) {
+                if ($(this).prop("checked")) {
                     // add validation to those fields
                     sectionInputs.addClass("required");
-                }
-                else {
+                } else {
                     // remove validation from those fields
                     sectionInputs.removeClass("required");
                 }

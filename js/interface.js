@@ -113,8 +113,7 @@ D3Builder.chartBuilder = (function($, d3, undefined) {
                     
                 if (section.prop("checked")) {
                     $("." + sectionItems).css("display", "block");
-                }
-                else {
+                } else {
                     $("." + sectionItems).css("display", "none");
                 }
             });
@@ -472,7 +471,7 @@ D3Builder.chartColors = (function($, d3, undefined) {
             $("#color-palette-size").prop("value", 0);
 
             for (var i = 0; i < paletteSize; i++) {
-                $(paletteList[i]).addClass("selected").find("input").prop("value", D3Builder.formData.colors[i]).trigger("keyup");
+                $(paletteList[i]).addClass("selected").find("input").prop("value", D3Builder.formData.colors[i]).trigger("change");
             }
             // remove selected class from any item greater than the list length
             $("fieldset.color .palette li:gt(" + paletteSize + ")").removeClass("selected");
