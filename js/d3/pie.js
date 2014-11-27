@@ -1,6 +1,6 @@
 // extend code
 // https://github.com/dansdom/extend
-//var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=arguments.length,j=!1,d={hasOwn:Object.prototype.hasOwnProperty,class2type:{},type:function(a){return null==a?String(a):d.class2type[Object.prototype.toString.call(a)]||"object"},isPlainObject:function(a){if(!a||"object"!==d.type(a)||a.nodeType||d.isWindow(a))return!1;try{if(a.constructor&&!d.hasOwn.call(a,"constructor")&&!d.hasOwn.call(a.constructor.prototype,"isPrototypeOf"))return!1}catch(c){return!1}for(var b in a);return void 0===b||d.hasOwn.call(a, b)},isArray:Array.isArray||function(a){return"array"===d.type(a)},isFunction:function(a){return"function"===d.type(a)},isWindow:function(a){return null!=a&&a==a.window}};"boolean"===typeof c&&(j=c,c=arguments[1]||{},f=2);"object"!==typeof c&&!d.isFunction(c)&&(c={});k===f&&(c=this,--f);for(;f<k;f++)if(null!=(h=arguments[f]))for(g in h)b=c[g],e=h[g],c!==e&&(j&&e&&(d.isPlainObject(e)||(i=d.isArray(e)))?(i?(i=!1,b=b&&d.isArray(b)?b:[]):b=b&&d.isPlainObject(b)?b:{},c[g]=extend(j,b,e)):void 0!==e&&(c[g]= e));return c};
+var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=arguments.length,j=!1,d={hasOwn:Object.prototype.hasOwnProperty,class2type:{},type:function(a){return null==a?String(a):d.class2type[Object.prototype.toString.call(a)]||"object"},isPlainObject:function(a){if(!a||"object"!==d.type(a)||a.nodeType||d.isWindow(a))return!1;try{if(a.constructor&&!d.hasOwn.call(a,"constructor")&&!d.hasOwn.call(a.constructor.prototype,"isPrototypeOf"))return!1}catch(c){return!1}for(var b in a);return void 0===b||d.hasOwn.call(a, b)},isArray:Array.isArray||function(a){return"array"===d.type(a)},isFunction:function(a){return"function"===d.type(a)},isWindow:function(a){return null!=a&&a==a.window}};"boolean"===typeof c&&(j=c,c=arguments[1]||{},f=2);"object"!==typeof c&&!d.isFunction(c)&&(c={});k===f&&(c=this,--f);for(;f<k;f++)if(null!=(h=arguments[f]))for(g in h)b=c[g],e=h[g],c!==e&&(j&&e&&(d.isPlainObject(e)||(i=d.isArray(e)))?(i?(i=!1,b=b&&d.isArray(b)?b:[]):b=b&&d.isPlainObject(b)?b:{},c[g]=extend(j,b,e)):void 0!==e&&(c[g]= e));return c};
 
 // D3 plugin template
 (function (d3) {
@@ -35,6 +35,7 @@
         'colorRange' : [], // instead of defining a color array, I will set a color scale and then let the user overwrite it
         'opacity' : 0.5,  // opacity of the segments
         'fontSize' : 12,
+        'hoverAnimation' : true,  // if set then the pieces of the pie animate when the mouse hovers
         // defines the data structure of the document
         'dataStructure' : {
             'name' : 'name',
@@ -334,14 +335,6 @@
                 .on("mouseover.transition", null)
                 .on("mouseout.transition", null)
                 .on("click.transition", null)
-                .on("mouseover.transition", function(d) {
-                    var center = container.arc.centroid(d);
-                    var move = "translate(" + (center[0] * 0.2) + "," + (center[1] * 0.2) + ")";
-                    d3.select(this).transition().duration(200).attr("transform", move);
-                })
-                .on("mouseout.transition", function() {
-                    d3.select(this).transition().duration(200).attr("transform", "translate(0,0)");
-                })
                 .on("click.transition", function(d) {
                     // get the new data set
                     //console.log(d);
@@ -351,6 +344,18 @@
                         container.updateChart();
                     }
                 });
+
+            if (container.opts.hoverAnimation) {
+                container.values
+                    .on("mouseover.transition", function(d) {
+                        var center = container.arc.centroid(d);
+                        var move = "translate(" + (center[0] * 0.2) + "," + (center[1] * 0.2) + ")";
+                        d3.select(this).transition().duration(200).attr("transform", move);
+                    })
+                    .on("mouseout.transition", function() {
+                        d3.select(this).transition().duration(200).attr("transform", "translate(0,0)");
+                    });
+            }
         },
         setPaths : function(oldValues, newValues) {
             var container = this,
@@ -370,7 +375,7 @@
                 .duration(speed)
                 .attr("d", container.arc)
                 .style({
-                    "fill" : function(d) { return container.color(d.data.category); },
+                    "fill" : function(d, i) { return container.color(i); },
                     "fill-opacity" : container.opts.opacity
                 })
                 .attrTween("d", arcTween);
@@ -384,7 +389,7 @@
                 .duration(speed)
                 .attr("d", container.arc)
                 .style({
-                    "fill" : function(d) { return container.color(d.data.category); },
+                    "fill" : function(d, i) { return container.color(i); },
                     "fill-opacity" : container.opts.opacity
                 })
                 .each(function(d) { 
