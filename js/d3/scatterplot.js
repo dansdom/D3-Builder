@@ -32,6 +32,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
         // maybe only if there is one data set???
         'elements' : {
             'dotRadius' : 3.5,  // 0 will show no dots
+            'opacity' : 0.5,  // opacity of the dots
             'xAxis' : {
                 'visible' : true,
                 'tickSize' : 5,
@@ -493,10 +494,10 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                     "fill" : container.color(i),
                     "stroke" : container.color(i),
                     "stroke-opacity" : function(d) {
-                        if (d.y > 0) { return 1; } else { return 0; }
+                        if (d.y > 0) { return elements.opacity; } else { return 0; }
                     },
                     "fill-opacity" : function(d) {
-                        if (d.y > 0) { return 1; } else { return 0; }
+                        if (d.y > 0) { return elements.opacity; } else { return 0; }
                     }
                 });
 
@@ -524,10 +525,10 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 })
                 .style({
                     "stroke-opacity" : function(d) {
-                        if (d.y > 0) { return 1; } else { return 0; }
+                        if (d.y > 0) { return elements.opacity; } else { return 0; }
                     },
                     "fill-opacity" : function(d) {
-                        if (d.y > 0) { return 1; } else { return 0; }
+                        if (d.y > 0) { return elements.opacity; } else { return 0; }
                     }
                 });
 
@@ -573,7 +574,7 @@ var extend = extend || function(){var h,g,b,e,i,c=arguments[0]||{},f=1,k=argumen
                 name.append("span");
                 value = tooltip.append("div").attr("class", "value");
                 value.append("label").text("Value: ");
-                value.append("span")
+                value.append("span");
             }
         },
         addTooltipEvents : function(elements) {
