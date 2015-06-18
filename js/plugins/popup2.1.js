@@ -165,11 +165,13 @@
 			{
 				popupBox = '<div id="' + this.opts.popupID + '"><table cellpadding="0" cellspacing="0"><tbody><tr class="popupTop"><td class="popupTL corner pngbg"></td><td class="popupTM pngbg"></td><td class="popupTR corner pngbg"></td></tr><tr class="popupMid"><td class="popupML pngbg"></td><td class="' + this.opts.contentClass + '"></td><td class="popupMR pngbg"></td></tr><tr class="popupBot"><td class="popupBL corner pngbg"></td><td class="popupBM pngbg"></td><td class="popupBR corner pngbg"></td></tr></tbody></table></div>';
 				// oops :( I forgot why I made a different box for IE6, was it to put the png class on the corners?
-				if($.browser.msie)
-				{
-					if($.browser.version == "6.0")
+				if ($.browser) {
+					if($.browser.msie)
 					{
-						popupBox = '<div id="' + this.opts.popupID + '"><table cellpadding="0" cellspacing="0"><tbody><tr class="popupTop"><td class="popupTL corner pngbg"><div></div></td><td class="popupTM pngbg"><div></div></td><td class="popupTR corner pngbg"><div></div></td></tr><tr class="popupMid"><td class="popupML pngbg"><div></div></td><td class="' + opts.contentClass+'"></td><td class="popupMR pngbg"><div></div></td></tr><tr class="popupBot"><td class="popupBL corner pngbg"><div></div></td><td class="popupBM pngbg"><div></div></td><td class="popupBR corner pngbg"><div></div></td></tr></tbody></table></div>';
+						if($.browser.version == "6.0")
+						{
+							popupBox = '<div id="' + this.opts.popupID + '"><table cellpadding="0" cellspacing="0"><tbody><tr class="popupTop"><td class="popupTL corner pngbg"><div></div></td><td class="popupTM pngbg"><div></div></td><td class="popupTR corner pngbg"><div></div></td></tr><tr class="popupMid"><td class="popupML pngbg"><div></div></td><td class="' + opts.contentClass+'"></td><td class="popupMR pngbg"><div></div></td></tr><tr class="popupBot"><td class="popupBL corner pngbg"><div></div></td><td class="popupBM pngbg"><div></div></td><td class="popupBR corner pngbg"><div></div></td></tr></tbody></table></div>';
+						}
 					}
 				}
 				$("body").append(popupBox);

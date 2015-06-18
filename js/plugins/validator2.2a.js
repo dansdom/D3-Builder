@@ -283,6 +283,9 @@
 			} else {
 				//alert("you still have errors in the form");
 				validator.el.find("." + validator.opts.formClasses.fieldActiveValid).removeClass(validator.opts.formClasses.fieldActiveValid);
+				if (typeof validator.opts.errorFunction === "function") {
+					validator.opts.errorFunction.call();
+				}
 				return false;
 			}
 		},
